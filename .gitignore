@@ -1,9 +1,9 @@
 ﻿.idea
 /src/server/.idea
-/src/server/Manifestacije.Api/bin
-/src/server/Manifestacije.Api/obj
+/src/server/Manifestacije/Manifestacije.Api/bin
+/src/server/Manifestacije/Manifestacije.Api/obj
 /tests/server/.idea
-/tests/server/Manifestacije.Api.Tests.Unit/bin
-/tests/server/Manifestacije.Api.Tests.Unit/obj
-/tests/server/Manifestacije.Api.Tests.Integration/bin
-/tests/server/Manifestacije.Api.Tests.Integration/obj
+/tests/server/Manifestacije.Api.Tests.Unit/Manifestacije.Api.Tests.Unit/bin
+/tests/server/Manifestacije.Api.Tests.Unit/Manifestacije.Api.Tests.Unit/obj
+/tests/server/Manifestacije.Api.Tests.Integration/Manifestacije.Api.Tests.Integration/bin
+/tests/server/Manifestacije.Api.Tests.Integration/Manifestacije.Api.Tests.Integration/obj
