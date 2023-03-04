@@ -1,8 +1,11 @@
-﻿using Manifestacije.Api.Services.Interfaces;
-
-namespace Manifestacije.Api.Services;
+﻿namespace Manifestacije.Api.Services;
 
 public class UserService : IUserService
 {
-    
+    private readonly IUserRepository _userRepository;
+
+    public UserService(IUserRepository userRepository)
+    {
+        _userRepository = userRepository;
+    }
 }
