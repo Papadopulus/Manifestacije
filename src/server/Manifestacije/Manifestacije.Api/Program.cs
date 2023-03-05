@@ -1,11 +1,20 @@
 using FluentValidation;
 using Manifestacije.Api;
+using Manifestacije.Api.Contracts.Requests;
 using Manifestacije.Api.Database;
 using Manifestacije.Api.Endpoints.Internal;
 using Manifestacije.Api.Repositories;
 using Manifestacije.Api.Services;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Automapper
+builder.Services.AddAutoMapper(typeof(IApiMarker));
 
 // Repositories
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
@@ -17,7 +26,7 @@ builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.Configure<DatabaseSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
 
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddValidatorsFromAssemblyContaining<IApiMarker>();
 
 var app = builder.Build();
 

@@ -20,4 +20,9 @@ public class UserRepository : IUserRepository
         _usersCollection = mongoDatabase.GetCollection<User>(
             databaseSettings.Value.UsersCollectionName);
     }
+
+    public async Task<List<User>> GetAllUsersAsync()
+    {
+        throw new NotImplementedException();
+    }
 }

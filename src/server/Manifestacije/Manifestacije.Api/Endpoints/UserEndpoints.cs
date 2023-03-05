@@ -6,6 +6,6 @@ public class UserEndpoints : IEndpoints
 {
     public static void DefineEndpoints(IEndpointRouteBuilder app)
     {
-        throw new NotImplementedException();
+        
     }
 }

@@ -1,6 +1,17 @@
-﻿namespace Manifestacije.Api.Mappers;
+﻿using AutoMapper;
+using Manifestacije.Api.Contracts.Requests;
+using Manifestacije.Api.Contracts.Responses;
+using Manifestacije.Api.Models;
 
-public class UserMappingProfile
+namespace Manifestacije.Api.Mappers;
+
+public class UserMappingProfile : Profile
 {
-    
+    public UserMappingProfile()
+    {
+        CreateMap<UserCreateRequest, User>();
+        CreateMap<UserUpdateRequest, User>();
+        
+        CreateMap<User, UserViewResponse>();
+    }
 }
