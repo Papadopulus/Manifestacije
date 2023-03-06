@@ -25,4 +25,34 @@ public class UserRepository : IUserRepository
     {
         throw new NotImplementedException();
     }
+
+    public async Task<User?> GetUserByIdAsync(string id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<User?> GetUserWithEmailAsync(string email)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<User?> GetUserWithRefreshTokenAsync(string refreshToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<bool> CreateUserAsync(User user)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<bool> UpdateUserAsync(User user)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<bool> DeleteUserAsync(string id)
+    {
+        throw new NotImplementedException();
+    }
 }

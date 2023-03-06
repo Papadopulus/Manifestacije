@@ -1,15 +1,18 @@
 ﻿using FluentValidation;
 using Manifestacije.Api.Contracts.Responses;
+using Manifestacije.Api.Exceptions;
 
 namespace Manifestacije.Api.Middleware;
 
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _request;
+    private readonly ILogger<ExceptionMiddleware> _logger;
 
-    public ExceptionMiddleware(RequestDelegate request)
+    public ExceptionMiddleware(RequestDelegate request, ILogger<ExceptionMiddleware> logger)
     {
         _request = request;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -27,6 +30,24 @@ public class ExceptionMiddleware
                 Errors = messages
             };
             await context.Response.WriteAsJsonAsync(validationFailureResponse);
+        }
+        catch (InvalidInputException exception)
+        {
+            context.Response.StatusCode = 400;
+            await context.Response.WriteAsJsonAsync(exception.Message);
+        }
+        catch (DatabaseException exception)
+        {
+            _logger.LogError(exception.Message, exception.InnerException, exception.StackTrace);
+            context.Response.StatusCode = 500;
+            await context.Response.WriteAsJsonAsync(exception.Message);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception.Message, exception.StackTrace);
+            
+            context.Response.StatusCode = 500;
+            await context.Response.WriteAsJsonAsync(exception.Message);
         }
     }
 }

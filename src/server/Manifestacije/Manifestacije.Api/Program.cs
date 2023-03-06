@@ -1,11 +1,9 @@
 using FluentValidation;
 using Manifestacije.Api;
-using Manifestacije.Api.Contracts.Requests;
 using Manifestacije.Api.Database;
 using Manifestacije.Api.Endpoints.Internal;
 using Manifestacije.Api.Repositories;
 using Manifestacije.Api.Services;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
