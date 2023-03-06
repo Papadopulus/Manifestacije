@@ -7,6 +7,13 @@ using Manifestacije.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Automapper
+builder.Services.AddAutoMapper(typeof(IApiMarker));
+
 // Repositories
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 
@@ -17,7 +24,7 @@ builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.Configure<DatabaseSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
 
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddValidatorsFromAssemblyContaining<IApiMarker>();
 
 var app = builder.Build();
 
