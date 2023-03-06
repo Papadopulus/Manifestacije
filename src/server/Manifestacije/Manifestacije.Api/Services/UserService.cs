@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Manifestacije.Api.Contracts.QueryFilters;
 using Manifestacije.Api.Contracts.Requests;
 using Manifestacije.Api.Contracts.Responses;
 using Manifestacije.Api.Exceptions;
@@ -22,9 +23,9 @@ public class UserService : IUserService
         _mapper = mapper;
     }
 
-    public async Task<List<User>> GetAllUsersAsync()
+    public async Task<List<User>> GetAllUsersAsync(UserQueryFilter userQueryFilter)
     {
-        return await _userRepository.GetAllUsersAsync();
+        return await _userRepository.GetAllUsersAsync(userQueryFilter);
     }
 
     public async Task<User?> GetUserByIdAsync(string id)
@@ -56,7 +57,7 @@ public class UserService : IUserService
             throw new InvalidInputException("User with given id does not exist");
 
         _mapper.Map(source: userUpdateRequest, destination: existingUser);
-        
+        existingUser.UpdatedAtUtc = DateTime.UtcNow;
         var success = await _userRepository.UpdateUserAsync(existingUser);
         if (!success)
         {

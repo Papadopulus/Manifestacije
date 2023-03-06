@@ -1,4 +1,6 @@
-﻿using Manifestacije.Api.Database;
+﻿using Manifestacije.Api.Contracts.QueryFilters;
+using Manifestacije.Api.Database;
+using Manifestacije.Api.Extensions;
 using Manifestacije.Api.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -21,38 +23,76 @@ public class UserRepository : IUserRepository
             databaseSettings.Value.UsersCollectionName);
     }
 
-    public async Task<List<User>> GetAllUsersAsync()
+    public async Task<List<User>> GetAllUsersAsync(UserQueryFilter userQueryFilter)
     {
-        throw new NotImplementedException();
+        var filter = userQueryFilter.Filter<User, UserQueryFilter>();
+
+        var users = await _usersCollection
+            .Find(filter)
+            .Sort(userQueryFilter)!
+            .Paginate(userQueryFilter)
+            .ToListAsync();
+        
+        return users;
     }
 
     public async Task<User?> GetUserByIdAsync(string id)
     {
-        throw new NotImplementedException();
+        var filter = Builders<User>.Filter.Eq(user => user.Id, id);
+        filter &= Builders<User>.Filter.Eq(user => user.IsDeleted, false);
+        
+        var user = await _usersCollection
+            .Find(filter)
+            .FirstOrDefaultAsync();
+
+        return user;
     }
 
     public async Task<User?> GetUserWithEmailAsync(string email)
     {
-        throw new NotImplementedException();
+        var filter = Builders<User>.Filter.Eq(user => user.Email, email);
+        filter &= Builders<User>.Filter.Eq(user => user.IsDeleted, false);
+        
+        var user = await _usersCollection
+            .Find(filter)
+            .FirstOrDefaultAsync();
+
+        return user;
     }
 
     public async Task<User?> GetUserWithRefreshTokenAsync(string refreshToken)
     {
-        throw new NotImplementedException();
+        var filter = Builders<User>.Filter.ElemMatch(user => user.RefreshTokens, 
+            x=> x.Token == refreshToken);
+        
+        filter &= Builders<User>.Filter.Eq(user => user.IsDeleted, false);
+        
+        var user = await _usersCollection
+            .Find(filter)
+            .FirstOrDefaultAsync();
+
+        return user;
     }
 
     public async Task<bool> CreateUserAsync(User user)
     {
-        throw new NotImplementedException();
+        await _usersCollection.InsertOneAsync(user);
+        return true;
     }
 
     public async Task<bool> UpdateUserAsync(User user)
     {
-        throw new NotImplementedException();
+        var filter = Builders<User>.Filter.Eq("Id", user.Id);
+        await _usersCollection.ReplaceOneAsync(filter, user, new ReplaceOptions { IsUpsert = true });
+        return true;
     }
 
     public async Task<bool> DeleteUserAsync(string id)
     {
-        throw new NotImplementedException();
+        var filter = Builders<User>.Filter.Eq("Id", id);
+        var update = Builders<User>.Update
+            .Set(user => user.IsDeleted, true);
+        await _usersCollection.UpdateOneAsync(filter, update);
+        return true;
     }
 }
