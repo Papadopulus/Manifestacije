@@ -81,7 +81,7 @@ public class UserService : IUserService
             throw new InvalidInputException("Incorrect password");
 
         var (token, refreshToken) = user.GenerateTokens(secret);
-        user.RefreshTokens.Add(new RefreshToken { Token = refreshToken, ExpireDate = DateTime.Now.AddDays(7) });
+        user.RefreshTokens.Add(new RefreshToken { Token = refreshToken, ExpireDate = DateTime.UtcNow.AddDays(7) });
         await _userRepository.UpdateUserAsync(user);
         return new TokenResponse { Token = token, RefreshToken = refreshToken };
     }

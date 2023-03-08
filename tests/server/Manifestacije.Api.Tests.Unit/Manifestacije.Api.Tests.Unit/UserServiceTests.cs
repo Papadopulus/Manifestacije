@@ -10,14 +10,15 @@ public class UserServiceTests
 
     public UserServiceTests()
     {
-        var inMemorySettings = new Dictionary<string, string> {
-            {"Authorization:Secret", "ADADADADADADADADA"}
+        var inMemorySettings = new Dictionary<string, string>
+        {
+            { "Authorization:Secret", "ADADADADADADADADA" }
         };
 
         IConfiguration configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(inMemorySettings)
             .Build();
-        
+
         _sut = new UserService(_userRepository, configuration, _mapper);
     }
 
@@ -351,6 +352,77 @@ public class UserServiceTests
 
         // Act
         var result = await _sut.AuthenticateAsync(userAuthenticateRequest);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Token.Should().NotBeNullOrEmpty();
+        result.RefreshToken.Should().NotBeNullOrEmpty();
+    }
+
+    [Fact]
+    public async Task RefreshTokenAsync_ShouldReturnInvalidInputException_WhenTokenIsInvalid()
+    {
+        // Arrange
+        var refreshTokenRequest = new RefreshTokenRequest
+        {
+            Token = "tokenBe"
+        };
+        _userRepository.GetUserWithRefreshTokenAsync(Arg.Any<string>()).Returns((User?)null);
+
+        // Act
+        Func<Task> result = async () => await _sut.RefreshTokenAsync(refreshTokenRequest);
+
+        // Assert
+        await result.Should()
+            .ThrowExactlyAsync<InvalidInputException>()
+            .WithMessage("Invalid token");
+    }
+
+    [Fact]
+    public async Task RefreshTokenAsync_ShouldReturnInvalidInputException_WhenTokenIsExpired()
+    {
+        // Arrange
+        var refreshTokenRequest = new RefreshTokenRequest
+        {
+            Token = "tokenBe"
+        };
+        var user = new User
+        {
+            RefreshTokens = new List<RefreshToken>()
+        };
+        user.RefreshTokens.Add(
+            new RefreshToken { Token = refreshTokenRequest.Token, ExpireDate = DateTime.UtcNow.AddDays(-1) });
+        _userRepository.GetUserWithRefreshTokenAsync(Arg.Any<string>()).Returns(user);
+
+        // Act
+        Func<Task> result = async () => await _sut.RefreshTokenAsync(refreshTokenRequest);
+
+        // Assert
+        await result.Should()
+            .ThrowExactlyAsync<InvalidInputException>()
+            .WithMessage("Token expired");
+    }
+    
+    [Fact]
+    public async Task RefreshTokenAsync_ShouldReturnNewTokenPair_WhenTokenIsValid()
+    {
+        // Arrange
+        var refreshTokenRequest = new RefreshTokenRequest
+        {
+            Token = "tokenBe"
+        };
+        var user = new User
+        {
+            Id = "1",
+            RefreshTokens = new List<RefreshToken>(),
+            Roles = new List<string>() {"User", "Admin"}
+        };
+        user.RefreshTokens.Add(
+            new RefreshToken { Token = refreshTokenRequest.Token, ExpireDate = DateTime.UtcNow.AddDays(1) });
+        _userRepository.GetUserWithRefreshTokenAsync(Arg.Any<string>()).Returns(user);
+        
+        // Act
+        var result = await _sut.RefreshTokenAsync(refreshTokenRequest);
 
         // Assert
         result.Should().NotBeNull();
