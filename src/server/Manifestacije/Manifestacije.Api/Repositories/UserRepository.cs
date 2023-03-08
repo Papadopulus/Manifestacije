@@ -1,5 +1,4 @@
-﻿using Manifestacije.Api.Contracts.QueryFilters;
-using Manifestacije.Api.Database;
+﻿using Manifestacije.Api.Database;
 using Manifestacije.Api.Extensions;
 using Manifestacije.Api.Models;
 using Microsoft.Extensions.Options;

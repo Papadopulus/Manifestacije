@@ -17,11 +17,11 @@ public class UserEndpoints : IEndpoints
             .AllowAnonymous();
         app.MapGet(BaseRoute, GetAllUsers)
             .RequireAuthorization(RolesEnum.Admin.ToString());
-        app.MapGet(BaseRoute + "{id}", GetUserById)
+        app.MapGet(BaseRoute + "/{id}", GetUserById)
             .RequireAuthorization(RolesEnum.User.ToString());
-        app.MapPut(BaseRoute + "{id}", UpdateUser)
+        app.MapPut(BaseRoute + "/{id}", UpdateUser)
             .RequireAuthorization(RolesEnum.User.ToString());
-        app.MapDelete(BaseRoute + "{id}", DeleteUser)
+        app.MapDelete(BaseRoute + "/{id}", DeleteUser)
             .RequireAuthorization(RolesEnum.Admin.ToString());
 
         app.MapPost(AuthRoute, AuthenticateUser)
@@ -104,7 +104,7 @@ public class UserEndpoints : IEndpoints
             return Results.BadRequest(validationResult.Errors);
         }
         
-        var tokenResponse = await userService.LoginAsync(authenticateRequest);
+        var tokenResponse = await userService.AuthenticateAsync(authenticateRequest);
         return Results.Ok(tokenResponse);
     }
 

@@ -12,6 +12,6 @@ public interface IUserService
     Task<User> CreateUserAsync(UserCreateRequest userCreateRequest);
     Task<User> UpdateUserAsync(string id, UserUpdateRequest userUpdateRequest);
     Task<bool> DeleteUserAsync(string id);
-    Task<TokenResponse> LoginAsync(AuthenticateRequest authenticateRequest);
+    Task<TokenResponse> AuthenticateAsync(AuthenticateRequest authenticateRequest);
     Task<TokenResponse> RefreshTokenAsync(RefreshTokenRequest refreshTokenRequest);
 }
