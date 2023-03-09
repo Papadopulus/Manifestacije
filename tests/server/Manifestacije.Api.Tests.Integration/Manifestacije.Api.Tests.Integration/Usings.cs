@@ -1,1 +1,12 @@
 global using Xunit;
+global using Manifestacije.Api.Database;
+global using Microsoft.AspNetCore.Mvc.Testing;
+global using System.Collections.Immutable;
+global using DotNet.Testcontainers.Builders;
+global using DotNet.Testcontainers.Containers;
+global using Manifestacije.Api.Contracts.QueryFilters;
+global using Manifestacije.Api.Repositories;
+global using Microsoft.Extensions.Options;
+global using Manifestacije.Api.Models;
+global using FluentAssertions;
+global using FluentAssertions.Equivalency;

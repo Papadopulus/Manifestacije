@@ -38,6 +38,7 @@ public class UserService : IUserService
 
         var user = _mapper.Map<User>(userCreateRequest);
         (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword(userCreateRequest.Password);
+        user.Roles.Add("User");
         var success = await _userRepository.CreateUserAsync(user);
         if (!success)
             throw new DatabaseException("Failed to create user");
@@ -45,11 +46,11 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<User> UpdateUserAsync(string id, UserUpdateRequest userUpdateRequest)
+    public async Task<User?> UpdateUserAsync(string id, UserUpdateRequest userUpdateRequest)
     {
         var existingUser = await _userRepository.GetUserByIdAsync(id);
         if (existingUser is null)
-            throw new InvalidInputException("User with given id does not exist");
+            return null;
 
         _mapper.Map(source: userUpdateRequest, destination: existingUser);
         existingUser.UpdatedAtUtc = DateTime.UtcNow;

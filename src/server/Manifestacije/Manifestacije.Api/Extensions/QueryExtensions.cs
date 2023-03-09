@@ -11,17 +11,17 @@ public static class QueryExtensions
         return query.Skip((filter.PageNumber - 1) * filter.PageSize).Limit(filter.PageSize);
     }
 
-    public static IFindFluent<TType, TType>? Sort<TType>(this IFindFluent<TType, TType> query, QueryFilterBase filter)
+    public static SortDefinition<TType> Sort<TType>(QueryFilterBase filter)
     {
         if (string.IsNullOrEmpty(filter.SortColumn))
         {
             // TODO: Add default sort
-            return query;
+            return Builders<TType>.Sort.Descending("CreatedAtUtc");
         }
 
         return filter.SortDirection != "desc"
-            ? query.SortBy(x => x!.GetType().GetProperty(filter.SortColumn)!.GetValue(x))
-            : query.SortByDescending(x => x!.GetType().GetProperty(filter.SortColumn)!.GetValue(x));
+            ? Builders<TType>.Sort.Ascending(filter.SortColumn)
+            : Builders<TType>.Sort.Descending(filter.SortColumn);
     }
 
     public static FilterDefinition<TType> Filter<TType, TSource>(this TSource query)

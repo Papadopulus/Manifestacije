@@ -97,6 +97,8 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
+await DbInitializer.InitializeAsync(app.Services.GetService<IUserRepository>()!);
+
 app.UseAuthentication();
 app.UseAuthorization();
 

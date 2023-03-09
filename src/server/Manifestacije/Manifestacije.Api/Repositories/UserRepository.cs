@@ -25,38 +25,33 @@ public class UserRepository : IUserRepository
     public async Task<List<User>> GetAllUsersAsync(UserQueryFilter userQueryFilter)
     {
         var filter = userQueryFilter.Filter<User, UserQueryFilter>();
-
-        var users = await _usersCollection
+        var sort = QueryExtensions.Sort<User>(userQueryFilter);
+        
+        return await _usersCollection
             .Find(filter)
-            .Sort(userQueryFilter)!
+            .Sort(sort)
             .Paginate(userQueryFilter)
             .ToListAsync();
-        
-        return users;
     }
 
-    public async Task<User?> GetUserByIdAsync(string id)
+    public async Task<User?> GetUserByIdAsync(string id, bool includeDeleted = false)
     {
         var filter = Builders<User>.Filter.Eq(user => user.Id, id);
-        filter &= Builders<User>.Filter.Eq(user => user.IsDeleted, false);
+        filter &= Builders<User>.Filter.Eq(user => user.IsDeleted, includeDeleted);
         
-        var user = await _usersCollection
+        return await _usersCollection
             .Find(filter)
             .FirstOrDefaultAsync();
-
-        return user;
     }
 
-    public async Task<User?> GetUserWithEmailAsync(string email)
+    public async Task<User?> GetUserWithEmailAsync(string email, bool includeDeleted = false)
     {
         var filter = Builders<User>.Filter.Eq(user => user.Email, email);
-        filter &= Builders<User>.Filter.Eq(user => user.IsDeleted, false);
+        filter &= Builders<User>.Filter.Eq(user => user.IsDeleted, includeDeleted);
         
-        var user = await _usersCollection
+        return await _usersCollection
             .Find(filter)
             .FirstOrDefaultAsync();
-
-        return user;
     }
 
     public async Task<User?> GetUserWithRefreshTokenAsync(string refreshToken)
@@ -66,11 +61,9 @@ public class UserRepository : IUserRepository
         
         filter &= Builders<User>.Filter.Eq(user => user.IsDeleted, false);
         
-        var user = await _usersCollection
+        return await _usersCollection
             .Find(filter)
             .FirstOrDefaultAsync();
-
-        return user;
     }
 
     public async Task<bool> CreateUserAsync(User user)

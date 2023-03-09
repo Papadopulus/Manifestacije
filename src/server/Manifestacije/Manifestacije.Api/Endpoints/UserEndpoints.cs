@@ -1,6 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using FluentValidation;
 using Manifestacije.Api.Endpoints.Internal;
+using Manifestacije.Api.Extensions;
+using Manifestacije.Api.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manifestacije.Api.Endpoints;
@@ -68,12 +72,16 @@ public class UserEndpoints : IEndpoints
     }
 
     internal static async Task<IResult> UpdateUser(
+        HttpContext context,
         string id,
         [FromBody] UserUpdateRequest userUpdateDto,
         IUserService userService,
         IValidator<UserUpdateRequest> validator,
         IMapper mapper)
     {
+        if (id != context.User.GetUserId() && context.User.GetRole() != RolesEnum.Admin.ToString())
+            return Results.Forbid();
+            
         var validationResult = await validator.ValidateAsync(userUpdateDto);
         if (!validationResult.IsValid)
         {
@@ -82,7 +90,9 @@ public class UserEndpoints : IEndpoints
 
         var user = await userService.UpdateUserAsync(id, userUpdateDto);
         var userResponse = mapper.Map<UserViewResponse>(user);
-        return Results.Ok(userResponse);
+        return user is null
+            ? Results.NotFound("There is no user with specified id")
+            : Results.Ok(userResponse);
     }
 
     internal static async Task<IResult> DeleteUser(
@@ -90,7 +100,9 @@ public class UserEndpoints : IEndpoints
         IUserService userService)
     {
         var result = await userService.DeleteUserAsync(id);
-        return result ? Results.Ok("User successfully deleted") : Results.NotFound($"User with the id of: {id} does not exist");
+        return result
+            ? Results.Ok("User successfully deleted")
+            : Results.NotFound($"User with the id of: {id} does not exist");
     }
 
     internal static async Task<IResult> AuthenticateUser(
@@ -103,7 +115,7 @@ public class UserEndpoints : IEndpoints
         {
             return Results.BadRequest(validationResult.Errors);
         }
-        
+
         var tokenResponse = await userService.AuthenticateAsync(authenticateRequest);
         return Results.Ok(tokenResponse);
     }
@@ -118,7 +130,7 @@ public class UserEndpoints : IEndpoints
         {
             return Results.BadRequest(validationResult.Errors);
         }
-        
+
         var tokenResponse = await userService.RefreshTokenAsync(refreshTokenRequest);
         return Results.Ok(tokenResponse);
     }

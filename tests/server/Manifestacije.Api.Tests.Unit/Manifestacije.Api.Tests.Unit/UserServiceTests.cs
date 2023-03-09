@@ -1,6 +1,4 @@
-﻿using Manifestacije.Api.Exceptions;
-
-namespace Manifestacije.Api.Tests.Unit;
+﻿namespace Manifestacije.Api.Tests.Unit;
 
 public class UserServiceTests
 {
@@ -176,19 +174,16 @@ public class UserServiceTests
         // Arrange
         var userUpdateRequest = new UserUpdateRequest
         {
-            FirstName = "John",
+            FirstName = "",
             LastName = "Doe",
-            Email = "test@test.rs",
         };
         _userRepository.GetUserByIdAsync(Arg.Any<string>()).Returns((User?)null);
 
         // Act
-        Func<Task> result = async () => await _sut.UpdateUserAsync("1", userUpdateRequest);
+        var result = await _sut.UpdateUserAsync("1", userUpdateRequest);
 
         // Assert
-        await result.Should()
-            .ThrowExactlyAsync<InvalidInputException>()
-            .WithMessage("User with given id does not exist");
+        result.Should().BeNull();
     }
 
     [Fact]
@@ -199,7 +194,6 @@ public class UserServiceTests
         {
             FirstName = "John",
             LastName = "Doe",
-            Email = "test@test.rs"
         };
         var user = new User
         {
@@ -228,7 +222,6 @@ public class UserServiceTests
         {
             FirstName = "John",
             LastName = "Doe",
-            Email = "test@test.rs"
         };
         var user = new User
         {
