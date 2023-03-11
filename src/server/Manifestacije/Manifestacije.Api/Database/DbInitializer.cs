@@ -3,7 +3,7 @@ using Manifestacije.Api.Models;
 
 namespace Manifestacije.Api.Database;
 
-public class DbInitializer
+public static class DbInitializer
 {
     public static async Task InitializeAsync(IUserRepository userRepository)
     {
