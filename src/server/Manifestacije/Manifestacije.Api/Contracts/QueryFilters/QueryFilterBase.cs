@@ -2,10 +2,10 @@
 
 public class QueryFilterBase
 {
-    public int PageSize { get; set; }
-    public int PageNumber { get; set; }
+    public int? PageSize { get; set; } = 10;
+    public int? PageNumber { get; set; } = 1;
     public string? SortColumn { get; set; }
     public string? SortDirection { get; set; } = "";
-    public bool IsAnd { get; set; } = false;
-    public bool ShowDeleted { get; set; } = false;
+    public bool? Intersection { get; set; } = true;
+    public bool? ShowDeleted { get; set; } = false;
 }

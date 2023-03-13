@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Manifestacije.Api.Contracts.Requests;
-using Manifestacije.Api.Contracts.Responses;
 using Manifestacije.Api.Exceptions;
 using Manifestacije.Api.Extensions;
 using Manifestacije.Api.Models;
@@ -13,18 +11,18 @@ public class UserService : IUserService
     private readonly IMapper _mapper;
     private readonly string secret;
 
-    public UserService(IConfiguration configuration,
-        IUserRepository userRepository,
+    public UserService(IUserRepository userRepository,
+        IConfiguration configuration,
         IMapper mapper)
     {
-        secret = configuration["Authorization:Secret"]!;
         _userRepository = userRepository;
+        secret = configuration["Authorization:Secret"]!;
         _mapper = mapper;
     }
 
-    public async Task<List<User>> GetAllUsersAsync()
+    public async Task<List<User>> GetAllUsersAsync(UserQueryFilter userQueryFilter)
     {
-        return await _userRepository.GetAllUsersAsync();
+        return await _userRepository.GetAllUsersAsync(userQueryFilter);
     }
 
     public async Task<User?> GetUserByIdAsync(string id)
@@ -37,32 +35,29 @@ public class UserService : IUserService
         var existingUser = await _userRepository.GetUserWithEmailAsync(userCreateRequest.Email);
         if (existingUser is not null)
             throw new InvalidInputException("User with given email already exists");
-        
+
         var user = _mapper.Map<User>(userCreateRequest);
         (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword(userCreateRequest.Password);
+        user.Roles.Add("User");
         var success = await _userRepository.CreateUserAsync(user);
         if (!success)
-        {
             throw new DatabaseException("Failed to create user");
-        }
-        
+
         return user;
     }
 
-    public async Task<User> UpdateUserAsync(string id, UserUpdateRequest userUpdateRequest)
+    public async Task<User?> UpdateUserAsync(string id, UserUpdateRequest userUpdateRequest)
     {
         var existingUser = await _userRepository.GetUserByIdAsync(id);
         if (existingUser is null)
-            throw new InvalidInputException("User with given id does not exist");
+            return null;
 
         _mapper.Map(source: userUpdateRequest, destination: existingUser);
-        
+        existingUser.UpdatedAtUtc = DateTime.UtcNow;
         var success = await _userRepository.UpdateUserAsync(existingUser);
         if (!success)
-        {
             throw new DatabaseException("Failed to update the user");
-        }
-        
+
         return existingUser;
     }
 
@@ -70,13 +65,13 @@ public class UserService : IUserService
     {
         var existingUser = await _userRepository.GetUserByIdAsync(id);
         if (existingUser is null)
-            throw new InvalidInputException("User with given id does not exist");
+            return false;
         existingUser.IsDeleted = true;
         existingUser.DeletedAtUtc = DateTime.UtcNow;
         return await _userRepository.UpdateUserAsync(existingUser);
     }
 
-    public async Task<TokenResponse> LoginAsync(AuthenticateRequest authenticateRequest)
+    public async Task<TokenResponse> AuthenticateAsync(AuthenticateRequest authenticateRequest)
     {
         var user = await _userRepository.GetUserWithEmailAsync(authenticateRequest.Email);
 
@@ -87,7 +82,7 @@ public class UserService : IUserService
             throw new InvalidInputException("Incorrect password");
 
         var (token, refreshToken) = user.GenerateTokens(secret);
-        user.RefreshTokens.Add(new RefreshToken { Token = refreshToken, ExpireDate = DateTime.Now.AddDays(7) });
+        user.RefreshTokens.Add(new RefreshToken { Token = refreshToken, ExpireDate = DateTime.UtcNow.AddDays(7) });
         await _userRepository.UpdateUserAsync(user);
         return new TokenResponse { Token = token, RefreshToken = refreshToken };
     }
