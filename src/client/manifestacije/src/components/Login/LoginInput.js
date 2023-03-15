@@ -3,7 +3,13 @@ import classes from "./LoginInput.module.css";
 import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
 
+
+import axios from "../../api/axios";
+import {useState} from "react";
+
+const LOGIN_URL = '/authenticate';
 const LoginInput = () => {
+  const [errMessage,setErrorMessage] = useState('');
     const {
         value: enteredName,
         isValid: enteredNameIsValid,
@@ -11,7 +17,7 @@ const LoginInput = () => {
         valueChangedHandler: nameChangedHandler,
         inputBlurHandler: nameBlurHandler,
         resetFunction: resetNameFunction,
-    } = useInput((value) => value.trim() !== "");
+    } = useInput((value) => value.trim() !== '');
 
     const {
         value: enteredEmail,
@@ -32,11 +38,35 @@ const LoginInput = () => {
         formIsValid = false;
     }
 
-    const formSubmissionHandler = (event) => {
+    const formSubmissionHandler = async (event) =>  {
         event.preventDefault();
         if (!enteredNameIsValid || !enteredEmailIsValid) {
             return;
         }
+        
+        try {
+          const response = await axios.post(LOGIN_URL,
+              JSON.stringify({email:enteredEmail,password:enteredName}),
+              {
+                headers:{ 'Content-Type': 'application/json'},
+                // withCredentials:true
+              })
+          console.log(response);
+        }
+        catch (err){
+          if(!err?.response){
+            setErrorMessage('No Server Response');
+          }
+          else if (err.response?.status === 400){
+            setErrorMessage('Missing Email or password')
+          }else if (err.response?.status === 401){
+            setErrorMessage('Unauthorized');
+          }else{
+            setErrorMessage('Login failed');
+          }
+          console.log(errMessage);
+        }
+        
         console.log(enteredName);
         console.log(enteredEmail);
 
