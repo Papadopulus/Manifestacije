@@ -1,17 +1,44 @@
-﻿.input-look{
-    width: 90%;
-    max-width: 43rem;
-    padding: 1rem;
-    margin: 3rem auto;
-}
-.login-label{
-    text-align: center;
-}
-.login-form{
+﻿.login-form{
     display: flex;
     flex-wrap: wrap;
+    min-height: 100vh;
+}
+.left-login-container{
+    width: 28%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background-color: #d2afff;
 }
 
+.right-login-container{
+    width: 72%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: #f4f6f8;
+    overflow-y: auto;
+}
+.login-handler{
+    padding: 0 50px;
+    margin: 0 auto;
+    max-width: 485px;
+    
+    
+}
+.login-handler h1{
+    font-size: 30px;
+    font-weight: 700;
+    color: black;
+    text-align: center;
+    line-height: 1.25;
+}
+.login-handler .icon{
+    margin: 70px auto 20px;
+    width: 100px;
+    height: 100px;
+    background: rgba(0,0,0,0) url(../../multimedia/login_icon_resized.webp) no-repeat scroll 0 0;
+}
 .login-label label{
     font-family: 'Noto Sans JP', sans-serif;
     font-weight: bold;
@@ -19,7 +46,35 @@
     margin-bottom: 50px;
     color: #6745b9;
 }
-.form-control {
+
+.control-group {
+    display: flex;
+    column-gap: 1rem;
+    flex-wrap: wrap;
+}
+.control-group .form-control {
+    min-width: 15rem;
+    flex: 1;
+}
+
+.input-look{
+    width: 90%;
+    max-width: 43rem;
+    padding: 1rem;
+    margin: 3rem auto;
+}
+.login-button{
+    width: 100%;
+}
+.form-actions {
+    text-align: right;
+    margin-top: 0.5rem;
+}
+
+.error-text {
+    color: #b40e0e;
+}
+/*.form-control {
     margin-bottom: 1rem;
 }
 
@@ -46,50 +101,20 @@
     outline: none;
     border-color: #240370;
     background-color: #e0d4fd;
-}
-
-.control-group {
-    display: flex;
-    column-gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.control-group .form-control {
-    min-width: 15rem;
-    flex: 1;
-}
-.login-button{
-    width: 100%;
-}
-
-/*.form-actions {*/
-/*  text-align: right;*/
-/*}*/
-
-/*.form-actions button {*/
+}*/
 /*  margin-left: 1rem;*/
+/*.form-actions button {*/
+
+
 /*}*/
 
-
-.left-login-container{
-    margin-right: 10px;
-    max-width: 100%;
-}
-.right-login-container{
-    background-color: #3f3f3f;
-    width: 100px;
-    height: 100px;
-}
-.form-control.invalid input {
+/*.form-control.invalid input {
     border: 1px solid #b40e0e;
     background-color: #fddddd;
 }
 
-.form-control.invalid input:focus {
+!*.form-control.invalid input:focus {
     border-color: #ff8800;
     background-color: #fbe8d2;
-}
+}*!*/
 
-.error-text {
-    color: #b40e0e;
-}

@@ -1,7 +1,7 @@
 ﻿import useInput from "../../hooks/use-input";
 import classes from "./LoginInput.module.css";
-import CardLook from "../UI/CardLook/CardLook";
 import Button from "../UI/Button/Button";
+import Input from "../UI/Input/Input";
 const LoginInput = () => {
   const {
     value: enteredName,
@@ -43,23 +43,22 @@ const LoginInput = () => {
     resetEmailNameFunction();
   };
 
-  const nameInputClasses = nameInputHasError
+  /*const nameInputClasses = nameInputHasError
     ? classes["form-control invalid"]
     : classes["form-control"];
   const emailInputClasses = emailInputError
     ? classes["form-control invalid"]
-    : classes["form-control"];
+    : classes["form-control"];*/
   return (
-    <CardLook className={classes["input-look"]}>
-      <form className={classes["login-form"]} onSubmit={formSubmissionHandler}>
-        <div className={classes["left-login-container"]}>
-          <div className={classes["login-label"]}>
-            <label>Login</label>
-            <p>
-              Don't have an account?<a href="">Create an account</a>
-            </p>
-          </div>
-          <div
+    <form className={classes["login-form"]} onSubmit={formSubmissionHandler}>
+      <div className={classes["left-login-container"]}>
+        <div className={classes["login-handler"]}>
+          <div className={classes["icon"]}></div>
+          <h1>Login</h1>
+          <p>
+            Don't have an account?<a href="">Create an account</a>
+          </p>
+          {/*<div
             className={`${classes["form-control"]} ${
               emailInputError ? classes.invalid : ""
             }`}
@@ -77,8 +76,23 @@ const LoginInput = () => {
                 Email Must not be empty!
               </label>
             )}
-          </div>
-          <div
+          </div>*/}
+          <Input
+            label={"E-mail"}
+            type="email"
+            id="email"
+            value={enteredEmail}
+            onChange={emailChangedHandler}
+            onBlur={emailBlurHandler}
+            isNotValid={emailInputError}
+          ></Input>
+          {emailInputError && (
+            <label className={classes["error-text"]}>
+              Email is empty or invalid!
+            </label>
+          )}
+
+          {/*<div
             className={`${classes["form-control"]} ${
               nameInputHasError ? classes.invalid : ""
             }`}
@@ -91,16 +105,31 @@ const LoginInput = () => {
               onChange={nameChangedHandler}
               onBlur={nameBlurHandler}
             />
-            {nameInputHasError && (
+            {enteredName.length === 0 && (
               <label className={classes["error-text"]}>
                 Password Must not be empty!
               </label>
             )}
+          </div>*/}
+          <Input
+            label={"Password"}
+            type="password"
+            id="password"
+            value={enteredName}
+            onChange={nameChangedHandler}
+            onBlur={nameBlurHandler}
+            isNotValid={nameInputHasError}
+          ></Input>
+          {nameInputHasError && (
+            <label className={classes["error-text"]}>
+              Password is empty or invalid!
+            </label>
+          )}
+          <div>
             <label>
               <a href="">Forgot your password?</a>
             </label>
           </div>
-
           <div className={classes["form-actions"]}>
             <Button
               type={"submit"}
@@ -111,9 +140,9 @@ const LoginInput = () => {
             </Button>
           </div>
         </div>
-        <div className={classes["right-login-container"]}></div>
-      </form>
-    </CardLook>
+      </div>
+      <div className={classes["right-login-container"]}></div>
+    </form>
   );
 };
 
