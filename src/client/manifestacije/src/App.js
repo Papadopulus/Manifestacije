@@ -1,11 +1,11 @@
-
 import LoginInput from "./components/Login/LoginInput";
+import { Fragment } from "react";
 
 function App() {
   return (
-    <div className="app">
-      <LoginInput/>
-    </div>
+    <Fragment>
+      <LoginInput />
+    </Fragment>
   );
 }
 
