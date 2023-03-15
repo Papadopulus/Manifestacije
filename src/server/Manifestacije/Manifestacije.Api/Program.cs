@@ -21,13 +21,16 @@ builder.Services.AddSwaggerGen(x =>
         Description = "JWT Authorization header using the bearer scheme",
         Name = "Authorization",
         In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer"
     });
     x.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme
             {
+                Name = "Bearer",
+                In = ParameterLocation.Header,
                 Reference = new OpenApiReference
                 {
                     Id = "Bearer",
@@ -36,6 +39,17 @@ builder.Services.AddSwaggerGen(x =>
             },
             new List<string>()
         }
+    });
+});
+
+// Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowAll", policyBuilder =>
+    {
+        policyBuilder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
     });
 });
 
@@ -73,6 +87,7 @@ builder.Services.AddAuthentication()
         };
     });
 
+// Authorization
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(RolesEnum.Admin.ToString(), policy =>
@@ -98,6 +113,8 @@ builder.Services.AddAuthorization(options =>
 var app = builder.Build();
 
 await DbInitializer.InitializeAsync(app.Services.GetService<IUserRepository>()!);
+
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
