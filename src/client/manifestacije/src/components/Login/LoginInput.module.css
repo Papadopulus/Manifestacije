@@ -57,7 +57,7 @@
     background: rgba(0, 0, 0, 0) url(../../multimedia/login_icon_resized.webp) no-repeat scroll 0 0;
 }
 .login-handler .login-links{
-    color: #000066;
+    color: #E9EAD7;
 }
 
 .login-label label {
@@ -68,7 +68,7 @@
     color: #6745b9;
 }
 .dont-have-account{
-    color: #BEBFB1;
+    color: #AAAAAA;
 }
 
 .control-group {
