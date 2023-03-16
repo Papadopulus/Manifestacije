@@ -1,16 +1,17 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
+using MimeKit.Text;
 
 namespace Manifestacije.Api.Services;
 
 public class MailService : IMailService
 {
-    private readonly string _from;
     private readonly string _displayName;
-    private readonly string _smtpServer;
-    private readonly string _port;
-    private readonly string _userName;
+    private readonly string _from;
     private readonly string _password;
+    private readonly string _port;
+    private readonly string _smtpServer;
+    private readonly string _userName;
 
     public MailService(IConfiguration configuration)
     {
@@ -58,7 +59,7 @@ public class MailService : IMailService
         message.From.Add(new MailboxAddress(_displayName, _from));
         message.To.AddRange(to.Select(x => new MailboxAddress(x, x)));
         message.Subject = subject;
-        message.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = $"<h2 style='color:red;'>{body}</h2>" };
+        message.Body = new TextPart(TextFormat.Html) { Text = $"<h2 style='color:red;'>{body}</h2>" };
 
         return message;
     }

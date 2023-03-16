@@ -7,10 +7,10 @@ namespace Manifestacije.Api.Services;
 
 public class UserService : IUserService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IMapper _mapper;
     private readonly IMailService _mailService;
+    private readonly IMapper _mapper;
     private readonly string _secret;
+    private readonly IUserRepository _userRepository;
 
     public UserService(IUserRepository userRepository,
         IConfiguration configuration,
@@ -37,14 +37,18 @@ public class UserService : IUserService
     {
         var existingUser = await _userRepository.GetUserWithEmailAsync(userCreateRequest.Email);
         if (existingUser is not null)
+        {
             throw new InvalidInputException("User with given email already exists");
+        }
 
         var user = _mapper.Map<User>(userCreateRequest);
         (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword(userCreateRequest.Password);
         user.Roles.Add("User");
         var success = await _userRepository.CreateUserAsync(user);
         if (!success)
+        {
             throw new DatabaseException("Failed to create user");
+        }
 
         return user;
     }
@@ -53,13 +57,17 @@ public class UserService : IUserService
     {
         var existingUser = await _userRepository.GetUserByIdAsync(id);
         if (existingUser is null)
+        {
             return null;
+        }
 
-        _mapper.Map(source: userUpdateRequest, destination: existingUser);
+        _mapper.Map(userUpdateRequest, existingUser);
         existingUser.UpdatedAtUtc = DateTime.UtcNow;
         var success = await _userRepository.UpdateUserAsync(existingUser);
         if (!success)
+        {
             throw new DatabaseException("Failed to update the user");
+        }
 
         return existingUser;
     }
@@ -68,7 +76,10 @@ public class UserService : IUserService
     {
         var existingUser = await _userRepository.GetUserByIdAsync(id);
         if (existingUser is null)
+        {
             return false;
+        }
+
         existingUser.IsDeleted = true;
         existingUser.DeletedAtUtc = DateTime.UtcNow;
         return await _userRepository.UpdateUserAsync(existingUser);
@@ -79,10 +90,14 @@ public class UserService : IUserService
         var user = await _userRepository.GetUserWithEmailAsync(authenticateRequest.Email);
 
         if (user is null)
+        {
             throw new InvalidInputException("Incorrect email");
+        }
 
         if (!user.ValidatePassword(authenticateRequest.Password))
+        {
             throw new InvalidInputException("Incorrect password");
+        }
 
         var (token, refreshToken) = user.GenerateTokens(_secret);
         user.RefreshTokens.Add(new RefreshToken { Token = refreshToken, ExpireDate = DateTime.UtcNow.AddDays(7) });
@@ -95,11 +110,15 @@ public class UserService : IUserService
         var user = await _userRepository.GetUserWithRefreshTokenAsync(refreshTokenRequest.Token);
 
         if (user is null)
+        {
             throw new InvalidInputException("Invalid token");
+        }
 
         var oldToken = user.RefreshTokens.FirstOrDefault(x => x.Token == refreshTokenRequest.Token)!;
         if (oldToken.ExpireDate < DateTime.UtcNow)
+        {
             throw new InvalidInputException("Token expired");
+        }
 
         var (token, refreshToken) = user.GenerateTokens(_secret);
         user.RefreshTokens.Remove(oldToken);
@@ -112,10 +131,13 @@ public class UserService : IUserService
     {
         var user = await _userRepository.GetUserWithEmailAsync(email);
         if (user is null)
+        {
             return false;
+        }
 
         var (_, token) = user.GenerateTokens(_secret);
-        user.RefreshTokens.Add(new RefreshToken(){Token = token, ExpireDate = DateTime.UtcNow.AddDays(1), IsPasswordReset = true});
+        user.RefreshTokens.Add(new RefreshToken
+            { Token = token, ExpireDate = DateTime.UtcNow.AddDays(1), IsPasswordReset = true });
         await _userRepository.UpdateUserAsync(user);
         await _mailService.SendEmailAsync(email, "Password reset", token);
         return true;
@@ -125,14 +147,20 @@ public class UserService : IUserService
     {
         var user = await _userRepository.GetUserWithRefreshTokenAsync(token);
         if (user is null)
+        {
             return false;
+        }
 
         var oldToken = user.RefreshTokens.FirstOrDefault(x => x.Token == token && x.IsPasswordReset);
         if (oldToken is null)
+        {
             return false;
-        
+        }
+
         if (oldToken.ExpireDate < DateTime.UtcNow)
+        {
             throw new InvalidInputException("Token expired");
+        }
 
         user.RefreshTokens = new List<RefreshToken>();
         (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword(newPassword);

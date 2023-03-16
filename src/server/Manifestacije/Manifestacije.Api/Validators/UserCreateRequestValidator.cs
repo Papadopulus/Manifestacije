@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Manifestacije.Api.Contracts.Requests;
 
 namespace Manifestacije.Api.Validators;
 

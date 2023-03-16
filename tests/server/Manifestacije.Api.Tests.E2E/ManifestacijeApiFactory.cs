@@ -10,41 +10,43 @@ public class ManifestacijeApiFactory : WebApplicationFactory<IApiMarker>, IAsync
         .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(27017))
         .Build();
 
+    public async Task InitializeAsync()
+    {
+        await _mongoDbContainer.StartAsync();
+    }
+
+    public new async Task DisposeAsync()
+    {
+        await _mongoDbContainer.DisposeAsync();
+    }
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         var myConfiguration = new Dictionary<string, string>
         {
-            {"MongoDbSettings:ConnectionString", "mongodb://localhost:27019"},
-            {"MongoDbSettings:DatabaseName", "manifestacije-test"},
-            {"MongoDbSettings:UsersCollectionName", "users"}
+            { "MongoDbSettings:ConnectionString", "mongodb://localhost:27019" },
+            { "MongoDbSettings:DatabaseName", "manifestacije-test" },
+            { "MongoDbSettings:UsersCollectionName", "users" }
         };
 
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(myConfiguration!)
             .Build();
-        
+
         builder.ConfigureServices(services =>
         {
-            var dbSettings = services.Where(x => x is { Lifetime: ServiceLifetime.Singleton, ServiceType.FullName: { } } && x.ServiceType.FullName.Contains("Manifestacije.Api.Database.DatabaseSettings")).ToImmutableList();
+            var dbSettings = services.Where(x =>
+                x is { Lifetime: ServiceLifetime.Singleton, ServiceType.FullName: { } } &&
+                x.ServiceType.FullName.Contains("Manifestacije.Api.Database.DatabaseSettings")).ToImmutableList();
 
             foreach (var dbSetting in dbSettings)
             {
                 services.Remove(dbSetting);
             }
-            
+
             services.Configure<DatabaseSettings>(configuration.GetSection("MongoDbSettings"));
         });
 
         builder.UseEnvironment("Production");
-    }
-
-    public async Task InitializeAsync()
-    {
-        await _mongoDbContainer.StartAsync();
-    }
-    
-    public new async Task DisposeAsync()
-    {
-        await _mongoDbContainer.DisposeAsync();
     }
 }
