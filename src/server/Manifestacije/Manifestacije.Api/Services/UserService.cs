@@ -116,7 +116,7 @@ public class UserService : IUserService
 
         var (_, token) = user.GenerateTokens(_secret);
         user.RefreshTokens.Add(new RefreshToken(){Token = token, ExpireDate = DateTime.UtcNow.AddDays(1), IsPasswordReset = true});
-        
+        await _userRepository.UpdateUserAsync(user);
         await _mailService.SendEmailAsync(email, "Password reset", token);
         return true;
     }

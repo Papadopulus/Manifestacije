@@ -398,7 +398,7 @@ public class UserServiceTests
             .ThrowExactlyAsync<InvalidInputException>()
             .WithMessage("Token expired");
     }
-    
+
     [Fact]
     public async Task RefreshTokenAsync_ShouldReturnNewTokenPair_WhenTokenIsValid()
     {
@@ -411,12 +411,12 @@ public class UserServiceTests
         {
             Id = "1",
             RefreshTokens = new List<RefreshToken>(),
-            Roles = new List<string>() {"User", "Admin"}
+            Roles = new List<string>() { "User", "Admin" }
         };
         user.RefreshTokens.Add(
             new RefreshToken { Token = refreshTokenRequest.Token, ExpireDate = DateTime.UtcNow.AddDays(1) });
         _userRepository.GetUserWithRefreshTokenAsync(Arg.Any<string>()).Returns(user);
-        
+
         // Act
         var result = await _sut.RefreshTokenAsync(refreshTokenRequest);
 
@@ -424,5 +424,124 @@ public class UserServiceTests
         result.Should().NotBeNull();
         result.Token.Should().NotBeNullOrEmpty();
         result.RefreshToken.Should().NotBeNullOrEmpty();
+    }
+
+    [Fact]
+    public async Task SendEmailResetPasswordAsync_ShouldReturnFalse_WhenUserDoesNotExist()
+    {
+        // Arrange
+        var email = "test@test.rs";
+        _userRepository.GetUserWithEmailAsync(Arg.Any<string>()).Returns((User?)null);
+
+        // Act
+        var result = await _sut.SendEmailResetPasswordAsync(email);
+
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task SendEmailResetPasswordAsync_ShouldReturnTrue_WhenUserExists()
+    {
+        // Arrange
+        var email = "test@test.rs";
+        var user = new User()
+        {
+            Id = "1",
+            Email = "test@test.rs",
+            FirstName = "John",
+            LastName = "Doe",
+            RefreshTokens = new List<RefreshToken>(),
+            Roles = new List<string>() { "User", "Admin" }
+        };
+        _userRepository.GetUserWithEmailAsync(Arg.Any<string>()).Returns(user);
+
+        // Act
+        var result = await _sut.SendEmailResetPasswordAsync(email);
+
+        // Assert
+        result.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task ResetPasswordAsync_ShouldReturnFalse_WhenUserIsNotFound()
+    {
+        // Arrange
+        var token = "token";
+        var newPassword = "Sifra.1234";
+        _userRepository.GetUserWithRefreshTokenAsync(Arg.Any<string>()).Returns((User?)null);
+
+        // Act
+        var result = await _sut.ResetPasswordAsync(token, newPassword);
+
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task ResetPasswordAsync_ShouldReturnFalse_WhenTokenIsNotPasswordResetToken()
+    {
+        // Arrange
+        var token = "token";
+        var newPassword = "Sifra.1234";
+        var user = new User
+        {
+            RefreshTokens = new List<RefreshToken>()
+            {
+                new() { Token = token, IsPasswordReset = false }
+            }
+        };
+        _userRepository.GetUserWithRefreshTokenAsync(Arg.Any<string>()).Returns(user);
+
+        // Act
+        var result = await _sut.ResetPasswordAsync(token, newPassword);
+
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task ResetPasswordAsync_ShouldThrowAnError_WhenTokenIsExpired()
+    {
+        // Arrange
+        var token = "token";
+        var newPassword = "Sifra.1234";
+        var user = new User
+        {
+            RefreshTokens = new List<RefreshToken>()
+            {
+                new() { Token = token, IsPasswordReset = true, ExpireDate = DateTime.UtcNow.AddDays(-1) }
+            }
+        };
+        _userRepository.GetUserWithRefreshTokenAsync(Arg.Any<string>()).Returns(user);
+
+        // Act
+        Func<Task> result = async () => await _sut.ResetPasswordAsync(token, newPassword);
+
+        // Assert
+        await result.Should()
+            .ThrowExactlyAsync<InvalidInputException>();
+    }
+
+    [Fact]
+    public async Task ResetPasswordAsync_ShouldReturnTrue_WhenPasswordIsReset()
+    {
+        // Arrange
+        var token = "token";
+        var newPassword = "Sifra.1234";
+        var user = new User
+        {
+            RefreshTokens = new List<RefreshToken>()
+            {
+                new() { Token = token, IsPasswordReset = true, ExpireDate = DateTime.UtcNow.AddDays(1) }
+            }
+        };
+        _userRepository.GetUserWithRefreshTokenAsync(Arg.Any<string>()).Returns(user);
+
+        // Act
+        var result = await _sut.ResetPasswordAsync(token, newPassword);
+
+        // Assert
+        result.Should().BeTrue();
     }
 }

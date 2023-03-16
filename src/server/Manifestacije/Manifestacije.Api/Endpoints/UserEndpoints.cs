@@ -33,7 +33,7 @@ public class UserEndpoints : IEndpoints
 
         app.MapGet(ResetPassword + "/{email}", SendPasswordReset)
             .AllowAnonymous();
-        app.MapPost(ResetPassword + "/{token}", CreateNewPassword)
+        app.MapPost(ResetPassword, CreateNewPassword)
             .AllowAnonymous();
     }
     
@@ -46,11 +46,16 @@ public class UserEndpoints : IEndpoints
     }
     
     internal static async Task<IResult> CreateNewPassword(
-        string token,
         IUserService userService,
-        [FromBody] PasswordResetRequest passwordResetRequest)
+        [FromBody] PasswordResetRequest passwordResetRequest,
+        IValidator<PasswordResetRequest> validator)
     {
-        var success = await userService.ResetPasswordAsync(token, passwordResetRequest.Password);
+        var validationResult = await validator.ValidateAsync(passwordResetRequest);
+        if (!validationResult.IsValid)
+        {
+            return Results.BadRequest(validationResult.Errors);
+        }
+        var success = await userService.ResetPasswordAsync(passwordResetRequest.Token, passwordResetRequest.Password);
         return !success ? Results.BadRequest("Invalid token") : Results.Ok("Password successfully reset");
     }
     
