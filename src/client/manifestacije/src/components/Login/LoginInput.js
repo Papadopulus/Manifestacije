@@ -89,8 +89,8 @@ const LoginInput = () => {
                 <div className={classes["login-handler"]}>
                     <div className={classes["icon"]}></div>
                     <h1>Login</h1>
-                    <p>
-                        Don't have an account? <a href="" className={classes["create-account"]}>Create an account</a>
+                    <p className={classes["dont-have-account"]}>
+                        Don't have an account? <a href="" className={classes["login-links"]}>Create an account</a>
                     </p>
                     {/*<div
             className={`${classes["form-control"]} ${
@@ -161,7 +161,7 @@ const LoginInput = () => {
                     )}
                     <div>
                         <label>
-                            <a href="" className={classes["create-account"]}>Forgot your password?</a>
+                            <a href="" className={classes["login-links"]}>Forgot your password?</a>
                         </label>
                     </div>
                     <div className={classes["form-actions"]}>
