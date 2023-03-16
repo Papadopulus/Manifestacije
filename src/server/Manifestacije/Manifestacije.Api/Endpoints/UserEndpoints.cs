@@ -1,10 +1,7 @@
-﻿using System.Security.Claims;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using Manifestacije.Api.Endpoints.Internal;
 using Manifestacije.Api.Extensions;
-using Manifestacije.Api.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manifestacije.Api.Endpoints;
@@ -14,6 +11,7 @@ public class UserEndpoints : IEndpoints
     private const string BaseRoute = "/users";
     private const string AuthRoute = "/authenticate";
     private const string Refresh = "/refresh";
+    private const string ResetPassword = "/reset-password";
 
     public static void DefineEndpoints(IEndpointRouteBuilder app)
     {
@@ -32,8 +30,30 @@ public class UserEndpoints : IEndpoints
             .AllowAnonymous();
         app.MapPost(AuthRoute + Refresh, RefreshUserToken)
             .AllowAnonymous();
-    }
 
+        app.MapGet(ResetPassword + "/{email}", SendPasswordReset)
+            .AllowAnonymous();
+        app.MapPost(ResetPassword + "/{token}", CreateNewPassword)
+            .AllowAnonymous();
+    }
+    
+    internal static async Task<IResult> SendPasswordReset(
+        string email,
+        IUserService userService)
+    {
+        var success = await userService.SendEmailResetPasswordAsync(email);
+        return !success ? Results.NotFound($"User with the email of: {email} does not exist") : Results.Ok("We sent email with token");
+    }
+    
+    internal static async Task<IResult> CreateNewPassword(
+        string token,
+        IUserService userService,
+        [FromBody] PasswordResetRequest passwordResetRequest)
+    {
+        var success = await userService.ResetPasswordAsync(token, passwordResetRequest.Password);
+        return !success ? Results.BadRequest("Invalid token") : Results.Ok("Password successfully reset");
+    }
+    
     internal static async Task<IResult> CreateUser(
         [FromBody] UserCreateRequest userCreateDto,
         IUserService userService,

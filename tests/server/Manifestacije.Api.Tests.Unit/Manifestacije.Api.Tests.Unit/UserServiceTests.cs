@@ -1,10 +1,13 @@
-﻿namespace Manifestacije.Api.Tests.Unit;
+﻿using Manifestacije.Api.Services.Interfaces;
+
+namespace Manifestacije.Api.Tests.Unit;
 
 public class UserServiceTests
 {
     private readonly UserService _sut;
     private readonly IUserRepository _userRepository = Substitute.For<IUserRepository>();
     private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly IMailService _mailService = Substitute.For<IMailService>();
 
     public UserServiceTests()
     {
@@ -17,7 +20,7 @@ public class UserServiceTests
             .AddInMemoryCollection(inMemorySettings)
             .Build();
 
-        _sut = new UserService(_userRepository, configuration, _mapper);
+        _sut = new UserService(_userRepository, configuration, _mapper, _mailService);
     }
 
     [Fact]
