@@ -66,7 +66,12 @@
 .menu-icon {
     display: none;
 }
+@media screen and (max-width: 450px) {
+    .navbar-logo {
+        display: none;
 
+    }
+}
 @media screen and (max-width: 960px) {
     .NavbarItems {
         position: relative;
@@ -109,7 +114,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        transform: translate(30%, 65%);
+        transform: translate(30%, 38%);
 
     }
 
