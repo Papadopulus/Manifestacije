@@ -2,6 +2,7 @@ import LoginInput from "./components/Login/LoginInput";
 import { Fragment } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import RegisterInput from "./components/Register/RegisterInput";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Routes>
           {/*<Route path="/" element={<Home />} />  <-- treba se dodati home page*/}
           <Route path="/login" element={<LoginInput />} />
+          <Route path="/register" element={<RegisterInput />} />
         </Routes>
       </BrowserRouter>
     </Fragment>
