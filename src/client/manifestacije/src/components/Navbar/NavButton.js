@@ -2,10 +2,10 @@
 import "./NavButton.css";
 import { Link } from "react-router-dom";
 
-export function Button() {
+export function Button(props) {
   return (
     <Link to="/login">
-      <button className="btn">Login</button>
+      <button className={`${"btn"} ${props.className}`}>Login</button>
     </Link>
   );
 }

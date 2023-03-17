@@ -17,12 +17,15 @@
     width: 72%;
     min-height: 100vh;
     display: flex;
+    justify-content: center;
     align-items: center;
     background: #f4f6f8;
     overflow-y: auto;
+    background-size: cover ;
+    background-image: url("../../multimedia/veseli.jpg");
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 960px) {
     .right-login-container {
         display: none;
     }
