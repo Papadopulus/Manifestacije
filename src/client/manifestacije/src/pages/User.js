@@ -1,30 +1,34 @@
 ﻿import {useContext, useEffect, useState} from "react";
-import axios from "axios";
-
+// import axios from "axios";
+import axios from "../api/axios";
 import AuthContext from "../store/AuthContext";
-import jwtInterceptor from "../api/axios";
+import jwtInterceptor from "../api/interceptors";
+import {request} from "axios";
+import {Await} from "react-router-dom";
+
+
 const User = () => {
     
-    const {user} = useContext(AuthContext);
-    const [userData,setUserData] = useState([]);
+    // console.log('User component beeing redner...')
     
-    useEffect( () => {
-        // let tokenData = JSON.parse(localStorage.getItem("tokens"));
-        //
-        // let header = { 
-        //     "Authorization" : `Bearer ${tokenData.token}`
-        // }
-        jwtInterceptor.get(`https://localhost:7237/users/${user.Id}`)
+    const [userData,setUserData] = useState([]);
+    const {user} = useContext(AuthContext);
+    useEffect(  () => {
+        
+         jwtInterceptor.get(`https://localhost:7237/users/${user.Id}`)
             .then((response) => {
             setUserData(response.data);
             console.log(response.data);
-        }).catch(Error => {
-            console.error(Error);
+        }).catch(error => {
+            console.error(error);
         })
-
+        
+        
     },[])
+    // console.log(userData.firstName)
     return <div>
-        <p>Users Page</p>
+        {/*{!userData && <p>userData.firstName</p>}*/}
+        <p>{userData.firstName}</p>
     </div>
 }
 export default User;

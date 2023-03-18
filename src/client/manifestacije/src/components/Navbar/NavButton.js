@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export function Button(props) {
   return (
     <Link to="/login">
-      <button className={`${"btn"} ${props.className}`}>Login</button>
+      <button className={`${"btn"} ${props.className}`}>{props.title}</button>
     </Link>
   );
 }

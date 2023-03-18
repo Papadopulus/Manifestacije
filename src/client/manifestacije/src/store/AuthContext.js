@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 
 const { createContext } = require("react");
 
-const AuthContext = createContext();
+const AuthContext = createContext(undefined);
 
 const LOGIN_URL = '/authenticate';
 export const AuthContextProvider = ({children}) => {
@@ -23,15 +23,20 @@ export const AuthContextProvider = ({children}) => {
     const navigate = useNavigate();
     const login = async (payload) => {
         const apiResponse = await axios.post("https://localhost:7237/authenticate",payload);
-        
+
+        localStorage.setItem("tokens",JSON.stringify(apiResponse.data));
         let accessToken = jwt_decode(apiResponse.data.token)
         setUser(accessToken);
-        localStorage.setItem("tokens",JSON.stringify(apiResponse.data));
+        console.log(user);
         navigate("/");
     }
-    
+    const logout = () => {
+        localStorage.removeItem("tokens");
+        setUser(null);
+        navigate("/");
+    }
     return <AuthContext.Provider 
-        value={{ login , user }}>
+        value={{ login , user ,logout }}>
         
         {children}
         

@@ -6,7 +6,7 @@ import Dropdown from "./Dropdown";
 import AuthContext from "../../store/AuthContext";
 
 function Navbar() {
-  const { user } = useContext(AuthContext);
+  const { user , logout} = useContext(AuthContext);
   const [click, setClick] = useState(false);
   const [dropdown, setDropdown] = useState(false);
 
@@ -74,7 +74,7 @@ function Navbar() {
             </li>
           )}
 
-          <li>
+          {!user && <li>
             <Link
               to="/login"
               className="nav-links-mobile"
@@ -82,9 +82,19 @@ function Navbar() {
             >
               Login
             </Link>
-          </li>
+          </li>}
+          {user && <li>
+            <Link
+                to="/login"
+                className="nav-links-mobile"
+                onClick={ () => { logout() }}
+            >
+              Logout
+            </Link>
+          </li>}
         </ul>
-        {!user && <Button className={"nav-button"} />}
+        {!user && <Button className={"nav-button"} title={"Login"}/>}
+        {user && <Button className={"nav-button"}title={"logout"}/>}
       </nav>
     </>
   );

@@ -5,6 +5,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./pages/Home";
 import {AuthContextProvider} from "./store/AuthContext";
 import User from "./pages/User";
+import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 
 function App() {
     return (
@@ -13,10 +14,16 @@ function App() {
                 <AuthContextProvider>
                     <Navbar></Navbar>
                     <Routes>
-                        {/*<Route path="/" element={<Home />} />  <-- treba se dodati home page*/}
                         <Route path="/" element={<Home/>}/>
-                        <Route path="/login" element={<LoginInput/>}/>
-                        <Route path="/user" element={<User/>}/>
+                        <Route path="/login" element={
+                            <ProtectedRoutes accessBy={"non-authenticated"}>
+                                <LoginInput/>
+                            </ProtectedRoutes>}/>
+                        <Route path="/user" element={
+                            <ProtectedRoutes accessBy={"authenticated"}>
+                                <User/>
+                            </ProtectedRoutes>
+                        }/>
                     </Routes>
                 </AuthContextProvider>
             </BrowserRouter>
