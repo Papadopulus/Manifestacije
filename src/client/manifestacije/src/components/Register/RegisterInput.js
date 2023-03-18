@@ -1,15 +1,11 @@
 import classes from "./RegisterInput.module.css";
 import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
-
-import { useState } from "react";
 import {Link} from "react-router-dom";
 import useInput from "../../hooks/use-input";
 
-
-const registerFormHandler = () => {};
-
 const RegisterInput = () => {
+
 const {
     value: enteredName,
     isValid: enteredNameIsValid,
@@ -56,8 +52,41 @@ const {
     } = useInput((value) => value.trim() === enteredPassword);
 
 
+    let registrationNotValid = true;
+    if (enteredNameIsValid &&
+        enteredSurnameIsValid &&
+        enteredEmailIsValid &&
+        enteredPasswordIsValid &&
+        confirmPasswordIsValid) {
+        registrationNotValid = false;
+    } else {
+        registrationNotValid = true;
+    }
+
+    const registerSubmitHandler=/*async*/(event)=>{
+        event.preventDefault();
+        if(!enteredNameIsValid ||
+            !enteredSurnameIsValid ||
+            !enteredEmailIsValid ||
+            !enteredPasswordIsValid ||
+            !confirmPasswordIsValid)
+        {
+            return;
+        }
+        else
+        {
+            //payload
+            //await metoda
+            resetNameFunction();
+            resetEmailFunction();
+            resetSurnameFunction();
+            resetConfirmPasswordFunction();
+            resetPasswordFunction();
+        }
+
+    }
   return (
-    <form className={classes["register-form"]} onSubmit={registerFormHandler}>
+    <form className={classes["register-form"]} onSubmit={registerSubmitHandler}>
       <div className={classes["left-register-container"]}>
         <h1>Levi</h1>
       </div>
@@ -78,6 +107,12 @@ const {
                   onBlur={nameBlurHandler}
                   isNotValid={nameError}
               ></Input>
+              {nameError && (
+                  <label className={classes["error-text"]}>
+                      Name required!
+                  </label>
+              )}
+
 
               <Input
                   label={"Surname"}
@@ -88,6 +123,11 @@ const {
                   onBlur={surnameBlurHandler}
                   isNotValid={surnameError}
               ></Input>
+              {surnameError && (
+                  <label className={classes["error-text"]}>
+                      Surname required!
+                  </label>
+              )}
 
               <Input
                   label={"E-mail"}
@@ -98,6 +138,11 @@ const {
                   onBlur={emailBlurHandler}
                   isNotValid={emailError}
               ></Input>
+              {emailError && (
+                  <label className={classes["error-text"]}>
+                      Invalid email address!
+                  </label>
+              )}
 
               <Input
                   label={"Password"}
@@ -108,6 +153,11 @@ const {
                   onBlur={passwordBlurHandler}
                   isNotValid={passwordError}
               ></Input>
+              {passwordError && (
+                  <label className={classes["error-text"]}>
+                      Please enter a valid password!
+                  </label>
+              )}
 
               <Input
                   label={"Confirm password"}
@@ -118,7 +168,18 @@ const {
                   onBlur={confirmPasswordBlurHandler}
                   isNotValid={confirmPasswordError}
               ></Input>
-
+              {confirmPasswordError && (
+                  <label className={classes["error-text"]}>
+                      The passwords don't match!
+                  </label>
+              )}
+              <div className={classes["register-button-div"]}>
+                  <Button
+                      type={"submit"}
+                      className={classes["register-button"]}
+                      disabled={registrationNotValid}>
+                  Create an account</Button>
+              </div>
           </div>
       </div>
     </form>
