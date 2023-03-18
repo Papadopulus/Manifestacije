@@ -94,10 +94,8 @@ const {
       <div className={classes["right-register-container"]}>
           <div className={classes["register-handler"]}>
               <div className={classes["icon"]}></div>
-              <h1>Sign up</h1>
-              <p className={classes["already-have-account"]}>Already have an account? {" "}
-                  <Link to="/login" className={classes["register-links"]}>Login</Link>
-              </p>
+              <h1 className={classes["main-sign"]}>Sign up</h1>
+
               <Input
                   label={"Name"}
                   type="text"
@@ -173,6 +171,9 @@ const {
                       The passwords don't match!
                   </label>
               )}
+              <p className={classes["already-have-account"]}>Already have an account? {" "}
+                  <Link to="/login" className={classes["register-links"]}>Login</Link>
+              </p>
               <div className={classes["register-button-div"]}>
                   <Button
                       type={"submit"}

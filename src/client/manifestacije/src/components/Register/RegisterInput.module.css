@@ -1,0 +1,69 @@
+.register-form {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100vh;
+}
+.right-register-container {
+    width: 28%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background-image: linear-gradient(#3333ff,#9900cc);
+    box-shadow: -20px 0px 20px rgba(0,0,0,0.3);
+}
+.left-register-container {
+    width: 72%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    overflow-y: auto;
+}
+@media only screen and (max-width: 960px) {
+    .left-register-container {
+        display: none;
+    }
+
+    .right-register-container {
+        width: 100%;
+    }
+}
+
+.register-handler{
+    padding: 0 50px;
+    margin: 0 auto;
+    max-width: 485px;
+    display: flex;
+    flex-direction: column;
+}
+.main-sign{
+    font-size: 30px;
+    font-weight: 700;
+    color: #FDFFD6;
+    text-align: center;
+    line-height: 1.25;
+    margin-bottom: 30px;
+    margin-top: 15px;
+}
+.icon{
+    margin: 50px auto 20px;
+    width: 100px;
+    height: 100px;
+    background: rgba(0, 0, 0, 0) url(../../multimedia/login_icon_resized.webp) no-repeat scroll 0 0;
+}
+.register-links{
+    color: #E9EAD7;
+}
+.already-have-account{
+    color: #AAAAAA;
+}
+.register-button {
+    width: 100%;
+}
+.register-button-div{
+    text-align: right;
+    margin-top: 0.5rem;
+}
+.error-text {
+    color: #b40e0e;
+}
