@@ -94,7 +94,7 @@ function Navbar() {
           </li>}
         </ul>
         {!user && <Button className={"nav-button"} title={"Login"}/>}
-        {user && <Button className={"nav-button"}title={"logout"}/>}
+        {user && <Button  onClick={logout} className={"nav-button"} title={"logout"}/>}
       </nav>
     </>
   );
