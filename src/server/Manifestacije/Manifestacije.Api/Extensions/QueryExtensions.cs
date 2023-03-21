@@ -62,7 +62,9 @@ public static class QueryExtensions
 
             if (valueMin is null
                 && valueMax is null)
+            {
                 continue;
+            }
 
             var filterMinMax = Builders<TType>.Filter.Empty;
 
@@ -85,19 +87,21 @@ public static class QueryExtensions
             var name = prop.Name;
 
             if (value is null)
+            {
                 continue;
+            }
 
             var property = typeof(TType).GetProperty(name,
                 BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)!;
 
             var filterProp = property.PropertyType == typeof(string)
-                ? Builders<TType>.Filter.Regex(name, $"/{value}/i")    
+                ? Builders<TType>.Filter.Regex(name, $"/{value}/i")
                 : Builders<TType>.Filter.Eq(name, value.ToString());
 
-            
+
             filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
         }
-        
+
         if (!showDeleted)
         {
             var deletedFilter = Builders<TType>.Filter.Eq("IsDeleted", false);

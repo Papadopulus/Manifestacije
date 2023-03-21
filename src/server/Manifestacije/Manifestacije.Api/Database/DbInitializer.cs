@@ -3,7 +3,7 @@ using Manifestacije.Api.Models;
 
 namespace Manifestacije.Api.Database;
 
-public class DbInitializer
+public static class DbInitializer
 {
     public static async Task InitializeAsync(IUserRepository userRepository)
     {
@@ -42,8 +42,8 @@ public class DbInitializer
             Roles = new List<string> { "User" },
             RefreshTokens = new List<RefreshToken>
             {
-                new() {ExpireDate = DateTime.UtcNow.AddDays(-1), Token = "eaeaea"}, 
-                new() {ExpireDate = DateTime.UtcNow.AddMinutes(1), Token = "eaeaea2"}
+                new() { ExpireDate = DateTime.UtcNow.AddDays(-1), Token = "eaeaea" },
+                new() { ExpireDate = DateTime.UtcNow.AddMinutes(1), Token = "eaeaea2" }
             }
         };
         (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword("Sifra.1234");

@@ -23,16 +23,18 @@ public static class Auth
 
     public static (string, string) GenerateTokens(this User user, string secret)
     {
-        return (GenerateJwtToken(user, DateTime.Now.AddMinutes(20), secret), GenerateRefreshToken());
+        return (GenerateJwtToken(user, DateTime.Now.AddMinutes(1), secret), GenerateRefreshToken());
     }
 
-    private static string GenerateJwtToken(User user, DateTime expirationTime, string secret)
+    private static string GenerateJwtToken(User user,
+        DateTime expirationTime,
+        string secret)
     {
         var key = Encoding.ASCII.GetBytes(secret);
         var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
         var claims = new List<Claim>
         {
-            new("Id", user.Id),
+            new("Id", user.Id)
             // new("Organization", user.OrganizationId)
         };
         claims.AddRange(user.Roles.Select(role => new Claim("Roles", role)));

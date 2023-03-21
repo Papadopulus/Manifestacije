@@ -2,19 +2,10 @@
 
 namespace Manifestacije.Api.Validators;
 
-public class UserCreateRequestValidator : AbstractValidator<UserCreateRequest>
+public class PasswordResetRequestValidator : AbstractValidator<PasswordResetRequest>
 {
-    public UserCreateRequestValidator()
+    public PasswordResetRequestValidator()
     {
-        RuleFor(x => x.FirstName)
-            .NotEmpty();
-
-        RuleFor(x => x.LastName)
-            .NotEmpty();
-
-        RuleFor(x => x.Email)
-            .EmailAddress();
-
         RuleFor(x => x.Password)
             .NotEmpty()
             .MinimumLength(8)
@@ -52,5 +43,8 @@ public class UserCreateRequestValidator : AbstractValidator<UserCreateRequest>
             .WithMessage("Password must contain at least one lowercase letter")
             .Must(x => x.Any(char.IsDigit))
             .WithMessage("Password must contain at least one digit");
+
+        RuleFor(x => x.Token)
+            .NotEmpty();
     }
 }

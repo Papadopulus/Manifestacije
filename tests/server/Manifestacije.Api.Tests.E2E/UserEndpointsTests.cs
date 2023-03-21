@@ -1,9 +1,7 @@
 ﻿using System.Net;
-using System.Text.Json;
+using System.Net.Http.Headers;
 using Bogus;
-using FluentAssertions;
 using Manifestacije.Api.Contracts.Requests;
-using Manifestacije.Api.Models;
 using MongoDB.Bson;
 
 namespace Manifestacije.Api.Tests.E2E;
@@ -30,8 +28,42 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
     {
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions
         {
-            AllowAutoRedirect = false,
+            AllowAutoRedirect = false
         });
+    }
+
+    public async Task InitializeAsync()
+    {
+        var authenticateRequestAdmin = new AuthenticateRequest
+        {
+            Email = "admin@test.rs",
+            Password = "Sifra.1234"
+        };
+
+        var authenticateRequestOrganization = new AuthenticateRequest
+        {
+            Email = "org@test.rs",
+            Password = "Sifra.1234"
+        };
+
+        var authenticateRequestUser = new AuthenticateRequest
+        {
+            Email = "user@test.rs",
+            Password = "Sifra.1234"
+        };
+
+        var responseAdmin = await _client.PostAsJsonAsync("/authenticate", authenticateRequestAdmin);
+        var responseOrganization = await _client.PostAsJsonAsync("/authenticate", authenticateRequestOrganization);
+        var responseUser = await _client.PostAsJsonAsync("/authenticate", authenticateRequestUser);
+
+        _tokenAdmin = (await responseAdmin.Content.ReadFromJsonAsync<TokenResponse>())!.Token;
+        _tokenOrganization = (await responseOrganization.Content.ReadFromJsonAsync<TokenResponse>())!.Token;
+        _tokenUser = (await responseUser.Content.ReadFromJsonAsync<TokenResponse>())!.Token;
+    }
+
+    public Task DisposeAsync()
+    {
+        return Task.CompletedTask;
     }
 
     [Fact]
@@ -84,7 +116,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
     public async Task GetAllUsers_ShouldReturnForbidden_WhenUserIsNotAdmin()
     {
         // Arrange
-        _client.DefaultRequestHeaders.Authorization = new("Bearer", _tokenOrganization);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenOrganization);
 
         // Act
         var response = await _client.GetAsync("/users");
@@ -97,7 +129,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
     public async Task GetAllUsers_ShouldReturnOk_WhenUserIsAdmin()
     {
         // Arrange
-        _client.DefaultRequestHeaders.Authorization = new("Bearer", _tokenAdmin);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
 
         // Act
         var response = await _client.GetAsync("/users");
@@ -124,7 +156,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
     {
         // Arrange
         var id = new ObjectId().ToString();
-        _client.DefaultRequestHeaders.Authorization = new("Bearer", _tokenAdmin);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
 
         // Act
         var response = await _client.GetAsync($"/users/{id}");
@@ -142,7 +174,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
             .Content.ReadFromJsonAsync<UserViewResponse>();
         var id = content!.Id;
 
-        _client.DefaultRequestHeaders.Authorization = new("Bearer", _tokenAdmin);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
 
         // Act
         var response = await _client.GetAsync($"/users/{id}");
@@ -174,7 +206,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
         // Arrange
         var userUpdateRequest = _userUpdateGenerator.Generate();
         var id = ObjectId.GenerateNewId().ToString();
-        _client.DefaultRequestHeaders.Authorization = new("Bearer", _tokenAdmin);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
 
         // Act
         var response = await _client.PutAsJsonAsync($"/users/{id}", userUpdateRequest);
@@ -191,7 +223,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
         // Arrange
         var userUpdateRequest = _userUpdateGenerator.Generate();
         var id = ObjectId.GenerateNewId().ToString();
-        _client.DefaultRequestHeaders.Authorization = new("Bearer", _tokenOrganization);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenOrganization);
 
         // Act
         var response = await _client.PutAsJsonAsync($"/users/{id}", userUpdateRequest);
@@ -207,7 +239,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
         var userUpdateRequest = _userUpdateGenerator.Generate();
         userUpdateRequest.FirstName = "";
         var id = ObjectId.GenerateNewId().ToString();
-        _client.DefaultRequestHeaders.Authorization = new("Bearer", _tokenAdmin);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
 
         // Act
         var response = await _client.PutAsJsonAsync($"/users/{id}", userUpdateRequest);
@@ -234,7 +266,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
             Password = userCreateRequest.Password
         })).Content.ReadFromJsonAsync<TokenResponse>())!.Token;
 
-        _client.DefaultRequestHeaders.Authorization = new("Bearer", token);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PutAsJsonAsync($"/users/{id}", userUpdateRequest);
@@ -266,7 +298,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
         // Arrange
         var id = ObjectId.GenerateNewId().ToString();
 
-        _client.DefaultRequestHeaders.Authorization = new("Bearer", _tokenAdmin);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
 
         // Act
         var response = await _client.DeleteAsync($"/users/{id}");
@@ -281,7 +313,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
         // Arrange
         var id = ObjectId.GenerateNewId().ToString();
 
-        _client.DefaultRequestHeaders.Authorization = new("Bearer", _tokenOrganization);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenOrganization);
 
         // Act
         var response = await _client.DeleteAsync($"/users/{id}");
@@ -299,7 +331,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
             .Content.ReadFromJsonAsync<UserViewResponse>();
         var id = content!.Id;
 
-        _client.DefaultRequestHeaders.Authorization = new("Bearer", _tokenAdmin);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
 
         // Act
         var response = await _client.DeleteAsync($"/users/{id}");
@@ -324,14 +356,15 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var content = await response.Content.ReadAsStringAsync();
-        content.Should().BeEquivalentTo("[{\"propertyName\":\"Email\",\"errorMessage\":\"'Email' is not a valid email address.\",\"attemptedValue\":\"testt\",\"customState\":null,\"severity\":0,\"errorCode\":\"EmailValidator\",\"formattedMessagePlaceholderValues\":{\"PropertyName\":\"Email\",\"PropertyValue\":\"testt\"}}]");
+        content.Should().BeEquivalentTo(
+            "[{\"propertyName\":\"Email\",\"errorMessage\":\"'Email' is not a valid email address.\",\"attemptedValue\":\"testt\",\"customState\":null,\"severity\":0,\"errorCode\":\"EmailValidator\",\"formattedMessagePlaceholderValues\":{\"PropertyName\":\"Email\",\"PropertyValue\":\"testt\"}}]");
     }
 
     [Fact]
     public async Task AuthenticateUser_ShouldReturnInvalidMailError_WhenUserEmailIsInvalid()
     {
         // Arrange
-        var authenticateRequest = new AuthenticateRequest()
+        var authenticateRequest = new AuthenticateRequest
         {
             Email = "test@test.rs",
             Password = "Test.1234"
@@ -350,7 +383,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
     public async Task AuthenticateUser_ShouldReturnInvalidPasswordError_WhenUserPasswordIsInvalid()
     {
         // Arrange
-        var authenticateRequest = new AuthenticateRequest()
+        var authenticateRequest = new AuthenticateRequest
         {
             Email = "admin@test.rs",
             Password = "Test1.234"
@@ -369,7 +402,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
     public async Task AuthenticateUser_ShouldReturnOk_WhenUserCredentialsAreValid()
     {
         // Arrange
-        var authenticateRequest = new AuthenticateRequest()
+        var authenticateRequest = new AuthenticateRequest
         {
             Email = "admin@test.rs",
             Password = "Sifra.1234"
@@ -397,7 +430,7 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-   }
+    }
 
     [Fact]
     public async Task RefreshToken_ShouldReturnInvalidTokenError_WhenRefreshTokenIsNotFound()
@@ -453,39 +486,5 @@ public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsync
         content.Should().NotBeNull();
         content!.Token.Should().NotBeNullOrEmpty();
         content.RefreshToken.Should().NotBeNullOrEmpty();
-    }
-
-    public async Task InitializeAsync()
-    {
-        var authenticateRequestAdmin = new AuthenticateRequest
-        {
-            Email = "admin@test.rs",
-            Password = "Sifra.1234",
-        };
-
-        var authenticateRequestOrganization = new AuthenticateRequest
-        {
-            Email = "org@test.rs",
-            Password = "Sifra.1234",
-        };
-
-        var authenticateRequestUser = new AuthenticateRequest
-        {
-            Email = "user@test.rs",
-            Password = "Sifra.1234",
-        };
-
-        var responseAdmin = await _client.PostAsJsonAsync("/authenticate", authenticateRequestAdmin);
-        var responseOrganization = await _client.PostAsJsonAsync("/authenticate", authenticateRequestOrganization);
-        var responseUser = await _client.PostAsJsonAsync("/authenticate", authenticateRequestUser);
-
-        _tokenAdmin = (await responseAdmin.Content.ReadFromJsonAsync<TokenResponse>())!.Token;
-        _tokenOrganization = (await responseOrganization.Content.ReadFromJsonAsync<TokenResponse>())!.Token;
-        _tokenUser = (await responseUser.Content.ReadFromJsonAsync<TokenResponse>())!.Token;
-    }
-
-    public Task DisposeAsync()
-    {
-        return Task.CompletedTask;
     }
 }

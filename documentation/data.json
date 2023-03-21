@@ -1,0 +1,191 @@
+{
+  "user": {
+    "id": "string",
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string",
+    "passwordHash": "string",
+    "passwordSalt": "string",
+    "isBlocked": "bool",
+    "role": [
+      "List<string>"
+    ],
+    "organization?": {
+      "id": "string",
+      "name": "string"
+    },
+    "favouriteEvents": [""],
+    "goingEvents":[""],
+    "createdAtUtc": "dateTime",
+    "createdById": "fk_string",
+    "updatedAtUtc": "dateTime",
+    "updatedById": "fk_string",
+    "deletedAtUtc?": "dateTime",
+    "deletedById?": "fk_string"
+  },
+  "category": {
+    "id": "string",
+    "name": "string",
+    "createdAtUtc": "dateTime",
+    "createdById": "fk_string",
+    "updatedAtUtc": "dateTime",
+    "updatedById": "fk_string",
+    "deletedAtUtc?": "dateTime",
+    "deletedById?": "fk_string"
+  },
+  "location": {
+    "id": "string",
+    "name": "string",
+    "partners": {
+      "transportPartner": {
+        "id": "fk_string",
+        "name": "string",
+        "url": "string"
+      },
+      "accommodationPartner": {
+        "id": "fk_string",
+        "name": "string",
+        "url": "string"
+      }
+    },
+    "createdAtUtc": "dateTime",
+    "createdById": "fk_string",
+    "updatedAtUtc": "dateTime",
+    "updatedById": "fk_string",
+    "deletedAtUtc?": "dateTime",
+    "deletedById?": "fk_string"
+  },
+  "partner": {
+    "id": "string",
+    "name": "string",
+    "phoneNumber": "string",
+    "email": "email",
+    "locations": [
+      {
+        "id": "fk_string",
+        "name": "string"
+      }
+    ],
+    "url": "string",
+    "createdAtUtc": "dateTime",
+    "createdById": "fk_string",
+    "updatedAtUtc": "dateTime",
+    "updatedById": "fk_string",
+    "deletedAtUtc?": "dateTime",
+    "deletedById?": "fk_string"
+  },
+  "event": {
+    "id": "string",
+    "sponsored": "bool",
+    "location": {
+      "id": "string",
+      "name": "string",
+      "partners": {
+        "transportPartner": {
+          "id": "fk_string",
+          "name": "string",
+          "url": "string"
+        },
+        "accommodationPartner": {
+          "id": "fk_string",
+          "name": "string",
+          "url": "string"
+        }
+      }
+    },
+    "exactLocation": {
+      "street": "string",
+      "latitude": "TODO",
+      "longitude": "TODO"
+    },
+    "statistics": {
+      "views": "number",
+      "favourite": "number",
+      "going": "number"
+    },
+    "category": {
+      "id": "fk_string",
+      "name": "name"
+    },
+    "images": [
+      {
+        "type": "img/video",
+        "url": "string"
+      }
+    ],
+    "organization": {
+      "id": "fk_string",
+      "name": "string",
+      "siteUrl?": "string"
+    },
+    "title": "string",
+    "description": "string",
+    "dateInformation": {
+      "startingDate": "dateTime",
+      "endingDate": "dateTime",
+      "days": [
+        {
+          "startForEachDay": "dateTime TODO"
+        }
+      ]
+    },
+    "guests": [
+      "List<string>"
+    ],
+    "competitors": [
+      "List<string>"
+    ],
+    "eventInfo":{
+      "capacity": "number",
+      "ticketUrl?": "string",
+      "ticketPrice?": "number",
+      "sponsors": ["string"]
+    },
+    "history":{
+      "TODO":"TODO"
+    },
+    "comments": {
+      "TODO": "TODO"
+    },
+    "reviews": {
+      "id": "fk_string",
+      "organisation": "1-10",
+      "event": "1-10",
+      "comment": "",
+      "createdAtUtc": "dateTime",
+      "createdById": "fk_string"
+    },
+    "createdAtUtc": "dateTime",
+    "createdById": "fk_string",
+    "updatedAtUtc": "dateTime",
+    "updatedById": "fk_string",
+    "deletedAtUtc?": "dateTime",
+    "deletedById?": "fk_string"
+  },
+  "review": {
+    "id": "string",
+    "eventId": "fk_string",
+    "organisation": "1-10",
+    "event": "1-10",
+    "comment": "string",
+    "createdAtUtc": "dateTime",
+    "createdById": "fk_string",
+    "updatedAtUtc": "dateTime",
+    "updatedById": "fk_string",
+    "deletedAtUtc?": "dateTime",
+    "deletedById?": "fk_string"
+  },
+  "organization": {
+    "id": "string",
+    "name": "string",
+    "siteUrl?": "string",
+    "events" : ["List<string>"],
+    "reviews": ["List<string>"],
+    "createdAtUtc": "dateTime",
+    "createdById": "fk_string",
+    "updatedAtUtc": "dateTime",
+    "updatedById": "fk_string",
+    "deletedAtUtc?": "dateTime",
+    "deletedById?": "fk_string"
+  }
+}

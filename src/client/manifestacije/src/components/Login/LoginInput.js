@@ -3,21 +3,27 @@ import classes from "./LoginInput.module.css";
 import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
 
+
 import axios from "../../api/axios";
-import { useState } from "react";
+import {useState} from "react";
+import AuthContext from "../../store/AuthContext";
+
 import { Link } from "react-router-dom";
 
-const LOGIN_URL = "/authenticate";
+const LOGIN_URL = '/authenticate';
 const LoginInput = () => {
-  const [errMessage, setErrorMessage] = useState("");
-  const {
-    value: enteredName,
-    isValid: enteredNameIsValid,
-    hasError: nameInputHasError,
-    valueChangedHandler: nameChangedHandler,
-    inputBlurHandler: nameBlurHandler,
-    resetFunction: resetNameFunction,
-  } = useInput((value) => value.trim() !== "");
+    
+    const [errMessage, setErrorMessage] = useState('');
+    const {login} = useContext(AuthContext);
+    
+    const {
+        value: enteredName,
+        isValid: enteredNameIsValid,
+        hasError: nameInputHasError,
+        valueChangedHandler: nameChangedHandler,
+        inputBlurHandler: nameBlurHandler,
+        resetFunction: resetNameFunction,
+    } = useInput((value) => value.trim() !== '');
 
   const {
     value: enteredEmail,
@@ -38,43 +44,25 @@ const LoginInput = () => {
     formIsValid = false;
   }
 
-  const formSubmissionHandler = async (event) => {
-    event.preventDefault();
-    if (!enteredNameIsValid || !enteredEmailIsValid) {
-      return;
-    }
-
-    try {
-      const response = await axios.post(
-        LOGIN_URL,
-        JSON.stringify({ email: enteredEmail, password: enteredName }),
-        {
-          headers: { "Content-Type": "application/json" },
-          // withCredentials:true
+    const formSubmissionHandler = async (event) => {
+        event.preventDefault();
+        if (!enteredNameIsValid || !enteredEmailIsValid) {
+            return;
         }
-      );
-      console.log(response);
-    } catch (err) {
-      if (!err?.response) {
-        setErrorMessage("No Server Response");
-      } else if (err.response?.status === 400) {
-        setErrorMessage("Missing Email or password");
-      } else if (err.response?.status === 401) {
-        setErrorMessage("Unauthorized");
-      } else {
-        setErrorMessage("Login failed");
-      }
-      console.log(errMessage);
-    }
+        let payload = {
+            email:enteredEmail,
+            password:enteredName
+        }
+        await login(payload);
 
-    console.log(enteredName);
-    console.log(enteredEmail);
+        console.log(enteredName);
+        console.log(enteredEmail);
 
     resetNameFunction();
     resetEmailNameFunction();
   };
 
-  /*const nameInputClasses = nameInputHasError
+    /*const nameInputClasses = nameInputHasError
       ? classes["form-control invalid"]
       : classes["form-control"];
     const emailInputClasses = emailInputError
@@ -127,7 +115,7 @@ const LoginInput = () => {
             </label>
           )}
 
-          {/*<div
+                    {/*<div
             className={`${classes["form-control"]} ${
               nameInputHasError ? classes.invalid : ""
             }`}

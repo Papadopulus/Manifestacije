@@ -11,4 +11,6 @@ public interface IUserService
     Task<bool> DeleteUserAsync(string id);
     Task<TokenResponse> AuthenticateAsync(AuthenticateRequest authenticateRequest);
     Task<TokenResponse> RefreshTokenAsync(RefreshTokenRequest refreshTokenRequest);
+    Task<bool> SendEmailResetPasswordAsync(string email);
+    Task<bool> ResetPasswordAsync(string token, string newPassword);
 }

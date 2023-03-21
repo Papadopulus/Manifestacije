@@ -1,10 +1,12 @@
-﻿import React, { useState } from "react";
+﻿import React, { useContext, useState } from "react";
 import { Button } from "./NavButton";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import Dropdown from "./Dropdown";
+import AuthContext from "../../store/AuthContext";
 
 function Navbar() {
+  const { user , logout} = useContext(AuthContext);
   const [click, setClick] = useState(false);
   const [dropdown, setDropdown] = useState(false);
 
@@ -63,7 +65,16 @@ function Navbar() {
               About
             </Link>
           </li>
-          <li>
+
+          {user && (
+            <li className="nav-item">
+              <Link to="/user" className="nav-links" onClick={closeMobileMenu}>
+                Profile
+              </Link>
+            </li>
+          )}
+
+          {!user && <li>
             <Link
               to="/login"
               className="nav-links-mobile"
@@ -71,9 +82,19 @@ function Navbar() {
             >
               Login
             </Link>
-          </li>
+          </li>}
+          {user && <li>
+            <Link
+                to="/login"
+                className="nav-links-mobile"
+                onClick={ () => { logout() }}
+            >
+              Logout
+            </Link>
+          </li>}
         </ul>
-        <Button />
+        {!user && <Button className={"nav-button"} title={"Login"}/>}
+        {user && <Button  onClick={logout} className={"nav-button"} title={"logout"}/>}
       </nav>
     </>
   );
