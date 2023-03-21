@@ -1,24 +1,16 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿namespace Manifestacije.Api.Models;
 
-namespace Manifestacije.Api.Models;
-
-public class User
+public class User : ModelBase
 {
-    [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set; } = default!;
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
     public string Email { get; set; } = default!;
     public string PasswordHash { get; set; } = default!;
     public string PasswordSalt { get; set; } = default!;
     public List<RefreshToken> RefreshTokens { get; set; } = new();
-
-    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
-    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
-    public DateTime? DeletedAtUtc { get; set; } = null;
+    public bool IsBlocked { get; set; } = false;
     public bool IsDeleted { get; set; } = false;
-    
     public List<string> Roles { get; set; } = new();
+    public List<string> FavouriteEvents { get; set; } = new();
+    public List<string> GoingEvents { get; set; } = new();
 }

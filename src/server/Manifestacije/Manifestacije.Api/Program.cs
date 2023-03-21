@@ -61,6 +61,7 @@ builder.Services.AddSingleton<IUserRepository, UserRepository>();
 
 // Services
 builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddSingleton<IMailService, MailService>();
 
 // Database
 builder.Services.Configure<DatabaseSettings>(
