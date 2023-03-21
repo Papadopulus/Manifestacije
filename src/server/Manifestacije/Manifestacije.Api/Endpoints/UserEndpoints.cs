@@ -1,10 +1,7 @@
-﻿using System.Security.Claims;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using Manifestacije.Api.Endpoints.Internal;
 using Manifestacije.Api.Extensions;
-using Manifestacije.Api.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manifestacije.Api.Endpoints;
@@ -14,6 +11,7 @@ public class UserEndpoints : IEndpoints
     private const string BaseRoute = "/users";
     private const string AuthRoute = "/authenticate";
     private const string Refresh = "/refresh";
+    private const string ResetPassword = "/reset-password";
 
     public static void DefineEndpoints(IEndpointRouteBuilder app)
     {
@@ -32,6 +30,36 @@ public class UserEndpoints : IEndpoints
             .AllowAnonymous();
         app.MapPost(AuthRoute + Refresh, RefreshUserToken)
             .AllowAnonymous();
+
+        app.MapGet(ResetPassword + "/{email}", SendPasswordReset)
+            .AllowAnonymous();
+        app.MapPost(ResetPassword, CreateNewPassword)
+            .AllowAnonymous();
+    }
+
+    internal static async Task<IResult> SendPasswordReset(
+        string email,
+        IUserService userService)
+    {
+        var success = await userService.SendEmailResetPasswordAsync(email);
+        return !success
+            ? Results.NotFound($"User with the email of: {email} does not exist")
+            : Results.Ok("We sent email with token");
+    }
+
+    internal static async Task<IResult> CreateNewPassword(
+        IUserService userService,
+        [FromBody] PasswordResetRequest passwordResetRequest,
+        IValidator<PasswordResetRequest> validator)
+    {
+        var validationResult = await validator.ValidateAsync(passwordResetRequest);
+        if (!validationResult.IsValid)
+        {
+            return Results.BadRequest(validationResult.Errors);
+        }
+
+        var success = await userService.ResetPasswordAsync(passwordResetRequest.Token, passwordResetRequest.Password);
+        return !success ? Results.BadRequest("Invalid token") : Results.Ok("Password successfully reset");
     }
 
     internal static async Task<IResult> CreateUser(
@@ -80,8 +108,10 @@ public class UserEndpoints : IEndpoints
         IMapper mapper)
     {
         if (id != context.User.GetUserId() && context.User.GetRole() != RolesEnum.Admin.ToString())
+        {
             return Results.Forbid();
-            
+        }
+
         var validationResult = await validator.ValidateAsync(userUpdateDto);
         if (!validationResult.IsValid)
         {

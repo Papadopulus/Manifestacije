@@ -3,13 +3,13 @@
 public class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyncDisposable
 {
     private readonly UserRepository _sut;
-    private List<string> _usersToDelete = new();
+    private readonly List<string> _usersToDelete = new();
 
     public UserRepositoryTests(ManifestacijeApiFactory factory)
     {
         factory.CreateClient(new WebApplicationFactoryClientOptions
         {
-            AllowAutoRedirect = false,
+            AllowAutoRedirect = false
         });
         var databaseSettings = Options.Create(new DatabaseSettings
         {
@@ -19,6 +19,12 @@ public class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyn
         });
 
         _sut = new UserRepository(databaseSettings);
+    }
+
+
+    public async ValueTask DisposeAsync()
+    {
+        await DeleteUsers();
     }
 
     [Fact]
@@ -91,7 +97,7 @@ public class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyn
             FirstName = "Johana",
             LastName = "Doe",
             Email = "",
-            CreatedAtUtc = DateTime.UtcNow.AddDays(2),
+            CreatedAtUtc = DateTime.UtcNow.AddDays(2)
         };
         await _sut.CreateUserAsync(user1);
         await _sut.CreateUserAsync(user2);
@@ -143,7 +149,7 @@ public class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyn
 
         // Act
         var result = await _sut.UpdateUserAsync(user);
-        var newUser = await _sut.GetUserByIdAsync(user.Id, false);
+        var newUser = await _sut.GetUserByIdAsync(user.Id);
 
         // Assert
         result.Should().BeTrue();
@@ -190,7 +196,7 @@ public class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyn
         await _sut.CreateUserAsync(user);
 
         // Act
-        var result = await _sut.GetUserByIdAsync(user.Id, false);
+        var result = await _sut.GetUserByIdAsync(user.Id);
 
         // Assert
         result.Should().NotBeNull();
@@ -206,7 +212,7 @@ public class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyn
         var userId = "5f9f1c5b9c9d2b0b8c8c1c5d";
 
         // Act
-        var result = await _sut.GetUserByIdAsync(userId, false);
+        var result = await _sut.GetUserByIdAsync(userId);
 
         // Assert
         result.Should().BeNull();
@@ -225,7 +231,7 @@ public class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyn
         await _sut.CreateUserAsync(user);
 
         // Act
-        var result = await _sut.GetUserWithEmailAsync(user.Email, false);
+        var result = await _sut.GetUserWithEmailAsync(user.Email);
 
         // Assert
         result.Should().NotBeNull();
@@ -239,7 +245,7 @@ public class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyn
         var email = "test@test.rs.rs";
 
         // Act
-        var result = await _sut.GetUserWithEmailAsync(email, false);
+        var result = await _sut.GetUserWithEmailAsync(email);
 
         // Assert
         result.Should().BeNull();
@@ -350,7 +356,8 @@ public class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyn
         DateTime? maxCreatedAtUtc = null,
         bool intersection = true,
         bool showDeleted = false)
-        => new()
+    {
+        return new()
         {
             PageNumber = pageNumber,
             PageSize = pageSize,
@@ -364,11 +371,6 @@ public class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyn
             Intersection = intersection,
             ShowDeleted = showDeleted
         };
-
-
-    public async ValueTask DisposeAsync()
-    {
-        await DeleteUsers();
     }
 
     private async Task DeleteUsers()

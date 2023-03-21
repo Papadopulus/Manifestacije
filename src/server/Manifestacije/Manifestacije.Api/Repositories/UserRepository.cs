@@ -26,7 +26,7 @@ public class UserRepository : IUserRepository
     {
         var filter = userQueryFilter.Filter<User, UserQueryFilter>();
         var sort = QueryExtensions.Sort<User>(userQueryFilter);
-        
+
         return await _usersCollection
             .Find(filter)
             .Sort(sort)
@@ -38,7 +38,7 @@ public class UserRepository : IUserRepository
     {
         var filter = Builders<User>.Filter.Eq(user => user.Id, id);
         filter &= Builders<User>.Filter.Eq(user => user.IsDeleted, includeDeleted);
-        
+
         return await _usersCollection
             .Find(filter)
             .FirstOrDefaultAsync();
@@ -48,7 +48,7 @@ public class UserRepository : IUserRepository
     {
         var filter = Builders<User>.Filter.Eq(user => user.Email, email);
         filter &= Builders<User>.Filter.Eq(user => user.IsDeleted, includeDeleted);
-        
+
         return await _usersCollection
             .Find(filter)
             .FirstOrDefaultAsync();
@@ -56,11 +56,11 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetUserWithRefreshTokenAsync(string refreshToken)
     {
-        var filter = Builders<User>.Filter.ElemMatch(user => user.RefreshTokens, 
-            x=> x.Token == refreshToken);
-        
+        var filter = Builders<User>.Filter.ElemMatch(user => user.RefreshTokens,
+            x => x.Token == refreshToken);
+
         filter &= Builders<User>.Filter.Eq(user => user.IsDeleted, false);
-        
+
         return await _usersCollection
             .Find(filter)
             .FirstOrDefaultAsync();
