@@ -42,6 +42,17 @@ builder.Services.AddSwaggerGen(x =>
     });
 });
 
+// Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowAll", policyBuilder =>
+    {
+        policyBuilder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 // Automapper
 builder.Services.AddAutoMapper(typeof(IApiMarker));
 
@@ -77,6 +88,7 @@ builder.Services.AddAuthentication()
         };
     });
 
+// Authorization
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(RolesEnum.Admin.ToString(), policy =>
@@ -102,6 +114,8 @@ builder.Services.AddAuthorization(options =>
 var app = builder.Build();
 
 await DbInitializer.InitializeAsync(app.Services.GetService<IUserRepository>()!);
+
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
