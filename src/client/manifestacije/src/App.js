@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import {AuthContextProvider} from "./store/AuthContext";
 import User from "./pages/User";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
+import RegisterInput from "./components/Register/RegisterInput";
 
 function App() {
     return (
@@ -24,6 +25,8 @@ function App() {
                                 <User/>
                             </ProtectedRoutes>
                         }/>
+
+                        <Route path="/register" element={<RegisterInput />} />
                     </Routes>
                 </AuthContextProvider>
             </BrowserRouter>
