@@ -35,8 +35,12 @@ export const AuthContextProvider = ({children}) => {
         setUser(null);
         navigate("/");
     }
+    const register = async (payload) => {
+        await axios.post("https://localhost:7237/users",payload);
+        navigate("/login");
+    }
     return <AuthContext.Provider 
-        value={{ login , user ,logout }}>
+        value={{ login , user ,logout , register }}>
         
         {children}
         

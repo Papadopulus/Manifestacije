@@ -1,11 +1,13 @@
 import classes from "./RegisterInput.module.css";
 import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
-import {Link} from "react-router-dom";
+import { Link} from "react-router-dom";
 import useInput from "../../hooks/use-input";
+import {useContext} from "react";
+import AuthContext from "../../store/AuthContext";
 
 const RegisterInput = () => {
-
+    const { register } = useContext(AuthContext);
 const {
     value: enteredName,
     isValid: enteredNameIsValid,
@@ -63,7 +65,7 @@ const {
         registrationNotValid = true;
     }
 
-    const registerSubmitHandler=/*async*/(event)=>{
+    const registerSubmitHandler= async(event)=>{
         event.preventDefault();
         if(!enteredNameIsValid ||
             !enteredSurnameIsValid ||
@@ -75,8 +77,17 @@ const {
         }
         else
         {
+            const payload = {
+                //podaci
+                firstName: enteredName,
+                lastName: enteredSurname,
+                email: enteredEmail,
+                password: enteredPassword
+                
+            }
             //payload
             //await metoda
+            await register(payload);
             resetNameFunction();
             resetEmailFunction();
             resetSurnameFunction();
