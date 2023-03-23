@@ -4,7 +4,6 @@ import jwt_decode from "jwt-decode";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-
 const { createContext } = require("react");
 
 const AuthContext = createContext(undefined);
@@ -23,7 +22,7 @@ export const AuthContextProvider = ({children}) => {
     });
     const navigate = useNavigate();
     const login = async (payload) => {
-        const apiResponse = await axios.post("https://localhost:7237/authenticate",payload);
+        const apiResponse = await axios.post("http://localhost:5214/authenticate",payload);
         // console.log(apiResponse);
         localStorage.setItem("tokens",JSON.stringify(apiResponse.data));
         // localStorage.setItem("expiration",JSON.stringify(apiResponse.exp));

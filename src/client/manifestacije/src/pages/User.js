@@ -20,7 +20,8 @@ const User = () => {
                 };
                 axios.post("http://localhost:5214/authenticate/refresh", payload)
                     .then(response => {
-                        localStorage.setItem("tokens", JSON.stringify(response.data))
+                        console.log(response.data);
+                        localStorage.setItem("tokens", JSON.stringify(response.data));
                         const tokenKojiSeSalje = response.data.token;
                         let header = {
                             "Authorization": `Bearer ${tokenKojiSeSalje}`
@@ -38,9 +39,8 @@ const User = () => {
                     });
 
             } else {
-                const tokenKojiSeSalje = localStorage.getItem("tokens");
                 let header = {
-                    "Authorization": `Bearer ${tokenKojiSeSalje.token}`
+                    "Authorization": `Bearer ${tokenData.token}`
                 }
                 axios.get(`http://localhost:5214/users/${user.Id}`, {headers: header})
                     .then(response => {
