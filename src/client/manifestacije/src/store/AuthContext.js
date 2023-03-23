@@ -11,11 +11,12 @@ const AuthContext = createContext(undefined);
 
 const LOGIN_URL = '/authenticate';
 export const AuthContextProvider = ({children}) => {
-    
+
     const [user,setUser] = useState(() => {
         if (localStorage.getItem("tokens")){
             let tokenData = JSON.parse(localStorage.getItem("tokens"));
             let accessToken = jwt_decode(tokenData.token);
+            // console.log(accessToken);
             return accessToken;
         }
         return null;
@@ -23,11 +24,18 @@ export const AuthContextProvider = ({children}) => {
     const navigate = useNavigate();
     const login = async (payload) => {
         const apiResponse = await axios.post("https://localhost:7237/authenticate",payload);
-
+        // console.log(apiResponse);
         localStorage.setItem("tokens",JSON.stringify(apiResponse.data));
+        // localStorage.setItem("expiration",JSON.stringify(apiResponse.exp));
         let accessToken = jwt_decode(apiResponse.data.token)
+        console.log(accessToken);
+        // console.log(Date.now())
+        // console.log(new Date(Date.now()))
+        const date = new Date(accessToken.exp * 1000)
+        // console.log(date);
+        localStorage.setItem("expiration",JSON.stringify(accessToken.exp))
         setUser(accessToken);
-        console.log(user);
+        // console.log(user);
         navigate("/");
     }
     const logout = () => {
@@ -35,15 +43,11 @@ export const AuthContextProvider = ({children}) => {
         setUser(null);
         navigate("/");
     }
-    const register = async (payload) => {
-        await axios.post("https://localhost:7237/users",payload);
-        navigate("/login");
-    }
-    return <AuthContext.Provider 
-        value={{ login , user ,logout , register }}>
-        
+    return <AuthContext.Provider
+        value={{ login , user ,logout }}>
+
         {children}
-        
+
     </AuthContext.Provider>;
 }
 export default AuthContext
