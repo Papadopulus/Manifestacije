@@ -9,6 +9,7 @@ const AuthContext = createContext(undefined);
 
 export const AuthContextProvider = ({children}) => {
 
+    const [errorMessageLogin,setErrorMessageLogin] = useState(null)
     const [user,setUser] = useState(() => {
         if (localStorage.getItem("tokens")){
             let tokenData = JSON.parse(localStorage.getItem("tokens"));
@@ -27,7 +28,8 @@ export const AuthContextProvider = ({children}) => {
             navigate("/");
         }
         catch (err) {
-            console.log(err);
+            console.log(err.response.status);
+            setErrorMessageLogin("Wrong email or password");
         }
         
     }
@@ -37,7 +39,7 @@ export const AuthContextProvider = ({children}) => {
         navigate("/");
     }
     return <AuthContext.Provider
-        value={{ login , user ,logout }}>
+        value={{ login,errorMessageLogin , user ,logout }}>
 
         {children}
 
