@@ -18,7 +18,7 @@ const User = () => {
                 const payload = {
                     token: `${tokenData.refreshToken}`
                 };
-                axios.post("http://localhost:5214/authenticate/refresh", payload)
+                axios.post(`${process.env.REACT_APP_BASE_URL}/authenticate/refresh`, payload)
                     .then(response => {
                         console.log(response.data);
                         localStorage.setItem("tokens", JSON.stringify(response.data));
@@ -26,13 +26,10 @@ const User = () => {
                         let header = {
                             "Authorization": `Bearer ${tokenKojiSeSalje}`
                         }
-                        axios.get(`http://localhost:5214/users/${user.Id}`, {headers: header})
-                            .then(response => {
-                                setUserData(response.data)
-                            })
-                            .catch(error => {
-                                console.log(error);
-                            })
+                        return axios.get(`${process.env.REACT_APP_BASE_URL}/users/${user.Id}`, {headers: header})
+                    })
+                    .then((response) => {
+                        setUserData(response.data)
                     })
                     .catch(error => {
                         console.log(error);
@@ -42,7 +39,7 @@ const User = () => {
                 let header = {
                     "Authorization": `Bearer ${tokenData.token}`
                 }
-                axios.get(`http://localhost:5214/users/${user.Id}`, {headers: header})
+                axios.get(`${process.env.REACT_APP_BASE_URL}/users/${user.Id}`, {headers: header})
                     .then(response => {
                         setUserData(response.data)
                     })
@@ -57,10 +54,10 @@ const User = () => {
 
     }, [])
 
-    // console.log(userData.firstName)
-    return <div>
-        {/*{!userData && <p>userData.firstName</p>}*/}
-        <p>{userData.firstName}</p>
-    </div>
+    return (
+        <div>
+            <p>{userData.firstName}</p>
+        </div>
+    )
 }
 export default User;

@@ -36,11 +36,8 @@ const LoginInput = () => {
 
   let formIsValid = false;
   if (enteredNameIsValid && enteredEmailIsValid) {
-    //moze da se doda jos opcija koje se proveravaju
-    // setFormIsValid(true);
     formIsValid = true;
   } else {
-    // setFormIsValid(false);
     formIsValid = false;
   }
 
