@@ -1,7 +1,7 @@
-﻿using AutoMapper;
-using FluentValidation;
+﻿using FluentValidation;
 using Manifestacije.Api.Endpoints.Internal;
 using Manifestacije.Api.Extensions;
+using Manifestacije.Api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manifestacije.Api.Endpoints;
@@ -65,8 +65,7 @@ public class UserEndpoints : IEndpoints
     internal static async Task<IResult> CreateUser(
         [FromBody] UserCreateRequest userCreateDto,
         IUserService userService,
-        IValidator<UserCreateRequest> validator,
-        IMapper mapper)
+        IValidator<UserCreateRequest> validator)
     {
         var validationResult = await validator.ValidateAsync(userCreateDto);
         if (!validationResult.IsValid)
@@ -75,28 +74,27 @@ public class UserEndpoints : IEndpoints
         }
 
         var user = await userService.CreateUserAsync(userCreateDto);
-        var userResponse = mapper.Map<UserViewResponse>(user);
+        var userResponse = UserMapper.UserToUserViewResponse(user);
         return Results.Created($"{BaseRoute}/{user.Id}", userResponse);
     }
 
     internal static async Task<IResult> GetAllUsers(
         [AsParameters] UserQueryFilter queryFilter,
-        IUserService userService,
-        IMapper mapper)
+        IUserService userService)
     {
         var users = await userService.GetAllUsersAsync(queryFilter);
-        var usersResponse = mapper.Map<List<UserViewResponse>>(users);
+        var usersResponse = UserMapper.UserToUserViewResponseEnumerable(users);
         return Results.Ok(usersResponse);
     }
 
     internal static async Task<IResult> GetUserById(
         string id,
-        IUserService userService,
-        IMapper mapper)
+        IUserService userService)
     {
         var user = await userService.GetUserByIdAsync(id);
-        var userResponse = mapper.Map<UserViewResponse>(user);
-        return user is null ? Results.NotFound($"User with the id of: {id} does not exist") : Results.Ok(userResponse);
+        return user is null
+            ? Results.NotFound($"User with the id of: {id} does not exist")
+            : Results.Ok(UserMapper.UserToUserViewResponse(user));
     }
 
     internal static async Task<IResult> UpdateUser(
@@ -104,8 +102,7 @@ public class UserEndpoints : IEndpoints
         string id,
         [FromBody] UserUpdateRequest userUpdateDto,
         IUserService userService,
-        IValidator<UserUpdateRequest> validator,
-        IMapper mapper)
+        IValidator<UserUpdateRequest> validator)
     {
         if (id != context.User.GetUserId() && context.User.GetRole() != RolesEnum.Admin.ToString())
         {
@@ -119,10 +116,9 @@ public class UserEndpoints : IEndpoints
         }
 
         var user = await userService.UpdateUserAsync(id, userUpdateDto);
-        var userResponse = mapper.Map<UserViewResponse>(user);
         return user is null
             ? Results.NotFound("There is no user with specified id")
-            : Results.Ok(userResponse);
+            : Results.Ok(UserMapper.UserToUserViewResponse(user));
     }
 
     internal static async Task<IResult> DeleteUser(

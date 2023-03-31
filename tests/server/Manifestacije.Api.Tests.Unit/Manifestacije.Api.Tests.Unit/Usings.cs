@@ -1,5 +1,4 @@
 global using Xunit;
-global using AutoMapper;
 global using FluentAssertions;
 global using Manifestacije.Api.Contracts.QueryFilters;
 global using Manifestacije.Api.Contracts.Requests;

@@ -53,9 +53,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Automapper
-builder.Services.AddAutoMapper(typeof(IApiMarker));
-
 // Repositories
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 

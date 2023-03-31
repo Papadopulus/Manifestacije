@@ -5,7 +5,6 @@ namespace Manifestacije.Api.Tests.Unit;
 public class UserServiceTests
 {
     private readonly IMailService _mailService = Substitute.For<IMailService>();
-    private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly UserService _sut;
     private readonly IUserRepository _userRepository = Substitute.For<IUserRepository>();
 
@@ -20,7 +19,7 @@ public class UserServiceTests
             .AddInMemoryCollection(inMemorySettings)
             .Build();
 
-        _sut = new UserService(_userRepository, configuration, _mapper, _mailService);
+        _sut = new UserService(_userRepository, configuration, _mailService);
     }
 
     [Fact]
@@ -132,7 +131,6 @@ public class UserServiceTests
         };
         _userRepository.GetUserWithEmailAsync(Arg.Any<string>()).Returns((User?)null);
         _userRepository.CreateUserAsync(Arg.Any<User>()).Returns(false);
-        _mapper.Map<User>(Arg.Any<UserCreateRequest>()).Returns(user);
 
         // Act
         Func<Task> result = async () => await _sut.CreateUserAsync(userCreateRequest);
@@ -158,17 +156,19 @@ public class UserServiceTests
         {
             FirstName = "John",
             LastName = "Doe",
-            Email = "test@test.rs"
+            Email = "test@test.rs",
+            Roles = new List<string> { "User" }
         };
         _userRepository.GetUserWithEmailAsync(Arg.Any<string>()).Returns((User?)null);
         _userRepository.CreateUserAsync(Arg.Any<User>()).Returns(true);
-        _mapper.Map<User>(Arg.Any<UserCreateRequest>()).Returns(user);
 
         // Act
         var result = await _sut.CreateUserAsync(userCreateRequest);
 
         // Assert
-        result.Should().BeEquivalentTo(user);
+        user.PasswordHash = result.PasswordHash;
+        user.PasswordSalt = result.PasswordSalt;
+        result.Should().BeEquivalentTo(user, TestHelpers.Config<User>());
     }
 
     [Fact]
