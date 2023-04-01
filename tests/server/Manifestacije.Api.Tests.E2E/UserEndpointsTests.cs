@@ -6,7 +6,7 @@ using MongoDB.Bson;
 
 namespace Manifestacije.Api.Tests.E2E;
 
-public class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsyncLifetime
+public sealed class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsyncLifetime
 {
     private readonly HttpClient _client;
 

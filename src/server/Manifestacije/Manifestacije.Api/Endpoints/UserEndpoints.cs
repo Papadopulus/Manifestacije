@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Manifestacije.Api.Endpoints;
 
-public class UserEndpoints : IEndpoints
+public sealed class UserEndpoints : IEndpoints
 {
     private const string BaseRoute = "/users";
     private const string AuthRoute = "/authenticate";

@@ -3,7 +3,7 @@ using Manifestacije.Api.Exceptions;
 
 namespace Manifestacije.Api.Middleware;
 
-public class ExceptionMiddleware
+public sealed class ExceptionMiddleware
 {
     private readonly ILogger<ExceptionMiddleware> _logger;
     private readonly RequestDelegate _request;

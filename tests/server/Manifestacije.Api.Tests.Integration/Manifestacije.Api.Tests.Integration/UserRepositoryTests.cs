@@ -1,6 +1,6 @@
 ﻿namespace Manifestacije.Api.Tests.Integration;
 
-public class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyncDisposable
+public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyncDisposable
 {
     private readonly UserRepository _sut;
     private readonly List<string> _usersToDelete = new();

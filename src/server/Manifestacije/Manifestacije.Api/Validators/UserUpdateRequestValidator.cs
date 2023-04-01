@@ -2,7 +2,7 @@
 
 namespace Manifestacije.Api.Validators;
 
-public class UserUpdateRequestValidator : AbstractValidator<UserUpdateRequest>
+public sealed class UserUpdateRequestValidator : AbstractValidator<UserUpdateRequest>
 {
     public UserUpdateRequestValidator()
     {

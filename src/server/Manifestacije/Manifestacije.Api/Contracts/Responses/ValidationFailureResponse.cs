@@ -1,6 +1,6 @@
 ﻿namespace Manifestacije.Api.Contracts.Responses;
 
-public class ValidationFailureResponse
+public sealed class ValidationFailureResponse
 {
     public List<string> Errors { get; init; } = new();
 }

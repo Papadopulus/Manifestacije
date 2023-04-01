@@ -1,6 +1,6 @@
 ﻿namespace Manifestacije.Api.Contracts.QueryFilters;
 
-public class UserQueryFilter : QueryFilterBase
+public sealed class UserQueryFilter : QueryFilterBase
 {
     public string? FirstName { get; set; }
     public string? LastName { get; set; }

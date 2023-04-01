@@ -2,7 +2,7 @@
 
 namespace Manifestacije.Api.Tests.Unit;
 
-public class UserServiceTests
+public sealed class UserServiceTests
 {
     private readonly IMailService _mailService = Substitute.For<IMailService>();
     private readonly UserService _sut;

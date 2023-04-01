@@ -1,6 +1,6 @@
 ﻿namespace Manifestacije.Api.Exceptions;
 
-public class InvalidInputException : Exception
+public sealed class InvalidInputException : Exception
 {
     public InvalidInputException() : base()
     {

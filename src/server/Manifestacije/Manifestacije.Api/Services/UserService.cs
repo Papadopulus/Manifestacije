@@ -5,7 +5,7 @@ using Manifestacije.Api.Models;
 
 namespace Manifestacije.Api.Services;
 
-public class UserService : IUserService
+public sealed class UserService : IUserService
 {
     private readonly IMailService _mailService;
     private readonly string _secret;
