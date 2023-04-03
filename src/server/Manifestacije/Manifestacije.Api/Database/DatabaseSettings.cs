@@ -1,6 +1,6 @@
 ﻿namespace Manifestacije.Api.Database;
 
-public class DatabaseSettings
+public sealed class DatabaseSettings
 {
     public string ConnectionString { get; set; } = null!;
     public string DatabaseName { get; set; } = null!;

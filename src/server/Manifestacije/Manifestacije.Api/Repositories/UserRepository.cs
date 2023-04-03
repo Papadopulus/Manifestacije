@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace Manifestacije.Api.Repositories;
 
-public class UserRepository : IUserRepository
+public sealed class UserRepository : IUserRepository
 {
     private readonly IMongoCollection<User> _usersCollection;
 

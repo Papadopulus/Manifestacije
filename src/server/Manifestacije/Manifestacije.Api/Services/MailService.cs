@@ -4,7 +4,7 @@ using MimeKit.Text;
 
 namespace Manifestacije.Api.Services;
 
-public class MailService : IMailService
+public sealed class MailService : IMailService
 {
     private readonly string _displayName;
     private readonly string _from;

@@ -2,7 +2,7 @@
 
 namespace Manifestacije.Api.Validators;
 
-public class PasswordResetRequestValidator : AbstractValidator<PasswordResetRequest>
+public sealed class PasswordResetRequestValidator : AbstractValidator<PasswordResetRequest>
 {
     public PasswordResetRequestValidator()
     {

@@ -2,7 +2,7 @@
 
 namespace Manifestacije.Api.Validators;
 
-public class AuthenticateRequestValidator : AbstractValidator<AuthenticateRequest>
+public sealed class AuthenticateRequestValidator : AbstractValidator<AuthenticateRequest>
 {
     public AuthenticateRequestValidator()
     {

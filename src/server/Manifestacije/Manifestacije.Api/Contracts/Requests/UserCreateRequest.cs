@@ -1,6 +1,6 @@
 ﻿namespace Manifestacije.Api.Contracts.Requests;
 
-public class UserCreateRequest
+public sealed class UserCreateRequest
 {
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;

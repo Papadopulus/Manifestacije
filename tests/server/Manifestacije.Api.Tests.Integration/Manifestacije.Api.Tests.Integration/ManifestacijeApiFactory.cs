@@ -1,6 +1,6 @@
 ﻿namespace Manifestacije.Api.Tests.Integration;
 
-public class ManifestacijeApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
+public sealed class ManifestacijeApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 {
     private readonly IContainer _mongoDbContainer = new ContainerBuilder()
         .WithImage("mongo:4.4")

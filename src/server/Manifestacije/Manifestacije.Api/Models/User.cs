@@ -1,6 +1,6 @@
 ﻿namespace Manifestacije.Api.Models;
 
-public class User : ModelBase
+public sealed class User : ModelBase
 {
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;

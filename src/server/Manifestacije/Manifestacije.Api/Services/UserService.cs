@@ -1,25 +1,22 @@
-﻿using AutoMapper;
-using Manifestacije.Api.Exceptions;
+﻿using Manifestacije.Api.Exceptions;
 using Manifestacije.Api.Extensions;
+using Manifestacije.Api.Mappers;
 using Manifestacije.Api.Models;
 
 namespace Manifestacije.Api.Services;
 
-public class UserService : IUserService
+public sealed class UserService : IUserService
 {
     private readonly IMailService _mailService;
-    private readonly IMapper _mapper;
     private readonly string _secret;
     private readonly IUserRepository _userRepository;
 
     public UserService(IUserRepository userRepository,
         IConfiguration configuration,
-        IMapper mapper,
         IMailService mailService)
     {
         _userRepository = userRepository;
         _secret = configuration["Authorization:Secret"]!;
-        _mapper = mapper;
         _mailService = mailService;
     }
 
@@ -41,7 +38,7 @@ public class UserService : IUserService
             throw new InvalidInputException("User with given email already exists");
         }
 
-        var user = _mapper.Map<User>(userCreateRequest);
+        var user = UserMapper.UserCreateRequestToUser(userCreateRequest);
         (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword(userCreateRequest.Password);
         user.Roles.Add("User");
         var success = await _userRepository.CreateUserAsync(user);
@@ -61,7 +58,10 @@ public class UserService : IUserService
             return null;
         }
 
-        _mapper.Map(userUpdateRequest, existingUser);
+        // TODO: We are waiting for mapperly to implement this feature of custom mapping
+        // existingUser = UserMapper.UserUpdateRequestToUser(userUpdateRequest);
+        existingUser.FirstName = userUpdateRequest.FirstName;
+        existingUser.LastName = userUpdateRequest.LastName;
         existingUser.UpdatedAtUtc = DateTime.UtcNow;
         var success = await _userRepository.UpdateUserAsync(existingUser);
         if (!success)

@@ -1,6 +1,6 @@
 ﻿namespace Manifestacije.Api.Contracts.Responses;
 
-public class UserViewResponse
+public sealed class UserViewResponse
 {
     public string Id { get; set; } = default!;
     public string FirstName { get; set; } = default!;
