@@ -33,13 +33,18 @@ export const AuthContextProvider = ({children}) => {
         }
         
     }
+    const register = async (payload) => {
+        await axios.post(`${process.env.REACT_APP_BASE_URL}/users`,payload);
+        navigate("/login");
+    }
     const logout = () => {
         localStorage.removeItem("tokens");
         setUser(null);
         navigate("/");
     }
+    
     return <AuthContext.Provider
-        value={{ login,errorMessageLogin , user ,logout }}>
+        value={{ login,register,errorMessageLogin , user ,logout }}>
 
         {children}
 
