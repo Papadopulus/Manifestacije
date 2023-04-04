@@ -17,7 +17,7 @@ public sealed class CategoryRepository:ICategoryRepository
         var mongoDataBase = mongoClient.GetDatabase(
             databaseSettings.Value.DatabaseName);
         _categoryCollection = mongoDataBase.GetCollection<Category>(
-            databaseSettings.Value.CategoryCollectionName);
+            databaseSettings.Value.CategoriesCollectionName);
     }
 
 

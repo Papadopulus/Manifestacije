@@ -5,7 +5,7 @@ using Manifestacije.Api.Models;
 
 namespace Manifestacije.Api.Services;
 
-public sealed class CategoryService:ICategoryService
+public sealed class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _categoryRepository;
 
@@ -24,7 +24,7 @@ public sealed class CategoryService:ICategoryService
         return await _categoryRepository.GetCategoryByIdAsync(id);
     }
 
-    public async Task<Category?> CreateCategoryAsync(CategoryCreateRequest categoryCreateRequest)
+    public async Task<Category> CreateCategoryAsync(CategoryCreateRequest categoryCreateRequest)
     {
         var existingCategory = await _categoryRepository.GetCategoryWithNameAsync(categoryCreateRequest.Name);
         if (existingCategory is not null)
@@ -49,10 +49,11 @@ public sealed class CategoryService:ICategoryService
         {
             return null;
         }
+
         // TODO: We are waiting for mapperly to implement this feature of custom mapping
         //existingCategory = CategoryMapper.CategoryUpdateRequestToCategory(categoryUpdateRequest);
         existingCategory.Name = categoryUpdateRequest.Name;
-        existingCategory.UpdatedAtUtc=DateTime.UtcNow;
+        existingCategory.UpdatedAtUtc = DateTime.UtcNow;
         var success = await _categoryRepository.UpdateCategoryAsync(existingCategory);
         if (!success)
         {
@@ -71,7 +72,7 @@ public sealed class CategoryService:ICategoryService
         }
 
         existingCategory.IsDeleted = true;
-        existingCategory.DeletedAtUtc=DateTime.UtcNow;
+        existingCategory.DeletedAtUtc = DateTime.UtcNow;
         return await _categoryRepository.UpdateCategoryAsync(existingCategory);
     }
 }
