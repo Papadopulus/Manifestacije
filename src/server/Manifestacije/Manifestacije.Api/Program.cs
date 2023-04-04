@@ -55,10 +55,12 @@ builder.Services.AddCors(options =>
 
 // Repositories
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 
 // Services
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IMailService, MailService>();
+builder.Services.AddSingleton<ICategoryService, CategoryService>();
 
 // Database
 builder.Services.Configure<DatabaseSettings>(
