@@ -7,6 +7,9 @@ public sealed class CategoryCreateRequestValidator:AbstractValidator<CategoryCre
     public CategoryCreateRequestValidator()
     {
         RuleFor(x => x.Name)
-            .NotEmpty();
+            .NotEmpty()
+            .MinimumLength(1)
+            .MaximumLength(64);
+
     }
 }
