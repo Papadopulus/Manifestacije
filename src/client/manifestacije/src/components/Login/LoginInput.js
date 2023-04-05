@@ -57,8 +57,8 @@ const LoginInput = () => {
     };
     return (
         <form className={classes["login-form"]} onSubmit={formSubmissionHandler}>
-            <div className={classes["right-login-container"]}></div>
-            <div className={classes["left-login-container"]}>
+            <div className={classes["left-login-container"]}></div>
+            <div className={classes["right-login-container"]}>
                 <div className={classes["login-handler"]}>
                     <div className={classes["icon"]}></div>
                     <h1>Login</h1>

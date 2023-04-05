@@ -34,9 +34,18 @@
     width: 70vw;
     justify-content: end;
 }
-
+.nav-login-button{
+    padding: 8px 28px;
+}
+.nav-login-button:hover{
+    padding: 6px 26px;
+}
 .nav-register-button {
-    background-color: #a618fff7;
+    background-color: #9900cc;
+    margin-left: 0px;
+}
+.nav-register-button:hover {
+    border: 2px solid #9900cc;
 }
 
 .fa-regular {

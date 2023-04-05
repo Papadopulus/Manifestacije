@@ -15,9 +15,12 @@
     width: 72%;
     min-height: 100vh;
     display: flex;
+    justify-content: center;
     align-items: center;
     background-color: white;
     overflow-y: auto;
+    background-size: cover ;
+    background-image: url("../../multimedia/background-white.jpg");
 }
 @media only screen and (max-width: 960px) {
     .left-register-container {
@@ -26,7 +29,7 @@
 
     .right-register-container {
         width: 100%;
-        align-items: flex-start;
+        /*align-items: flex-start;*/
     }
 }
 
@@ -36,6 +39,7 @@
     max-width: 485px;
     display: flex;
     flex-direction: column;
+    width: 70%;
 }
 .main-sign{
     font-size: 30px;
@@ -63,8 +67,10 @@
 }
 .register-button-div{
     text-align: right;
+    /*margin: 3rem;*/
     margin-top: 0.5rem;
+    margin-bottom: 5rem;
 }
 .error-text {
-    color: #b40e0e;
+    color: #ff8080;
 }

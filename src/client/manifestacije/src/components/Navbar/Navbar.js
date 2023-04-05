@@ -144,7 +144,7 @@ function Navbar() {
           {aboutIcon}
         </Link>
         {!user && !isMobile && (
-          <Button className={"nav-button"} to={"/login"}>
+          <Button className={"nav-login-button"} to={"/login"}>
             Login
           </Button>
         )}
