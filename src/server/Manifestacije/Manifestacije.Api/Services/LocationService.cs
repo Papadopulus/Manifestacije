@@ -1,7 +1,6 @@
 ﻿using Manifestacije.Api.Exceptions;
 using Manifestacije.Api.Models;
 using Manifestacije.Api.Mappers;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Manifestacije.Api.Services;
 
@@ -16,7 +15,7 @@ public sealed class LocationService : ILocationService
         _secret = configuration["Authorization:Secret"]!;
         _locationRepository = locationRepository;
     }
-    
+
     public async Task<List<Location>> GetAllLocationsAsync(LocationQueryFilter locationQueryFilter)
     {
         return await _locationRepository.GetAllLocationsAsync(locationQueryFilter);
@@ -36,6 +35,26 @@ public sealed class LocationService : ILocationService
         }
 
         var location = LocationMapper.LocationCreateRequestToLocation(locationCreateRequest);
+        if (locationCreateRequest.TransportPartnerId is not null)
+        {
+            var partner = _partnerRepository.GetPartnerById(locationCreateRequest.TransportPartnerId);
+            // TODO: Create new Exception
+            if (partner is null)
+                throw new DatabaseException("Partner with a given id does not exist");
+
+            location.TransportPartner = PartnerMapper.PartnerToPartnerPartial(partner);
+        }
+
+        if (locationCreateRequest.AccommodationPartnerId is not null)
+        {
+            var partner = _partnerRepository.GetPartnerById(locationCreateRequest.AccommodationPartnerId);
+            // TODO: Create new Exception
+            if (partner is null)
+                throw new DatabaseException("Partner with a given id does not exist");
+
+            location.AccommodationPartner = PartnerMapper.PartnerToPartnerPartial(partner);
+        }
+
         var success = await _locationRepository.CreateLocationAsync(location);
         if (!success)
         {
@@ -52,6 +71,7 @@ public sealed class LocationService : ILocationService
         {
             return null;
         }
+
         //waiting 
         existingLocation.Name = locationUpdateRequest.Name;
         existingLocation.UpdatedAtUtc = DateTime.Now;

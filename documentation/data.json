@@ -14,8 +14,12 @@
       "id": "string",
       "name": "string"
     },
-    "favouriteEvents": [""],
-    "goingEvents":[""],
+    "favouriteEvents": [
+      ""
+    ],
+    "goingEvents": [
+      ""
+    ],
     "createdAtUtc": "dateTime",
     "createdById": "fk_string",
     "updatedAtUtc": "dateTime",
@@ -36,17 +40,15 @@
   "location": {
     "id": "string",
     "name": "string",
-    "partners": {
-      "transportPartner": {
-        "id": "fk_string",
-        "name": "string",
-        "url": "string"
-      },
-      "accommodationPartner": {
-        "id": "fk_string",
-        "name": "string",
-        "url": "string"
-      }
+    "transportPartner": {
+      "id": "fk_string",
+      "name": "string",
+      "url": "string"
+    },
+    "accommodationPartner": {
+      "id": "fk_string",
+      "name": "string",
+      "url": "string"
     },
     "createdAtUtc": "dateTime",
     "createdById": "fk_string",
@@ -80,17 +82,15 @@
     "location": {
       "id": "string",
       "name": "string",
-      "partners": {
-        "transportPartner": {
-          "id": "fk_string",
-          "name": "string",
-          "url": "string"
-        },
-        "accommodationPartner": {
-          "id": "fk_string",
-          "name": "string",
-          "url": "string"
-        }
+      "transportPartner": {
+        "id": "fk_string",
+        "name": "string",
+        "url": "string"
+      },
+      "accommodationPartner": {
+        "id": "fk_string",
+        "name": "string",
+        "url": "string"
       }
     },
     "exactLocation": {
@@ -135,14 +135,16 @@
     "competitors": [
       "List<string>"
     ],
-    "eventInfo":{
+    "eventInfo": {
       "capacity": "number",
       "ticketUrl?": "string",
       "ticketPrice?": "number",
-      "sponsors": ["string"]
+      "sponsors": [
+        "string"
+      ]
     },
-    "history":{
-      "TODO":"TODO"
+    "history": {
+      "TODO": "TODO"
     },
     "comments": {
       "TODO": "TODO"
@@ -179,8 +181,12 @@
     "id": "string",
     "name": "string",
     "siteUrl?": "string",
-    "events" : ["List<string>"],
-    "reviews": ["List<string>"],
+    "events": [
+      "List<string>"
+    ],
+    "reviews": [
+      "List<string>"
+    ],
     "createdAtUtc": "dateTime",
     "createdById": "fk_string",
     "updatedAtUtc": "dateTime",
