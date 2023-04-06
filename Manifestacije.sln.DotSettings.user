@@ -1,26 +1,12 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Bogdan\AppData\Local\JetBrains\Rider2022.3\resharper-host\temp\Rider\vAny\CoverageData\_Manifestacije.-1611273853\Snapshot\snapshot.utdcvr</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0700a037_002De047_002D4d84_002D9286_002Da8ee2a96a354/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;tests&amp;gt;\&amp;lt;server&amp;gt;\&amp;lt;Manifestacije.Api.Tests.Unit&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Project Location="D:\Faculty of Electronic Engineering\SWE\Manifestacije\tests\server\Manifestacije.Api.Tests.Unit\Manifestacije.Api.Tests.Unit" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;server&amp;gt;\&amp;lt;Manifestacije.Api.Tests.Unit&amp;gt;" /&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=82dbd832_002Dd9bc_002D4f40_002Dabb5_002De36761814016/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="D:\Faculty of Electronic Engineering\SWE\Manifestacije" Presentation="&amp;lt;tests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0abdf179_002D6060_002D4590_002Dab78_002D908a09808f7a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UserServiceTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::D3FD1AA9-8001-44BE-8F7F-BAD08F41A54C::net7.0::Manifestacije.Api.Tests.Unit.UserServiceTests&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2585cf87_002D22f3_002D45e7_002D963c_002Deb7acd47dbca/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CategoryServiceTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::D3FD1AA9-8001-44BE-8F7F-BAD08F41A54C::net7.0::Manifestacije.Api.Tests.Unit.CategoryServiceTests&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e1cf2062_002D2fda_002D4c5d_002D973a_002Da90d96a859f1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetAllCategories_ShouldReturnAllCategories_Always" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Or&gt;&#xD;
-    &lt;TestAncestor&gt;&#xD;
-      &lt;TestId&gt;xUnit::FCE51A09-83E7-4E6A-9631-BCF2E4388819::net7.0::Manifestacije.Api.Tests.E2E.CategoryEndpointsTests&lt;/TestId&gt;&#xD;
-    &lt;/TestAncestor&gt;&#xD;
-    &lt;ProjectFile&gt;FCE51A09-83E7-4E6A-9631-BCF2E4388819/f:UserEndpointsTests.cs&lt;/ProjectFile&gt;&#xD;
-  &lt;/Or&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f75eefe0_002Df043_002D42b1_002Db3c1_002D7d5a571f795b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from CategoryServiceTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Project Location="D:\Faculty of Electronic Engineering\SWE\Manifestacije" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;server&amp;gt;" /&gt;&#xD;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+	
+	
+	
+	
+	
+	
+	</wpf:ResourceDictionary>

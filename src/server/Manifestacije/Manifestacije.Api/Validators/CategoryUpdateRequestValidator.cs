@@ -7,6 +7,8 @@ public sealed class CategoryUpdateRequestValidator:AbstractValidator<CategoryUpd
     public CategoryUpdateRequestValidator()
     {
         RuleFor(x => x.Name)
-            .NotNull();
+            .NotNull()
+            .MinimumLength(1)
+            .MaximumLength(64);
     }
 }
