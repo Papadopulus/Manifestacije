@@ -1,46 +1,63 @@
 ﻿import {useContext, useEffect, useRef, useState} from "react";
-// import axios from "axios";
-import axios from "../api/axios";
+import axios from "axios";
 import AuthContext from "../store/AuthContext";
-import jwtInterceptor from "../api/interceptors";
-import {request} from "axios";
-import {Await} from "react-router-dom";
-
 
 const User = () => {
-    
-    // console.log('User component beeing redner...')
-    
-    const [userData,setUserData] = useState([]);
+    const [userData, setUserData] = useState([]);
     const {user} = useContext(AuthContext);
 
     const shouldLog = useRef(true);
-    useEffect(  () => {
-        
+    useEffect(() => {
         if (shouldLog.current) {
-            // console.log('Mounting...')
-            shouldLog.current =false;
-            const getUserInfo = async () => {
-                await jwtInterceptor.get(`https://localhost:7237/users/${user.Id}`)
-                    .then((response) => {
-                        setUserData(response.data);
+            shouldLog.current = false;
+            const currentDate = new Date();
+            const vremeTokena = new Date(user.exp * 1000);
+
+            let tokenData = JSON.parse(localStorage.getItem("tokens"));
+            if (currentDate >= vremeTokena) {
+                const payload = {
+                    token: `${tokenData.refreshToken}`
+                };
+                axios.post(`${process.env.REACT_APP_BASE_URL}/authenticate/refresh`, payload)
+                    .then(response => {
                         console.log(response.data);
-                    }).catch(error => {
-                    console.error(error);
-                })
+                        localStorage.setItem("tokens", JSON.stringify(response.data));
+                        const tokenKojiSeSalje = response.data.token;
+                        let header = {
+                            "Authorization": `Bearer ${tokenKojiSeSalje}`
+                        }
+                        return axios.get(`${process.env.REACT_APP_BASE_URL}/users/${user.Id}`, {headers: header})
+                    })
+                    .then((response) => {
+                        setUserData(response.data)
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+
+            } else {
+                let header = {
+                    "Authorization": `Bearer ${tokenData.token}`
+                }
+                axios.get(`${process.env.REACT_APP_BASE_URL}/users/${user.Id}`, {headers: header})
+                    .then(response => {
+                        setUserData(response.data)
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
             }
-            getUserInfo();
         }
         return () => {
-            // console.log('Unmounting...')
             shouldLog.current = false;
         }
 
-    },[])
-    // console.log(userData.firstName)
-    return <div>
-        {/*{!userData && <p>userData.firstName</p>}*/}
-        <p>{userData.firstName}</p>
-    </div>
+    }, [])
+
+    return (
+        <div>
+            <p>{userData.firstName}</p>
+        </div>
+    )
 }
 export default User;

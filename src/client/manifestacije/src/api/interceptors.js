@@ -20,7 +20,7 @@ jwtInterceptor.interceptors.response.use(response => {
             token: `${authData.refreshToken}`,
         };
         let apiResponse = await axios.post(
-            "https://localhost:7237/authenticate/refresh",
+            "http://localhost:5214/authenticate/refresh",
             payload
         )
         localStorage.setItem("tokens",JSON.stringify(apiResponse.data))
