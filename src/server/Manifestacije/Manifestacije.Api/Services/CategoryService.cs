@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using Manifestacije.Api.Exceptions;
+﻿using Manifestacije.Api.Exceptions;
 using Manifestacije.Api.Mappers;
 using Manifestacije.Api.Models;
 
