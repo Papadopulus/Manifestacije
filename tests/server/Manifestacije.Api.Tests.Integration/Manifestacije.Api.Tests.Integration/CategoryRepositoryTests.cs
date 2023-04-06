@@ -2,7 +2,7 @@
 
 public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyncDisposable
 {
-    private readonly CategoryRepository _sct;
+    private readonly CategoryRepository _sut;
     private readonly List<string> _categoriesToDelete = new();
     
     public CategoryRepositoryTests(ManifestacijeApiFactory factory)
@@ -15,9 +15,9 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         {
             ConnectionString = "mongodb://localhost:27018",
             DatabaseName = "manifestacije-test",
-            UsersCollectionName = "categories"
+            CategoriesCollectionName = "categories"
         });
-        _sct = new CategoryRepository(databaseSettings);
+        _sut = new CategoryRepository(databaseSettings);
     }
     public async ValueTask DisposeAsync()
     {
@@ -30,7 +30,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         var categoriesQueryFilter = CreateCategoryQueryFilter(Name: "Zdenkijada");
 
         // Act
-        var result = await _sct.GetAllCategoriesAsync(categoriesQueryFilter);
+        var result = await _sut.GetAllCategoriesAsync(categoriesQueryFilter);
 
         // Assert
         result.Should().BeEmpty();
@@ -39,20 +39,20 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
     public async Task GetAllCategoriesAsync_ShouldReturnAllCategories_WhenCategoriesExist()
     {
         // Arrange
-        var categoriesQueryFilter = CreateCategoryQueryFilter(Name: "Some Name");
+        var categoriesQueryFilter = CreateCategoryQueryFilter(Name: "Zdenkijada",intersection:false);
         var category1 = new Category
         {
-            Name="Some Name"
+            Name="Zdenkijada"
         };
         var category2 = new Category
         {
-            Name="Some Other Name"
+            Name="Zdenkijada"
         };
-        await _sct.CreateCategoryAsync(category1);
-        await _sct.CreateCategoryAsync(category2);
+        await _sut.CreateCategoryAsync(category1);
+        await _sut.CreateCategoryAsync(category2);
 
         // Act
-        var result = await _sct.GetAllCategoriesAsync(categoriesQueryFilter);
+        var result = await _sut.GetAllCategoriesAsync(categoriesQueryFilter);
 
         // Assert
         result.Should().HaveCount(2);
@@ -72,7 +72,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         };
 
         // Act
-        var result = await _sct.CreateCategoryAsync(category);
+        var result = await _sut.CreateCategoryAsync(category);
 
         // Assert
         result.Should().BeTrue();
@@ -87,12 +87,12 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         {
             Name = "Some Name"
         };
-        await _sct.CreateCategoryAsync(category);
+        await _sut.CreateCategoryAsync(category);
         category.Name = "Some Other Name";
 
         // Act
-        var result = await _sct.UpdateCategoryAsync(category);
-        var newCategory = await _sct.GetCategoryByIdAsync(category.Id);
+        var result = await _sut.UpdateCategoryAsync(category);
+        var newCategory = await _sut.GetCategoryByIdAsync(category.Id);
 
         // Assert
         result.Should().BeTrue();
@@ -109,11 +109,11 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         {
             Name = "Some Name"
         };
-        await _sct.CreateCategoryAsync(category);
+        await _sut.CreateCategoryAsync(category);
 
         // Act
-        var result = await _sct.DeleteCategoryAsync(category.Id);
-        var newCategory = await _sct.GetCategoryByIdAsync(category.Id, true);
+        var result = await _sut.DeleteCategoryAsync(category.Id);
+        var newCategory = await _sut.GetCategoryByIdAsync(category.Id, true);
 
         // Assert
         result.Should().BeTrue();
@@ -130,10 +130,10 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         {
             Name = "Some Name"
         };
-        await _sct.CreateCategoryAsync(category);
+        await _sut.CreateCategoryAsync(category);
 
         // Act
-        var result = await _sct.GetCategoryByIdAsync(category.Id);
+        var result = await _sut.GetCategoryByIdAsync(category.Id);
 
         // Assert
         result.Should().NotBeNull();
@@ -149,7 +149,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         var categoryId = "642c2c29364bc2e1aa766056";
 
         // Act
-        var result = await _sct.GetCategoryByIdAsync(categoryId);
+        var result = await _sut.GetCategoryByIdAsync(categoryId);
 
         // Assert
         result.Should().BeNull();
@@ -160,16 +160,18 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         // Arrange
         var category = new Category
         {
-            Name = "Some Name"
+            Name = "Some C"
         };
-        await _sct.CreateCategoryAsync(category);
+        await _sut.CreateCategoryAsync(category);
 
         // Act
-        var result = await _sct.GetCategoryWithNameAsync(category.Name);
+        var result = await _sut.GetCategoryWithNameAsync(category.Name,category.IsDeleted);
 
         // Assert
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(category, TestHelpers.Config<Category>());
+        
+        _categoriesToDelete.Add(category.Id);
     }
 
     [Fact]
@@ -179,7 +181,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         var name = "@!@";
 
         // Act
-        var result = await _sct.GetCategoryWithNameAsync(name);
+        var result = await _sut.GetCategoryWithNameAsync(name);
 
         // Assert
         result.Should().BeNull();
@@ -192,6 +194,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         string? Name = null,
         DateTime? minCreatedAtUtc = null,
         DateTime? maxCreatedAtUtc = null,
+        bool intersection = true,
         bool showDeleted = false)
     {
         return new()
@@ -203,6 +206,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
             Name = Name,
             MinCreatedAtUtc = minCreatedAtUtc,
             MaxCreatedAtUtc = maxCreatedAtUtc,
+            Intersection = intersection,
             ShowDeleted = showDeleted
         };
     }
@@ -210,7 +214,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
     {
         foreach (var categoryId in _categoriesToDelete)
         {
-            await _sct.DeleteCategoryAsync(categoryId);
+            await _sut.DeleteCategoryAsync(categoryId);
         }
     }
 }
