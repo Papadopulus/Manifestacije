@@ -7,12 +7,15 @@ namespace Manifestacije.Api.Services;
 public sealed class PartnerService : IPartnerService
 {
     private readonly IPartnerRepository _partnerRepository;
+    private readonly ILocationRepository _locationRepository;
     private readonly string _secret;
 
     public PartnerService(IPartnerRepository partnerRepository,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        ILocationRepository locationRepository)
     {
         _partnerRepository = partnerRepository;
+        _locationRepository = locationRepository;
         _secret = configuration["Authorization:Secret"]!;
     }
     
@@ -23,19 +26,29 @@ public sealed class PartnerService : IPartnerService
 
     public async Task<Partner> CreatePartnerAsync(PartnerCreateRequest partnerCreateRequest)
     {
-        var existingPartner = _partnerRepository.GetPartnerByNameAsync(partnerCreateRequest.Name);
+        var existingPartner =await  _partnerRepository.GetPartnerByNameAsync(partnerCreateRequest.Name);
         if (existingPartner is not null)
         {
             throw new InvalidInputException("Partner with a given name already exists");
-            
         }
-
+        
         var partner = PartnerMapper.PartnerCreateRequestToPartner(partnerCreateRequest);
+        if (partnerCreateRequest.Locations.Any())
+        {
+            foreach (var id in partnerCreateRequest.Locations)
+            {
+                var location = await _locationRepository.GetLocationByIdAsync(id);
+                if (location is null)
+                {
+                    throw new DatabaseException("Location doesnt exits");
+                }
+                partner.Locations.Add(LocationMapper.LocationToLocationPartial(location));
+            }
+        }
         var success = await _partnerRepository.CreatePartnerAsync(partner);
         if (!success)
         {
             throw new DatabaseException("Failed to create Partner");
-            
         }
         return partner;
     }
