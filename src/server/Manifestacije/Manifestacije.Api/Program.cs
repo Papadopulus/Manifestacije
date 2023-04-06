@@ -56,11 +56,12 @@ builder.Services.AddCors(options =>
 // Repositories
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<ILocationRepository, LocationRepository>();
-
+builder.Services.AddSingleton<IPartnerRepository, PartnerRepository>();
 // Services
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IMailService, MailService>();
 builder.Services.AddSingleton<ILocationService, LocationService>();
+builder.Services.AddSingleton<IPartnerService, PartnerService>();
 
 // Database
 builder.Services.Configure<DatabaseSettings>(

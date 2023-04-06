@@ -7,13 +7,16 @@ namespace Manifestacije.Api.Services;
 public sealed class LocationService : ILocationService
 {
     private readonly ILocationRepository _locationRepository;
+    private readonly IPartnerRepository _partnerRepository;
     private readonly string _secret;
 
     public LocationService(ILocationRepository locationRepository,
+        IPartnerRepository partnerRepository,
         IConfiguration configuration)
     {
         _secret = configuration["Authorization:Secret"]!;
         _locationRepository = locationRepository;
+        _partnerRepository = partnerRepository;
     }
 
     public async Task<List<Location>> GetAllLocationsAsync(LocationQueryFilter locationQueryFilter)
@@ -37,7 +40,7 @@ public sealed class LocationService : ILocationService
         var location = LocationMapper.LocationCreateRequestToLocation(locationCreateRequest);
         if (locationCreateRequest.TransportPartnerId is not null)
         {
-            var partner = _partnerRepository.GetPartnerById(locationCreateRequest.TransportPartnerId);
+            var partner = await _partnerRepository.GetPartnerByIdAsync(locationCreateRequest.TransportPartnerId);
             // TODO: Create new Exception
             if (partner is null)
                 throw new DatabaseException("Partner with a given id does not exist");
@@ -47,7 +50,7 @@ public sealed class LocationService : ILocationService
 
         if (locationCreateRequest.AccommodationPartnerId is not null)
         {
-            var partner = _partnerRepository.GetPartnerById(locationCreateRequest.AccommodationPartnerId);
+            var partner = await _partnerRepository.GetPartnerByIdAsync(locationCreateRequest.AccommodationPartnerId);
             // TODO: Create new Exception
             if (partner is null)
                 throw new DatabaseException("Partner with a given id does not exist");

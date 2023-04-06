@@ -10,7 +10,11 @@ public sealed class LocationEndpoints : IEndpoints
     private const string BaseRoute = "/locations";
     public static void DefineEndpoints(IEndpointRouteBuilder app)
     {
-        
+        app.MapPost(BaseRoute, CreateLocation)
+            .AllowAnonymous();
+            // .RequireAuthorization(RolesEnum.Admin.ToString());
+        app.MapPut(BaseRoute + "/{id}", UpdateLocation)
+            .RequireAuthorization(RolesEnum.Admin.ToString());
     }
 
     internal static async Task<IResult> CreateLocation(
