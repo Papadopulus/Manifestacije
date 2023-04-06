@@ -33,28 +33,36 @@
     .right-login-container {
         width: 100%;
     }
+    .login-handler{
+        padding: 0 0px;
+    }
 }
 
 .login-handler {
-    padding: 0 50px;
+    padding: 0 20px;
     margin: 0 auto;
     max-width: 485px;
     display: flex;
     flex-direction: column;
+    width: 80%;
 }
-
+@font-face {
+    font-family: 'Outfit-Regular';
+    src: url("../../fonts/Outfit-Regular.ttf");
+}
 .login-handler h1 {
-    font-size: 30px;
+    font-size: 40px;
     font-weight: 700;
     color: #FDFFD6;
     text-align: center;
     line-height: 1.25;
     margin-bottom: 15px;
     margin-top: 15px;
+    font-family: 'Outfit-Regular';
 }
 
 .login-handler .icon {
-    margin: 50px auto 20px;
+    margin: 30px auto 30px;
     width: 100px;
     height: 100px;
     background: rgba(0, 0, 0, 0) url(../../multimedia/login_icon_resized.webp) no-repeat scroll 0 0;
@@ -65,6 +73,9 @@
 
 .dont-have-account{
     color: #AAAAAA;
+    font-family: 'Outfit-Medium';
+    font-size: 18px;
+    margin-bottom: 20px;
 }
 
 .login-button {
@@ -79,6 +90,11 @@
 
 .error-text {
     color: #ff8080;
+    font-family: 'Outfit-Medium';
+}
+.login-links{
+    font-family: Outfit-Medium;
+    font-size: 18px;
 }
 
 

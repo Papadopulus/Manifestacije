@@ -1,5 +1,6 @@
 ﻿.button {
-    font: inherit;
+    font-family: 'Outfit-Medium';
+    font-size: 20px;
     border: 1px solid #240370;
     background-color: #240370;
     color: white;

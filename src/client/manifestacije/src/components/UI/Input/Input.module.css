@@ -9,13 +9,17 @@
 .control input {
     display: block;
 }
-
+@font-face {
+    font-family: 'Outfit-Medium';
+    src: url("../../../fonts/Outfit-Medium.ttf");
+}
 .control label {
-    font-weight: bold;
     flex: 1;
     color: #FDFFD6;
     margin-bottom: 0.5rem;
     margin-right: 0.5rem;
+    font-family: 'Outfit-Medium';
+    font-size: 20px;
 }
 
 .control input {
