@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace Manifestacije.Api.Repositories;
 
-public sealed class CategoryRepository:ICategoryRepository
+public sealed class CategoryRepository : ICategoryRepository
 {
     private readonly IMongoCollection<Category> _categoryCollection;
 
@@ -19,7 +19,6 @@ public sealed class CategoryRepository:ICategoryRepository
         _categoryCollection = mongoDataBase.GetCollection<Category>(
             databaseSettings.Value.CategoriesCollectionName);
     }
-
 
     public async Task<List<Category>> GetAllCategoriesAsync(CategoryQueryFilter categoryQueryFilter)
     {

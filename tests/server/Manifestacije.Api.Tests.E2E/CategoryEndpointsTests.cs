@@ -61,6 +61,7 @@ public class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IA
     {
         return Task.CompletedTask;
     }
+
     [Fact]
     public async Task CreateCategory_ShouldReturnValidationErrors_WhenCategoryRequestIsInvalid()
     {
@@ -68,6 +69,7 @@ public class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IA
         var categoryCreateRequest = _categoryGenerator.Generate();
         categoryCreateRequest.Name = "";
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
+        
         // Act
         var response = await _client.PostAsJsonAsync("/categories", categoryCreateRequest);
 
@@ -77,6 +79,7 @@ public class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IA
         content.Should().BeEquivalentTo(
             "[{\"propertyName\":\"Name\",\"errorMessage\":\"'Name' must not be empty.\",\"attemptedValue\":\"\",\"customState\":null,\"severity\":0,\"errorCode\":\"NotEmptyValidator\",\"formattedMessagePlaceholderValues\":{\"PropertyName\":\"Name\",\"PropertyValue\":\"\"}}]");
     }
+
     [Fact]
     public async Task CreateCategory_ShouldReturnOk_WhenCategoryCreateRequestIsValid()
     {
@@ -94,6 +97,7 @@ public class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IA
         content!.Id.Should().NotBeNull();
         response.Headers.Location.Should().Be($"/categories/{content.Id}");
     }
+
     [Fact]
     public async Task CreateCategory_ShouldReturnUnauthorized_WhenUserIsNotAuthenticated()
     {
@@ -106,12 +110,12 @@ public class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IA
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
-    
+
     [Fact]
     public async Task GetAllCategories_ShouldReturnAllCategories_Always()
     {
         // Arrange
-        
+
         // Act
         var response = await _client.GetAsync("/categories");
 
