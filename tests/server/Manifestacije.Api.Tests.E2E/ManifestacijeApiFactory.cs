@@ -26,7 +26,8 @@ public sealed class ManifestacijeApiFactory : WebApplicationFactory<IApiMarker>,
         {
             { "MongoDbSettings:ConnectionString", "mongodb://localhost:27019" },
             { "MongoDbSettings:DatabaseName", "manifestacije-test" },
-            { "MongoDbSettings:UsersCollectionName", "users" }
+            { "MongoDbSettings:UsersCollectionName", "users" },
+            { "MongoDbSettings:CategoriesCollectionName", "categories" },
         };
 
         var configuration = new ConfigurationBuilder()
