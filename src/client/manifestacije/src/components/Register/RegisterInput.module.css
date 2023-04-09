@@ -1,39 +1,40 @@
-.register-form {
+.register-form, .reset-form{
     display: flex;
     flex-wrap: wrap;
     min-height: 100vh;
 }
-.right-register-container {
+.right-register-container, .right-reset-container {
     width: 28%;
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background-image: linear-gradient(#3333ff,#9900cc);
+    background-color: #404040;
+    /*background-image: linear-gradient(#3333ff,#9900cc);*/
     box-shadow: -20px 0px 20px rgba(0,0,0,0.3);
 }
-.left-register-container {
+.left-register-container, .left-reset-container {
     width: 72%;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: white;
+    /*background-image: linear-gradient(#9999ff,#df80ff);*/
     overflow-y: auto;
     background-size: cover ;
-    background-image: url("../../multimedia/background-white.jpg");
+    background-image: url("../../multimedia/background-white1.jpg");
 }
 @media only screen and (max-width: 960px) {
-    .left-register-container {
+    .left-register-container, .left-reset-container {
         display: none;
     }
 
-    .right-register-container {
+    .right-register-container, .right-reset-container{
         width: 100%;
         /*align-items: flex-start;*/
     }
 }
 
-.register-handler{
+.register-handler, .reset-handler{
     padding: 0 20px;
     margin: 0 auto;
     max-width: 485px;
@@ -66,10 +67,10 @@
     font-size: 18px;
     margin-top: 5px;
 }
-.register-button {
+.register-button, .reset-button{
     width: 100%;
 }
-.register-button-div{
+.register-button-div .reset-button-div{
     text-align: right;
     /*margin: 3rem;*/
     margin-top: 0.5rem;

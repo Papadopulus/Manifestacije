@@ -22,7 +22,7 @@
     background-color: white;
     overflow-y: auto;
     background-size: cover ;
-    background-image: url("../../multimedia/background-white.jpg");
+    background-image: url("../../multimedia/background-white1.jpg");
 }
 
 @media only screen and (max-width: 960px) {

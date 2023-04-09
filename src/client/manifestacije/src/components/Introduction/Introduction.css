@@ -1,0 +1,24 @@
+@font-face{
+    font-family: 'Outfit-Bold';
+    src: url("../../fonts/Outfit-Bold.ttf");
+}
+.header-text{
+    font-size: 60px;
+    font-family: 'Outfit-Bold';
+    color: navajowhite;
+}
+.body-text{
+    font-size: 40px;
+    font-family: "Outfit-Regular";
+    color: navajowhite;
+}
+.main-div{
+    position: absolute;
+    top: 55%;
+    left: 35%;
+    width: 57%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+}

@@ -7,6 +7,7 @@ import {AuthContextProvider} from "./store/AuthContext";
 import User from "./pages/User";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import RegisterInput from "./components/Register/RegisterInput";
+import PasswordReset from "./components/PasswordReset/PasswordReset";
 
 function App() {
     return (
@@ -27,6 +28,10 @@ function App() {
                         }/>
 
                         <Route path="/register" element={<RegisterInput />} />
+
+                        /*treba da se izbrise,stavio sam samo zbog testiranja*/
+                        <Route path="/reset" element={<PasswordReset />} />
+
                     </Routes>
                 </AuthContextProvider>
             </BrowserRouter>

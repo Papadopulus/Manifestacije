@@ -105,9 +105,10 @@ const LoginInput = () => {
                     </div>
                     <div>
                         <label>
-                            <a href="" className={classes["login-links"]}>
+                            <Link to="/reset" className={classes["login-links"]}>
                                 Forgot your password?
-                            </a>
+                            </Link>
+
                         </label>
                     </div>
                     <div className={classes["form-actions"]}>
