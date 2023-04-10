@@ -56,7 +56,7 @@ public sealed class PartnerRepository : IPartnerRepository
         return true;
     }
 
-    public async Task<Partner> GetPartnerByIdAsync(string id)
+    public async Task<Partner?> GetPartnerByIdAsync(string id)
     {
         var filter = Builders<Partner>.Filter.Eq(partner => partner.Id, id);
         return await _partnerCollection

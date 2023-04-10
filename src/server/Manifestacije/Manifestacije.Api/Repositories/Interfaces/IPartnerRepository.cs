@@ -8,7 +8,7 @@ public interface IPartnerRepository
     Task<bool> CreatePartnerAsync(Partner partner);
     Task<bool> DeletePartnerAsync(string id);
     Task<bool> UpdatePartnerAsync(Partner partner);
-    Task<Partner> GetPartnerByIdAsync(string id);
+    Task<Partner?> GetPartnerByIdAsync(string id);
 
     Task<Partner> GetPartnerByNameAsync(string name, bool includeDeleted = false);
 }
