@@ -7,6 +7,6 @@ public class LocationUpdateRequestValidator : AbstractValidator<LocationUpdateRe
     public LocationUpdateRequestValidator()
     {
         RuleFor(x => x.Name)
-            .NotNull();
+            .NotEmpty();
     }
 }

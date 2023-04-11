@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using Bogus;
 using Manifestacije.Api.Contracts.Requests;
+using MongoDB.Bson;
 
 namespace Manifestacije.Api.Tests.E2E;
 
@@ -75,13 +76,7 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var content = await response.Content.ReadAsStringAsync();
-        content.Should().BeEquivalentTo("""
-        {
-            "errors": [
-            "'Name' must not be empty."
-                ]
-        }
-        """);
+        content.Should().BeEquivalentTo("{\"errors\":[\"'Name' must not be empty.\"]}");
     }
 
     [Fact]
@@ -89,6 +84,8 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
     {
         //Arrange
         var locationCreateRequest = _locationGenerator.Generate();
+
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
         //Act
         var response = await _client.PostAsJsonAsync("/locations", locationCreateRequest);
         //Assert
@@ -98,5 +95,169 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         content!.Id.Should().NotBeNull();
         response.Headers.Location.Should().Be($"/locations/{content.Id}");
     }
-    
+
+    [Fact]
+    public async Task CreateCategory_ShouldReturnUnauthorized_WhenUserIsNotAuthenticated()
+    {
+        // Arrange
+        var locationsQueryCreate = _locationGenerator.Generate();
+
+        // Act
+        var response = await _client.PostAsJsonAsync("/locations", locationsQueryCreate);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+    [Fact]
+    public async Task GetAllLocations_ShouldReturnAllLocations_WhenThereAreLocations()
+    {
+        // Arrange
+        var locationsQueryCreate = _locationGenerator.Generate();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
+        await _client.PostAsJsonAsync("/locations", locationsQueryCreate);
+        // Act
+        var response = await _client.GetAsync("/locations");
+
+        // Assert
+        var content = await response.Content.ReadAsStringAsync();
+        content.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+    [Fact]
+    public async Task GetLocationById_ShouldReturnNotFound_WhenLocationDoesNotExist()
+    {
+        // Arrange
+        var id = new ObjectId().ToString();
+
+        // Act
+        var response = await _client.GetAsync($"/locations/{id}");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+    [Fact]
+    public async Task GetLocationById_ShouldReturnOk_WhenLocationExists()
+    {
+        // Arrange
+        var locationCreateRequest = _locationGenerator.Generate();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
+        var content = await (await _client.PostAsJsonAsync("/locations", locationCreateRequest))
+            .Content.ReadFromJsonAsync<LocationViewResponse>();
+        var id = content!.Id;
+
+        // Act
+        var response = await _client.GetAsync($"/locations/{id}");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var newContent = await response.Content.ReadFromJsonAsync<LocationViewResponse>();
+        newContent.Should().NotBeNull();
+        newContent.Should().BeEquivalentTo(content, TestHelpers.Config<LocationViewResponse>());
+    }
+    [Fact]
+    public async Task UpdateLocation_ShouldReturnUnauthorized_WhenUserIsNotAuthenticated()
+    {
+        // Arrange
+        var locationUpdateRequest =_locationUpdateGenerator.Generate();
+        var id = ObjectId.GenerateNewId().ToString();
+
+        // Act
+        var response = await _client.PutAsJsonAsync($"/locations/{id}", locationUpdateRequest);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+    [Fact]
+    public async Task UpdateLocation_ShouldReturnNotFound_WhenLocationDoesNotExist()
+    {
+        // Arrange
+        var locationUpdateRequest = _locationUpdateGenerator.Generate();
+        var id = ObjectId.GenerateNewId().ToString();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
+
+        // Act
+        var response = await _client.PutAsJsonAsync($"/locations/{id}", locationUpdateRequest);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        var content = await response.Content.ReadAsStringAsync();
+        content.Should().BeEquivalentTo("\"there is not a location with specified id\"");
+    }
+    [Fact]
+    public async Task UpdateCategory_ShouldReturnValidationErrors_WhenCategoryUpdateRequestIsInvalid()
+    {
+        // Arrange
+        var locationUpdateRequest = _locationUpdateGenerator.Generate();
+        locationUpdateRequest.Name = "";
+        var id = ObjectId.GenerateNewId().ToString();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
+
+        // Act
+        var response = await _client.PutAsJsonAsync($"/locations/{id}", locationUpdateRequest);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var content = await response.Content.ReadAsStringAsync();
+        content.Should().BeEquivalentTo("{\"errors\":[\"'Name' must not be empty.\"]}");
+    }
+    [Fact]
+    public async Task UpdateLocation_ShouldReturnOk_WhenLocationUpdateRequestIsValid()
+    {
+        // Arrange
+        var locationCreateRequest = _locationGenerator.Generate();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
+        var content = await (await _client.PostAsJsonAsync("/locations", locationCreateRequest))
+            .Content.ReadFromJsonAsync<LocationViewResponse>();
+        var locationsUpdateRequest = _locationUpdateGenerator.Generate();
+        var id = content!.Id;
+        // Act
+        var response = await _client.PutAsJsonAsync($"/locations/{id}", locationsUpdateRequest);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var newContent = await response.Content.ReadFromJsonAsync<LocationViewResponse>();
+        newContent.Should().NotBeNull();
+        newContent!.Name.Should().BeEquivalentTo(locationsUpdateRequest.Name);
+    }
+    [Fact]
+    public async Task DeleteLocation_ShouldReturnUnauthorized_WhenUserIsNotAuthenticated()
+    {
+        // Arrange
+        var id = ObjectId.GenerateNewId().ToString();
+
+        // Act
+        var response = await _client.DeleteAsync($"/locations/{id}");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+    [Fact]
+    public async Task DeleteCategory_ShouldReturnNotFound_WhenCategoryDoesNotExist()
+    {
+        // Arrange
+        var id = ObjectId.GenerateNewId().ToString();
+
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
+
+        // Act
+        var response = await _client.DeleteAsync($"/locations/{id}");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+    [Fact]
+    public async Task DeleteLocation_ShouldReturnOk_WhenUserIsAdmin()
+    {
+        // Arrange
+        var locationCreateRequest = _locationGenerator.Generate();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
+        var content = await (await _client.PostAsJsonAsync("/locations", locationCreateRequest))
+            .Content.ReadFromJsonAsync<LocationViewResponse>();
+        var id = content!.Id;
+        // Act
+        var response = await _client.DeleteAsync($"/locations/{id}");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
 }

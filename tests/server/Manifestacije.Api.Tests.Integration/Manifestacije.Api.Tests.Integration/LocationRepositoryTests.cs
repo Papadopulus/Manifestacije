@@ -1,11 +1,9 @@
-﻿using ICSharpCode.SharpZipLib.Core;
-
-namespace Manifestacije.Api.Tests.Integration;
+﻿namespace Manifestacije.Api.Tests.Integration;
 
 public class LocationRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyncDisposable
 {
-    private readonly LocationRepository _sut;
     private readonly List<string> _locationsToDelete = new();
+    private readonly LocationRepository _sut;
 
     public LocationRepositoryTests(ManifestacijeApiFactory factory)
     {
@@ -38,7 +36,7 @@ public class LocationRepositoryTests : IClassFixture<ManifestacijeApiFactory>, I
         bool intersection = true,
         bool showDeleted = false)
     {
-        return new()
+        return new LocationQueryFilter
         {
             PageSize = pageSize,
             PageNumber = pageNumber,
@@ -140,7 +138,7 @@ public class LocationRepositoryTests : IClassFixture<ManifestacijeApiFactory>, I
         var result = await _sut.GetLocationByNameAsync(location.Name);
         //Assert
         result.Should()
-            .BeEquivalentTo(location,TestHelpers.Config<Location>());
+            .BeEquivalentTo(location, TestHelpers.Config<Location>());
 
         _locationsToDelete.Add(location.Id);
     }

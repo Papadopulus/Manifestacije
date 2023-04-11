@@ -1,5 +1,13 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Aleksa\AppData\Local\JetBrains\Rider2022.3\resharper-host\temp\Rider\vAny\CoverageData\_Manifestacije.-2115459203\Snapshot\snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=301b69ec_002D8f59_002D4cb1_002Dbf8b_002D5b21cbb19930/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UpdateCategory_ShouldReturnValidationErrors_WhenCategoryUpdateRequestIsInvalid" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::FCE51A09-83E7-4E6A-9631-BCF2E4388819::net7.0::Manifestacije.Api.Tests.E2E.LocationsEndpointsTests.UpdateCategory_ShouldReturnValidationErrors_WhenCategoryUpdateRequestIsInvalid&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3f1f20cf_002D29af_002D4eb6_002Da3ca_002D672ff2c73ad7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateLocationsAsync_ShouldReturnLocation_WhenCreateLocationSucceeds" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Or&gt;&#xD;
     &lt;ProjectFile&gt;D3FD1AA9-8001-44BE-8F7F-BAD08F41A54C/f:LocationServiceTests.cs&lt;/ProjectFile&gt;&#xD;
@@ -8,6 +16,7 @@
       &lt;TestId&gt;xUnit::FCE51A09-83E7-4E6A-9631-BCF2E4388819::net7.0::Manifestacije.Api.Tests.E2E.LocationsEndpointsTests.CreateLocation_ShouldReturnValidationError_WhenLocationIsNotValid&lt;/TestId&gt;&#xD;
       &lt;TestId&gt;xUnit::FCE51A09-83E7-4E6A-9631-BCF2E4388819::net7.0::Manifestacije.Api.Tests.E2E.LocationsEndpointsTests.CreateLocation_ShouldReturnOk_WhenCreateRequestIsValid&lt;/TestId&gt;&#xD;
     &lt;/TestAncestor&gt;&#xD;
+    &lt;ProjectFile&gt;FCE51A09-83E7-4E6A-9631-BCF2E4388819/f:LocationsEndpointsTests.cs&lt;/ProjectFile&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4b0c42cd_002D2fce_002D4a07_002D9bc6_002De2d29d973969/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;tests&amp;gt;\&amp;lt;server&amp;gt;\&amp;lt;Manifestacije.Api.Tests.Unit&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -18,4 +27,9 @@
     &lt;/TestAncestor&gt;&#xD;
     &lt;ProjectFile&gt;D5CA9A12-C9A9-42BB-9329-E58F56B05911/f:LocationRepositoryTests.cs&lt;/ProjectFile&gt;&#xD;
   &lt;/Or&gt;&#xD;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e300fc6f_002D58f8_002D45e1_002Dbeed_002Dcf5dd0952729/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateLocation_ShouldReturnValidationError_WhenLocationIsNotValid" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="D:\Posao\Manifestacije" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;server&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	</wpf:ResourceDictionary>
