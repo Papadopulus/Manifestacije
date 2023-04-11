@@ -44,8 +44,12 @@
     background-color: #9900cc;
     margin-left: 0px;
 }
+@font-face {
+    font-family: 'Lexend-Medium';
+    src: url("../../fonts/Lexend-Medium.ttf");
+}
 .nav-login-button, .nav-register-button{
-    font-family: 'Outfit-Medium';
+    font-family: 'Lexend-Medium';
     font-size: 20px;
 }
 .nav-register-button:hover {
@@ -90,7 +94,7 @@
     padding: 0.5rem 1rem;
 }
 .nav-links, .nav-links-outside{
-    font-family: 'Outfit-Medium';
+    font-family: 'Lexend-Medium';
     font-size: 20px;
 }
 
@@ -103,7 +107,7 @@
 
 .navbar-par {
     font-size: small;
-    font-family: 'Outfit-Medium';
+    font-family: 'Lexand-Medium';
 }
 @font-face {
     font-family: 'Outfit-Medium';
@@ -165,7 +169,7 @@
     }
 
     .nav-links:hover {
-        background-color: #1888ff;
+        background-color: #3333ff;
         border-radius: 0;
     }
 
@@ -179,7 +183,7 @@
     }
 
     .navbar-logo:hover {
-        background-color: #1888ff;
+        background-color: #3333ff;
         border-radius: 4px;
         transition: all 0.2s ease-out;
     }
@@ -195,7 +199,7 @@
     }
 
     .menu-icon:hover {
-        background-color: #1888ff;
+        background-color: #3333ff;
         border-radius: 4px;
         transition: all 0.2s ease-out;
 
@@ -258,7 +262,11 @@
         color: #fff;
         font-size: 1.5rem;
     }
+    @font-face {
+        font-family: 'Lexand-Medium';
+        src: url("../../fonts/Lexend-Medium.ttf");
+    }
     .nav-links-mobile, .nav-links-mobile-register {
-        font-family: 'Outfit-Medium';
+        font-family: 'Lexand-Medium';
     }
 }

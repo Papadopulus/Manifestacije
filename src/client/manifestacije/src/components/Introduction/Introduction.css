@@ -1,15 +1,19 @@
 @font-face{
-    font-family: 'Outfit-Bold';
-    src: url("../../fonts/Outfit-Bold.ttf");
+    font-family: 'Lexend-Bold';
+    src: url("../../fonts/Lexend-Bold.ttf");
+}
+@font-face {
+    font-family: 'Lexend-Regular';
+    src: url("../../fonts/Lexend-Regular.ttf");
 }
 .header-text{
     font-size: 60px;
-    font-family: 'Outfit-Bold';
+    font-family: 'Lexend-Bold';
     color: navajowhite;
 }
 .body-text{
     font-size: 40px;
-    font-family: "Outfit-Regular";
+    font-family: "Lexend-Regular";
     color: navajowhite;
 }
 .main-div{
