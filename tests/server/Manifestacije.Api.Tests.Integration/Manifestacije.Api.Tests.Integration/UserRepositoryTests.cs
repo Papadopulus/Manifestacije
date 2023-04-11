@@ -357,7 +357,7 @@ public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         bool intersection = true,
         bool showDeleted = false)
     {
-        return new()
+        return new UserQueryFilter
         {
             PageNumber = pageNumber,
             PageSize = pageSize,

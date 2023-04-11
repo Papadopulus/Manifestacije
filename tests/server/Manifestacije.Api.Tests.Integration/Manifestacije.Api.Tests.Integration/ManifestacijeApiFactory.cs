@@ -9,7 +9,7 @@ public sealed class ManifestacijeApiFactory : WebApplicationFactory<IApiMarker>,
         .WithPortBinding(27018, 27017)
         .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(27017))
         .Build();
-    
+
     public async Task InitializeAsync()
     {
         await _mongoDbContainer.StartAsync();
@@ -36,7 +36,7 @@ public sealed class ManifestacijeApiFactory : WebApplicationFactory<IApiMarker>,
         builder.ConfigureServices(services =>
         {
             var dbSettings = services.Where(x =>
-                x is { Lifetime: ServiceLifetime.Singleton, ServiceType.FullName: { } } &&
+                x is { Lifetime: ServiceLifetime.Singleton, ServiceType.FullName: not null } &&
                 x.ServiceType.FullName.Contains("Manifestacije.Api.Database.DatabaseSettings")).ToImmutableList();
 
             foreach (var dbSetting in dbSettings)

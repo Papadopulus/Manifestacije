@@ -1,5 +1,8 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Aleksa\AppData\Local\JetBrains\Rider2022.3\resharper-host\temp\Rider\vAny\CoverageData\_Manifestacije.-2115459203\Snapshot\snapshot.utdcvr</s:String>
+	
+	
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3f1f20cf_002D29af_002D4eb6_002Da3ca_002D672ff2c73ad7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateLocationsAsync_ShouldReturnLocation_WhenCreateLocationSucceeds" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Or&gt;&#xD;
     &lt;ProjectFile&gt;D3FD1AA9-8001-44BE-8F7F-BAD08F41A54C/f:LocationServiceTests.cs&lt;/ProjectFile&gt;&#xD;
@@ -18,4 +21,9 @@
     &lt;/TestAncestor&gt;&#xD;
     &lt;ProjectFile&gt;D5CA9A12-C9A9-42BB-9329-E58F56B05911/f:LocationRepositoryTests.cs&lt;/ProjectFile&gt;&#xD;
   &lt;/Or&gt;&#xD;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e300fc6f_002D58f8_002D45e1_002Dbeed_002Dcf5dd0952729/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateLocation_ShouldReturnValidationError_WhenLocationIsNotValid" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="D:\Posao\Manifestacije" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;server&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	</wpf:ResourceDictionary>

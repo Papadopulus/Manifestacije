@@ -75,13 +75,7 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var content = await response.Content.ReadAsStringAsync();
-        content.Should().BeEquivalentTo("""
-        {
-            "errors": [
-            "'Name' must not be empty."
-                ]
-        }
-        """);
+        content.Should().BeEquivalentTo("{\"errors\":[\"'Name' must not be empty.\"]}");
     }
 
     [Fact]
@@ -89,6 +83,8 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
     {
         //Arrange
         var locationCreateRequest = _locationGenerator.Generate();
+        
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
         //Act
         var response = await _client.PostAsJsonAsync("/locations", locationCreateRequest);
         //Assert
@@ -98,5 +94,4 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         content!.Id.Should().NotBeNull();
         response.Headers.Location.Should().Be($"/locations/{content.Id}");
     }
-    
 }

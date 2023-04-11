@@ -1,13 +1,10 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using Xunit.Sdk;
-
-namespace Manifestacije.Api.Tests.Unit;
+﻿namespace Manifestacije.Api.Tests.Unit;
 
 public sealed class LocationServiceTests
 {
-    private readonly LocationService _sut;
     private readonly ILocationRepository _locationRepository = Substitute.For<ILocationRepository>();
     private readonly IPartnerRepository _partnerRepository = Substitute.For<IPartnerRepository>();
+    private readonly LocationService _sut;
 
     public LocationServiceTests()
     {
@@ -285,7 +282,6 @@ public sealed class LocationServiceTests
         var result = await _sut.UpdateLocationAsync(location.Id, locationUpdateRequest);
         //Assert
         result.Should().BeEquivalentTo(location);
-
     }
 
     [Fact]

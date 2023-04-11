@@ -2,9 +2,9 @@
 
 public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyncDisposable
 {
-    private readonly CategoryRepository _sut;
     private readonly List<string> _categoriesToDelete = new();
-    
+    private readonly CategoryRepository _sut;
+
     public CategoryRepositoryTests(ManifestacijeApiFactory factory)
     {
         factory.CreateClient(new WebApplicationFactoryClientOptions
@@ -19,10 +19,12 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         });
         _sut = new CategoryRepository(databaseSettings);
     }
+
     public async ValueTask DisposeAsync()
     {
         await DeleteCategories();
     }
+
     [Fact]
     public async Task GetAllCategoriesAsync_ShouldReturnEmptyList_WhenNoCategoryExist()
     {
@@ -35,18 +37,19 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         // Assert
         result.Should().BeEmpty();
     }
+
     [Fact]
     public async Task GetAllCategoriesAsync_ShouldReturnAllCategories_WhenCategoriesExist()
     {
         // Arrange
-        var categoriesQueryFilter = CreateCategoryQueryFilter(Name: "Zdenkijada",intersection:false);
+        var categoriesQueryFilter = CreateCategoryQueryFilter(Name: "Zdenkijada", intersection: false);
         var category1 = new Category
         {
-            Name="Zdenkijada"
+            Name = "Zdenkijada"
         };
         var category2 = new Category
         {
-            Name="Zdenkijada"
+            Name = "Zdenkijada"
         };
         await _sut.CreateCategoryAsync(category1);
         await _sut.CreateCategoryAsync(category2);
@@ -62,6 +65,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         _categoriesToDelete.Add(category1.Id);
         _categoriesToDelete.Add(category2.Id);
     }
+
     [Fact]
     public async Task CreateCategoryAsync_ShouldCreateCategory_WhenCategoryIsValid()
     {
@@ -79,6 +83,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
 
         _categoriesToDelete.Add(category.Id);
     }
+
     [Fact]
     public async Task UpdateCategoryAsync_ShouldUpdateCategory_WhenCategoryIsValid()
     {
@@ -101,6 +106,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
 
         _categoriesToDelete.Add(category.Id);
     }
+
     [Fact]
     public async Task DeleteCategoryAsync_ShouldDeleteCategory_WhenCategoryExists()
     {
@@ -122,6 +128,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
 
         _categoriesToDelete.Add(category.Id);
     }
+
     [Fact]
     public async Task GetCategoryByIdAsync_ShouldReturnCategory_WhenCategoryExists()
     {
@@ -154,6 +161,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         // Assert
         result.Should().BeNull();
     }
+
     [Fact]
     public async Task GetCategoryWithNameAsync_ShouldReturnCategory_WhenCategoryExists()
     {
@@ -165,12 +173,12 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         await _sut.CreateCategoryAsync(category);
 
         // Act
-        var result = await _sut.GetCategoryWithNameAsync(category.Name,category.IsDeleted);
+        var result = await _sut.GetCategoryWithNameAsync(category.Name, category.IsDeleted);
 
         // Assert
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(category, TestHelpers.Config<Category>());
-        
+
         _categoriesToDelete.Add(category.Id);
     }
 
@@ -186,6 +194,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         // Assert
         result.Should().BeNull();
     }
+
     private static CategoryQueryFilter CreateCategoryQueryFilter(
         int pageNumber = 1,
         int pageSize = 10,
@@ -197,7 +206,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         bool intersection = true,
         bool showDeleted = false)
     {
-        return new()
+        return new CategoryQueryFilter
         {
             PageNumber = pageNumber,
             PageSize = pageSize,
@@ -210,6 +219,7 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
             ShowDeleted = showDeleted
         };
     }
+
     private async Task DeleteCategories()
     {
         foreach (var categoryId in _categoriesToDelete)
