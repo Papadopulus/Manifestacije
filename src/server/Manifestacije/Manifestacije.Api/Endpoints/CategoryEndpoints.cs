@@ -42,7 +42,7 @@ public sealed class CategoryEndpoints : IEndpoints
         var validationResult = await validator.ValidateAsync(categoryUpdateDto);
         if (!validationResult.IsValid)
         {
-            return Results.BadRequest(validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);
         }
 
         var category = await categoryService.UpdateCategoryAsync(id, categoryUpdateDto);
@@ -78,7 +78,7 @@ public sealed class CategoryEndpoints : IEndpoints
         var validationResult = await validator.ValidateAsync(categoryCreateDto);
         if (!validationResult.IsValid)
         {
-            return Results.BadRequest(validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);
         }
 
         var category = await categoryService.CreateCategoryAsync(categoryCreateDto);
