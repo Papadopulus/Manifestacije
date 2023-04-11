@@ -7,4 +7,5 @@ public sealed class DatabaseSettings
     public string UsersCollectionName { get; set; } = null!;
     public string LocationsCollectionName { get; set; } = null!;
     public string PartnersCollectionName { get; set; } = null!;
+    public string CategoriesCollectionName { get; set; } = default!;
 }

@@ -28,7 +28,8 @@ public sealed class ManifestacijeApiFactory : WebApplicationFactory<IApiMarker>,
             { "MongoDbSettings:DatabaseName", "manifestacije-test" },
             { "MongoDbSettings:UsersCollectionName", "users" },
             { "MongoDbSettings:LocationsCollectionName", "locations"},
-            {"MongoDbSettings:PartnersCollectionName", "partners"}
+            {"MongoDbSettings:PartnersCollectionName", "partners"},
+            { "MongoDbSettings:CategoriesCollectionName", "categories" }
         };
 
         var configuration = new ConfigurationBuilder()
