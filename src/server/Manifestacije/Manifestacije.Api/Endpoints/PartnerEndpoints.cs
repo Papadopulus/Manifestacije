@@ -32,7 +32,7 @@ public class PartnerEndpoints : IEndpoints
         var validatorResult = await validator.ValidateAsync(partnerCreateDto);
         if (!validatorResult.IsValid)
         {
-            return Results.BadRequest(validatorResult.Errors);
+            throw new ValidationException(validatorResult.Errors);
         }
 
         var partner = await partnerService.CreatePartnerAsync(partnerCreateDto);

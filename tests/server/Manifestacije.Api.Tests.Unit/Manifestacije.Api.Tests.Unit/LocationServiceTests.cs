@@ -97,7 +97,7 @@ public sealed class LocationServiceTests
         {
             Name = "location1"
         };
-        _locationRepository.GetLocationByName(Arg.Any<string>()).Returns(new Location());
+        _locationRepository.GetLocationByNameAsync(Arg.Any<string>()).Returns(new Location());
 
         //Act
         Func<Task> result = async () => await _sut.CreateLocationAsync(locationCreateRequest);
@@ -118,7 +118,7 @@ public sealed class LocationServiceTests
             AccommodationPartnerId = null,
             TransportPartnerId = null
         };
-        _locationRepository.GetLocationByName(Arg.Any<string>()).Returns((Location?)null);
+        _locationRepository.GetLocationByNameAsync(Arg.Any<string>()).Returns((Location?)null);
         _locationRepository.CreateLocationAsync(Arg.Any<Location>()).Returns(false);
         //Act
         Func<Task> result = async () => await _sut.CreateLocationAsync(locationRequest);
@@ -139,7 +139,7 @@ public sealed class LocationServiceTests
             AccommodationPartnerId = "1234",
             TransportPartnerId = null
         };
-        _locationRepository.GetLocationByName(Arg.Any<string>()).Returns((Location?)null);
+        _locationRepository.GetLocationByNameAsync(Arg.Any<string>()).Returns((Location?)null);
         _partnerRepository.GetPartnerByIdAsync(Arg.Any<string>()).Returns((Partner?)null);
 
         //Act
@@ -161,7 +161,7 @@ public sealed class LocationServiceTests
             AccommodationPartnerId = null,
             TransportPartnerId = "123241"
         };
-        _locationRepository.GetLocationByName(Arg.Any<string>()).Returns((Location?)null);
+        _locationRepository.GetLocationByNameAsync(Arg.Any<string>()).Returns((Location?)null);
         _partnerRepository.GetPartnerByIdAsync(Arg.Any<string>()).Returns((Partner?)null);
 
         //Act
@@ -210,7 +210,7 @@ public sealed class LocationServiceTests
             AccommodationPartner = partnerPartialAccommodation
         };
 
-        _locationRepository.GetLocationByName(Arg.Any<string>()).Returns((Location?)null);
+        _locationRepository.GetLocationByNameAsync(Arg.Any<string>()).Returns((Location?)null);
         _partnerRepository.GetPartnerByIdAsync("456").Returns(partnerTransport);
         _partnerRepository.GetPartnerByIdAsync("123").Returns(partnerAccommodation);
         _locationRepository.CreateLocationAsync(Arg.Any<Location>()).Returns(true);

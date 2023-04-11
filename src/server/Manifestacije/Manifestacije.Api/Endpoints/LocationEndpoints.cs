@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Manifestacije.Api.Endpoints.Internal;
 using Manifestacije.Api.Mappers;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manifestacije.Api.Endpoints;
@@ -32,7 +31,7 @@ public sealed class LocationEndpoints : IEndpoints
         var validationResult = await validator.ValidateAsync(locationCreateDto);
         if (!validationResult.IsValid)
         {
-            return Results.BadRequest(validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);
         }
 
         var location = await locationService.CreateLocationAsync(locationCreateDto);
@@ -49,7 +48,7 @@ public sealed class LocationEndpoints : IEndpoints
         var validationResult = await validator.ValidateAsync(locationUpdateDto);
         if (!validationResult.IsValid)
         {
-            return Results.BadRequest(validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);
         }
 
         var location = await locationService.UpdateLocationAsync(id, locationUpdateDto);

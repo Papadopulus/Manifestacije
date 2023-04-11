@@ -9,7 +9,7 @@ public sealed class ManifestacijeApiFactory : WebApplicationFactory<IApiMarker>,
         .WithPortBinding(27018, 27017)
         .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(27017))
         .Build();
-
+    
     public async Task InitializeAsync()
     {
         await _mongoDbContainer.StartAsync();

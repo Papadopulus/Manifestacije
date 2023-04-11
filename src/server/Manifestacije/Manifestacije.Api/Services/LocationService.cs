@@ -31,7 +31,7 @@ public sealed class LocationService : ILocationService
 
     public async Task<Location> CreateLocationAsync(LocationCreateRequest locationCreateRequest)
     {
-        var existingLocation = await _locationRepository.GetLocationByName(locationCreateRequest.Name);
+        var existingLocation = await _locationRepository.GetLocationByNameAsync(locationCreateRequest.Name);
         if (existingLocation is not null)
         {
             throw new InvalidInputException("Location with a given name already exists");

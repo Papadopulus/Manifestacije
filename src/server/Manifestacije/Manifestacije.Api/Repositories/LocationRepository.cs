@@ -40,7 +40,7 @@ public class LocationRepository : ILocationRepository
             .FirstOrDefaultAsync();
     }
 
-    public async Task<Location?> GetLocationByName(string name, bool includeDeleted = false)
+    public async Task<Location?> GetLocationByNameAsync(string name, bool includeDeleted = false)
     {
         var filter = Builders<Location>.Filter.Eq(location => location.Name, name);
         filter &= Builders<Location>.Filter.Eq(location => location.IsDeleted, includeDeleted);
