@@ -9,7 +9,8 @@
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background-image: linear-gradient(#3333ff,#9900cc);
+    background-color: white;
+    /*background-image: linear-gradient(#3333ff,#9900cc);*/
     box-shadow: -20px 0px 20px rgba(0,0,0,0.3);
 }
 
@@ -44,17 +45,21 @@
     max-width: 485px;
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 70%;
+}
+@font-face {
+    font-family: 'Lexand-Black';
+    src: url("../../fonts/Lexend-Black.ttf");
 }
 .login-handler h1 {
-    font-size: 40px;
+    font-size: 55px;
     font-weight: 700;
-    color: #FDFFD6;
+    color: #333333;
     text-align: center;
     line-height: 1.25;
-    margin-bottom: 15px;
+    margin-bottom: 50px;
     margin-top: 15px;
-    font-family: 'Lexand-Medium';
+    font-family: 'Outfit-Medium';
 }
 
 .login-handler .icon {
@@ -64,11 +69,11 @@
     background: rgba(0, 0, 0, 0) url(../../multimedia/login_icon_resized.webp) no-repeat scroll 0 0;
 }
 .login-handler .login-links{
-    color: #E9EAD7;
+    color: #333333;
 }
 
 .dont-have-account{
-    color: #AAAAAA;
+    color: #999999;
     font-family: 'Lexand-Medium';
     font-size: 18px;
     margin-bottom: 20px;
@@ -89,8 +94,9 @@
     src: url("../../fonts/Lexend-Medium.ttf");
 }
 .error-text {
-    color: #ff8080;
+    color: #ff3333;
     font-family: 'Lexand-Medium';
+    font-size: 18px;
 }
 .login-links{
     font-family: 'Lexand-Medium';

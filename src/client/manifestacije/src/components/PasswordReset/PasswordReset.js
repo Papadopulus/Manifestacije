@@ -50,10 +50,6 @@ const PasswordReset = () => {
     }
     return(
         <form className={classes["reset-form"]} onSubmit={resetSubmitHandler}>
-            <div className={classes["left-reset-container"]}>
-                <h1></h1>
-            </div>
-
             <div className={classes["right-reset-container"]}>
                 <div className={classes["reset-handler"]}>
                     <div className={classes["icon"]}></div>
