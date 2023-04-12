@@ -25,6 +25,7 @@
     font-size: 40px;
     font-family: "Lexend-Medium";
     color: navajowhite;
+    display: flex;
 }
 .main-div{
     position: absolute;
@@ -35,4 +36,7 @@
     align-items: center;
     justify-content: center;
     text-align: left;
+}
+.space{
+    margin-right: 12px;
 }
