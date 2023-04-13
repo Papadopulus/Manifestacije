@@ -27,7 +27,7 @@ public sealed class ManifestacijeApiFactory : WebApplicationFactory<IApiMarker>,
             { "MongoDbSettings:ConnectionString", "mongodb://localhost:27019" },
             { "MongoDbSettings:DatabaseName", "manifestacije-test" },
             { "MongoDbSettings:UsersCollectionName", "users" },
-            { "MongoDbSettings:CategoriesCollectionName", "categories" },
+            { "MongoDbSettings:CategoriesCollectionName", "categories" }
         };
 
         var configuration = new ConfigurationBuilder()
@@ -37,7 +37,7 @@ public sealed class ManifestacijeApiFactory : WebApplicationFactory<IApiMarker>,
         builder.ConfigureServices(services =>
         {
             var dbSettings = services.Where(x =>
-                x is { Lifetime: ServiceLifetime.Singleton, ServiceType.FullName: { } } &&
+                x is { Lifetime: ServiceLifetime.Singleton, ServiceType.FullName: not null } &&
                 x.ServiceType.FullName.Contains("Manifestacije.Api.Database.DatabaseSettings")).ToImmutableList();
 
             foreach (var dbSetting in dbSettings)

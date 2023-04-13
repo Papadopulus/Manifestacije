@@ -45,7 +45,7 @@ builder.Services.AddSwaggerGen(x =>
 // Cors
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: "AllowAll", policyBuilder =>
+    options.AddPolicy("AllowAll", policyBuilder =>
     {
         policyBuilder.AllowAnyOrigin()
             .AllowAnyMethod()
@@ -56,9 +56,11 @@ builder.Services.AddCors(options =>
 // Repositories
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
+builder.Services.AddSingleton<IOrganizationRepository, OrganizationRepository>();
 
 // Services
 builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddSingleton<IOrganizationService, OrganizationService>();
 builder.Services.AddSingleton<IMailService, MailService>();
 builder.Services.AddSingleton<ICategoryService, CategoryService>();
 

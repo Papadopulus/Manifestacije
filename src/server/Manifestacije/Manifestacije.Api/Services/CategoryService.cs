@@ -9,7 +9,7 @@ public sealed class CategoryService : ICategoryService
     private readonly ICategoryRepository _categoryRepository;
     private readonly string _secret;
 
-    public CategoryService(ICategoryRepository categoryRepository,IConfiguration configuration)
+    public CategoryService(ICategoryRepository categoryRepository, IConfiguration configuration)
     {
         _secret = configuration["Authorization:Secret"]!;
         _categoryRepository = categoryRepository;

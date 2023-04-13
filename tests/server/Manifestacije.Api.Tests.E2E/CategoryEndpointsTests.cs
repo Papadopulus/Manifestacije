@@ -6,15 +6,15 @@ using MongoDB.Bson;
 
 namespace Manifestacije.Api.Tests.E2E;
 
-public class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsyncLifetime
+public sealed class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsyncLifetime
 {
-    private readonly HttpClient _client;
-
     private readonly Faker<CategoryCreateRequest> _categoryGenerator = new Faker<CategoryCreateRequest>()
         .RuleFor(x => x.Name, faker => faker.Name.FirstName());
 
     private readonly Faker<CategoryUpdateRequest> _categoryUpdateGenerator = new Faker<CategoryUpdateRequest>()
         .RuleFor(x => x.Name, faker => faker.Name.FirstName());
+
+    private readonly HttpClient _client;
 
     private string _tokenAdmin = string.Empty;
     private string _tokenOrganization = string.Empty;
