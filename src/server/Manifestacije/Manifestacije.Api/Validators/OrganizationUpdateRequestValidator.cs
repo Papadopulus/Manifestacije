@@ -1,6 +1,12 @@
-﻿namespace Manifestacije.Api.Validators;
+﻿using FluentValidation;
 
-public sealed class OrganizationUpdateRequestValidator
+namespace Manifestacije.Api.Validators;
+
+public sealed class OrganizationUpdateRequestValidator : AbstractValidator<OrganizationUpdateRequest>
 {
-    
+    public OrganizationUpdateRequestValidator()
+    {
+        RuleFor(x => x.Name)
+            .NotEmpty();
+    }
 }

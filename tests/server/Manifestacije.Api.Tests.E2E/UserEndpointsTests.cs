@@ -1,10 +1,4 @@
-﻿using System.Net;
-using System.Net.Http.Headers;
-using Bogus;
-using Manifestacije.Api.Contracts.Requests;
-using MongoDB.Bson;
-
-namespace Manifestacije.Api.Tests.E2E;
+﻿namespace Manifestacije.Api.Tests.E2E;
 
 public sealed class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsyncLifetime
 {
