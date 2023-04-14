@@ -17,6 +17,7 @@
     min-height: 100vh;
     display: flex;
     overflow-y: auto;
+    background-color: grey;
 }
 .right-reset-container{
     width: 100%;
