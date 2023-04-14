@@ -4,6 +4,7 @@ import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
 import {useContext} from "react";
 import AuthContext from "../../store/AuthContext";
+import Introduction from "../Introduction/Introduction";
 
 import {Link} from "react-router-dom";
 
@@ -57,10 +58,12 @@ const LoginInput = () => {
     };
     return (
         <form className={classes["login-form"]} onSubmit={formSubmissionHandler}>
-            <div className={classes["right-login-container"]}></div>
             <div className={classes["left-login-container"]}>
+                <Introduction />
+            </div>
+            <div className={classes["right-login-container"]}>
                 <div className={classes["login-handler"]}>
-                    <div className={classes["icon"]}></div>
+
                     <h1>Login</h1>
                     <p className={classes["dont-have-account"]}>
                         Don't have an account?{" "}
@@ -105,9 +108,10 @@ const LoginInput = () => {
                     </div>
                     <div>
                         <label>
-                            <a href="" className={classes["login-links"]}>
+                            <Link to="/reset" className={classes["login-links"]}>
                                 Forgot your password?
-                            </a>
+                            </Link>
+
                         </label>
                     </div>
                     <div className={classes["form-actions"]}>

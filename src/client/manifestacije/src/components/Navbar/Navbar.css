@@ -34,9 +34,26 @@
     width: 70vw;
     justify-content: end;
 }
-
+.nav-login-button{
+    padding: 8px 28px;
+}
+.nav-login-button:hover{
+    padding: 6px 26px;
+}
 .nav-register-button {
-    background-color: #a618fff7;
+    background-color: #9900cc;
+    margin-left: 0px;
+}
+@font-face {
+    font-family: 'Lexend-Medium';
+    src: url("../../fonts/Lexend-Medium.ttf");
+}
+.nav-login-button, .nav-register-button{
+    font-family: 'Lexend-Medium';
+    font-size: 20px;
+}
+.nav-register-button:hover {
+    border: 2px solid #9900cc;
 }
 
 .fa-regular {
@@ -65,8 +82,8 @@
     display: flex;
 }
 
-.nav-links-outside:hover {
-    background-color: #1888ff;
+.nav-links-outside:hover, .nav-links:hover {
+    background-color: #3333ff;
     border-radius: 4px;
     transition: all 0.2s ease-out;
 }
@@ -76,23 +93,29 @@
     text-decoration: none;
     padding: 0.5rem 1rem;
 }
-
-.nav-links:hover {
-    background-color: #1888ff;
-    border-radius: 4px;
-    transition: all 0.2s ease-out;
+.nav-links, .nav-links-outside{
+    font-family: 'Lexend-Medium';
+    font-size: 20px;
 }
 
 .fa-bars {
     color: #fff;
 }
-
 .nav-links-mobile, .nav-links-mobile-register {
     display: none;
 }
 
 .navbar-par {
     font-size: small;
+    font-family: 'Lexand-Medium';
+}
+@font-face {
+    font-family: 'Outfit-Medium';
+    src: url("../../fonts/Outfit-Medium.ttf");
+}
+.navbar-text-logo{
+    font-family: 'Outfit-Medium';
+    font-size: 30px;
 }
 
 @media screen and (max-width: 960px) {
@@ -146,7 +169,7 @@
     }
 
     .nav-links:hover {
-        background-color: #1888ff;
+        background-color: #3333ff;
         border-radius: 0;
     }
 
@@ -160,7 +183,7 @@
     }
 
     .navbar-logo:hover {
-        background-color: #1888ff;
+        background-color: #3333ff;
         border-radius: 4px;
         transition: all 0.2s ease-out;
     }
@@ -176,7 +199,7 @@
     }
 
     .menu-icon:hover {
-        background-color: #1888ff;
+        background-color: #3333ff;
         border-radius: 4px;
         transition: all 0.2s ease-out;
 
@@ -201,7 +224,7 @@
         margin: 2rem auto;
         border-radius: 4px;
         width: 80%;
-        background: #1888ff;
+        background: #3333ff;
         text-decoration: none;
         color: #fff;
         font-size: 1.5rem;
@@ -214,18 +237,18 @@
         margin: 2rem auto;
         border-radius: 4px;
         width: 80%;
-        background: #a618fff7;
+        background:#9900cc;
         text-decoration: none;
         color: #fff;
         font-size: 1.5rem;
     }
 
 
-    .nav-links-mobile:hover {
+    /*.nav-links-mobile:hover {
         background: #fff;
         color: #1888ff;
         transition: 250ms;
-    }
+    }*/
 
     .nav-logout {
         display: block;
@@ -239,5 +262,11 @@
         color: #fff;
         font-size: 1.5rem;
     }
-
+    @font-face {
+        font-family: 'Lexand-Medium';
+        src: url("../../fonts/Lexend-Medium.ttf");
+    }
+    .nav-links-mobile, .nav-links-mobile-register {
+        font-family: 'Lexand-Medium';
+    }
 }

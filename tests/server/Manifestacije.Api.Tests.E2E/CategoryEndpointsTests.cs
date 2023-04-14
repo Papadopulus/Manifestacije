@@ -52,8 +52,9 @@ public sealed class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFacto
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var content = await response.Content.ReadAsStringAsync();
-        content.Should().BeEquivalentTo(
-            "[{\"propertyName\":\"Name\",\"errorMessage\":\"'Name' must not be empty.\",\"attemptedValue\":\"\",\"customState\":null,\"severity\":0,\"errorCode\":\"NotEmptyValidator\",\"formattedMessagePlaceholderValues\":{\"PropertyName\":\"Name\",\"PropertyValue\":\"\"}},{\"propertyName\":\"Name\",\"errorMessage\":\"The length of 'Name' must be at least 1 characters. You entered 0 characters.\",\"attemptedValue\":\"\",\"customState\":null,\"severity\":0,\"errorCode\":\"MinimumLengthValidator\",\"formattedMessagePlaceholderValues\":{\"MinLength\":1,\"MaxLength\":-1,\"TotalLength\":0,\"PropertyName\":\"Name\",\"PropertyValue\":\"\"}}]");
+        content.Should()
+            .BeEquivalentTo(
+                "{\"errors\":[\"'Name' must not be empty.\",\"The length of 'Name' must be at least 1 characters. You entered 0 characters.\"]}");
     }
 
     [Fact]
@@ -182,8 +183,9 @@ public sealed class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFacto
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var content = await response.Content.ReadAsStringAsync();
-        content.Should().BeEquivalentTo(
-            "[{\"propertyName\":\"Name\",\"errorMessage\":\"The length of 'Name' must be at least 1 characters. You entered 0 characters.\",\"attemptedValue\":\"\",\"customState\":null,\"severity\":0,\"errorCode\":\"MinimumLengthValidator\",\"formattedMessagePlaceholderValues\":{\"MinLength\":1,\"MaxLength\":-1,\"TotalLength\":0,\"PropertyName\":\"Name\",\"PropertyValue\":\"\"}}]");
+        content.Should()
+            .BeEquivalentTo(
+                "{\"errors\":[\"The length of 'Name' must be at least 1 characters. You entered 0 characters.\"]}");
     }
 
     [Fact]

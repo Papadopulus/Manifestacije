@@ -2,7 +2,7 @@
 
 public sealed class InvalidInputException : Exception
 {
-    public InvalidInputException() : base()
+    public InvalidInputException()
     {
     }
 

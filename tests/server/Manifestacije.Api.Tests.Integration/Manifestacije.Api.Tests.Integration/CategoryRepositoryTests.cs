@@ -1,8 +1,7 @@
 ﻿namespace Manifestacije.Api.Tests.Integration;
 
-public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyncDisposable
+public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFactory>
 {
-    private readonly List<string> _categoriesToDelete = new();
     private readonly CategoryRepository _sut;
 
     public CategoryRepositoryTests(ManifestacijeApiFactory factory)
@@ -18,11 +17,6 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
             CategoriesCollectionName = "categories"
         });
         _sut = new CategoryRepository(databaseSettings);
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        await DeleteCategories();
     }
 
     [Fact]
@@ -61,9 +55,6 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         result.Should().HaveCount(2);
         result.Should().ContainEquivalentOf(category1, TestHelpers.Config<Category>());
         result.Should().ContainEquivalentOf(category2, TestHelpers.Config<Category>());
-
-        _categoriesToDelete.Add(category1.Id);
-        _categoriesToDelete.Add(category2.Id);
     }
 
     [Fact]
@@ -80,8 +71,6 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
 
         // Assert
         result.Should().BeTrue();
-
-        _categoriesToDelete.Add(category.Id);
     }
 
     [Fact]
@@ -103,8 +92,6 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         result.Should().BeTrue();
         newCategory.Should().NotBeNull();
         newCategory!.Name.Should().Be("Some Other Name");
-
-        _categoriesToDelete.Add(category.Id);
     }
 
     [Fact]
@@ -125,8 +112,6 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         result.Should().BeTrue();
         newCategory.Should().NotBeNull();
         newCategory!.IsDeleted.Should().BeTrue();
-
-        _categoriesToDelete.Add(category.Id);
     }
 
     [Fact]
@@ -145,8 +130,6 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         // Assert
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(category, TestHelpers.Config<Category>());
-
-        _categoriesToDelete.Add(category.Id);
     }
 
     [Fact]
@@ -178,8 +161,6 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         // Assert
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(category, TestHelpers.Config<Category>());
-
-        _categoriesToDelete.Add(category.Id);
     }
 
     [Fact]
@@ -218,13 +199,5 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
             Intersection = intersection,
             ShowDeleted = showDeleted
         };
-    }
-
-    private async Task DeleteCategories()
-    {
-        foreach (var categoryId in _categoriesToDelete)
-        {
-            await _sut.DeleteCategoryAsync(categoryId);
-        }
     }
 }
