@@ -37,10 +37,11 @@ export const AuthContextProvider = ({children}) => {
         await axios.post(`${process.env.REACT_APP_BASE_URL}/users`,payload);
         navigate("/login");
     }
-    const logout = () => {
+    const logout = async () => {
         localStorage.removeItem("tokens");
+        localStorage.removeItem("expiration");
         setUser(null);
-        navigate("/");
+        navigate("/login");
     }
     
     return <AuthContext.Provider

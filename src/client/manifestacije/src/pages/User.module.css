@@ -1,0 +1,41 @@
+﻿.container{
+    margin-left: 130px;
+    margin-right: 130px;
+    margin-top: 70px;
+    background-color: cyan;
+    font-family: 'Lexend-Medium';
+    display: flex;
+}
+.container-left-nav{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+.item-menu{
+    padding: 20px 40px;
+    border-bottom: 1px solid black;
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    border-left: 4px solid transparent;
+}
+.item-menu.active {
+    border-left: 4px solid purple;
+}
+.item-menu:hover
+{
+    border-left: 4px solid purple;
+}
+.container-name-surname{
+    padding: 40px;
+}
+.container-name-surname label{
+    font-size: 24px;
+}
+.item-menu-email{
+    font-size: 16px;
+    color:#7a8294;
+}

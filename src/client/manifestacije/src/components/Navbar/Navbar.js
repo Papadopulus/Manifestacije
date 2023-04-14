@@ -167,7 +167,7 @@ function Navbar() {
               </Link>
             )
           : user && (
-              <Button onClick={logout} className={"nav-button"}>
+              <Button onClick={logout} to={"/login"} className={"nav-button"}>
                 Logout
               </Button>
             )}
