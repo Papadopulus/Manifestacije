@@ -2,19 +2,12 @@
 
 public sealed class CategoryServiceTests
 {
-    private readonly CategoryService _sut;
     private readonly ICategoryRepository _categoryRepository = Substitute.For<ICategoryRepository>();
+    private readonly CategoryService _sut;
 
     public CategoryServiceTests()
     {
-        var inMemorySettings = new Dictionary<string, string>
-        {
-            { "Authorization:Secret", "JEAAJEHAJE" }
-        };
-        IConfiguration configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(inMemorySettings)
-            .Build();
-        _sut = new CategoryService(_categoryRepository, configuration);
+        _sut = new CategoryService(_categoryRepository);
     }
 
     [Fact]
@@ -164,13 +157,14 @@ public sealed class CategoryServiceTests
         // Assert
         result.Should().BeNull();
     }
+
     [Fact]
     public async Task UpdateCategoryAsync_ShouldThrowDatabaseException_WhenCategoryUpdateFails()
     {
         // Arrange
         var categoryUpdateRequest = new CategoryUpdateRequest
         {
-            Name="Something"
+            Name = "Something"
         };
         var category = new Category
         {
@@ -188,6 +182,7 @@ public sealed class CategoryServiceTests
             .ThrowExactlyAsync<DatabaseException>()
             .WithMessage("Failed to update the category");
     }
+
     [Fact]
     public async Task UpdateCategoryAsync_ShouldReturnCategory_WhenCategoryUpdateSucceeds()
     {

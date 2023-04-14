@@ -2,7 +2,7 @@
 
 namespace Manifestacije.Api.Validators;
 
-public sealed class CategoryUpdateRequestValidator:AbstractValidator<CategoryUpdateRequest>
+public sealed class CategoryUpdateRequestValidator : AbstractValidator<CategoryUpdateRequest>
 {
     public CategoryUpdateRequestValidator()
     {

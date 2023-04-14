@@ -98,15 +98,16 @@ public static class QueryExtensions
                 ? Builders<TType>.Filter.Regex(name, $"/{value}/i")
                 : Builders<TType>.Filter.Eq(name, value.ToString());
 
-
             filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
         }
 
-        if (!showDeleted)
+        if (showDeleted)
         {
-            var deletedFilter = Builders<TType>.Filter.Eq("IsDeleted", false);
-            filter = filter is null ? deletedFilter : filter & deletedFilter;
+            return filter ?? Builders<TType>.Filter.Empty;
         }
+
+        var deletedFilter = Builders<TType>.Filter.Eq("IsDeleted", false);
+        filter = filter is null ? deletedFilter : filter & deletedFilter;
 
         return filter ?? Builders<TType>.Filter.Empty;
     }

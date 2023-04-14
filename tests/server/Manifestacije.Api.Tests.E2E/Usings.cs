@@ -7,3 +7,8 @@ global using DotNet.Testcontainers.Containers;
 global using Manifestacije.Api.Contracts.Responses;
 global using FluentAssertions;
 global using FluentAssertions.Equivalency;
+global using System.Net;
+global using System.Net.Http.Headers;
+global using Bogus;
+global using Manifestacije.Api.Contracts.Requests;
+global using MongoDB.Bson;
