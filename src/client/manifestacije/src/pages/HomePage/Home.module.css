@@ -1,0 +1,15 @@
+﻿.home-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.left-containter-home{
+    width: 15%;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.right-containter-home
+{
+    width: 85%;
+    background: #ffd9ce;
+}
