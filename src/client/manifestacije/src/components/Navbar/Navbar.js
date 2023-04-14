@@ -46,7 +46,7 @@ function Navbar() {
   ) : (
     <>
       <i className="fa-regular fa-calendar-plus"></i>
-      MANIFESTACIJE
+      <p className={"navbar-text-logo"}>manifestacije</p>
     </>
   );
 
@@ -100,6 +100,7 @@ function Navbar() {
               onClick={closeMobileMenu}
             >
               Padanje <i className="fas fa-caret-down" />
+
             </Link>
             {dropdown && <Dropdown />}
           </li>
@@ -144,13 +145,13 @@ function Navbar() {
           {aboutIcon}
         </Link>
         {!user && !isMobile && (
-          <Button className={"nav-button"} to={"/login"}>
+          <Button className={"nav-login-button"} to={"/login"}>
             Login
           </Button>
         )}
         {!user && !isMobile && (
           <Button className={"nav-register-button"} to={"/register"}>
-            Sign In
+            Sign in
           </Button>
         )}
         {isMobile

@@ -8,7 +8,7 @@
     font-size: 18px;
     color: #fff;
     cursor: pointer;
-    background-color: #1888ff;
+    background-color: #3333ff;
     margin-left: 20px;
     margin-right: 20px;
     white-space: nowrap;
@@ -20,6 +20,6 @@
     background-color: transparent;
     color: #fff;
     border-radius: 4px;
-    border: 2px solid #1888ff;
+    border: 2px solid #3333ff;
     transition: all 0.3s ease-out;
 }

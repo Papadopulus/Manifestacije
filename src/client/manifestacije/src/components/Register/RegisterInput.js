@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import useInput from "../../hooks/use-input";
 import {useContext} from "react";
 import AuthContext from "../../store/AuthContext";
+import Introduction from "../Introduction/Introduction";
 
 const RegisterInput = () => {
     const {register} = useContext(AuthContext);
@@ -92,12 +93,11 @@ const RegisterInput = () => {
     return (
         <form className={classes["register-form"]} onSubmit={registerSubmitHandler}>
             <div className={classes["left-register-container"]}>
-                <h1>Levi</h1>
+                <Introduction />
             </div>
 
             <div className={classes["right-register-container"]}>
                 <div className={classes["register-handler"]}>
-                    <div className={classes["icon"]}></div>
                     <h1 className={classes["main-sign"]}>Sign up</h1>
 
                     <Input
