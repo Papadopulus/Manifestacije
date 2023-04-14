@@ -30,6 +30,11 @@ public sealed class ExceptionMiddleware
             };
             await context.Response.WriteAsJsonAsync(validationFailureResponse);
         }
+        catch (NotFoundException exception)
+        {
+            context.Response.StatusCode = 404;
+            await context.Response.WriteAsJsonAsync(exception.Message);
+        }
         catch (InvalidInputException exception)
         {
             context.Response.StatusCode = 400;

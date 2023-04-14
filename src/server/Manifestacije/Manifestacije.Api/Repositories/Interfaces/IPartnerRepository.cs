@@ -10,5 +10,5 @@ public interface IPartnerRepository
     Task<bool> UpdatePartnerAsync(Partner partner);
     Task<Partner?> GetPartnerByIdAsync(string id);
 
-    Task<Partner> GetPartnerByNameAsync(string name, bool includeDeleted = false);
+    Task<Partner?> GetPartnerByNameAsync(string name, bool includeDeleted = false);
 }

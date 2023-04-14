@@ -76,7 +76,9 @@ public class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IA
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var content = await response.Content.ReadAsStringAsync();
-        content.Should().BeEquivalentTo("{\"errors\":[\"'Name' must not be empty.\",\"The length of 'Name' must be at least 1 characters. You entered 0 characters.\"]}");
+        content.Should()
+            .BeEquivalentTo(
+                "{\"errors\":[\"'Name' must not be empty.\",\"The length of 'Name' must be at least 1 characters. You entered 0 characters.\"]}");
     }
 
     [Fact]
@@ -220,7 +222,9 @@ public class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IA
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var content = await response.Content.ReadAsStringAsync();
-        content.Should().BeEquivalentTo("{\"errors\":[\"The length of 'Name' must be at least 1 characters. You entered 0 characters.\"]}");
+        content.Should()
+            .BeEquivalentTo(
+                "{\"errors\":[\"The length of 'Name' must be at least 1 characters. You entered 0 characters.\"]}");
     }
 
     [Fact]

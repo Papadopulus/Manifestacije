@@ -6,19 +6,16 @@ namespace Manifestacije.Api.Services;
 
 public sealed class PartnerService : IPartnerService
 {
-    private readonly IPartnerRepository _partnerRepository;
     private readonly ILocationRepository _locationRepository;
-    private readonly string _secret;
+    private readonly IPartnerRepository _partnerRepository;
 
     public PartnerService(IPartnerRepository partnerRepository,
-        IConfiguration configuration,
         ILocationRepository locationRepository)
     {
         _partnerRepository = partnerRepository;
         _locationRepository = locationRepository;
-        _secret = configuration["Authorization:Secret"]!;
     }
-    
+
     public async Task<List<Partner>> GetAllPartnersAsync(PartnerQueryFilter partnerQueryFilter)
     {
         return await _partnerRepository.GetAllPartnersAsync(partnerQueryFilter);
@@ -26,12 +23,12 @@ public sealed class PartnerService : IPartnerService
 
     public async Task<Partner> CreatePartnerAsync(PartnerCreateRequest partnerCreateRequest)
     {
-        var existingPartner =await  _partnerRepository.GetPartnerByNameAsync(partnerCreateRequest.Name);
+        var existingPartner = await _partnerRepository.GetPartnerByNameAsync(partnerCreateRequest.Name);
         if (existingPartner is not null)
         {
             throw new InvalidInputException("Partner with a given name already exists");
         }
-        
+
         var partner = PartnerMapper.PartnerCreateRequestToPartner(partnerCreateRequest);
         if (partnerCreateRequest.Locations.Any())
         {
@@ -40,16 +37,19 @@ public sealed class PartnerService : IPartnerService
                 var location = await _locationRepository.GetLocationByIdAsync(id);
                 if (location is null)
                 {
-                    throw new DatabaseException("Location doesnt exits");
+                    throw new NotFoundException("Location does not exist");
                 }
+
                 partner.Locations.Add(LocationMapper.LocationToLocationPartial(location));
             }
         }
+
         var success = await _partnerRepository.CreatePartnerAsync(partner);
         if (!success)
         {
             throw new DatabaseException("Failed to create Partner");
         }
+
         return partner;
     }
 
@@ -63,7 +63,7 @@ public sealed class PartnerService : IPartnerService
 
         existingPartner.Name = partnerUpdateRequest.Name;
         existingPartner.PhoneNumber = partnerUpdateRequest.PhoneNumber;
-        existingPartner.UpdatedAtUtc =DateTime.Now;
+        existingPartner.UpdatedAtUtc = DateTime.Now;
         var success = await _partnerRepository.UpdatePartnerAsync(existingPartner);
         if (!success)
         {
@@ -84,7 +84,6 @@ public sealed class PartnerService : IPartnerService
         existingPartner.IsDeleted = true;
         existingPartner.DeletedAtUtc = DateTime.UtcNow;
         return await _partnerRepository.UpdatePartnerAsync(existingPartner);
-
     }
 
     public async Task<Partner?> GetPartnerByIdAsync(string id)

@@ -1,5 +1,5 @@
-﻿using Riok.Mapperly.Abstractions;
-using Manifestacije.Api.Models;
+﻿using Manifestacije.Api.Models;
+using Riok.Mapperly.Abstractions;
 
 namespace Manifestacije.Api.Mappers;
 
@@ -7,9 +7,9 @@ namespace Manifestacije.Api.Mappers;
 public static partial class LocationMapper
 {
     public static partial Location LocationCreateRequestToLocation(LocationCreateRequest locationCreateRequest);
-    public static partial LocationViewResponse LocationToViewResponse(Location location);
+    public static partial LocationViewResponse LocationToLocationViewResponse(Location location);
     public static partial LocationPartial LocationToLocationPartial(Location location);
-    public static partial IEnumerable<LocationViewResponse> LocationToViewResponseEnumerable(
-        IEnumerable<Location> location);
 
+    public static partial IEnumerable<LocationViewResponse> LocationToLocationViewResponseEnumerable(
+        IEnumerable<Location> location);
 }

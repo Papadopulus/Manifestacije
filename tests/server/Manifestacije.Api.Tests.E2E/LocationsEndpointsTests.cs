@@ -65,15 +65,15 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
     [Fact]
     public async Task CreateLocation_ShouldReturnValidationError_WhenLocationIsNotValid()
     {
-        //Arrange
+        // Arrange
         var locationCreateRequest = _locationGenerator.Generate();
         locationCreateRequest.Name = "";
         locationCreateRequest.AccommodationPartnerId = null;
         locationCreateRequest.TransportPartnerId = null;
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
-        //Act
+        // Act
         var response = await _client.PostAsJsonAsync("/locations", locationCreateRequest);
-        //Assert
+        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var content = await response.Content.ReadAsStringAsync();
         content.Should().BeEquivalentTo("{\"errors\":[\"'Name' must not be empty.\"]}");
@@ -82,13 +82,13 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
     [Fact]
     public async Task CreateLocation_ShouldReturnOk_WhenCreateRequestIsValid()
     {
-        //Arrange
+        // Arrange
         var locationCreateRequest = _locationGenerator.Generate();
 
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _tokenAdmin);
-        //Act
+        // Act
         var response = await _client.PostAsJsonAsync("/locations", locationCreateRequest);
-        //Assert
+        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         var content = await response.Content.ReadFromJsonAsync<LocationViewResponse>();
         content.Should().NotBeNull();
@@ -108,6 +108,7 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
+
     [Fact]
     public async Task GetAllLocations_ShouldReturnAllLocations_WhenThereAreLocations()
     {
@@ -123,6 +124,7 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         content.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
+
     [Fact]
     public async Task GetLocationById_ShouldReturnNotFound_WhenLocationDoesNotExist()
     {
@@ -135,6 +137,7 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
+
     [Fact]
     public async Task GetLocationById_ShouldReturnOk_WhenLocationExists()
     {
@@ -154,11 +157,12 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         newContent.Should().NotBeNull();
         newContent.Should().BeEquivalentTo(content, TestHelpers.Config<LocationViewResponse>());
     }
+
     [Fact]
     public async Task UpdateLocation_ShouldReturnUnauthorized_WhenUserIsNotAuthenticated()
     {
         // Arrange
-        var locationUpdateRequest =_locationUpdateGenerator.Generate();
+        var locationUpdateRequest = _locationUpdateGenerator.Generate();
         var id = ObjectId.GenerateNewId().ToString();
 
         // Act
@@ -167,6 +171,7 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
+
     [Fact]
     public async Task UpdateLocation_ShouldReturnNotFound_WhenLocationDoesNotExist()
     {
@@ -183,6 +188,7 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         var content = await response.Content.ReadAsStringAsync();
         content.Should().BeEquivalentTo("\"there is not a location with specified id\"");
     }
+
     [Fact]
     public async Task UpdateCategory_ShouldReturnValidationErrors_WhenCategoryUpdateRequestIsInvalid()
     {
@@ -200,6 +206,7 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         var content = await response.Content.ReadAsStringAsync();
         content.Should().BeEquivalentTo("{\"errors\":[\"'Name' must not be empty.\"]}");
     }
+
     [Fact]
     public async Task UpdateLocation_ShouldReturnOk_WhenLocationUpdateRequestIsValid()
     {
@@ -219,6 +226,7 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         newContent.Should().NotBeNull();
         newContent!.Name.Should().BeEquivalentTo(locationsUpdateRequest.Name);
     }
+
     [Fact]
     public async Task DeleteLocation_ShouldReturnUnauthorized_WhenUserIsNotAuthenticated()
     {
@@ -231,6 +239,7 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
+
     [Fact]
     public async Task DeleteCategory_ShouldReturnNotFound_WhenCategoryDoesNotExist()
     {
@@ -245,6 +254,7 @@ public class LocationsEndpointsTests : IClassFixture<ManifestacijeApiFactory>, I
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
+
     [Fact]
     public async Task DeleteLocation_ShouldReturnOk_WhenUserIsAdmin()
     {

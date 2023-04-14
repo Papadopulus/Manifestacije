@@ -1,8 +1,7 @@
 ﻿namespace Manifestacije.Api.Tests.Integration;
 
-public class LocationRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyncDisposable
+public class LocationRepositoryTests : IClassFixture<ManifestacijeApiFactory>
 {
-    private readonly List<string> _locationsToDelete = new();
     private readonly LocationRepository _sut;
 
     public LocationRepositoryTests(ManifestacijeApiFactory factory)
@@ -18,11 +17,6 @@ public class LocationRepositoryTests : IClassFixture<ManifestacijeApiFactory>, I
             LocationsCollectionName = "locations"
         });
         _sut = new LocationRepository(databaseSettings);
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        await DeleteLocations();
     }
 
     private static LocationQueryFilter CreateLocationQueryFilter(
@@ -51,18 +45,18 @@ public class LocationRepositoryTests : IClassFixture<ManifestacijeApiFactory>, I
     [Fact]
     public async Task GetAllLocationsAsync_ShouldReturnEmptyList_WhenNoLocationsExists()
     {
-        //Arrange
+        // Arrange
         var locationsQueryFilter = CreateLocationQueryFilter(name: "AleksaSef");
-        //Act
+        // Act
         var result = await _sut.GetAllLocationsAsync(locationsQueryFilter);
-        //Assert
+        // Assert
         result.Should().BeEmpty();
     }
 
     [Fact]
     public async Task GetAllLocationsAsync_ShouldReturnLocationList_WhenLocaionsExists()
     {
-        //Arrange
+        // Arrange
         var locationsQueryFilter = CreateLocationQueryFilter(name: "lokacijaMoja", intersection: false);
         var location1 = new Location
         {
@@ -74,97 +68,89 @@ public class LocationRepositoryTests : IClassFixture<ManifestacijeApiFactory>, I
         };
         await _sut.CreateLocationAsync(location1);
         await _sut.CreateLocationAsync(location2);
-        //Act
+        // Act
         var result = await _sut.GetAllLocationsAsync(locationsQueryFilter);
-        //Assert
+        // Assert
         result.Should().HaveCount(2);
         result.Should().ContainEquivalentOf(location1, TestHelpers.Config<Location>());
         result.Should().ContainEquivalentOf(location2, TestHelpers.Config<Location>());
-
-        _locationsToDelete.Add(location1.Id);
-        _locationsToDelete.Add(location2.Id);
     }
 
     [Fact]
     public async Task GetLocationById_ShouldReturnNull_WhenNoLocationsExists()
     {
-        //Arrange
+        // Arrange
         var categoryId = "642c2c29364bc2e1aa766056";
-        //Act
+        // Act
         var result = await _sut.GetLocationByIdAsync(categoryId);
-        //Assert
+        // Assert
         result.Should().BeNull();
     }
 
     [Fact]
     public async Task GetLocationById_ShouldReturnLocation_WhenLocationsExists()
     {
-        //Arrange
+        // Arrange
         var location = new Location
         {
             Name = "locationDummy"
         };
         await _sut.CreateLocationAsync(location);
-        //Act
+        // Act
         var result = await _sut.GetLocationByIdAsync(location.Id);
-        //Assert
+        // Assert
         result.Should()
             .BeEquivalentTo(location, TestHelpers.Config<Location>());
-
-        _locationsToDelete.Add(location.Id);
     }
 
     [Fact]
     public async Task GetLocationByName_ShouldReturnNull_WhenLocationDoesntExists()
     {
-        //Arrange
+        // Arrange
         var name = "skladjskajdkla";
-        //Act
+        // Act
         var result = await _sut.GetLocationByNameAsync(name);
-        //Assert
+        // Assert
         result.Should().BeNull();
     }
 
     [Fact]
     public async Task GetLocationByName_ShouldReturnLocation_WhenLocationWithNameExists()
     {
-        //Arrange
+        // Arrange
         var location = new Location
         {
             Name = "locationDummy"
         };
         await _sut.CreateLocationAsync(location);
-        //Act
+        // Act
         var result = await _sut.GetLocationByNameAsync(location.Name);
-        //Assert
+        // Assert
         result.Should()
             .BeEquivalentTo(location, TestHelpers.Config<Location>());
-
-        _locationsToDelete.Add(location.Id);
     }
 
     [Fact]
     public async Task CreateLocationAsync_ShouldCreateLocation_WhenLocationIsValid()
     {
-        //Arrange
+        // Arrange
         var location = new Location
         {
             Name = "locationDummy"
         };
-        //Act
+        
+        // Act
         var result = await _sut.CreateLocationAsync(location);
-        //Assert
+        
+        // Assert
         result.Should()
             .BeTrue();
-
-        //Dispose
-        _locationsToDelete.Add(location.Id);
     }
 
     [Fact]
     public async Task UpdateLocation_ShouldUpdateLocation_WhenLocationIsValid()
     {
-        //Arrange
+        // Arrange
         var location = new Location
         {
             Name = "locationDummy"
@@ -172,10 +158,12 @@ public class LocationRepositoryTests : IClassFixture<ManifestacijeApiFactory>, I
 
         await _sut.CreateLocationAsync(location);
         location.Name = "newLocation";
-        //Act
+        
+        // Act
         var result = await _sut.UpdateLocationAsync(location);
         var newLocation = await _sut.GetLocationByIdAsync(location.Id);
-        //Assert
+        
+        // Assert
         result.Should().BeTrue();
         newLocation.Should().NotBeNull();
         newLocation!.Name.Should().Be("newLocation");
@@ -199,15 +187,5 @@ public class LocationRepositoryTests : IClassFixture<ManifestacijeApiFactory>, I
         result.Should().BeTrue();
         newLocation.Should().NotBeNull();
         newLocation!.IsDeleted.Should().BeTrue();
-
-        _locationsToDelete.Add(location.Id);
-    }
-
-    private async Task DeleteLocations()
-    {
-        foreach (var locationsId in _locationsToDelete)
-        {
-            await _sut.DeleteLocationAsync(locationsId);
-        }
     }
 }

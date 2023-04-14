@@ -7,14 +7,7 @@ public sealed class CategoryServiceTests
 
     public CategoryServiceTests()
     {
-        var inMemorySettings = new Dictionary<string, string>
-        {
-            { "Authorization:Secret", "JEAAJEHAJE" }
-        };
-        IConfiguration configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(inMemorySettings)
-            .Build();
-        _sut = new CategoryService(_categoryRepository, configuration);
+        _sut = new CategoryService(_categoryRepository);
     }
 
     [Fact]

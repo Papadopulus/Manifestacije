@@ -1,9 +1,8 @@
 ﻿namespace Manifestacije.Api.Tests.Integration;
 
-public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>, IAsyncDisposable
+public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
 {
     private readonly UserRepository _sut;
-    private readonly List<string> _usersToDelete = new();
 
     public UserRepositoryTests(ManifestacijeApiFactory factory)
     {
@@ -19,12 +18,6 @@ public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         });
 
         _sut = new UserRepository(databaseSettings);
-    }
-
-
-    public async ValueTask DisposeAsync()
-    {
-        await DeleteUsers();
     }
 
     [Fact]
@@ -67,9 +60,6 @@ public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         result.Should().HaveCount(2);
         result.Should().ContainEquivalentOf(user1, TestHelpers.Config<User>());
         result.Should().ContainEquivalentOf(user2, TestHelpers.Config<User>());
-
-        _usersToDelete.Add(user1.Id);
-        _usersToDelete.Add(user2.Id);
     }
 
     [Fact]
@@ -109,9 +99,6 @@ public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         // Assert
         result.Should().HaveCount(1);
         result.Should().ContainEquivalentOf(user2, TestHelpers.Config<User>());
-
-        _usersToDelete.Add(user1.Id);
-        _usersToDelete.Add(user2.Id);
     }
 
     [Fact]
@@ -130,8 +117,6 @@ public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
 
         // Assert
         result.Should().BeTrue();
-
-        _usersToDelete.Add(user.Id);
     }
 
     [Fact]
@@ -155,8 +140,6 @@ public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         result.Should().BeTrue();
         newUser.Should().NotBeNull();
         newUser!.FirstName.Should().Be("PName");
-
-        _usersToDelete.Add(user.Id);
     }
 
     [Fact]
@@ -179,8 +162,6 @@ public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         result.Should().BeTrue();
         newUser.Should().NotBeNull();
         newUser!.IsDeleted.Should().BeTrue();
-
-        _usersToDelete.Add(user.Id);
     }
 
     [Fact]
@@ -201,8 +182,6 @@ public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         // Assert
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(user, TestHelpers.Config<User>());
-
-        _usersToDelete.Add(user.Id);
     }
 
     [Fact]
@@ -371,13 +350,5 @@ public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
             Intersection = intersection,
             ShowDeleted = showDeleted
         };
-    }
-
-    private async Task DeleteUsers()
-    {
-        foreach (var userId in _usersToDelete)
-        {
-            await _sut.DeleteUserAsync(userId);
-        }
     }
 }

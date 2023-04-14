@@ -19,6 +19,7 @@ public class LocationRepository : ILocationRepository
         _locationsCollection = mongoDatabase.GetCollection<Location>(
             databaseSettings.Value.LocationsCollectionName);
     }
+
     public async Task<List<Location>> GetAllLocationsAsync(LocationQueryFilter locationQueryFilter)
     {
         var filter = locationQueryFilter.Filter<Location, LocationQueryFilter>();

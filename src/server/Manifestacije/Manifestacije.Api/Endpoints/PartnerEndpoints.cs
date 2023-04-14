@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Manifestacije.Api.Endpoints.Internal;
 using Manifestacije.Api.Mappers;
-using Manifestacije.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manifestacije.Api.Endpoints;
@@ -36,7 +35,7 @@ public class PartnerEndpoints : IEndpoints
         }
 
         var partner = await partnerService.CreatePartnerAsync(partnerCreateDto);
-        var partnerResponse = PartnerMapper.PartnerToViewResponsePartner(partner);
+        var partnerResponse = PartnerMapper.PartnerToPartnerViewResponse(partner);
         return Results.Created($"{BaseRoute}/{partner.Id}", partnerResponse);
     }
 
@@ -54,8 +53,8 @@ public class PartnerEndpoints : IEndpoints
 
         var partner = await partnerService.UpdatePartnerAsync(id, partnerUpdateDto);
         return partner is null
-            ? Results.NotFound("there is not such a partner")
-            : Results.Ok(PartnerMapper.PartnerToViewResponsePartner(partner));
+            ? Results.NotFound("Partner with the given id not found")
+            : Results.Ok(PartnerMapper.PartnerToPartnerViewResponse(partner));
     }
 
     internal static async Task<IResult> DeletePartner(
@@ -64,8 +63,8 @@ public class PartnerEndpoints : IEndpoints
     {
         var result = await partnerService.DeletePartnerAsync(id);
         return result
-            ? Results.Ok("partner successfully deleted")
-            : Results.NotFound("there is no such a partner");
+            ? Results.Ok("Partner successfully deleted")
+            : Results.NotFound("Partner with the given id not found");
     }
 
     internal static async Task<IResult> GetAllPartners(
@@ -73,7 +72,7 @@ public class PartnerEndpoints : IEndpoints
         IPartnerService partnerService)
     {
         var partners = await partnerService.GetAllPartnersAsync(partnerQueryFilter);
-        var partnersResponse = PartnerMapper.PartnerToViewResponsePartnerEnumerable(partners);
+        var partnersResponse = PartnerMapper.PartnerToPartnerViewResponseEnumerable(partners);
         return Results.Ok(partnersResponse);
     }
 
@@ -82,8 +81,8 @@ public class PartnerEndpoints : IEndpoints
         IPartnerService partnerService)
     {
         var partner = await partnerService.GetPartnerByIdAsync(id);
-        return partner is null 
-            ? Results.NotFound($"there is not such a partner with id: {id}") 
-            : Results.Ok(PartnerMapper.PartnerToViewResponsePartner(partner));
+        return partner is null
+            ? Results.NotFound($"Partner with the given id not found")
+            : Results.Ok(PartnerMapper.PartnerToPartnerViewResponse(partner));
     }
 }

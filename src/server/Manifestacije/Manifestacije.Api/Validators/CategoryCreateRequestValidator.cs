@@ -2,7 +2,7 @@
 
 namespace Manifestacije.Api.Validators;
 
-public sealed class CategoryCreateRequestValidator:AbstractValidator<CategoryCreateRequest>
+public sealed class CategoryCreateRequestValidator : AbstractValidator<CategoryCreateRequest>
 {
     public CategoryCreateRequestValidator()
     {
@@ -10,6 +10,5 @@ public sealed class CategoryCreateRequestValidator:AbstractValidator<CategoryCre
             .NotEmpty()
             .MinimumLength(1)
             .MaximumLength(64);
-
     }
 }

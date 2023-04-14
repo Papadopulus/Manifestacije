@@ -5,10 +5,10 @@ public sealed class LocationViewResponse
     public string Id { get; set; } = default!;
     public string Name { get; set; } = default!;
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
-    public string? CreatedByUserId { get; set; } = null;
+    public string? CreatedByUserId { get; set; }
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
-    public string? UpdatedByUserId { get; set; } = null;
-    public DateTime? DeletedAtUtc { get; set; } = null;
-    public string? DeletedByUserId { get; set; } = null;
+    public string? UpdatedByUserId { get; set; }
+    public DateTime? DeletedAtUtc { get; set; }
+    public string? DeletedByUserId { get; set; }
     public bool IsDeleted { get; set; } = false;
 }

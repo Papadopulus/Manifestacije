@@ -8,23 +8,13 @@ public sealed class LocationServiceTests
 
     public LocationServiceTests()
     {
-        var inMemorySettings = new Dictionary<string, string>
-        {
-            { "Authorization:Secret", "ADADADADADADADADA" }
-        };
-
-        IConfiguration configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(inMemorySettings)
-            .Build();
-
-        _sut = new LocationService(_locationRepository, _partnerRepository, configuration);
+        _sut = new LocationService(_locationRepository, _partnerRepository);
     }
 
     [Fact]
     public async Task GetAllLocationsAsync_ShouldReturnEmptyList_WhenNoLocationsExit()
     {
-        //Arrange
-
+        // Arrange
         _locationRepository.GetAllLocationsAsync(Arg.Any<LocationQueryFilter>()).Returns(new List<Location>());
 
         // Act
@@ -37,7 +27,7 @@ public sealed class LocationServiceTests
     [Fact]
     public async Task GetAllLocationsAsync_ShouldReturnListOfLocations_WhenLocationsExists()
     {
-        //Arrange
+        // Arrange
         var locations = new List<Location>
         {
             new()
@@ -48,30 +38,30 @@ public sealed class LocationServiceTests
         };
         _locationRepository.GetAllLocationsAsync(Arg.Any<LocationQueryFilter>()).Returns(locations);
 
-        //Act
+        // Act
         var result = await _sut.GetAllLocationsAsync(new LocationQueryFilter());
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(locations);
     }
 
     [Fact]
-    public async Task GetLocationByIdAsync_ShouldReturnNUll_WhenLocationsDoesntExists()
+    public async Task GetLocationByIdAsync_ShouldReturnNull_WhenLocationsDoesntExists()
     {
-        //Arrage
+        // Arrange
         _locationRepository.GetLocationByIdAsync(Arg.Any<string>()).Returns((Location?)null);
 
-        //Act
+        // Act
         var result = await _sut.GetLocationByIdAsync("1");
 
-        //Assert
+        // Assert
         result.Should().BeNull();
     }
 
     [Fact]
     public async Task GetLocationByIdAsync_ShouldReturnLocation_WhenLocationsExists()
     {
-        //Arrage
+        // Arrange
         var location = new Location
         {
             Id = "1",
@@ -79,27 +69,27 @@ public sealed class LocationServiceTests
         };
         _locationRepository.GetLocationByIdAsync(Arg.Any<string>()).Returns(location);
 
-        //Act
+        // Act
         var result = await _sut.GetLocationByIdAsync("1");
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(location);
     }
 
     [Fact]
     public async Task CreateLocationAsync_ShouldReturnInvalidInputException_WhenLocationWithNameExists()
     {
-        //Arrange
+        // Arrange
         var locationCreateRequest = new LocationCreateRequest
         {
             Name = "location1"
         };
         _locationRepository.GetLocationByNameAsync(Arg.Any<string>()).Returns(new Location());
 
-        //Act
+        // Act
         Func<Task> result = async () => await _sut.CreateLocationAsync(locationCreateRequest);
 
-        //Assert
+        // Assert
         await result.Should()
             .ThrowExactlyAsync<InvalidInputException>()
             .WithMessage("Location with a given name already exists");
@@ -108,7 +98,7 @@ public sealed class LocationServiceTests
     [Fact]
     public async Task CreateLocationAsync_ShouldReturnDatabaseException_WhenLocationCreationFails()
     {
-        //Arrange
+        // Arrange
         var locationRequest = new LocationCreateRequest
         {
             Name = "location1",
@@ -117,9 +107,9 @@ public sealed class LocationServiceTests
         };
         _locationRepository.GetLocationByNameAsync(Arg.Any<string>()).Returns((Location?)null);
         _locationRepository.CreateLocationAsync(Arg.Any<Location>()).Returns(false);
-        //Act
+        // Act
         Func<Task> result = async () => await _sut.CreateLocationAsync(locationRequest);
-        //Assert
+        // Assert
         await result
             .Should()
             .ThrowExactlyAsync<DatabaseException>()
@@ -129,7 +119,7 @@ public sealed class LocationServiceTests
     [Fact]
     public async Task CreateLocationAsync_ShouldReturnException_WhenPartnerAccommodationAlreadyExists()
     {
-        //Arrange
+        // Arrange
         var locationRequest = new LocationCreateRequest
         {
             Name = "location1",
@@ -139,19 +129,19 @@ public sealed class LocationServiceTests
         _locationRepository.GetLocationByNameAsync(Arg.Any<string>()).Returns((Location?)null);
         _partnerRepository.GetPartnerByIdAsync(Arg.Any<string>()).Returns((Partner?)null);
 
-        //Act
+        // Act
         Func<Task> result = async () => await _sut.CreateLocationAsync(locationRequest);
-        //Assert
+        // Assert
         await result
             .Should()
-            .ThrowExactlyAsync<DatabaseException>()
+            .ThrowExactlyAsync<NotFoundException>()
             .WithMessage("Partner with a given id does not exist");
     }
 
     [Fact]
     public async Task CreateLocationAsync_ShouldReturnException_WhenPartnerTransportAlreadyExists()
     {
-        //Arrange
+        // Arrange
         var locationRequest = new LocationCreateRequest
         {
             Name = "location1",
@@ -161,19 +151,19 @@ public sealed class LocationServiceTests
         _locationRepository.GetLocationByNameAsync(Arg.Any<string>()).Returns((Location?)null);
         _partnerRepository.GetPartnerByIdAsync(Arg.Any<string>()).Returns((Partner?)null);
 
-        //Act
+        // Act
         Func<Task> result = async () => await _sut.CreateLocationAsync(locationRequest);
-        //Assert
+        // Assert
         await result
             .Should()
-            .ThrowExactlyAsync<DatabaseException>()
+            .ThrowExactlyAsync<NotFoundException>()
             .WithMessage("Partner with a given id does not exist");
     }
 
     [Fact]
     public async Task CreateLocationsAsync_ShouldReturnLocation_WhenCreateLocationSucceeds()
     {
-        //Arrange
+        // Arrange
         var locationCreateRequest = new LocationCreateRequest
         {
             Name = "location1",
@@ -211,9 +201,9 @@ public sealed class LocationServiceTests
         _partnerRepository.GetPartnerByIdAsync("456").Returns(partnerTransport);
         _partnerRepository.GetPartnerByIdAsync("123").Returns(partnerAccommodation);
         _locationRepository.CreateLocationAsync(Arg.Any<Location>()).Returns(true);
-        //Act
+        // Act
         var result = await _sut.CreateLocationAsync(locationCreateRequest);
-        //Assert
+        // Assert
         result.Should()
             .BeEquivalentTo(location, TestHelpers.Config<Location>());
     }
@@ -221,7 +211,7 @@ public sealed class LocationServiceTests
     [Fact]
     public async Task UpdateLocationAsync_ShouldReturnNull_WhenLocationDoesntExists()
     {
-        //Arrange
+        // Arrange
         var location = new Location
         {
             Id = "123",
@@ -233,16 +223,16 @@ public sealed class LocationServiceTests
             Name = "locationUpdate"
         };
         _locationRepository.GetLocationByIdAsync(Arg.Any<string>()).Returns((Location?)null);
-        //Act
+        // Act
         var result = await _sut.UpdateLocationAsync(location.Id, locationUpdateRequest);
-        //Assert
+        // Assert
         result.Should().BeNull();
     }
 
     [Fact]
     public async Task UpdateLocationAsync_ShouldReturnDataBaseException_WhenLocationUpdateFails()
     {
-        //Arrange
+        // Arrange
         var location = new Location
         {
             Id = "123",
@@ -255,9 +245,9 @@ public sealed class LocationServiceTests
         _locationRepository.GetLocationByIdAsync(Arg.Any<string>()).Returns(location);
         _locationRepository.UpdateLocationAsync(Arg.Any<Location>()).Returns(false);
 
-        //Act
+        // Act
         Func<Task> result = async () => await _sut.UpdateLocationAsync(location.Id, locationUpdateRequest);
-        //Assert
+        // Assert
         await result.Should()
             .ThrowExactlyAsync<DatabaseException>()
             .WithMessage("Failed to update Location");
@@ -266,7 +256,7 @@ public sealed class LocationServiceTests
     [Fact]
     public async Task UpdateLocationAsync_ShouldReturnLocation_WhenLocationUpdateSucceeds()
     {
-        //Arrange
+        // Arrange
         var location = new Location
         {
             Id = "123",
@@ -278,27 +268,27 @@ public sealed class LocationServiceTests
         };
         _locationRepository.GetLocationByIdAsync(Arg.Any<string>()).Returns(location);
         _locationRepository.UpdateLocationAsync(Arg.Any<Location>()).Returns(true);
-        //Act
+        // Act
         var result = await _sut.UpdateLocationAsync(location.Id, locationUpdateRequest);
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(location);
     }
 
     [Fact]
     public async Task DeleteLocationAsync_ShouldReturnFalse_WhenLocationDoesntExists()
     {
-        //Arrange
+        // Arrange
         _locationRepository.GetLocationByIdAsync(Arg.Any<string>()).Returns((Location?)null);
-        //Act
+        // Act
         var result = await _sut.DeleteLocationAsync("1");
-        //Assert
+        // Assert
         result.Should().BeFalse();
     }
 
     [Fact]
     public async Task DeleteLocationAsync_ShouldReturnTrue_WhenLocationExists()
     {
-        //Arrange
+        // Arrange
         var location = new Location
         {
             Id = "123",
@@ -306,9 +296,9 @@ public sealed class LocationServiceTests
         };
         _locationRepository.GetLocationByIdAsync(Arg.Any<string>()).Returns(location);
         _locationRepository.UpdateLocationAsync(Arg.Any<Location>()).Returns(true);
-        //Act
+        // Act
         var result = await _sut.DeleteLocationAsync("123");
-        //Assert
+        // Assert
         result.Should().BeTrue();
     }
 }

@@ -8,11 +8,12 @@ namespace Manifestacije.Api.Endpoints;
 public sealed class LocationEndpoints : IEndpoints
 {
     private const string BaseRoute = "/locations";
+
     public static void DefineEndpoints(IEndpointRouteBuilder app)
     {
         app.MapPost(BaseRoute, CreateLocation)
             .RequireAuthorization(RolesEnum.Admin.ToString());
-            // .RequireAuthorization(RolesEnum.Admin.ToString());
+        // .RequireAuthorization(RolesEnum.Admin.ToString());
         app.MapPut(BaseRoute + "/{id}", UpdateLocation)
             .RequireAuthorization(RolesEnum.Admin.ToString());
         app.MapDelete(BaseRoute + "/{id}", DeleteLocation)
@@ -35,7 +36,7 @@ public sealed class LocationEndpoints : IEndpoints
         }
 
         var location = await locationService.CreateLocationAsync(locationCreateDto);
-        var locationResponse = LocationMapper.LocationToViewResponse(location);
+        var locationResponse = LocationMapper.LocationToLocationViewResponse(location);
         return Results.Created($"{BaseRoute}/{location.Id}", locationResponse);
     }
 
@@ -54,7 +55,7 @@ public sealed class LocationEndpoints : IEndpoints
         var location = await locationService.UpdateLocationAsync(id, locationUpdateDto);
         return location is null
             ? Results.NotFound("there is not a location with specified id")
-            : Results.Ok(LocationMapper.LocationToViewResponse(location));
+            : Results.Ok(LocationMapper.LocationToLocationViewResponse(location));
     }
 
     internal static async Task<IResult> DeleteLocation(
@@ -62,8 +63,8 @@ public sealed class LocationEndpoints : IEndpoints
         ILocationService locationService)
     {
         var result = await locationService.DeleteLocationAsync(id);
-        return result 
-            ? Results.Ok("Location successfully deleted") 
+        return result
+            ? Results.Ok("Location successfully deleted")
             : Results.NotFound($"Use with an Id:{id} does not exit");
     }
 
@@ -72,7 +73,7 @@ public sealed class LocationEndpoints : IEndpoints
         ILocationService locationService)
     {
         var locations = await locationService.GetAllLocationsAsync(locationQueryFilter);
-        var locationsResponse = LocationMapper.LocationToViewResponseEnumerable(locations);
+        var locationsResponse = LocationMapper.LocationToLocationViewResponseEnumerable(locations);
         return Results.Ok(locationsResponse);
     }
 
@@ -82,7 +83,7 @@ public sealed class LocationEndpoints : IEndpoints
     {
         var location = await locationService.GetLocationByIdAsync(id);
         return location is not null
-            ? Results.Ok(LocationMapper.LocationToViewResponse(location))
+            ? Results.Ok(LocationMapper.LocationToLocationViewResponse(location))
             : Results.NotFound($"There is not such a location with a given Id: {id}");
     }
 }

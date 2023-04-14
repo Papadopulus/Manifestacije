@@ -1,6 +1,6 @@
 ﻿using Manifestacije.Api.Exceptions;
-using Manifestacije.Api.Models;
 using Manifestacije.Api.Mappers;
+using Manifestacije.Api.Models;
 
 namespace Manifestacije.Api.Services;
 
@@ -8,13 +8,10 @@ public sealed class LocationService : ILocationService
 {
     private readonly ILocationRepository _locationRepository;
     private readonly IPartnerRepository _partnerRepository;
-    private readonly string _secret;
 
     public LocationService(ILocationRepository locationRepository,
-        IPartnerRepository partnerRepository,
-        IConfiguration configuration)
+        IPartnerRepository partnerRepository)
     {
-        _secret = configuration["Authorization:Secret"]!;
         _locationRepository = locationRepository;
         _partnerRepository = partnerRepository;
     }
@@ -41,9 +38,10 @@ public sealed class LocationService : ILocationService
         if (locationCreateRequest.TransportPartnerId is not null)
         {
             var partner = await _partnerRepository.GetPartnerByIdAsync(locationCreateRequest.TransportPartnerId);
-            // TODO: Create new Exception
             if (partner is null)
-                throw new DatabaseException("Partner with a given id does not exist");
+            {
+                throw new NotFoundException("Partner with a given id does not exist");
+            }
 
             location.TransportPartner = PartnerMapper.PartnerToPartnerPartial(partner);
         }
@@ -51,9 +49,10 @@ public sealed class LocationService : ILocationService
         if (locationCreateRequest.AccommodationPartnerId is not null)
         {
             var partner = await _partnerRepository.GetPartnerByIdAsync(locationCreateRequest.AccommodationPartnerId);
-            // TODO: Create new Exception
             if (partner is null)
-                throw new DatabaseException("Partner with a given id does not exist");
+            {
+                throw new NotFoundException("Partner with a given id does not exist");
+            }
 
             location.AccommodationPartner = PartnerMapper.PartnerToPartnerPartial(partner);
         }
@@ -75,7 +74,6 @@ public sealed class LocationService : ILocationService
             return null;
         }
 
-        //waiting 
         existingLocation.Name = locationUpdateRequest.Name;
         existingLocation.UpdatedAtUtc = DateTime.Now;
         var success = await _locationRepository.UpdateLocationAsync(existingLocation);
