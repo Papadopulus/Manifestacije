@@ -216,7 +216,6 @@ public sealed class LocationServiceTests
         {
             Id = "123",
             Name = "location1",
-            IsDeleted = false
         };
         var locationUpdateRequest = new LocationUpdateRequest
         {

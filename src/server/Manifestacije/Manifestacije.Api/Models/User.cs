@@ -9,7 +9,6 @@ public sealed class User : ModelBase
     public string PasswordSalt { get; set; } = default!;
     public List<RefreshToken> RefreshTokens { get; set; } = new();
     public bool IsBlocked { get; set; } = false;
-    public bool IsDeleted { get; set; } = false;
     public List<string> Roles { get; set; } = new();
     public List<string> FavouriteEvents { get; set; } = new();
     public List<string> GoingEvents { get; set; } = new();

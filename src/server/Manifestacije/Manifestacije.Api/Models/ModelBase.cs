@@ -13,5 +13,7 @@ public class ModelBase
 
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 
-    public DateTime? DeletedAtUtc { get; set; }
+    public DateTime? DeletedAtUtc { get; set; } = null;
+
+    public bool IsDeleted { get; set; } = false;
 }
