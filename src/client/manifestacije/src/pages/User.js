@@ -3,10 +3,12 @@ import axios from "axios";
 import AuthContext from "../store/AuthContext";
 import classes from "./User.module.css";
 import ChangeProfile from "../components/User/ChangeProfile";
+import Favorites from "../components/User/Favorites";
+import Going from "../components/User/Going";
 
 const User = () => {
     const [userData, setUserData] = useState([]);
-    const [activeLink, setActiveLInk] = useState('');
+    const [activeLink, setActiveLInk] = useState('profile');
     const {user} = useContext(AuthContext);
 
     const shouldLog = useRef(true);
@@ -14,6 +16,19 @@ const User = () => {
     const handleLinkClick = (link) => {
         setActiveLInk(link);
     }
+
+    let activeComponent;
+
+    if (activeLink === 'profile') {
+        activeComponent = <ChangeProfile name={userData.firstName} surname={userData.lastName} id={userData.id}
+                                         setUser={setUserData}></ChangeProfile>
+
+    } else if (activeLink === 'favorites') {
+        activeComponent = <Favorites />;
+    } else if (activeLink === 'going') {
+        activeComponent = <Going />;
+    }
+
     useEffect(() => {
         if (shouldLog.current) {
             shouldLog.current = false;
@@ -61,7 +76,7 @@ const User = () => {
         }
 
     }, [])
-    console.log(userData);
+
     return (
         <>
             <div className={classes["container"]}>
@@ -93,7 +108,7 @@ const User = () => {
                     </a>
                 </div>
                 <div className={classes["container-right"]}>
-                    <ChangeProfile name={userData.firstName} surname={userData.lastName} id={userData.id} setUser={setUserData}></ChangeProfile>
+                    {activeComponent}
                 </div>
             </div>
         </>
