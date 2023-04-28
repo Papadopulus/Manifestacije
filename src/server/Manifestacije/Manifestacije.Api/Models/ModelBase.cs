@@ -12,15 +12,15 @@ public class ModelBase
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
 
     [BsonRepresentation(BsonType.ObjectId)]
-    public string? CreatedByUserId { get; set; } = null;
+    public string? CreatedByUserId { get; set; }
 
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 
     [BsonRepresentation(BsonType.ObjectId)]
-    public string? UpdatedByUserId { get; set; } = null;
+    public string? UpdatedByUserId { get; set; }
 
-    public DateTime? DeletedAtUtc { get; set; } = null;
+    public DateTime? DeletedAtUtc { get; set; }
 
     [BsonRepresentation(BsonType.ObjectId)]
-    public string? DeletedByUserId { get; set; } = null;
+    public string? DeletedByUserId { get; set; }
 }

@@ -1,10 +1,4 @@
-﻿using System.Net;
-using System.Net.Http.Headers;
-using Bogus;
-using Manifestacije.Api.Contracts.Requests;
-using MongoDB.Bson;
-
-namespace Manifestacije.Api.Tests.E2E;
+﻿namespace Manifestacije.Api.Tests.E2E;
 
 public sealed class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsyncLifetime
 {
@@ -79,8 +73,7 @@ public sealed class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>,
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var content = await response.Content.ReadAsStringAsync();
-        content.Should().BeEquivalentTo(
-            "[{\"propertyName\":\"Email\",\"errorMessage\":\"'Email' is not a valid email address.\",\"attemptedValue\":\"invalidEmail\",\"customState\":null,\"severity\":0,\"errorCode\":\"EmailValidator\",\"formattedMessagePlaceholderValues\":{\"PropertyName\":\"Email\",\"PropertyValue\":\"invalidEmail\"}}]");
+        content.Should().BeEquivalentTo("{\"errors\":[\"'Email' is not a valid email address.\"]}");
     }
 
     [Fact]
@@ -247,8 +240,7 @@ public sealed class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>,
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var content = await response.Content.ReadAsStringAsync();
-        content.Should().BeEquivalentTo(
-            "[{\"propertyName\":\"FirstName\",\"errorMessage\":\"'First Name' must not be empty.\",\"attemptedValue\":\"\",\"customState\":null,\"severity\":0,\"errorCode\":\"NotEmptyValidator\",\"formattedMessagePlaceholderValues\":{\"PropertyName\":\"First Name\",\"PropertyValue\":\"\"}}]");
+        content.Should().BeEquivalentTo("{\"errors\":[\"'First Name' must not be empty.\"]}");
     }
 
     [Fact]
@@ -356,8 +348,7 @@ public sealed class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>,
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var content = await response.Content.ReadAsStringAsync();
-        content.Should().BeEquivalentTo(
-            "[{\"propertyName\":\"Email\",\"errorMessage\":\"'Email' is not a valid email address.\",\"attemptedValue\":\"testt\",\"customState\":null,\"severity\":0,\"errorCode\":\"EmailValidator\",\"formattedMessagePlaceholderValues\":{\"PropertyName\":\"Email\",\"PropertyValue\":\"testt\"}}]");
+        content.Should().BeEquivalentTo("{\"errors\":[\"'Email' is not a valid email address.\"]}");
     }
 
     [Fact]

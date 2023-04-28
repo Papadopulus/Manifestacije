@@ -55,7 +55,7 @@ public sealed class UserEndpoints : IEndpoints
         var validationResult = await validator.ValidateAsync(passwordResetRequest);
         if (!validationResult.IsValid)
         {
-            return Results.BadRequest(validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);
         }
 
         var success = await userService.ResetPasswordAsync(passwordResetRequest.Token, passwordResetRequest.Password);
@@ -70,7 +70,7 @@ public sealed class UserEndpoints : IEndpoints
         var validationResult = await validator.ValidateAsync(userCreateDto);
         if (!validationResult.IsValid)
         {
-            return Results.BadRequest(validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);
         }
 
         var user = await userService.CreateUserAsync(userCreateDto);
@@ -112,7 +112,7 @@ public sealed class UserEndpoints : IEndpoints
         var validationResult = await validator.ValidateAsync(userUpdateDto);
         if (!validationResult.IsValid)
         {
-            return Results.BadRequest(validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);
         }
 
         var user = await userService.UpdateUserAsync(id, userUpdateDto);
@@ -139,7 +139,7 @@ public sealed class UserEndpoints : IEndpoints
         var validationResult = await validator.ValidateAsync(authenticateRequest);
         if (!validationResult.IsValid)
         {
-            return Results.BadRequest(validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);
         }
 
         var tokenResponse = await userService.AuthenticateAsync(authenticateRequest);
@@ -154,7 +154,7 @@ public sealed class UserEndpoints : IEndpoints
         var validationResult = await validator.ValidateAsync(refreshTokenRequest);
         if (!validationResult.IsValid)
         {
-            return Results.BadRequest(validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);
         }
 
         var tokenResponse = await userService.RefreshTokenAsync(refreshTokenRequest);
