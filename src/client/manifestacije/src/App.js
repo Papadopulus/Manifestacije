@@ -9,6 +9,7 @@ import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import RegisterInput from "./components/Register/RegisterInput";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
 import OrganisationEvent from "./components/Organizator/OrganisationEvent";
+import AdminPanel from "./components/Admin/AdminPanel";
 
 function App() {
     return (
@@ -30,7 +31,15 @@ function App() {
 
                         <Route path="/register" element={<RegisterInput />} />
                         
-                        <Route path={"/organisation/event"} element={<OrganisationEvent/>}/>
+                        <Route path={"/organisation/event"} element={
+                            <ProtectedRoutes accessBy={"authenticated"} allowedRoles={["Organization","Admin"]}>
+                                <OrganisationEvent/>
+                            </ProtectedRoutes>}/>
+
+                        <Route path={"/adminPanel"} element={
+                            <ProtectedRoutes accessBy={"authenticated"} allowedRoles={["Admin"]}>
+                                <AdminPanel/>
+                            </ProtectedRoutes>}/>
 
                         /*treba da se izbrise,stavio sam samo zbog testiranja*/
                         <Route path="/reset" element={<PasswordReset />} />

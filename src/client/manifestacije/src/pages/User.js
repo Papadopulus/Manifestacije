@@ -11,7 +11,7 @@ const User = () => {
     const [userData, setUserData] = useState([]);
     const [activeLink, setActiveLInk] = useState('profile');
     const {user} = useContext(AuthContext);
-
+    
     const shouldLog = useRef(true);
 
     const handleLinkClick = (link) => {
