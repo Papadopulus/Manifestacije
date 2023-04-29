@@ -8,6 +8,7 @@ import User from "./pages/User";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import RegisterInput from "./components/Register/RegisterInput";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
+import OrganisationEvent from "./components/Organizator/OrganisationEvent";
 
 function App() {
     return (
@@ -28,6 +29,8 @@ function App() {
                         }/>
 
                         <Route path="/register" element={<RegisterInput />} />
+                        
+                        <Route path={"/organisation/event"} element={<OrganisationEvent/>}/>
 
                         /*treba da se izbrise,stavio sam samo zbog testiranja*/
                         <Route path="/reset" element={<PasswordReset />} />

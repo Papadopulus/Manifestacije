@@ -5,6 +5,7 @@
     background-color: cyan;
     font-family: 'Lexend-Medium';
     display: flex;
+    
 }
 .container-left-nav{
     background-color: white;
@@ -14,6 +15,13 @@
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
+.container-right{
+    background-color: indianred;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+}
+
 .item-menu{
     padding: 20px 40px;
     border-bottom: 1px solid black;
@@ -38,4 +46,39 @@
 .item-menu-email{
     font-size: 16px;
     color:#7a8294;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .container-left-nav {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .container-right {
+        width: 100%;
+    }
+    .item-menu {
+        padding: 15px 30px;
+        font-size: 16px;
+    }
+
+    .container-name-surname label {
+        font-size: 20px;
+    }
+
+    .item-menu-email {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+        margin-top: 5px;
+
+    }
 }

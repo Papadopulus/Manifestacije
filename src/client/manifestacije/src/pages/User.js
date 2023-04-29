@@ -5,6 +5,7 @@ import classes from "./User.module.css";
 import ChangeProfile from "../components/User/ChangeProfile";
 import Favorites from "../components/User/Favorites";
 import Going from "../components/User/Going";
+import PasswordReset from "../components/PasswordReset/PasswordReset";
 
 const User = () => {
     const [userData, setUserData] = useState([]);
@@ -24,11 +25,13 @@ const User = () => {
                                          setUser={setUserData}></ChangeProfile>
 
     } else if (activeLink === 'favorites') {
-        activeComponent = <Favorites />;
+        activeComponent = <Favorites/>;
     } else if (activeLink === 'going') {
-        activeComponent = <Going />;
+        activeComponent = <Going/>;
+    } else if (activeLink === 'password') {
+        activeComponent = <PasswordReset/>
     }
-
+    
     useEffect(() => {
         if (shouldLog.current) {
             shouldLog.current = false;
@@ -77,12 +80,15 @@ const User = () => {
 
     }, [])
 
+    
+
     return (
         <>
             <div className={classes["container"]}>
                 <div className={classes["container-left-nav"]}>
                     <div className={classes["container-name-surname"]}>
                         <label>{userData.firstName + " " + userData.lastName}</label>
+                        <br/>
                         <p className={classes["item-menu-email"]}>{userData.email}</p>
                     </div>
                     <a
@@ -92,6 +98,14 @@ const User = () => {
                     >
                         Change profile
                     </a>
+                    <a
+                        className={`${classes['item-menu']} ${activeLink === 'password' ? classes['active'] : ''}`}
+                        href="#"
+                        onClick={() => handleLinkClick('password')}
+                    >
+                        Change password
+                    </a>
+            
                     <a
                         className={`${classes['item-menu']} ${activeLink === 'favorites' ? classes['active'] : ''}`}
                         href="#"
@@ -111,6 +125,8 @@ const User = () => {
                     {activeComponent}
                 </div>
             </div>
+            
+
         </>
     )
 }

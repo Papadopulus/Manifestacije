@@ -67,6 +67,7 @@ function Navbar() {
   ) : (
     "Profile"
   );
+  const organisationIcon = "Events";
   const logoutIcon = isMobile ? (
     <>
       <i className="fa-solid fa-right-from-bracket"></i>
@@ -76,6 +77,7 @@ function Navbar() {
     "Logout"
   );
 
+  
   return (
     <>
       <nav className="navbar">
@@ -102,6 +104,14 @@ function Navbar() {
               Padanje <i className="fas fa-caret-down" />
 
             </Link>
+            {isMobile && (<Link
+                to="/organisation/event"
+                className="nav-links"
+                onClick={closeMobileMenu}
+            >
+              Events <i className="fas fa-caret-down" />
+
+            </Link>)}
             {dropdown && <Dropdown />}
           </li>
 
@@ -136,6 +146,15 @@ function Navbar() {
           >
             {profileIcon}
           </Link>
+        )}
+        {user && !isMobile && (
+            <Link
+                to="/organisation/event"
+                className="nav-links-outside"
+                onClick={closeMobileMenu}
+            >
+              {organisationIcon}
+            </Link>
         )}
         <Link
           to="/about"

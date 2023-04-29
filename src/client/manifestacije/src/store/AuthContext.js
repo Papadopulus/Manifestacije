@@ -24,6 +24,7 @@ export const AuthContextProvider = ({children}) => {
             localStorage.setItem("tokens",JSON.stringify(apiResponse.data));
             let accessToken = jwt_decode(apiResponse.data.token)
             localStorage.setItem("expiration",JSON.stringify(accessToken.exp))
+            console.log(accessToken);
             setUser(accessToken);
             navigate("/");
         }
