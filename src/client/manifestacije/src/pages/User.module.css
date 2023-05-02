@@ -2,40 +2,46 @@
     margin-left: 130px;
     margin-right: 130px;
     margin-top: 70px;
-    background-color: cyan;
+    background-color: #8B749D;
     font-family: 'Lexend-Medium';
     display: flex;
-    
+    border-radius: 20px;
+    width: 960px;
+    min-width: 260px;
 }
+.background-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .container-left-nav{
     background-color: white;
     display: flex;
     flex-direction: column;
-    width: 30%;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-radius: 20px;
+    margin: 40px 40px 60px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    min-width: 250px;
 }
-.container-right{
-    background-color: indianred;
-    justify-content: center;
-    align-items: center;
-    width: 70%;
-}
-
-.item-menu{
+.item-menu, .item-menu-bottom{
     padding: 20px 40px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #8B8B8C;
     text-decoration: none;
-    color: black;
+    color: #333333;
     font-size: 18px;
     border-left: 4px solid transparent;
 }
-.item-menu.active {
-    border-left: 4px solid purple;
+.item-menu-bottom{
+    border: 0px;
 }
-.item-menu:hover
+.item-menu.active, .item-menu-bottom.active{
+    border-left: 6px solid purple;
+}
+.item-menu:hover, .item-menu-bottom:hover
 {
-    border-left: 4px solid purple;
+    border-left: 6px solid purple;
 }
 .container-name-surname{
     padding: 40px;
@@ -46,39 +52,30 @@
 .item-menu-email{
     font-size: 16px;
     color:#7a8294;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
-
-@media (max-width: 768px) {
-    .container {
+.container-right{
+    width: 100%;
+    justify-content: center;
+}
+.container-form{
+    margin:40px;
+    position: relative;
+}
+.container-upper{
+    /*width: 100%;
+    height: 100%;*/
+    display: flex;
+    justify-content: center;
+}
+@media only screen and (max-width: 960px) {
+    .container{
+        margin: 20px;
+        display: flex;
         flex-direction: column;
-        margin-left: 0;
-        margin-right: 0;
+        justify-content: center;
+        width: 90%;
     }
 
-    .container-left-nav {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-    .container-right {
-        width: 100%;
-    }
-    .item-menu {
-        padding: 15px 30px;
-        font-size: 16px;
-    }
 
-    .container-name-surname label {
-        font-size: 20px;
-    }
-
-    .item-menu-email {
-        white-space: normal;
-        overflow: visible;
-        text-overflow: unset;
-        margin-top: 5px;
-
-    }
 }
+

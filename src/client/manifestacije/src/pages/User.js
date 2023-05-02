@@ -11,7 +11,7 @@ const User = () => {
     const [userData, setUserData] = useState([]);
     const [activeLink, setActiveLInk] = useState('profile');
     const {user} = useContext(AuthContext);
-    
+
     const shouldLog = useRef(true);
 
     const handleLinkClick = (link) => {
@@ -31,7 +31,7 @@ const User = () => {
     } else if (activeLink === 'password') {
         activeComponent = <PasswordReset/>
     }
-    
+
     useEffect(() => {
         if (shouldLog.current) {
             shouldLog.current = false;
@@ -80,54 +80,48 @@ const User = () => {
 
     }, [])
 
-    
+
 
     return (
-        <>
-            <div className={classes["container"]}>
-                <div className={classes["container-left-nav"]}>
-                    <div className={classes["container-name-surname"]}>
-                        <label>{userData.firstName + " " + userData.lastName}</label>
-                        <br/>
-                        <p className={classes["item-menu-email"]}>{userData.email}</p>
+            <div className={classes["background-container"]}>
+                <div className={classes["container"]}>
+                    <div className={classes["container-upper"]}>
+                        <div className={classes["container-left-nav"]}>
+                        <div className={classes["container-name-surname"]}>
+                            <label>{userData.firstName + " " + userData.lastName}</label>
+                            <p className={classes["item-menu-email"]}>{userData.email}</p>
+                        </div>
+
+                        <a
+                            className={`${classes['item-menu']} ${activeLink === 'profile' ? classes['active'] : ''}`}
+                            href="#"
+                            onClick={() => handleLinkClick('profile')}
+                        >
+                            Change profile
+                        </a>
+                        <a
+                            className={`${classes['item-menu']} ${activeLink === 'favorites' ? classes['active'] : ''}`}
+                            href="#"
+                            onClick={() => handleLinkClick('favorites')}
+                        >
+                            Favorites
+                        </a>
+                        <a
+                            className={`${classes['item-menu-bottom']} ${activeLink === 'going' ? classes['active'] : ''}`}
+                            href="#"
+                            onClick={() => handleLinkClick('going')}
+                        >
+                            Going
+                        </a>
                     </div>
-                    <a
-                        className={`${classes['item-menu']} ${activeLink === 'profile' ? classes['active'] : ''}`}
-                        href="#"
-                        onClick={() => handleLinkClick('profile')}
-                    >
-                        Change profile
-                    </a>
-                    <a
-                        className={`${classes['item-menu']} ${activeLink === 'password' ? classes['active'] : ''}`}
-                        href="#"
-                        onClick={() => handleLinkClick('password')}
-                    >
-                        Change password
-                    </a>
-            
-                    <a
-                        className={`${classes['item-menu']} ${activeLink === 'favorites' ? classes['active'] : ''}`}
-                        href="#"
-                        onClick={() => handleLinkClick('favorites')}
-                    >
-                        Favorites
-                    </a>
-                    <a
-                        className={`${classes['item-menu']} ${activeLink === 'going' ? classes['active'] : ''}`}
-                        href="#"
-                        onClick={() => handleLinkClick('going')}
-                    >
-                        Going
-                    </a>
-                </div>
-                <div className={classes["container-right"]}>
-                    {activeComponent}
+                    </div>
+                    <div className={classes["container-right"]}>
+                        <div className={classes["container-form"]}>
+                            {activeComponent}
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-
-        </>
     )
 }
 export default User;

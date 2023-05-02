@@ -5,13 +5,14 @@
     border-radius: 4px;
     outline: none;
     border: none;
-    font-size: 18px;
+    font-size: 20px;
     color: #fff;
     cursor: pointer;
     background-color: #3333ff;
     margin-left: 20px;
     margin-right: 20px;
     white-space: nowrap;
+    font-family: "Lexand-Medium";
 }
 
 .btn:hover {

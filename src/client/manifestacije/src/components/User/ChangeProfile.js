@@ -4,6 +4,7 @@ import classes from "../Login/LoginInput.module.css";
 import Button from "../UI/Button/Button";
 import axios from "axios";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
+import "./ChangeProfile.css"
 
 
 const ChangeProfile = (props) => {
@@ -53,7 +54,7 @@ const ChangeProfile = (props) => {
     return (
         <>
             <form onSubmit={formSubmissionHandler}>
-                <p>Change your profile</p>
+                <p className={"main-text"}>Change your profile</p>
                 <Input
                     label={"Update Name"}
                     type="text"
@@ -62,6 +63,7 @@ const ChangeProfile = (props) => {
                     onChange={nameChangedHandler}
                     onBlur={nameBlurHandler}
                     isNotValid={nameInputHasError}
+                    className={classes["input-form"]}
                 ></Input>
                 {nameInputHasError && (
                     <label className={classes["error-text"]}>
@@ -76,6 +78,7 @@ const ChangeProfile = (props) => {
                     onChange={surnameChangedHandler}
                     onBlur={surnameBlurHandler}
                     isNotValid={surnameInputHasError}
+                    className={classes["input-form"]}
                 ></Input>
                 {surnameInputHasError && (
                     <label className={classes["error-text"]}>

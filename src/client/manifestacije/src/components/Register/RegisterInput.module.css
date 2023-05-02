@@ -8,7 +8,7 @@
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background-color: white;
+    background-color: #f5f5f7;
     /*background-image: linear-gradient(#3333ff,#9900cc);*/
     box-shadow: -20px 0px 20px rgba(0,0,0,0.3);
 }
@@ -84,7 +84,7 @@
     margin-bottom: 5rem;
 }
 .error-text {
-    color: #ff3333;
+    color: #CC2929;
     font-family: 'Lexand-Medium';
     font-size: 18px;
 }
