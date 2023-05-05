@@ -12,4 +12,5 @@ public sealed class User : ModelBase
     public List<string> Roles { get; set; } = new();
     public List<string> FavouriteEvents { get; set; } = new();
     public List<string> GoingEvents { get; set; } = new();
+    public OrganizationPartial? Organization { get; set; }
 }

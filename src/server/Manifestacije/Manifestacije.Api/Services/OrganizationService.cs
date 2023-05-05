@@ -42,7 +42,6 @@ public sealed class OrganizationService : IOrganizationService
             throw new NotFoundException($"Organization with id {id} does not exist");
         }
         
-        existingOrganization.Name = organization.Name;
         existingOrganization.Description = organization.Description;
         existingOrganization.FacebookUrl = organization.FacebookUrl;
         existingOrganization.InstagramUrl = organization.InstagramUrl;

@@ -46,9 +46,10 @@ public sealed class UserService : IUserService
         
         if (userCreateRequest.Organization is not null)
         {
-            await _organizationService.CreateOrganizationAsync(
+            var organization = await _organizationService.CreateOrganizationAsync(
                 OrganizationMapper.OrganizationCreateRequestToOrganization(userCreateRequest.Organization));
             user.Roles.Add("Organization");
+            user.Organization = OrganizationMapper.OrganizationToOrganizationPartial(organization);
         }
         else
         {
