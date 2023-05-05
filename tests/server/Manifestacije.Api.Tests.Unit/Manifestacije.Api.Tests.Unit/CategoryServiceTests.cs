@@ -83,7 +83,10 @@ public sealed class CategoryServiceTests
         {
             Name = "Some Category"
         };
-        _categoryRepository.GetCategoryWithNameAsync(Arg.Any<string>()).Returns(new Category());
+        _categoryRepository.GetCategoryWithNameAsync(Arg.Any<string>()).Returns(new Category
+        {
+            Name = null
+        });
 
         // Act
         Func<Task> result = async () => await _sut.CreateCategoryAsync(categoryCreateRequest);
