@@ -180,7 +180,7 @@ public sealed class UserServiceTests
             },
             PasswordHash = "null",
             PasswordSalt = "null",
-            Id = "null"
+            Id = null
         };
         _userRepository.GetUserWithEmailAsync(Arg.Any<string>()).Returns((User?)null);
         _userRepository.CreateUserAsync(Arg.Any<User>()).Returns(true);

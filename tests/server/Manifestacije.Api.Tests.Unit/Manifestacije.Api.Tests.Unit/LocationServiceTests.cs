@@ -207,7 +207,7 @@ public sealed class LocationServiceTests
             Name = "location1",
             TransportPartner = partnerPartialTransport,
             AccommodationPartner = partnerPartialAccommodation,
-            Id = ""
+            Id = null
         };
 
         _locationRepository.GetLocationByNameAsync(Arg.Any<string>()).Returns((Location?)null);
