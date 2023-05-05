@@ -2,10 +2,10 @@
 
 public class PartnerViewResponse
 {
-    public string Id { get; set; } = default!;
-    public string Name { get; set; } = default!;
-    public string PhoneNumber { get; set; } = default!;
-    public string Url { get; set; } = default!;
+    public required string Id { get; set; } 
+    public required string Name { get; set; } 
+    public required string PhoneNumber { get; set; } 
+    public required string Url { get; set; } 
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
     public string? CreatedByUserId { get; set; }
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;

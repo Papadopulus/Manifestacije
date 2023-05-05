@@ -2,8 +2,8 @@
 
 public sealed class OrganizationViewResponse
 {
-    public string Id { get; set; } = default!;
-    public string Name { get; set; } = default!;
+    public required string Id { get; set; } 
+    public required string Name { get; set; } 
     public string? Description { get; set; }
     public string? LogoUrl { get; set; }
     public string? WebsiteUrl { get; set; }

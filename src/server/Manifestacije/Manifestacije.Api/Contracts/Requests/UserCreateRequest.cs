@@ -2,8 +2,10 @@
 
 public sealed class UserCreateRequest
 {
-    public string FirstName { get; set; } = default!;
-    public string LastName { get; set; } = default!;
-    public string Email { get; set; } = default!;
-    public string Password { get; set; } = default!;
+    public required string FirstName { get; set; } 
+    public required string LastName { get; set; } 
+    public required string Email { get; set; } 
+    public required string Password { get; set; } 
+    
+    public OrganizationCreateRequest? Organization { get; set; }
 }

@@ -8,7 +8,7 @@ namespace Manifestacije.Api.Repositories;
 
 public sealed class OrganizationRepository : IOrganizationRepository
 {
-    public IMongoCollection<Organization> _organizationsCollection;
+    private readonly IMongoCollection<Organization> _organizationsCollection;
 
     public OrganizationRepository(IOptions<DatabaseSettings> databaseSettings)
     {

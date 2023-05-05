@@ -2,7 +2,7 @@
 
 public sealed class OrganizationCreateRequest
 {
-    public string Name { get; set; } = default!;
+    public required string Name { get; set; } 
     public string? Description { get; set; }
     public string? LogoUrl { get; set; }
     public string? WebsiteUrl { get; set; }

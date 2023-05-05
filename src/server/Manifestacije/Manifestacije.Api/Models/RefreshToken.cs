@@ -2,7 +2,7 @@
 
 public sealed class RefreshToken
 {
-    public string Token { get; set; } = default!;
+    public required string Token { get; set; } 
     public DateTime ExpireDate { get; set; }
     public bool IsPasswordReset { get; set; } = false;
 }

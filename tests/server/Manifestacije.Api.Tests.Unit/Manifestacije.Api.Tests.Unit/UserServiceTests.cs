@@ -7,6 +7,7 @@ public sealed class UserServiceTests
     private readonly IMailService _mailService = Substitute.For<IMailService>();
     private readonly UserService _sut;
     private readonly IUserRepository _userRepository = Substitute.For<IUserRepository>();
+    private readonly IOrganizationService _organizationService = Substitute.For<IOrganizationService>();
 
     public UserServiceTests()
     {
@@ -19,7 +20,7 @@ public sealed class UserServiceTests
             .AddInMemoryCollection(inMemorySettings)
             .Build();
 
-        _sut = new UserService(_userRepository, configuration, _mailService);
+        _sut = new UserService(_userRepository, configuration, _mailService, _organizationService);
     }
 
     [Fact]
@@ -46,7 +47,9 @@ public sealed class UserServiceTests
                 Id = "1",
                 FirstName = "John",
                 LastName = "Doe",
-                Email = "test@test.rs"
+                Email = "test@test.rs",
+                PasswordHash = "null",
+                PasswordSalt = "null"
             }
         };
         _userRepository.GetAllUsersAsync(Arg.Any<UserQueryFilter>()).Returns(users);
@@ -80,7 +83,9 @@ public sealed class UserServiceTests
             Id = "1",
             FirstName = "John",
             LastName = "Doe",
-            Email = "test@test.rs"
+            Email = "test@test.rs",
+            PasswordHash = "null",
+            PasswordSalt = "null"
         };
         _userRepository.GetUserByIdAsync(Arg.Any<string>()).Returns(user);
 
@@ -99,9 +104,18 @@ public sealed class UserServiceTests
         {
             FirstName = "John",
             LastName = "Doe",
-            Email = "test@test.rs"
+            Email = "test@test.rs",
+            Password = "Sifra.1234"
         };
-        _userRepository.GetUserWithEmailAsync(Arg.Any<string>()).Returns(new User());
+        _userRepository.GetUserWithEmailAsync(Arg.Any<string>()).Returns(new User
+        {
+            FirstName = null,
+            LastName = null,
+            Email = null,
+            PasswordHash = null,
+            PasswordSalt = null,
+            Id = null
+        });
 
         // Act
         Func<Task> result = async () => await _sut.CreateUserAsync(userCreateRequest);
@@ -127,7 +141,10 @@ public sealed class UserServiceTests
         {
             FirstName = "John",
             LastName = "Doe",
-            Email = "test@test.rs"
+            Email = "test@test.rs",
+            PasswordHash = "null",
+            PasswordSalt = "null",
+            Id = "null"
         };
         _userRepository.GetUserWithEmailAsync(Arg.Any<string>()).Returns((User?)null);
         _userRepository.CreateUserAsync(Arg.Any<User>()).Returns(false);
@@ -157,7 +174,13 @@ public sealed class UserServiceTests
             FirstName = "John",
             LastName = "Doe",
             Email = "test@test.rs",
-            Roles = new List<string> { "User" }
+            Roles = new List<string>
+            {
+                "User"
+            },
+            PasswordHash = "null",
+            PasswordSalt = "null",
+            Id = "null"
         };
         _userRepository.GetUserWithEmailAsync(Arg.Any<string>()).Returns((User?)null);
         _userRepository.CreateUserAsync(Arg.Any<User>()).Returns(true);
@@ -203,7 +226,9 @@ public sealed class UserServiceTests
             Id = "1",
             FirstName = "John",
             LastName = "Doe",
-            Email = "test@test.rs"
+            Email = "test@test.rs",
+            PasswordHash = null,
+            PasswordSalt = null
         };
         _userRepository.GetUserByIdAsync(Arg.Any<string>()).Returns(user);
         _userRepository.UpdateUserAsync(Arg.Any<User>()).Returns(false);
@@ -231,7 +256,9 @@ public sealed class UserServiceTests
             Id = "1",
             FirstName = "John",
             LastName = "Doe",
-            Email = "test@test.rs"
+            Email = "test@test.rs",
+            PasswordHash = null,
+            PasswordSalt = null
         };
         _userRepository.GetUserByIdAsync(Arg.Any<string>()).Returns(user);
         _userRepository.UpdateUserAsync(Arg.Any<User>()).Returns(true);
@@ -265,7 +292,9 @@ public sealed class UserServiceTests
             Id = "1",
             FirstName = "John",
             LastName = "Doe",
-            Email = ""
+            Email = "",
+            PasswordHash = null,
+            PasswordSalt = null
         };
         _userRepository.GetUserByIdAsync(Arg.Any<string>()).Returns(user);
         _userRepository.UpdateUserAsync(Arg.Any<User>()).Returns(true);
@@ -384,7 +413,13 @@ public sealed class UserServiceTests
         };
         var user = new User
         {
-            RefreshTokens = new List<RefreshToken>()
+            RefreshTokens = new List<RefreshToken>(),
+            FirstName = null,
+            LastName = null,
+            Email = null,
+            PasswordHash = null,
+            PasswordSalt = null,
+            Id = null
         };
         user.RefreshTokens.Add(
             new RefreshToken { Token = refreshTokenRequest.Token, ExpireDate = DateTime.UtcNow.AddDays(-1) });
@@ -411,7 +446,16 @@ public sealed class UserServiceTests
         {
             Id = "1",
             RefreshTokens = new List<RefreshToken>(),
-            Roles = new List<string> { "User", "Admin" }
+            Roles = new List<string>
+            {
+                "User",
+                "Admin"
+            },
+            FirstName = null,
+            LastName = null,
+            Email = null,
+            PasswordHash = null,
+            PasswordSalt = null
         };
         user.RefreshTokens.Add(
             new RefreshToken { Token = refreshTokenRequest.Token, ExpireDate = DateTime.UtcNow.AddDays(1) });
@@ -452,7 +496,13 @@ public sealed class UserServiceTests
             FirstName = "John",
             LastName = "Doe",
             RefreshTokens = new List<RefreshToken>(),
-            Roles = new List<string> { "User", "Admin" }
+            Roles = new List<string>
+            {
+                "User",
+                "Admin"
+            },
+            PasswordHash = null,
+            PasswordSalt = null
         };
         _userRepository.GetUserWithEmailAsync(Arg.Any<string>()).Returns(user);
 
@@ -488,8 +538,18 @@ public sealed class UserServiceTests
         {
             RefreshTokens = new List<RefreshToken>
             {
-                new() { Token = token, IsPasswordReset = false }
-            }
+                new()
+                {
+                    Token = token,
+                    IsPasswordReset = false
+                }
+            },
+            FirstName = null,
+            LastName = null,
+            Email = null,
+            PasswordHash = null,
+            PasswordSalt = null,
+            Id = null
         };
         _userRepository.GetUserWithRefreshTokenAsync(Arg.Any<string>()).Returns(user);
 
@@ -510,8 +570,19 @@ public sealed class UserServiceTests
         {
             RefreshTokens = new List<RefreshToken>
             {
-                new() { Token = token, IsPasswordReset = true, ExpireDate = DateTime.UtcNow.AddDays(-1) }
-            }
+                new()
+                {
+                    Token = token,
+                    IsPasswordReset = true,
+                    ExpireDate = DateTime.UtcNow.AddDays(-1)
+                }
+            },
+            FirstName = null,
+            LastName = null,
+            Email = null,
+            PasswordHash = null,
+            PasswordSalt = null,
+            Id = null
         };
         _userRepository.GetUserWithRefreshTokenAsync(Arg.Any<string>()).Returns(user);
 
@@ -533,8 +604,19 @@ public sealed class UserServiceTests
         {
             RefreshTokens = new List<RefreshToken>
             {
-                new() { Token = token, IsPasswordReset = true, ExpireDate = DateTime.UtcNow.AddDays(1) }
-            }
+                new()
+                {
+                    Token = token,
+                    IsPasswordReset = true,
+                    ExpireDate = DateTime.UtcNow.AddDays(1)
+                }
+            },
+            FirstName = null,
+            LastName = null,
+            Email = null,
+            PasswordHash = null,
+            PasswordSalt = null,
+            Id = null
         };
         _userRepository.GetUserWithRefreshTokenAsync(Arg.Any<string>()).Returns(user);
 

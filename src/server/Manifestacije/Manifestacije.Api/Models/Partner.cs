@@ -2,10 +2,10 @@
 
 public sealed class Partner : ModelBase
 {
-    public string Name { get; set; } = default!;
-    public string PhoneNumber { get; set; } = default!;
-    public string Email { get; set; } = default!;
+    public required string Name { get; set; } 
+    public required string PhoneNumber { get; set; } 
+    public required string Email { get; set; } 
     public List<LocationPartial> Locations { get; set; } = new();
-    public string Url { get; set; } = default!;
+    public required string Url { get; set; } 
     public bool IsUpsert { get; set; } = false;
 }

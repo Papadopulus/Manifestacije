@@ -2,7 +2,7 @@
 
 public sealed class LocationCreateRequest
 {
-    public string Name { get; set; } = default!;
+    public required string Name { get; set; } 
     public string? AccommodationPartnerId { get; set; }
     public string? TransportPartnerId { get; set; }
 }
