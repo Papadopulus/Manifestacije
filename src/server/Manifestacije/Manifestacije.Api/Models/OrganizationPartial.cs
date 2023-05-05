@@ -2,6 +2,6 @@
 
 public sealed class OrganizationPartial
 {
-    public required string Id { get; set; } 
+    public string Id { get; set; } = default!;
     public required string Name { get; set; } 
 }

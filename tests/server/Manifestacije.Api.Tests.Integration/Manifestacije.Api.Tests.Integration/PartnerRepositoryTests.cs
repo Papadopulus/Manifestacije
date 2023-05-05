@@ -62,12 +62,16 @@ public class PartnerRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         var partner1 = new Partner
         {
             Name = "John",
-            Email = ""
+            Email = "",
+            PhoneNumber = null,
+            Url = null
         };
         var partner2 = new Partner
         {
             Name = "John 3",
-            Email = ""
+            Email = "",
+            PhoneNumber = null,
+            Url = null
         };
         await _sut.CreatePartnerAsync(partner1);
         await _sut.CreatePartnerAsync(partner2);
@@ -86,7 +90,9 @@ public class PartnerRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         var partner = new Partner
         {
             Name = "CocaCola",
-            Email = ""
+            Email = "",
+            PhoneNumber = null,
+            Url = null
         };
 
         // Act
@@ -103,7 +109,9 @@ public class PartnerRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         var partner = new Partner
         {
             Name = "Marco",
-            Email = ""
+            Email = "",
+            PhoneNumber = null,
+            Url = null
         };
         await _sut.CreatePartnerAsync(partner);
 
@@ -121,7 +129,9 @@ public class PartnerRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         var partner = new Partner
         {
             Name = "Perica",
-            Email = ""
+            Email = "",
+            PhoneNumber = null,
+            Url = null
         };
         await _sut.CreatePartnerAsync(partner);
 
@@ -139,7 +149,9 @@ public class PartnerRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         var partner = new Partner
         {
             Name = "PiterParker",
-            Email = ""
+            Email = "",
+            PhoneNumber = null,
+            Url = null
         };
         await _sut.CreatePartnerAsync(partner);
 
@@ -157,7 +169,9 @@ public class PartnerRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         var partner = new Partner
         {
             Name = "BobBarker",
-            Email = ""
+            Email = "",
+            PhoneNumber = null,
+            Url = null
         };
         await _sut.CreatePartnerAsync(partner);
         partner.Name = "BobBarker2";

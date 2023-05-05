@@ -2,7 +2,7 @@
 
 public sealed class Organization : ModelBase
 {
-    public required string Name { get; set; } 
+    public string Name { get; set; } = default!;
     public string? Description { get; set; }
     public string? LogoUrl { get; set; }
     public string? WebsiteUrl { get; set; }
