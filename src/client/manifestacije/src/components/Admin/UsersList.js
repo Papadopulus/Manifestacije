@@ -24,14 +24,30 @@ const UsersList = () => {
             }
             getUsers();
             
-            // setAllUsers(response.data);
+            
         }
         return () => {
             shouldLog.current = false;
         }
     }, [])
+    const confirmDelete = async (user) => {
+        await checkTokenAndRefresh();
+        let header = {
+            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
+        }
+        const confirmed = window.confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName} ${user.id}?`);
+
+        if (confirmed) {
+            
+            // Implement your code to delete the user here, for example:
+            await axios.delete(`${process.env.REACT_APP_BASE_URL}/users/${user.id}`,{headers:header})
+            
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/users`, {headers: header})
+
+            setAllUsers(response.data);
+        }
+    }
     console.log(allUsers);
-    // console.log(allUsers[0].firstName);
     return (
         <>
             <div>
@@ -50,6 +66,9 @@ const UsersList = () => {
                             <td>{user.firstName}</td>
                             <td>{user.lastName}</td>
                             <td>{user.email}</td>
+                            <td>
+                                <button onClick={()=> confirmDelete(user)}>Delete User</button>
+                            </td>
                         </tr>
                     ))}
                     </tbody>

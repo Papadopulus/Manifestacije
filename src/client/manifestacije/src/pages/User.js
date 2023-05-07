@@ -83,7 +83,6 @@ const User = () => {
 
     }, [])
 
-    console.log(user);
 
     return (
         <div className={classes["background-container"]}>

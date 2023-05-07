@@ -43,6 +43,9 @@
 {
     border-left: 6px solid purple;
 }
+.item-menu-bottom:hover{
+    border-bottom-left-radius: 20px;
+}
 .container-name-surname{
     padding: 40px;
 }
@@ -59,7 +62,7 @@
 }
 .container-form{
     margin:40px;
-    position: relative;
+    /*position: relative;*/
 }
 .container-upper{
     /*width: 100%;
