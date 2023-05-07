@@ -45,6 +45,7 @@ function App() {
                         <Route path="/reset" element={<PasswordReset />} />
 
                     </Routes>
+                    
                 </AuthContextProvider>
             </BrowserRouter>
 
