@@ -1,13 +1,13 @@
-﻿import {useContext, useEffect, useRef, useState} from "react";
-import axios, {all} from "axios";
-import AuthContext from "../../store/AuthContext";
+﻿import {useEffect, useRef, useState} from "react";
+import axios from "axios";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
-import {Await} from "react-router-dom";
+import UserDeleteBox from "../DialogBoxes/UserDeleteBox";
 
 const UsersList = () => {
     const [allUsers, setAllUsers] = useState([]);
-    const {user} = useContext(AuthContext);
+    // const {user} = useContext(AuthContext);
     const shouldLog = useRef(true);
+    const [deleteUser, setDeleteUser] = useState(null);
     //send refresh token
     useEffect(() => {
         if (shouldLog.current) {
@@ -31,25 +31,39 @@ const UsersList = () => {
         }
     }, [])
     const confirmDelete = async (user) => {
+        setDeleteUser(user);
+    };
+    const handleCancelDeleteUser  = () => {
+        setDeleteUser(null);
+    };
+    const handleDeleteUser  = async () => {
         await checkTokenAndRefresh();
         let header = {
             "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
         }
-        const confirmed = window.confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName} ${user.id}?`);
+        // const confirmed = window.confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName} ${user.id}?`);
 
-        if (confirmed) {
+        // if (confirmed) {
             
             // Implement your code to delete the user here, for example:
-            await axios.delete(`${process.env.REACT_APP_BASE_URL}/users/${user.id}`,{headers:header})
+            await axios.delete(`${process.env.REACT_APP_BASE_URL}/users/${deleteUser.id}`,{headers:header})
             
             const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/users`, {headers: header})
 
             setAllUsers(response.data);
-        }
+        setDeleteUser(null);
+        // }
     }
     console.log(allUsers);
     return (
         <>
+            {deleteUser && (
+                <UserDeleteBox
+                    message={`Are you sure you want to delete ${deleteUser.firstName} ${deleteUser.lastName} ${deleteUser.id}?`}
+                    onConfirm={handleDeleteUser}
+                    onCancel={handleCancelDeleteUser}
+                />
+            )}
             <div>
                 <table>
                     <thead>
