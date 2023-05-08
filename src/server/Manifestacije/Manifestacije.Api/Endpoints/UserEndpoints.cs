@@ -65,12 +65,22 @@ public sealed class UserEndpoints : IEndpoints
     internal static async Task<IResult> CreateUser(
         [FromBody] UserCreateRequest userCreateDto,
         IUserService userService,
-        IValidator<UserCreateRequest> validator)
+        IValidator<UserCreateRequest> validator,
+        IValidator<OrganizationCreateRequest> organizationValidator)
     {
         var validationResult = await validator.ValidateAsync(userCreateDto);
         if (!validationResult.IsValid)
         {
             throw new ValidationException(validationResult.Errors);
+        }
+
+        if (userCreateDto.Organization is not null)
+        {
+            validationResult = await organizationValidator.ValidateAsync(userCreateDto.Organization);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
         }
 
         var user = await userService.CreateUserAsync(userCreateDto);

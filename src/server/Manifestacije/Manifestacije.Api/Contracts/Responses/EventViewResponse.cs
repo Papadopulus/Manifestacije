@@ -1,7 +1,12 @@
-﻿namespace Manifestacije.Api.Models;
+﻿using Manifestacije.Api.Models;
 
-public sealed class Event : ModelBase
+namespace Manifestacije.Api.Contracts.Responses;
+
+public class EventViewResponse
 {
+    public required string Id { get; set; }
+    public required DateTime CreatedAtUtc { get; set; }
+    public required DateTime UpdatedAtUtc { get; set; }
     public required string Title { get; set; }
     public required string Description { get; set; }
     public required DateTime StartingDate { get; set; }

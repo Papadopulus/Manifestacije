@@ -59,6 +59,7 @@ builder.Services.AddSingleton<ILocationRepository, LocationRepository>();
 builder.Services.AddSingleton<IPartnerRepository, PartnerRepository>();
 builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 builder.Services.AddSingleton<IOrganizationRepository, OrganizationRepository>();
+builder.Services.AddSingleton<IEventRepository, EventRepository>();
 
 // Services
 builder.Services.AddSingleton<IUserService, UserService>();
@@ -67,6 +68,7 @@ builder.Services.AddSingleton<IMailService, MailService>();
 builder.Services.AddSingleton<ICategoryService, CategoryService>();
 builder.Services.AddSingleton<ILocationService, LocationService>();
 builder.Services.AddSingleton<IPartnerService, PartnerService>();
+builder.Services.AddSingleton<IEventService, EventService>();
 
 // Database
 builder.Services.Configure<DatabaseSettings>(
