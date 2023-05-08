@@ -2,11 +2,11 @@
 
 public sealed class DatabaseSettings
 {
-    public string ConnectionString { get; set; } 
-    public string DatabaseName { get; set; } 
-    public string UsersCollectionName { get; set; } 
-    public string LocationsCollectionName { get; set; } 
-    public string PartnersCollectionName { get; set; } 
-    public string CategoriesCollectionName { get; set; } 
-    public string OrganizationsCollectionName { get; set; } 
+    public required string ConnectionString { get; set; }
+    public required string DatabaseName { get; set; }
+    public required string UsersCollectionName { get; set; }
+    public required string LocationsCollectionName { get; set; }
+    public required string PartnersCollectionName { get; set; }
+    public required string CategoriesCollectionName { get; set; }
+    public required string OrganizationsCollectionName { get; set; }
 }
