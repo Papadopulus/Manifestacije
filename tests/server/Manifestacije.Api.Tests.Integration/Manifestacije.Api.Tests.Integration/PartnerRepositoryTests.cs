@@ -14,7 +14,11 @@ public class PartnerRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         {
             ConnectionString = "mongodb://localhost:27018",
             DatabaseName = "manifestacije-test",
-            PartnersCollectionName = "partners"
+            PartnersCollectionName = "partners",
+            UsersCollectionName = null,
+            LocationsCollectionName = null,
+            CategoriesCollectionName = null,
+            OrganizationsCollectionName = null
         });
 
         _sut = new PartnerRepository(databaseSettings);

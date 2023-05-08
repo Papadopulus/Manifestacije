@@ -7,10 +7,7 @@ public class PartnerViewResponse
     public required string PhoneNumber { get; set; } 
     public required string Url { get; set; } 
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
-    public string? CreatedByUserId { get; set; }
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
-    public string? UpdatedByUserId { get; set; }
     public DateTime? DeletedAtUtc { get; set; }
-    public string? DeletedByUserId { get; set; }
     public bool IsDeleted { get; set; } = false;
 }
