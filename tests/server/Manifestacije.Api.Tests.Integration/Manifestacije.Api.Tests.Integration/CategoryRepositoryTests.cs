@@ -14,7 +14,11 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
         {
             ConnectionString = "mongodb://localhost:27018",
             DatabaseName = "manifestacije-test",
-            CategoriesCollectionName = "categories"
+            CategoriesCollectionName = "categories",
+            UsersCollectionName = null,
+            LocationsCollectionName = null,
+            PartnersCollectionName = null,
+            OrganizationsCollectionName = null
         });
         _sut = new CategoryRepository(databaseSettings);
     }

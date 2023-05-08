@@ -1,4 +1,6 @@
-﻿namespace Manifestacije.Api.Models;
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace Manifestacije.Api.Models;
 
 public sealed class User : ModelBase
 {

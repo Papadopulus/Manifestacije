@@ -14,7 +14,11 @@ public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         {
             ConnectionString = "mongodb://localhost:27018",
             DatabaseName = "manifestacije-test",
-            UsersCollectionName = "users"
+            UsersCollectionName = "users",
+            LocationsCollectionName = null,
+            PartnersCollectionName = null,
+            CategoriesCollectionName = null,
+            OrganizationsCollectionName = null
         });
 
         _sut = new UserRepository(databaseSettings);
