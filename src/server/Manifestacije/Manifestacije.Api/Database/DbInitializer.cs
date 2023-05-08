@@ -17,7 +17,12 @@ public static class DbInitializer
             FirstName = "Admin",
             LastName = "Admin",
             Email = "admin@test.rs",
-            Roles = new List<string> { "Admin" }
+            Roles = new List<string>
+            {
+                "Admin"
+            },
+            PasswordHash = "null",
+            PasswordSalt = "null",
         };
         (admin.PasswordSalt, admin.PasswordHash) = Auth.HashPassword("Sifra.1234");
 
@@ -28,7 +33,9 @@ public static class DbInitializer
             FirstName = "Organization",
             LastName = "Organization",
             Email = "org@test.rs",
-            Roles = new List<string> { "Organization" }
+            Roles = new List<string> { "Organization" },
+            PasswordHash = "null",
+            PasswordSalt = "null",
         };
         (organization.PasswordSalt, organization.PasswordHash) = Auth.HashPassword("Sifra.1234");
 
@@ -44,7 +51,9 @@ public static class DbInitializer
             {
                 new() { ExpireDate = DateTime.UtcNow.AddDays(-1), Token = "eaeaea" },
                 new() { ExpireDate = DateTime.UtcNow.AddMinutes(1), Token = "eaeaea2" }
-            }
+            },
+            PasswordHash = "null",
+            PasswordSalt = "null",
         };
         (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword("Sifra.1234");
 

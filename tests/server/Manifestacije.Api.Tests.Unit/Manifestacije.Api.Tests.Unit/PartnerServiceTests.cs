@@ -33,7 +33,10 @@ public class PartnerServiceTests
             new()
             {
                 Id = "1",
-                Name = "Partner1"
+                Name = "Partner1",
+                PhoneNumber = null,
+                Email = null,
+                Url = null
             }
         };
         _partnerRepository.GetAllPartnersAsync(Arg.Any<PartnerQueryFilter>()).Returns(partners);
@@ -65,7 +68,10 @@ public class PartnerServiceTests
         var partner = new Partner
         {
             Id = "1",
-            Name = "Partner1"
+            Name = "Partner1",
+            PhoneNumber = null,
+            Email = null,
+            Url = null
         };
         _partnerRepository.GetPartnerByIdAsync(Arg.Any<string>()).Returns(partner);
 
@@ -80,10 +86,22 @@ public class PartnerServiceTests
     public async Task CreatePartnerAsync_ShouldThrowException_WhenPartnerExists()
     {
         // Arrange
-        _partnerRepository.GetPartnerByNameAsync(Arg.Any<string>()).Returns(new Partner());
+        _partnerRepository.GetPartnerByNameAsync(Arg.Any<string>()).Returns(new Partner
+        {
+            Name = null,
+            PhoneNumber = null,
+            Email = null,
+            Url = null
+        });
 
         // Act
-        Func<Task> result = async () => await _sut.CreatePartnerAsync(new PartnerCreateRequest());
+        Func<Task> result = async () => await _sut.CreatePartnerAsync(new PartnerCreateRequest
+        {
+            Name = null,
+            PhoneNumber = null,
+            Email = null,
+            Url = null
+        });
 
         // Assert
         await result.Should()
@@ -102,7 +120,10 @@ public class PartnerServiceTests
             {
                 "1",
                 "2"
-            }
+            },
+            PhoneNumber = null,
+            Email = null,
+            Url = null
         };
         var locations = new List<Location>
         {
@@ -141,7 +162,10 @@ public class PartnerServiceTests
             {
                 "1",
                 "2"
-            }
+            },
+            PhoneNumber = null,
+            Email = null,
+            Url = null
         };
         var locations = new List<Location>
         {
@@ -181,7 +205,10 @@ public class PartnerServiceTests
             {
                 "1",
                 "2"
-            }
+            },
+            PhoneNumber = null,
+            Email = null,
+            Url = null
         };
         var locations = new List<Location>
         {
@@ -217,7 +244,11 @@ public class PartnerServiceTests
         _partnerRepository.GetPartnerByIdAsync(Arg.Any<string>()).Returns((Partner?)null);
 
         // Act
-        var result = await _sut.UpdatePartnerAsync("1", new PartnerUpdateRequest());
+        var result = await _sut.UpdatePartnerAsync("1", new PartnerUpdateRequest
+        {
+            Name = null,
+            PhoneNumber = null
+        });
 
         // Assert
         result.Should().BeNull();
@@ -230,13 +261,20 @@ public class PartnerServiceTests
         var partner = new Partner
         {
             Id = "1",
-            Name = "Partner1"
+            Name = "Partner1",
+            PhoneNumber = null,
+            Email = null,
+            Url = null
         };
         _partnerRepository.GetPartnerByIdAsync(Arg.Any<string>()).Returns(partner);
         _partnerRepository.UpdatePartnerAsync(Arg.Any<Partner>()).Returns(false);
 
         // Act
-        Func<Task> result = async () => await _sut.UpdatePartnerAsync("1", new PartnerUpdateRequest());
+        Func<Task> result = async () => await _sut.UpdatePartnerAsync("1", new PartnerUpdateRequest
+        {
+            Name = null,
+            PhoneNumber = null
+        });
 
         // Assert
         await result.Should()
@@ -251,7 +289,10 @@ public class PartnerServiceTests
         var partner = new Partner
         {
             Id = "1",
-            Name = "Partner1"
+            Name = "Partner1",
+            PhoneNumber = null,
+            Email = null,
+            Url = null
         };
         var location = new Location
         {
@@ -263,7 +304,11 @@ public class PartnerServiceTests
         _partnerRepository.UpdatePartnerAsync(Arg.Any<Partner>()).Returns(true);
 
         // Act
-        var result = await _sut.UpdatePartnerAsync("1", new PartnerUpdateRequest());
+        var result = await _sut.UpdatePartnerAsync("1", new PartnerUpdateRequest
+        {
+            Name = null,
+            PhoneNumber = null
+        });
 
         // Assert
         result.Should().BeEquivalentTo(partner);
@@ -289,7 +334,10 @@ public class PartnerServiceTests
         var partner = new Partner
         {
             Id = "1",
-            Name = "Partner1"
+            Name = "Partner1",
+            PhoneNumber = null,
+            Email = null,
+            Url = null
         };
         _partnerRepository.GetPartnerByIdAsync(Arg.Any<string>()).Returns(partner);
         _partnerRepository.UpdatePartnerAsync(Arg.Any<Partner>()).Returns(true);

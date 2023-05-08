@@ -2,5 +2,5 @@
 
 public sealed class CategoryUpdateRequest
 {
-    public string Name { get; set; } = default!;
+    public required string Name { get; set; } 
 }

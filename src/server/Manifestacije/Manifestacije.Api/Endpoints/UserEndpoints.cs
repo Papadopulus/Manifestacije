@@ -10,7 +10,7 @@ public sealed class UserEndpoints : IEndpoints
 {
     private const string BaseRoute = "/users";
     private const string AuthRoute = "/authenticate";
-    private const string Refresh = "/refresh";
+    private const string RefreshRoute = "/refresh";
     private const string ResetPassword = "/reset-password";
 
     public static void DefineEndpoints(IEndpointRouteBuilder app)
@@ -28,7 +28,7 @@ public sealed class UserEndpoints : IEndpoints
 
         app.MapPost(AuthRoute, AuthenticateUser)
             .AllowAnonymous();
-        app.MapPost(AuthRoute + Refresh, RefreshUserToken)
+        app.MapPost(AuthRoute + RefreshRoute, RefreshUserToken)
             .AllowAnonymous();
 
         app.MapGet(ResetPassword + "/{email}", SendPasswordReset)

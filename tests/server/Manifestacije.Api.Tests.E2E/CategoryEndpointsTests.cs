@@ -1,12 +1,6 @@
-﻿using System.Net;
-using System.Net.Http.Headers;
-using Bogus;
-using Manifestacije.Api.Contracts.Requests;
-using MongoDB.Bson;
+﻿namespace Manifestacije.Api.Tests.E2E;
 
-namespace Manifestacije.Api.Tests.E2E;
-
-public class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsyncLifetime
+public sealed class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IAsyncLifetime
 {
     private readonly Faker<CategoryCreateRequest> _categoryGenerator = new Faker<CategoryCreateRequest>()
         .RuleFor(x => x.Name, faker => faker.Name.FirstName());
@@ -17,8 +11,6 @@ public class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IA
     private readonly HttpClient _client;
 
     private string _tokenAdmin = string.Empty;
-    private string _tokenOrganization = string.Empty;
-    private string _tokenUser = string.Empty;
 
     public CategoryEndpointsTests(ManifestacijeApiFactory factory)
     {
@@ -36,26 +28,10 @@ public class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IA
             Password = "Sifra.1234"
         };
 
-        var authenticateRequestOrganization = new AuthenticateRequest
-        {
-            Email = "org@test.rs",
-            Password = "Sifra.1234"
-        };
-
-        var authenticateRequestUser = new AuthenticateRequest
-        {
-            Email = "user@test.rs",
-            Password = "Sifra.1234"
-        };
-
         var responseAdmin = await _client.PostAsJsonAsync("/authenticate", authenticateRequestAdmin);
-        var responseOrganization = await _client.PostAsJsonAsync("/authenticate", authenticateRequestOrganization);
-        var responseUser = await _client.PostAsJsonAsync("/authenticate", authenticateRequestUser);
-
+       
         _tokenAdmin = (await responseAdmin.Content.ReadFromJsonAsync<TokenResponse>())!.Token;
-        _tokenOrganization = (await responseOrganization.Content.ReadFromJsonAsync<TokenResponse>())!.Token;
-        _tokenUser = (await responseUser.Content.ReadFromJsonAsync<TokenResponse>())!.Token;
-    }
+     }
 
     public Task DisposeAsync()
     {
@@ -111,21 +87,6 @@ public class CategoryEndpointsTests : IClassFixture<ManifestacijeApiFactory>, IA
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
-
-    //PRAVI MI PROBLEM KADA SE POKRENE ZAJEDNO SA OSTALIM UCITAVA NEKU KATEGORIJU KOJU JE NEKI TEST KREIRAO OVAKO SAM RADI
-    /*[Fact]
-    public async Task GetAllCategories_ShouldReturnAllEmptyList_WhenThereIsNoCategories()
-    {
-        // Arrange
-
-        // Act
-        var response = await _client.GetAsync("/categories");
-
-        // Assert
-        var content = await response.Content.ReadAsStringAsync();
-        content.Should().BeEquivalentTo("[]");
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-    }*/
 
     [Fact]
     public async Task GetAllCategories_ShouldReturnAllCategories_WhenThereCategories()

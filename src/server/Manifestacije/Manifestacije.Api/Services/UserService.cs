@@ -10,14 +10,17 @@ public sealed class UserService : IUserService
     private readonly IMailService _mailService;
     private readonly string _secret;
     private readonly IUserRepository _userRepository;
+    private readonly IOrganizationService _organizationService;
 
     public UserService(IUserRepository userRepository,
         IConfiguration configuration,
-        IMailService mailService)
+        IMailService mailService,
+        IOrganizationService organizationService)
     {
         _userRepository = userRepository;
         _secret = configuration["Authorization:Secret"]!;
         _mailService = mailService;
+        _organizationService = organizationService;
     }
 
     public async Task<List<User>> GetAllUsersAsync(UserQueryFilter userQueryFilter)
@@ -40,7 +43,19 @@ public sealed class UserService : IUserService
 
         var user = UserMapper.UserCreateRequestToUser(userCreateRequest);
         (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword(userCreateRequest.Password);
-        user.Roles.Add("User");
+        
+        if (userCreateRequest.Organization is not null)
+        {
+            var organization = await _organizationService.CreateOrganizationAsync(
+                OrganizationMapper.OrganizationCreateRequestToOrganization(userCreateRequest.Organization));
+            user.Roles.Add("Organization");
+            user.Organization = OrganizationMapper.OrganizationToOrganizationPartial(organization);
+        }
+        else
+        {
+            user.Roles.Add("User");
+        }
+        
         var success = await _userRepository.CreateUserAsync(user);
         if (!success)
         {

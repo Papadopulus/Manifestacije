@@ -2,9 +2,9 @@
 
 public class PartnerCreateRequest
 {
-    public string Name { get; set; } = default!;
-    public string PhoneNumber { get; set; } = default!;
-    public string Email { get; set; } = default!;
-    public string Url { get; set; } = default!;
+    public required string Name { get; set; } 
+    public required string PhoneNumber { get; set; } 
+    public required string Email { get; set; } 
+    public required string Url { get; set; } 
     public List<string> Locations { get; set; } = new();
 }

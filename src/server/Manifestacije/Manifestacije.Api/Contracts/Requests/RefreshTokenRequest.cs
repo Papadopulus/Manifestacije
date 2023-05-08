@@ -2,5 +2,5 @@
 
 public sealed class RefreshTokenRequest
 {
-    public string Token { get; set; } = default!;
+    public required string Token { get; set; } 
 }

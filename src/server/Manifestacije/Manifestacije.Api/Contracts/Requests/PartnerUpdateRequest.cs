@@ -2,6 +2,6 @@
 
 public sealed class PartnerUpdateRequest
 {
-    public string Name { get; set; } = default!;
-    public string PhoneNumber { get; set; } = default!;
+    public required string Name { get; set; } 
+    public required string PhoneNumber { get; set; } 
 }

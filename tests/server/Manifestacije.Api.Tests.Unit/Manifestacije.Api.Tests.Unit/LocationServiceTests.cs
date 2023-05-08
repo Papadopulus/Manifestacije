@@ -84,7 +84,11 @@ public sealed class LocationServiceTests
         {
             Name = "location1"
         };
-        _locationRepository.GetLocationByNameAsync(Arg.Any<string>()).Returns(new Location());
+        _locationRepository.GetLocationByNameAsync(Arg.Any<string>()).Returns(new Location
+        {
+            Name = "null",
+            Id = "null"
+        });
 
         // Act
         Func<Task> result = async () => await _sut.CreateLocationAsync(locationCreateRequest);
@@ -173,28 +177,37 @@ public sealed class LocationServiceTests
         var partnerPartialAccommodation = new PartnerPartial
         {
             Id = "123",
-            Name = "AccommodationP"
+            Name = "AccommodationP",
+            Url = ""
         };
         var partnerPartialTransport = new PartnerPartial
         {
             Id = "456",
-            Name = "TransportP"
+            Name = "TransportP",
+            Url = "",
         };
         var partnerAccommodation = new Partner
         {
             Id = "123",
-            Name = "AccommodationP"
+            Name = "AccommodationP",
+            Url = "",
+            PhoneNumber = "null",
+            Email = "null"
         };
         var partnerTransport = new Partner
         {
             Id = "456",
-            Name = "TransportP"
+            Name = "TransportP",
+            Url = "",
+            PhoneNumber = "null",
+            Email = "null"
         };
         var location = new Location
         {
             Name = "location1",
             TransportPartner = partnerPartialTransport,
-            AccommodationPartner = partnerPartialAccommodation
+            AccommodationPartner = partnerPartialAccommodation,
+            Id = null
         };
 
         _locationRepository.GetLocationByNameAsync(Arg.Any<string>()).Returns((Location?)null);
@@ -216,7 +229,6 @@ public sealed class LocationServiceTests
         {
             Id = "123",
             Name = "location1",
-            IsDeleted = false
         };
         var locationUpdateRequest = new LocationUpdateRequest
         {
