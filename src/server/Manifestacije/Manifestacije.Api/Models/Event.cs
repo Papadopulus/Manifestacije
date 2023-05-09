@@ -14,11 +14,11 @@ public sealed class Event : ModelBase
     public string? TicketUrl { get; set; }
     public List<string> Sponsors { get; set; } = new();
     public bool Sponsored { get; set; } = false;
-    public required LocationPartial Location { get; set; }
-    public required PartnerPartial TransportPartner { get; set; }
-    public required PartnerPartial AccommodationPartner { get; set; }
+    public LocationPartial Location { get; set; } = default!;
+    public PartnerPartial TransportPartner { get; set; } = default!;
+    public PartnerPartial AccommodationPartner { get; set; } = default!;
     public required string Street { get; set; }
     public required double Latitude { get; set; }
     public required double Longitude { get; set; }
-    public required OrganizationPartial Organization { get; set; }
+    public OrganizationPartial Organization { get; set; } = default!;
 }

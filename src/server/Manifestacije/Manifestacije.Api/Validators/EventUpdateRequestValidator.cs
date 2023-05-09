@@ -38,9 +38,6 @@ public class EventUpdateRequestValidator : AbstractValidator<EventUpdateRequest>
         RuleFor(x => x.Capacity)
             .GreaterThan((ulong)0);
         
-        RuleFor(x => x.LocationId)
-            .NotEmpty();
-        
         RuleFor(x => x.Street)
             .NotEmpty();
     }
