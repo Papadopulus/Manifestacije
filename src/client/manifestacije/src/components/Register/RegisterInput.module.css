@@ -22,6 +22,25 @@
 .right-reset-container{
     width: 100%;
 }
+.choose-org{
+    color: #333333;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Outfit-Medium';
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+.org-label{
+    margin-left: 10px;
+}
+.org-check{
+    width: 20px;
+    height: 20px;
+    box-sizing: unset;
+}
+
+
 @media only screen and (max-width: 960px) {
     .left-register-container{
         display: none;
@@ -30,6 +49,11 @@
     .right-register-container{
         width: 100%;
         /*align-items: flex-start;*/
+    }
+    .org-check{
+        width: 20px;
+        height: 20px;
+        box-sizing: unset;
     }
 }
 
