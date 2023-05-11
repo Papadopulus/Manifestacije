@@ -101,9 +101,9 @@ public class EventService : IEventService
         return await _eventRepository.GetEventByIdAsync(id);
     }
 
-    public async Task<List<Event>> GetEventsAsync(EventQueryFilter queryFilter)
+    public async Task<List<Event>> GetEventsAsync(EventQueryFilter eventQueryFilter)
     {
-        return await _eventRepository.GetEventsAsync(queryFilter);
+        return await _eventRepository.GetEventsAsync(eventQueryFilter);
     }
 
     public async Task<bool> DeleteEventAsync(string id)

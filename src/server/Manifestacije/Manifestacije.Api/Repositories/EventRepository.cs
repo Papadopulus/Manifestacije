@@ -42,15 +42,15 @@ public class EventRepository : IEventRepository
             .FirstOrDefaultAsync();
     }
 
-    public async Task<List<Event>> GetEventsAsync(EventQueryFilter queryFilter)
+    public async Task<List<Event>> GetEventsAsync(EventQueryFilter eventQueryFilter)
     {
-        var filter = queryFilter.Filter<Event, EventQueryFilter>();
-        var sort = QueryExtensions.Sort<Event>(queryFilter);
+        var filter = eventQueryFilter.Filter<Event, EventQueryFilter>();
+        var sort = QueryExtensions.Sort<Event>(eventQueryFilter);
         
         return await _eventsCollection
             .Find(filter)
             .Sort(sort)
-            .Paginate(queryFilter)
+            .Paginate(eventQueryFilter)
             .ToListAsync();
     }
 

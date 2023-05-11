@@ -37,7 +37,7 @@ public static class QueryExtensions
         var propsWithoutMinMax = props
             .Where(x => !x.Name.AsSpan().StartsWith("Min")
                         && !x.Name.AsSpan().StartsWith("Max")
-                        && !x.GetType().ToString().Contains("List"))
+                        && !x.Name.AsSpan().EndsWith("List"))
             .ToArray();
 
         var propsMin = props
@@ -48,7 +48,7 @@ public static class QueryExtensions
             .ToArray();
         
         var propsList = props
-            .Where(x => x.GetType().ToString().Contains("List"))
+            .Where(x => x.Name.AsSpan().EndsWith("List"))
             .ToArray();
 
         var intersect = query.GetType()
@@ -108,26 +108,23 @@ public static class QueryExtensions
             filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
         }
         
-        // TODO
-        // foreach (var prop in propsList)
-        // {
-        //     var value = prop.GetValue(query);
-        //     var name = prop.Name;
-        //
-        //     if (value is null)
-        //     {
-        //         continue;
-        //     }
-        //
-        //     var property = typeof(TType).GetProperty(name,
-        //         BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)!;
-        //
-        //     var filterProp = property.PropertyType == typeof(string)
-        //         ? Builders<TType>.Filter.Regex(name, $"/{value}/i")
-        //         : Builders<TType>.Filter.Eq(name, value.ToString());
-        //
-        //     filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
-        // }
+        foreach (var prop in propsList)
+        {
+            var value = prop.GetValue(query);
+            var name = prop.Name;
+        
+            if (value is null)
+            {
+                continue;
+            }
+            
+            var property = typeof(TType).GetProperty(name,
+                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)!;
+
+            var filterProp = Builders<TType>.Filter.ElemMatch<string>(name, value.ToString());
+        
+            filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
+        }
 
         if (showDeleted)
         {

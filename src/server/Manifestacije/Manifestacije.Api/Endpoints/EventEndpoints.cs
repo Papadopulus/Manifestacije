@@ -9,7 +9,7 @@ namespace Manifestacije.Api.Endpoints;
 public class EventEndpoints : IEndpoints
 {
     private const string BaseRoute = "/events";
-    
+
     public static void DefineEndpoints(IEndpointRouteBuilder app)
     {
         app.MapPost(BaseRoute, CreateEvent)
@@ -26,15 +26,15 @@ public class EventEndpoints : IEndpoints
 
         app.MapDelete(BaseRoute + "/{id}", DeleteEvent)
             .RequireAuthorization(RolesEnum.Organization.ToString());
-        
+
         app.MapPatch(BaseRoute + "/{id}/sponsor", SponsorEvent)
             .RequireAuthorization(RolesEnum.Admin.ToString());
     }
-    
+
     internal static async Task<IResult> CreateEvent(
-        IEventService eventService,
         [FromBody] EventCreateRequest createEventRequest,
         IValidator<EventCreateRequest> validator,
+        IEventService eventService,
         HttpContext httpContext)
     {
         var validationResult = await validator.ValidateAsync(createEventRequest);
@@ -46,18 +46,18 @@ public class EventEndpoints : IEndpoints
         var createdEvent = await eventService.CreateEventAsync(createEventRequest, httpContext.User.GetUserId());
         return Results.CreatedAtRoute(
             nameof(GetEventById),
-            new {id = createdEvent.Id},
+            new { id = createdEvent.Id },
             EventMapper.EventToEventViewResponse(createdEvent));
     }
-    
+
     internal static async Task<IResult> GetAllEvents(
-        EventQueryFilter queryFilter,
+        [AsParameters] EventQueryFilter eventQueryFilter,
         IEventService eventService)
     {
-        var events = await eventService.GetEventsAsync(queryFilter);
-        return Results.Ok(events);
+        var events = await eventService.GetEventsAsync(eventQueryFilter);
+        return Results.Ok(EventMapper.EventListToEventViewResponseList(events));
     }
-    
+
     internal static async Task<IResult> GetEventById(
         string id,
         IEventService eventService)
@@ -67,12 +67,12 @@ public class EventEndpoints : IEndpoints
             ? Results.NotFound($"Event with the id of: {id} does not exist")
             : Results.Ok(EventMapper.EventToEventViewResponse(eventModel));
     }
-    
+
     internal static async Task<IResult> UpdateEvent(
         string id,
-        IEventService eventService,
         [FromBody] EventUpdateRequest updateEventRequest,
         IValidator<EventUpdateRequest> validator,
+        IEventService eventService,
         HttpContext httpContext)
     {
         var validationResult = await validator.ValidateAsync(updateEventRequest);
@@ -86,7 +86,7 @@ public class EventEndpoints : IEndpoints
             ? Results.NotFound($"Event with the id of: {id} does not exist")
             : Results.Ok(EventMapper.EventToEventViewResponse(updatedEvent));
     }
-    
+
     internal static async Task<IResult> DeleteEvent(
         string id,
         IEventService eventService)
@@ -96,7 +96,7 @@ public class EventEndpoints : IEndpoints
             ? Results.NotFound($"Event with the id of: {id} does not exist")
             : Results.Ok($"Event with the id of: {id} has been deleted");
     }
-    
+
     internal static async Task<IResult> SponsorEvent(
         string id,
         IEventService eventService)

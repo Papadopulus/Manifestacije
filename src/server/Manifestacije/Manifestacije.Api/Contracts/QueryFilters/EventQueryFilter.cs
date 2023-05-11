@@ -1,6 +1,6 @@
 ﻿namespace Manifestacije.Api.Contracts.QueryFilters;
 
-public class EventQueryFilter : QueryFilterBase
+public sealed class EventQueryFilter : QueryFilterBase
 {
     public string? Title { get; set; }
     public string? Description { get; set; }
@@ -8,8 +8,8 @@ public class EventQueryFilter : QueryFilterBase
     public DateTime? MaxStartingDate { get; set; }
     public DateTime? MinEndingDate { get; set; }
     public DateTime? MaxEndingDate { get; set; }
-    public List<string>? Guests { get; set; }
-    public List<string>? Competitors { get; set; }
+    public string? GuestsList { get; set; }
+    public string? CompetitorsList { get; set; }
     public ulong? MinCapacity { get; set; }
     public ulong? MaxCapacity { get; set; }
     public double? MinTicketPrice { get; set; }

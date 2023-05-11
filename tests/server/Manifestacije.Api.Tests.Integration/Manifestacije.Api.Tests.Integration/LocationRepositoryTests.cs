@@ -18,7 +18,8 @@ public class LocationRepositoryTests : IClassFixture<ManifestacijeApiFactory>
             UsersCollectionName = null,
             PartnersCollectionName = null,
             CategoriesCollectionName = null,
-            OrganizationsCollectionName = null
+            OrganizationsCollectionName = null,
+            EventsCollectionName = null
         });
         _sut = new LocationRepository(databaseSettings);
     }
