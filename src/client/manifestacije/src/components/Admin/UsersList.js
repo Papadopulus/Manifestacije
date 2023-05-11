@@ -3,6 +3,7 @@ import axios from "axios";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
 import UserDeleteBox from "../DialogBoxes/UserDeleteBox";
 import EditUserBox from "../DialogBoxes/EditUserBox";
+import ViewUserBox from "../DialogBoxes/ViewUserBox";
 
 const UsersList = () => {
 
@@ -10,6 +11,7 @@ const UsersList = () => {
     const shouldLog = useRef(true);
     const [deleteUser, setDeleteUser] = useState(null);
     const [editUser, setEditUser] = useState(null);
+    const [viewUser, setViewUser] = useState(null);
 
     useEffect(() => {
         if (shouldLog.current) {
@@ -29,21 +31,28 @@ const UsersList = () => {
             shouldLog.current = false;
         }
     }, [])
-    
-    
+
+
     const confirmDelete = async (user) => {
         setDeleteUser(user);
     };
     const handleCancelDeleteUser = () => {
         setDeleteUser(null);
     };
-    
-    
-    const confirmEdits = async (user)=>{
+
+
+    const confirmEdits = async (user) => {
         setEditUser(user);
     }
     const handleCancelEditUser = () => {
         setEditUser(null);
+    }
+
+    const confirmViewUser = async (user) => {
+        setViewUser(user);
+    }
+    const handleCancelViewUser = () => {
+        setViewUser(null);
     }
     const handleDeleteUser = async () => {
         await checkTokenAndRefresh();
@@ -67,6 +76,16 @@ const UsersList = () => {
         console.log(response);
         setEditUser(null);
     }
+    // const handleViewUser = async () => {
+    //     await checkTokenAndRefresh();
+    //     let header = {
+    //         "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
+    //     }
+    //     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/users/${viewUser.id}`, {headers: header})
+    //     console.log(response.data);
+    //     setViewUser(null);
+    // }
+    // console.log(viewUser);
     // console.log(allUsers);
     return (
         <>
@@ -84,6 +103,15 @@ const UsersList = () => {
                     onCancel={handleCancelEditUser}
                 />
             )}
+            {viewUser && (
+                <ViewUserBox
+                    message={`User information`}
+                    // onConfirm={handleViewUser}
+                    onCancel={handleCancelViewUser}
+                    wholeUser={viewUser}
+                />
+
+            )}
             <div>
                 <table>
                     <thead>
@@ -91,7 +119,6 @@ const UsersList = () => {
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
-                        <th>Role</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -100,12 +127,14 @@ const UsersList = () => {
                             <td>{user.firstName}</td>
                             <td>{user.lastName}</td>
                             <td>{user.email}</td>
-                            <td>{user.roles[0]}</td>
                             <td>
                                 <button onClick={() => confirmDelete(user)}>Delete User</button>
                             </td>
                             <td>
                                 <button onClick={() => confirmEdits(user)}>Edit User</button>
+                            </td>
+                            <td>
+                                <button onClick={() => confirmViewUser(user)}>Details of User</button>
                             </td>
                         </tr>
                     ))}
