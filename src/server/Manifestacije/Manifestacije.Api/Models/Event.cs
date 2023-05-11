@@ -21,4 +21,5 @@ public sealed class Event : ModelBase
     public required double Latitude { get; set; }
     public required double Longitude { get; set; }
     public OrganizationPartial Organization { get; set; } = default!;
+    public CategoryPartial Category { get; set; } = default!;
 }

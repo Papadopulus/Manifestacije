@@ -7,5 +7,6 @@ public sealed class Partner : ModelBase
     public required string Email { get; set; } 
     public List<LocationPartial> Locations { get; set; } = new();
     public required string Url { get; set; } 
-    public bool IsUpsert { get; set; } = false;
+    public bool IsTransport { get; set; } = false;
+    public bool IsAccommodation { get; set; } = false;
 }

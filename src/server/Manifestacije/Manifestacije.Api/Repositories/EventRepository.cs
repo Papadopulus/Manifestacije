@@ -1,4 +1,5 @@
 ﻿using Manifestacije.Api.Database;
+using Manifestacije.Api.Extensions;
 using Manifestacije.Api.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -43,7 +44,14 @@ public class EventRepository : IEventRepository
 
     public async Task<List<Event>> GetEventsAsync(EventQueryFilter queryFilter)
     {
-        throw new NotImplementedException();
+        var filter = queryFilter.Filter<Event, EventQueryFilter>();
+        var sort = QueryExtensions.Sort<Event>(queryFilter);
+        
+        return await _eventsCollection
+            .Find(filter)
+            .Sort(sort)
+            .Paginate(queryFilter)
+            .ToListAsync();
     }
 
     public async Task<bool> DeleteEventAsync(string id)

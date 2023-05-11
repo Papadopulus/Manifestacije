@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Manifestacije.Api.Endpoints.Internal;
+using Manifestacije.Api.Extensions;
 using Manifestacije.Api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,8 @@ public class EventEndpoints : IEndpoints
     internal static async Task<IResult> CreateEvent(
         IEventService eventService,
         [FromBody] EventCreateRequest createEventRequest,
-        IValidator<EventCreateRequest> validator)
+        IValidator<EventCreateRequest> validator,
+        HttpContext httpContext)
     {
         var validationResult = await validator.ValidateAsync(createEventRequest);
         if (!validationResult.IsValid)
@@ -41,7 +43,7 @@ public class EventEndpoints : IEndpoints
             throw new ValidationException(validationResult.Errors);
         }
 
-        var createdEvent = await eventService.CreateEventAsync(createEventRequest);
+        var createdEvent = await eventService.CreateEventAsync(createEventRequest, httpContext.User.GetUserId());
         return Results.CreatedAtRoute(
             nameof(GetEventById),
             new {id = createdEvent.Id},
@@ -70,7 +72,8 @@ public class EventEndpoints : IEndpoints
         string id,
         IEventService eventService,
         [FromBody] EventUpdateRequest updateEventRequest,
-        IValidator<EventUpdateRequest> validator)
+        IValidator<EventUpdateRequest> validator,
+        HttpContext httpContext)
     {
         var validationResult = await validator.ValidateAsync(updateEventRequest);
         if (!validationResult.IsValid)
@@ -78,7 +81,7 @@ public class EventEndpoints : IEndpoints
             throw new ValidationException(validationResult.Errors);
         }
 
-        var updatedEvent = await eventService.UpdateEventAsync(id, updateEventRequest);
+        var updatedEvent = await eventService.UpdateEventAsync(id, updateEventRequest, httpContext.User.GetUserId());
         return updatedEvent is null
             ? Results.NotFound($"Event with the id of: {id} does not exist")
             : Results.Ok(EventMapper.EventToEventViewResponse(updatedEvent));

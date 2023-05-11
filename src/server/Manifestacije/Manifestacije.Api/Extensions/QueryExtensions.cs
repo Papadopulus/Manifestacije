@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
+using Manifestacije.Api.Models;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace Manifestacije.Api.Extensions;
 
@@ -34,7 +36,8 @@ public static class QueryExtensions
 
         var propsWithoutMinMax = props
             .Where(x => !x.Name.AsSpan().StartsWith("Min")
-                        && !x.Name.AsSpan().StartsWith("Max"))
+                        && !x.Name.AsSpan().StartsWith("Max")
+                        && !x.GetType().ToString().Contains("List"))
             .ToArray();
 
         var propsMin = props
@@ -42,6 +45,10 @@ public static class QueryExtensions
             .ToArray();
         var propsMax = props
             .Where(x => x.Name.AsSpan().StartsWith("Max"))
+            .ToArray();
+        
+        var propsList = props
+            .Where(x => x.GetType().ToString().Contains("List"))
             .ToArray();
 
         var intersect = query.GetType()
@@ -100,6 +107,27 @@ public static class QueryExtensions
 
             filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
         }
+        
+        // TODO
+        // foreach (var prop in propsList)
+        // {
+        //     var value = prop.GetValue(query);
+        //     var name = prop.Name;
+        //
+        //     if (value is null)
+        //     {
+        //         continue;
+        //     }
+        //
+        //     var property = typeof(TType).GetProperty(name,
+        //         BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)!;
+        //
+        //     var filterProp = property.PropertyType == typeof(string)
+        //         ? Builders<TType>.Filter.Regex(name, $"/{value}/i")
+        //         : Builders<TType>.Filter.Eq(name, value.ToString());
+        //
+        //     filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
+        // }
 
         if (showDeleted)
         {

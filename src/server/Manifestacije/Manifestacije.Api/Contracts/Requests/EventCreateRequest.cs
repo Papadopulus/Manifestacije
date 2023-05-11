@@ -18,6 +18,7 @@ public sealed class EventCreateRequest
     public string? TicketUrl { get; set; }
     public List<string> Sponsors { get; set; } = new();
     public required string LocationId { get; set; }
+    public required string CategoryId { get; set; }
     public required string Street { get; set; }
     public required double Latitude { get; set; }
     public required double Longitude { get; set; }
