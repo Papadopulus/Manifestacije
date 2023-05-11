@@ -46,6 +46,9 @@
 .item-menu-bottom:hover{
     border-bottom-left-radius: 20px;
 }
+.item-menu-bottom.active{
+    border-bottom-left-radius: 20px;
+}
 .container-name-surname{
     padding: 40px;
 }

@@ -1,7 +1,7 @@
 ﻿import React from "react";
 import classes from "./ViewUserBox.module.css";
 
-const ViewUserBox = ({ message, onConfirm, onCancel,wholeUser }) => {
+const ViewUserBox = ({ message, onCancel,wholeUser }) => {
     
     const createdDate = new Date(wholeUser.createdAtUtc);
     const formattedDate = createdDate.toLocaleString();
@@ -17,7 +17,6 @@ const ViewUserBox = ({ message, onConfirm, onCancel,wholeUser }) => {
                 <p> Joined: {formattedDate}</p>     
                 <p> Role: {wholeUser.roles[0]}</p>
                 <div className={classes["buttons"]}>
-                    {/*<button onClick={onConfirm}>Yes</button>*/}
                     <button onClick={onCancel}>Cancel</button>
                 </div>
             </div>
