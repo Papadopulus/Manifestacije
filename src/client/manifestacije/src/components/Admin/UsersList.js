@@ -111,7 +111,9 @@ const UsersList = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {allUsers.map((user) => (
+                    {allUsers
+                        .filter((user) => user.roles[0] === "User")
+                        .map((user) => (
                         <tr key={user.id}>
                             <td>{user.firstName}</td>
                             <td>{user.lastName}</td>
