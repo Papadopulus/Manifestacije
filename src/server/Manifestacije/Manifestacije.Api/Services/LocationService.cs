@@ -34,6 +34,7 @@ public sealed class LocationService : ILocationService
             throw new InvalidInputException("Location with a given name already exists");
         }
 
+        var partners = new List<Partner>();
         var location = LocationMapper.LocationCreateRequestToLocation(locationCreateRequest);
         if (locationCreateRequest.TransportPartnerId is not null)
         {
@@ -44,6 +45,7 @@ public sealed class LocationService : ILocationService
             }
 
             location.TransportPartner = PartnerMapper.PartnerToPartnerPartial(partner);
+            partners.Add(partner);
         }
 
         if (locationCreateRequest.AccommodationPartnerId is not null)
@@ -55,12 +57,19 @@ public sealed class LocationService : ILocationService
             }
 
             location.AccommodationPartner = PartnerMapper.PartnerToPartnerPartial(partner);
+            partners.Add(partner);
         }
 
         var success = await _locationRepository.CreateLocationAsync(location);
         if (!success)
         {
             throw new DatabaseException("Failed to create location");
+        }
+
+        foreach (var partner in partners)
+        {
+            partner.Locations.Add(LocationMapper.LocationToLocationPartial(location));
+            await _partnerRepository.UpdatePartnerAsync(partner);
         }
 
         return location;
