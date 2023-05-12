@@ -8,6 +8,7 @@ import Going from "../components/User/Going";
 import PasswordReset from "../components/PasswordReset/PasswordReset";
 import UsersList from "../components/Admin/UsersList";
 import CategoriesList from "../components/Admin/CategoriesList";
+import LocationList from "../components/Admin/LocationList";
 
 const User = () => {
     const [userData, setUserData] = useState([]);
@@ -36,6 +37,8 @@ const User = () => {
         activeComponent = <UsersList/>
     }else if (activeLink === "allCategories"){
         activeComponent = <CategoriesList/>
+    }else if (activeLink === "allLocations"){
+        activeComponent = <LocationList/>
     }
 
     useEffect(() => {
@@ -116,14 +119,21 @@ const User = () => {
                             href="#"
                             onClick={() => handleLinkClick('allUsers')}
                         >
-                            All users
+                            Users
                         </a>}
                         {user.Roles==="Admin" && <a
                             className={`${classes['item-menu']} ${activeLink === 'allCategories' ? classes['active'] : ''}`}
                             href="#"
                             onClick={() => handleLinkClick('allCategories')}
                         >
-                            All categories
+                            Categories
+                        </a>}
+                        {user.Roles==="Admin" && <a
+                            className={`${classes['item-menu']} ${activeLink === 'allLocations' ? classes['active'] : ''}`}
+                            href="#"
+                            onClick={() => handleLinkClick('allLocations')}
+                        >
+                           Locations
                         </a>}
                         <a
                             className={`${classes['item-menu']} ${activeLink === 'favorites' ? classes['active'] : ''}`}
