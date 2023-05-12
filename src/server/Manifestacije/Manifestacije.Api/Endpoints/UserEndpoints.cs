@@ -10,7 +10,7 @@ public sealed class UserEndpoints : IEndpoints
 {
     private const string BaseRoute = "/users";
     private const string AuthRoute = "/authenticate";
-    private const string Refresh = "/refresh";
+    private const string RefreshRoute = "/refresh";
     private const string ResetPassword = "/reset-password";
 
     public static void DefineEndpoints(IEndpointRouteBuilder app)
@@ -28,7 +28,7 @@ public sealed class UserEndpoints : IEndpoints
 
         app.MapPost(AuthRoute, AuthenticateUser)
             .AllowAnonymous();
-        app.MapPost(AuthRoute + Refresh, RefreshUserToken)
+        app.MapPost(AuthRoute + RefreshRoute, RefreshUserToken)
             .AllowAnonymous();
 
         app.MapGet(ResetPassword + "/{email}", SendPasswordReset)
@@ -65,12 +65,22 @@ public sealed class UserEndpoints : IEndpoints
     internal static async Task<IResult> CreateUser(
         [FromBody] UserCreateRequest userCreateDto,
         IUserService userService,
-        IValidator<UserCreateRequest> validator)
+        IValidator<UserCreateRequest> validator,
+        IValidator<OrganizationCreateRequest> organizationValidator)
     {
         var validationResult = await validator.ValidateAsync(userCreateDto);
         if (!validationResult.IsValid)
         {
             throw new ValidationException(validationResult.Errors);
+        }
+
+        if (userCreateDto.Organization is not null)
+        {
+            validationResult = await organizationValidator.ValidateAsync(userCreateDto.Organization);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
         }
 
         var user = await userService.CreateUserAsync(userCreateDto);

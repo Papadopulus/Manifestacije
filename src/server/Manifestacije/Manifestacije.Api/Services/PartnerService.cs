@@ -63,7 +63,9 @@ public sealed class PartnerService : IPartnerService
 
         existingPartner.Name = partnerUpdateRequest.Name;
         existingPartner.PhoneNumber = partnerUpdateRequest.PhoneNumber;
-        existingPartner.UpdatedAtUtc = DateTime.Now;
+        existingPartner.UpdatedAtUtc = DateTime.UtcNow;
+        existingPartner.IsTransport = partnerUpdateRequest.IsTransport;
+        existingPartner.IsAccommodation = partnerUpdateRequest.IsAccommodation;
         var success = await _partnerRepository.UpdatePartnerAsync(existingPartner);
         if (!success)
         {

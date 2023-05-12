@@ -2,6 +2,6 @@
 
 public sealed class UserUpdateRequest
 {
-    public string FirstName { get; set; } = default!;
-    public string LastName { get; set; } = default!;
+    public required string FirstName { get; set; } 
+    public required string LastName { get; set; } 
 }

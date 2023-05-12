@@ -14,7 +14,12 @@ public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         {
             ConnectionString = "mongodb://localhost:27018",
             DatabaseName = "manifestacije-test",
-            UsersCollectionName = "users"
+            UsersCollectionName = "users",
+            LocationsCollectionName = null,
+            PartnersCollectionName = null,
+            CategoriesCollectionName = null,
+            OrganizationsCollectionName = null,
+            EventsCollectionName = null
         });
 
         _sut = new UserRepository(databaseSettings);
@@ -240,8 +245,13 @@ public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
             LastName = "UserLastName",
             RefreshTokens = new List<RefreshToken>
             {
-                new() { ExpireDate = DateTime.UtcNow.AddDays(1), Token = "Token" }
-            }
+                new()
+                {
+                    ExpireDate = DateTime.UtcNow.AddDays(1),
+                    Token = "Token"
+                }
+            },
+            Email = null
         };
         await _sut.CreateUserAsync(user);
 

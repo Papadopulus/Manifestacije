@@ -44,7 +44,8 @@ public sealed class PartnerRepository : IPartnerRepository
     {
         var filter = Builders<Partner>.Filter.Eq("Id", id);
         var update = Builders<Partner>.Update
-            .Set(partner => partner.IsDeleted, true);
+            .Set(x => x.DeletedAtUtc, DateTime.UtcNow)
+            .Set(x => x.IsDeleted, true);
         await _partnerCollection.UpdateOneAsync(filter, update);
         return true;
     }
@@ -68,6 +69,20 @@ public sealed class PartnerRepository : IPartnerRepository
     {
         var filter = Builders<Partner>.Filter.Eq(partner => partner.Name, name);
         filter &= Builders<Partner>.Filter.Eq(partner => partner.IsDeleted, includeDeleted);
+        return await _partnerCollection
+            .Find(filter)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<Partner?> GetPartnerByLocationAsync(string locationId, bool transport = false, bool accommodation = false)
+    {
+        if (transport && accommodation)
+            return null;
+        
+        var filter = Builders<Partner>.Filter.ElemMatch(x => x.Locations, x => x.Id == locationId);
+        filter &= Builders<Partner>.Filter.Eq(partner => partner.IsDeleted, false);
+        filter &= Builders<Partner>.Filter.Eq(partner => partner.IsTransport, transport);
+        filter &= Builders<Partner>.Filter.Eq(partner => partner.IsAccommodation, accommodation);
         return await _partnerCollection
             .Find(filter)
             .FirstOrDefaultAsync();

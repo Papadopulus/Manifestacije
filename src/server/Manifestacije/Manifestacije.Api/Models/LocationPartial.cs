@@ -2,7 +2,7 @@
 
 public class LocationPartial
 {
-    public string Id { get; set; } = default!;
+    public required string Id { get; set; } 
 
-    public string Name { get; set; } = default!;
+    public required string Name { get; set; } 
 }

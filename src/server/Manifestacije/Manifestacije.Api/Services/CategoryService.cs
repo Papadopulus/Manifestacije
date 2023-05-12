@@ -69,7 +69,7 @@ public sealed class CategoryService : ICategoryService
         {
             return false;
         }
-
+        
         existingCategory.IsDeleted = true;
         existingCategory.DeletedAtUtc = DateTime.UtcNow;
         return await _categoryRepository.UpdateCategoryAsync(existingCategory);

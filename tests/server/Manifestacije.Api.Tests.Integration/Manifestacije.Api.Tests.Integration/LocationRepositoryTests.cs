@@ -14,7 +14,12 @@ public class LocationRepositoryTests : IClassFixture<ManifestacijeApiFactory>
         {
             ConnectionString = "mongodb://localhost:27018",
             DatabaseName = "manifestacije-test",
-            LocationsCollectionName = "locations"
+            LocationsCollectionName = "locations",
+            UsersCollectionName = null,
+            PartnersCollectionName = null,
+            CategoriesCollectionName = null,
+            OrganizationsCollectionName = null,
+            EventsCollectionName = null
         });
         _sut = new LocationRepository(databaseSettings);
     }

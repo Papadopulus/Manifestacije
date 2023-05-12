@@ -2,7 +2,7 @@
 
 public class PartnerPartial
 {
-    public string Id { get; set; } = default!;
-    public string Name { get; set; } = default!;
-    public string Url { get; set; } = default!;
+    public required string Id { get; set; } 
+    public required string Name { get; set; } 
+    public required string Url { get; set; } 
 }

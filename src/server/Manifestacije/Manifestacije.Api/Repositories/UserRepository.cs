@@ -83,7 +83,8 @@ public sealed class UserRepository : IUserRepository
     {
         var filter = Builders<User>.Filter.Eq("Id", id);
         var update = Builders<User>.Update
-            .Set(user => user.IsDeleted, true);
+            .Set(x => x.DeletedAtUtc, DateTime.UtcNow)
+            .Set(x => x.IsDeleted, true);
         await _usersCollection.UpdateOneAsync(filter, update);
         return true;
     }
