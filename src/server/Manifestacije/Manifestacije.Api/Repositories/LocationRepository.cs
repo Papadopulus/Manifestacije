@@ -34,8 +34,8 @@ public class LocationRepository : ILocationRepository
 
     public async Task<Location?> GetLocationByIdAsync(string id, bool includeDeleted = false)
     {
-        var filter = Builders<Location>.Filter.Eq(location => location.Id, id);
-        filter &= Builders<Location>.Filter.Eq(location => location.IsDeleted, includeDeleted);
+        var filter = Builders<Location>.Filter.Eq(x => x.Id, id);
+        filter &= Builders<Location>.Filter.Eq(x => x.IsDeleted, includeDeleted);
         return await _locationsCollection
             .Find(filter)
             .FirstOrDefaultAsync();
@@ -43,8 +43,8 @@ public class LocationRepository : ILocationRepository
 
     public async Task<Location?> GetLocationByNameAsync(string name, bool includeDeleted = false)
     {
-        var filter = Builders<Location>.Filter.Eq(location => location.Name, name);
-        filter &= Builders<Location>.Filter.Eq(location => location.IsDeleted, includeDeleted);
+        var filter = Builders<Location>.Filter.Eq(x => x.Name, name);
+        filter &= Builders<Location>.Filter.Eq(x => x.IsDeleted, includeDeleted);
         return await _locationsCollection
             .Find(filter)
             .FirstOrDefaultAsync();
@@ -67,7 +67,8 @@ public class LocationRepository : ILocationRepository
     {
         var filter = Builders<Location>.Filter.Eq("Id", id);
         var update = Builders<Location>.Update
-            .Set(location => location.IsDeleted, true);
+            .Set(x => x.DeletedAtUtc, DateTime.UtcNow)
+            .Set(x => x.IsDeleted, true);
         await _locationsCollection.UpdateOneAsync(filter, update);
         return true;
     }

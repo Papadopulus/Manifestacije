@@ -18,7 +18,8 @@ public class PartnerRepositoryTests : IClassFixture<ManifestacijeApiFactory>
             UsersCollectionName = null,
             LocationsCollectionName = null,
             CategoriesCollectionName = null,
-            OrganizationsCollectionName = null
+            OrganizationsCollectionName = null,
+            EventsCollectionName = null
         });
 
         _sut = new PartnerRepository(databaseSettings);

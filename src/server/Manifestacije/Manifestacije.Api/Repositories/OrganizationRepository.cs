@@ -36,8 +36,8 @@ public sealed class OrganizationRepository : IOrganizationRepository
 
     public async Task<Organization?> GetOrganizationByIdAsync(string id, bool includeDeleted = false)
     {
-        var filter = Builders<Organization>.Filter.Eq(organization => organization.Id, id);
-        filter &= Builders<Organization>.Filter.Eq(organization => organization.IsDeleted, includeDeleted);
+        var filter = Builders<Organization>.Filter.Eq(x => x.Id, id);
+        filter &= Builders<Organization>.Filter.Eq(x => x.IsDeleted, includeDeleted);
 
         return await _organizationsCollection
             .Find(filter)
@@ -46,8 +46,8 @@ public sealed class OrganizationRepository : IOrganizationRepository
 
     public async Task<Organization?> GetOrganizationByNameAsync(string name, bool includeDeleted = false)
     {
-        var filter = Builders<Organization>.Filter.Eq(organization => organization.Name, name);
-        filter &= Builders<Organization>.Filter.Eq(organization => organization.IsDeleted, includeDeleted);
+        var filter = Builders<Organization>.Filter.Eq(x => x.Name, name);
+        filter &= Builders<Organization>.Filter.Eq(x => x.IsDeleted, includeDeleted);
 
         return await _organizationsCollection
             .Find(filter)
@@ -71,7 +71,8 @@ public sealed class OrganizationRepository : IOrganizationRepository
     {
         var filter = Builders<Organization>.Filter.Eq("Id", id);
         var update = Builders<Organization>.Update
-            .Set(user => user.IsDeleted, true);
+            .Set(x => x.DeletedAtUtc, DateTime.UtcNow)
+            .Set(x => x.IsDeleted, true);
         await _organizationsCollection.UpdateOneAsync(filter, update);
         return true;
     }

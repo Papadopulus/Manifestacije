@@ -34,8 +34,8 @@ public sealed class CategoryRepository : ICategoryRepository
 
     public async Task<Category?> GetCategoryByIdAsync(string id, bool includeDeleted = false)
     {
-        var filter = Builders<Category>.Filter.Eq(category => category.Id, id);
-        filter &= Builders<Category>.Filter.Eq(category => category.IsDeleted, includeDeleted);
+        var filter = Builders<Category>.Filter.Eq(x => x.Id, id);
+        filter &= Builders<Category>.Filter.Eq(x => x.IsDeleted, includeDeleted);
 
         return await _categoryCollection
             .Find(filter)
@@ -44,8 +44,8 @@ public sealed class CategoryRepository : ICategoryRepository
 
     public async Task<Category?> GetCategoryWithNameAsync(string name, bool includeDeleted = false)
     {
-        var filter = Builders<Category>.Filter.Eq(category => category.Name, name);
-        filter &= Builders<Category>.Filter.Eq(category => category.IsDeleted, includeDeleted);
+        var filter = Builders<Category>.Filter.Eq(x => x.Name, name);
+        filter &= Builders<Category>.Filter.Eq(x => x.IsDeleted, includeDeleted);
         return await _categoryCollection
             .Find(filter)
             .FirstOrDefaultAsync();
@@ -68,7 +68,8 @@ public sealed class CategoryRepository : ICategoryRepository
     {
         var filter = Builders<Category>.Filter.Eq("Id", id);
         var update = Builders<Category>.Update
-            .Set(category => category.IsDeleted, true);
+            .Set(x => x.DeletedAtUtc, DateTime.UtcNow)
+            .Set(x => x.IsDeleted, true);
         await _categoryCollection.UpdateOneAsync(filter, update);
         return true;
     }

@@ -18,7 +18,8 @@ public sealed class UserRepositoryTests : IClassFixture<ManifestacijeApiFactory>
             LocationsCollectionName = null,
             PartnersCollectionName = null,
             CategoriesCollectionName = null,
-            OrganizationsCollectionName = null
+            OrganizationsCollectionName = null,
+            EventsCollectionName = null
         });
 
         _sut = new UserRepository(databaseSettings);

@@ -9,4 +9,5 @@ public sealed class DatabaseSettings
     public required string PartnersCollectionName { get; set; }
     public required string CategoriesCollectionName { get; set; }
     public required string OrganizationsCollectionName { get; set; }
+    public required string EventsCollectionName { get; set; }
 }
