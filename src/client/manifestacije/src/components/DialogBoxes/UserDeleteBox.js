@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import classes from "./UserDeleteBox.module.css";
+import classes from "./CustomBox.module.css";
 
 const CustomDialogBox = ({ message, onConfirm, onCancel }) => {
     return (

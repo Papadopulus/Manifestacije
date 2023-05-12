@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import classes from "./EditUserBox.module.css";
+import classes from "./CustomBox.module.css";
 import useInput from "../../hooks/use-input";
 import Input from "../UI/Input/Input";
 const EditUserBox = ({ message, onConfirm ,onCancel }) => {

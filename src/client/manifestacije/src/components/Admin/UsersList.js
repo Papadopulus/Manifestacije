@@ -76,17 +76,6 @@ const UsersList = () => {
         console.log(response);
         setEditUser(null);
     }
-    // const handleViewUser = async () => {
-    //     await checkTokenAndRefresh();
-    //     let header = {
-    //         "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
-    //     }
-    //     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/users/${viewUser.id}`, {headers: header})
-    //     console.log(response.data);
-    //     setViewUser(null);
-    // }
-    // console.log(viewUser);
-    // console.log(allUsers);
     return (
         <>
             {deleteUser && (

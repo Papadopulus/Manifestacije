@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import classes from "./ViewUserBox.module.css";
+import classes from "./CustomBox.module.css";
 
 const ViewUserBox = ({ message, onCancel,wholeUser }) => {
     
