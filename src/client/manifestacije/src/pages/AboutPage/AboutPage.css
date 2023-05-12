@@ -1,0 +1,35 @@
+.container-main{
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100vh;
+    /*background-image: url("../../multimedia/background-purple.jpg");*/
+    justify-content: center;
+    /*align-content: center;*/
+}
+.container-first{
+    background-image: url("../../multimedia/background-purple.jpg");
+    min-height: 85vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /*align-content: center;*/
+    font-family: "Outfit-Medium";
+    font-size: 100px;
+    color: navajowhite;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 50px;
+}
+.container-text{
+    font-family: "Outfit-Medium";
+    font-size: 50px;
+    color: navajowhite;
+}
+.container, .container-second{
+    background-color: #1d1d1f;
+    min-height: 60vh;
+    width: 100%;
+}
+.container-second{
+    background-image: url("../../multimedia/background-purple.jpg");
+}
