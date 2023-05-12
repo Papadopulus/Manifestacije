@@ -37,8 +37,8 @@ const EditNameBox = ({ message, onConfirm ,onCancel }) => {
                     </label>
                 )}
                 <div className={classes["buttons"]}>
-                    <button onClick={() => onConfirm(payload)}>Yes</button>
-                    <button onClick={onCancel}>No</button>
+                    <button  onClick={() => onConfirm(payload)}>Yes</button>
+                    <button className={classes["cancel-button"]} onClick={onCancel}>No</button>
                 </div>
             </div>
         </>
