@@ -5,16 +5,23 @@ const AboutPage = ()=>{
       <div className={"container-main"}>
           <div className={"container-first"}>
               <p>manifestacije</p>
-              <p className={"container-text"}>otkrijte kulturu Srbije kroz manifestacije<Cursor /></p>
+              <p className={"container-text"}>otkrij kulturu Srbije kroz manifestacije<Cursor /></p>
           </div>
+
           <div className={"container"}>
+              <div className={"left-second"}></div>
+              <div className={"right-second"}></div>
+          </div>
+
+          <div className={"container-third"}>
+              <div className={"left-third"}></div>
+              <div className={"right-third"}></div>
 
           </div>
-          <div className={"container-second"}>
 
-          </div>
           <div className={"container"}>
-
+              <div className={"left-fourth"}></div>
+              <div className={"right-fourth"}></div>
           </div>
       </div>
     );

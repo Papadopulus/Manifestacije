@@ -7,29 +7,47 @@
     /*align-content: center;*/
 }
 .container-first{
-    background-image: url("../../multimedia/background-purple.jpg");
+    background-image: url("../../multimedia/background-purple2.jpg");
     min-height: 85vh;
     width: 100%;
     display: flex;
     justify-content: center;
     /*align-content: center;*/
-    font-family: "Outfit-Medium";
+    font-family: "Outfit-Bold";
     font-size: 100px;
     color: navajowhite;
     flex-wrap: wrap;
     flex-direction: column;
-    padding: 50px;
+    padding: 100px;
 }
 .container-text{
     font-family: "Outfit-Medium";
     font-size: 50px;
     color: navajowhite;
 }
-.container, .container-second{
+.container, .container-third{
     background-color: #1d1d1f;
     min-height: 60vh;
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
-.container-second{
+.container-third{
     background-image: url("../../multimedia/background-purple.jpg");
+}
+.right-second, .left-third, .right-fourth{
+    width: 100%;
+    height: 50vh;
+    background-color: navajowhite;
+    border-radius: 30px;
+    margin: 100px;
+    padding: 50px;
+    box-shadow: -20px 0px 20px rgba(0,0,0,0.3);
+}
+.left-second, .right-third, .left-fourth{
+    width: 100%;
+    height: 50vh;
+    margin: 100px;
+    padding: 50px;
 }
