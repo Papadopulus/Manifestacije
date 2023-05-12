@@ -1,0 +1,19 @@
+﻿
+.home-filter-panel{
+    margin-bottom: 5px;
+    background: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.dropdown-options{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.dropdown-name{
+    font-size: 120%;
+}
+.ant-collapse-header{
+    display: flex;
+    align-items: center;
+}

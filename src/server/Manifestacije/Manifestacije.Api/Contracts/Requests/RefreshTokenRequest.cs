@@ -1,6 +1,6 @@
 ﻿namespace Manifestacije.Api.Contracts.Requests;
 
-public class RefreshTokenRequest
+public sealed class RefreshTokenRequest
 {
-    public string Token { get; set; } = default!;
+    public required string Token { get; set; } 
 }

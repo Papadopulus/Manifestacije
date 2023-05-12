@@ -1,0 +1,14 @@
+global using Xunit;
+global using Manifestacije.Api.Database;
+global using Microsoft.AspNetCore.Mvc.Testing;
+global using System.Collections.Immutable;
+global using DotNet.Testcontainers.Builders;
+global using DotNet.Testcontainers.Containers;
+global using Manifestacije.Api.Contracts.Responses;
+global using FluentAssertions;
+global using FluentAssertions.Equivalency;
+global using System.Net;
+global using System.Net.Http.Headers;
+global using Bogus;
+global using Manifestacije.Api.Contracts.Requests;
+global using MongoDB.Bson;

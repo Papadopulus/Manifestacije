@@ -1,6 +1,7 @@
 ﻿namespace Manifestacije.Api.Contracts.Requests;
 
-public class UserUpdateRequest
+public sealed class UserUpdateRequest
 {
-    
+    public required string FirstName { get; set; } 
+    public required string LastName { get; set; } 
 }

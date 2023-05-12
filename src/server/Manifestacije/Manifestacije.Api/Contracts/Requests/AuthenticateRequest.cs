@@ -1,7 +1,7 @@
 ﻿namespace Manifestacije.Api.Contracts.Requests;
 
-public class AuthenticateRequest
+public sealed class AuthenticateRequest
 {
-    public string Email { get; init; } = default!;
-    public string Password { get; init; }= default!;
+    public required string Email { get; init; } 
+    public required string Password { get; init; } 
 }

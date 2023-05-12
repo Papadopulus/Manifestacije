@@ -1,0 +1,42 @@
+@font-face{
+    font-family: 'Lexend-Bold';
+    src: url("../../fonts/Lexend-Bold.ttf");
+}
+@font-face {
+    font-family: 'Lexend-Regular';
+    src: url("../../fonts/Lexend-Regular.ttf");
+}
+.background-div{
+    width: 100%;
+    height: 100%;
+    /*background-image: linear-gradient(#3333ff,#9900cc);*/
+    background-image: url("../../multimedia/background-purple.jpg");
+}
+@font-face {
+    font-family: 'Outfit-Bold';
+    src: url("../../fonts/Outfit-Bold.ttf");
+}
+.header-text{
+    font-size: 60px;
+    font-family: 'Outfit-Bold';
+    color: navajowhite;
+}
+.body-text{
+    font-size: 40px;
+    font-family: "Lexend-Medium";
+    color: navajowhite;
+    display: flex;
+}
+.main-div{
+    position: absolute;
+    top: 55%;
+    left: 35%;
+    width: 57%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+}
+.space{
+    margin-right: 12px;
+}

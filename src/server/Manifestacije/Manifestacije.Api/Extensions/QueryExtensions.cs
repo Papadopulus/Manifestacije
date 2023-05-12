@@ -1,7 +1,7 @@
-﻿using System.Linq.Expressions;
-using System.Reflection;
-using Manifestacije.Api.Contracts.QueryFilters;
+﻿using System.Reflection;
+using Manifestacije.Api.Models;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace Manifestacije.Api.Extensions;
 
@@ -13,17 +13,17 @@ public static class QueryExtensions
         return query.Skip((filter.PageNumber - 1) * filter.PageSize).Limit(filter.PageSize);
     }
 
-    public static IFindFluent<TType, TType>? Sort<TType>(this IFindFluent<TType, TType> query, QueryFilterBase filter)
+    public static SortDefinition<TType> Sort<TType>(QueryFilterBase filter)
     {
         if (string.IsNullOrEmpty(filter.SortColumn))
         {
             // TODO: Add default sort
-            return query;
+            return Builders<TType>.Sort.Descending("CreatedAtUtc");
         }
 
         return filter.SortDirection != "desc"
-            ? query.SortBy(x => x!.GetType().GetProperty(filter.SortColumn)!.GetValue(x))
-            : query.SortByDescending(x => x!.GetType().GetProperty(filter.SortColumn)!.GetValue(x));
+            ? Builders<TType>.Sort.Ascending(filter.SortColumn)
+            : Builders<TType>.Sort.Descending(filter.SortColumn);
     }
 
     public static FilterDefinition<TType> Filter<TType, TSource>(this TSource query)
@@ -36,7 +36,8 @@ public static class QueryExtensions
 
         var propsWithoutMinMax = props
             .Where(x => !x.Name.AsSpan().StartsWith("Min")
-                        && !x.Name.AsSpan().StartsWith("Max"))
+                        && !x.Name.AsSpan().StartsWith("Max")
+                        && !x.Name.AsSpan().EndsWith("List"))
             .ToArray();
 
         var propsMin = props
@@ -45,55 +46,46 @@ public static class QueryExtensions
         var propsMax = props
             .Where(x => x.Name.AsSpan().StartsWith("Max"))
             .ToArray();
+        
+        var propsList = props
+            .Where(x => x.Name.AsSpan().EndsWith("List"))
+            .ToArray();
 
-        var isAnd = query.GetType()
+        var intersect = query.GetType()
             .GetProperties()
-            .First(x => x.Name.Contains("IsAnd")).GetValue(query) as bool? ?? false;
+            .First(x => x.Name.Contains("Intersection")).GetValue(query) as bool? ?? false;
 
         var showDeleted = query.GetType()
             .GetProperties()
             .First(x => x.Name.Contains("ShowDeleted")).GetValue(query) as bool? ?? false;
 
-        var filter = Builders<TType>.Filter.Empty;
-        
-        if (!showDeleted)
-        {
-            filter &= Builders<TType>.Filter.Eq(x => x!.GetType().GetProperty("IsDeleted")!.GetValue(x), false);
-        }
+        FilterDefinition<TType>? filter = null;
 
         foreach (var prop in propsMin)
         {
             var valueMin = prop.GetValue(query);
             var valueMax = propsMax.FirstOrDefault(x => x.Name[3..] == prop.Name[3..])?.GetValue(query);
-            var name = prop.Name.Skip(3).ToString()!;
+            var name = prop.Name[3..];
 
             if (valueMin is null
                 && valueMax is null)
+            {
                 continue;
+            }
 
             var filterMinMax = Builders<TType>.Filter.Empty;
 
             if (valueMin is not null)
             {
-                var type = prop.GetType();
-                var property = type.GetProperty(name,
-                    BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)!;
-
-                var lambda = CreateLambdaExpression<TType>(type, property);
-                filterMinMax &= Builders<TType>.Filter.Gte(lambda, valueMin);
+                filterMinMax &= Builders<TType>.Filter.Gte(name, valueMin);
             }
 
             if (valueMax is not null)
             {
-                var type = prop.GetType();
-                var property = type.GetProperty(name,
-                    BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)!;
-
-                var lambda = CreateLambdaExpression<TType>(type, property);
-                filterMinMax &= Builders<TType>.Filter.Lte(lambda!, valueMin);
+                filterMinMax &= Builders<TType>.Filter.Lte(name, valueMax);
             }
 
-            filter = isAnd ? filter & filterMinMax : filter | filterMinMax;
+            filter = filter is null ? filterMinMax : intersect ? filter & filterMinMax : filter | filterMinMax;
         }
 
         foreach (var prop in propsWithoutMinMax)
@@ -102,25 +94,46 @@ public static class QueryExtensions
             var name = prop.Name;
 
             if (value is null)
+            {
                 continue;
+            }
 
-            var type = prop.GetType();
-            var property = type.GetProperty(name,
+            var property = typeof(TType).GetProperty(name,
                 BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)!;
 
-            var lambda = CreateLambdaExpression<TType>(type, property);
-            var filterProp = Builders<TType>.Filter.Regex(lambda, $"^.*{value}.*$");
+            var filterProp = property.PropertyType == typeof(string)
+                ? Builders<TType>.Filter.Regex(name, $"/{value}/i")
+                : Builders<TType>.Filter.Eq(name, value.ToString());
 
-            filter = isAnd ? filter & filterProp : filter | filterProp;
+            filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
+        }
+        
+        foreach (var prop in propsList)
+        {
+            var value = prop.GetValue(query);
+            var name = prop.Name;
+        
+            if (value is null)
+            {
+                continue;
+            }
+            
+            var property = typeof(TType).GetProperty(name,
+                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)!;
+
+            var filterProp = Builders<TType>.Filter.ElemMatch<string>(name, value.ToString());
+        
+            filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
         }
 
-        return filter;
-    }
+        if (showDeleted)
+        {
+            return filter ?? Builders<TType>.Filter.Empty;
+        }
 
-    private static Expression<Func<TType, object>> CreateLambdaExpression<TType>(Type type, MemberInfo property)
-    {
-        var parameter = Expression.Parameter(type, "y");
-        Expression memberExpression = Expression.MakeMemberAccess(parameter, property);
-        return Expression.Lambda<Func<TType, object>>(memberExpression, parameter);
+        var deletedFilter = Builders<TType>.Filter.Eq("IsDeleted", false);
+        filter = filter is null ? deletedFilter : filter & deletedFilter;
+
+        return filter ?? Builders<TType>.Filter.Empty;
     }
 }

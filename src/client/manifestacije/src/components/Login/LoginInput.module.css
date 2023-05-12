@@ -1,0 +1,103 @@
+﻿.login-form {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100vh;
+}
+
+.right-login-container {
+    width: 28%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    box-shadow: -20px 0px 20px rgba(0,0,0,0.3);
+}
+
+.left-login-container {
+    width: 72%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: grey;
+    overflow-y: auto;
+}
+
+@media only screen and (max-width: 960px) {
+    .left-login-container {
+        display: none;
+    }
+
+    .right-login-container {
+        width: 100%;
+    }
+    .login-handler{
+        padding: 0 0px;
+    }
+}
+
+.login-handler {
+    padding: 0 20px;
+    margin: 0 auto;
+    max-width: 485px;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+@font-face {
+    font-family: 'Lexand-Black';
+    src: url("../../fonts/Lexend-Black.ttf");
+}
+.login-handler h1 {
+    font-size: 55px;
+    font-weight: 700;
+    color: #333333;
+    text-align: center;
+    line-height: 1.25;
+    margin-bottom: 50px;
+    margin-top: 15px;
+    font-family: 'Outfit-Medium';
+}
+
+.login-handler .icon {
+    margin: 30px auto 30px;
+    width: 100px;
+    height: 100px;
+    background: rgba(0, 0, 0, 0) url(../../multimedia/login_icon_resized.webp) no-repeat scroll 0 0;
+}
+.login-handler .login-links{
+    color: #333333;
+}
+
+.dont-have-account{
+    color: #999999;
+    font-family: 'Lexand-Medium';
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.login-button {
+    width: 100%;
+}
+
+.form-actions {
+    text-align: right;
+    margin-top: 0.5rem;
+    margin-bottom: 5rem;
+}
+
+@font-face {
+    font-family: 'Lexand-Medium';
+    src: url("../../fonts/Lexend-Medium.ttf");
+}
+.error-text {
+    color: #ff3333;
+    font-family: 'Lexand-Medium';
+    font-size: 18px;
+}
+.login-links{
+    font-family: 'Lexand-Medium';
+    font-size: 18px;
+}
+
+

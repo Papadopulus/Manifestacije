@@ -1,14 +1,12 @@
 ﻿namespace Manifestacije.Api.Exceptions;
 
-public class DatabaseException : Exception
+public sealed class DatabaseException : Exception
 {
-    public DatabaseException() : base()
+    public DatabaseException()
     {
-        
     }
-    
+
     public DatabaseException(string message) : base(message)
     {
-        
     }
 }

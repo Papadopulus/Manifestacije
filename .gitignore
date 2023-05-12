@@ -7,3 +7,5 @@
 /tests/server/Manifestacije.Api.Tests.Unit/Manifestacije.Api.Tests.Unit/obj
 /tests/server/Manifestacije.Api.Tests.Integration/Manifestacije.Api.Tests.Integration/bin
 /tests/server/Manifestacije.Api.Tests.Integration/Manifestacije.Api.Tests.Integration/obj
+/tests/server/Manifestacije.Api.Tests.E2E/bin
+/tests/server/Manifestacije.Api.Tests.E2E/obj

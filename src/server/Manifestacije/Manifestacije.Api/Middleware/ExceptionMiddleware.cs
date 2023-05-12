@@ -1,13 +1,12 @@
 ﻿using FluentValidation;
-using Manifestacije.Api.Contracts.Responses;
 using Manifestacije.Api.Exceptions;
 
 namespace Manifestacije.Api.Middleware;
 
-public class ExceptionMiddleware
+public sealed class ExceptionMiddleware
 {
-    private readonly RequestDelegate _request;
     private readonly ILogger<ExceptionMiddleware> _logger;
+    private readonly RequestDelegate _request;
 
     public ExceptionMiddleware(RequestDelegate request, ILogger<ExceptionMiddleware> logger)
     {
@@ -31,6 +30,11 @@ public class ExceptionMiddleware
             };
             await context.Response.WriteAsJsonAsync(validationFailureResponse);
         }
+        catch (NotFoundException exception)
+        {
+            context.Response.StatusCode = 404;
+            await context.Response.WriteAsJsonAsync(exception.Message);
+        }
         catch (InvalidInputException exception)
         {
             context.Response.StatusCode = 400;
@@ -45,7 +49,7 @@ public class ExceptionMiddleware
         catch (Exception exception)
         {
             _logger.LogError(exception.Message, exception.StackTrace);
-            
+
             context.Response.StatusCode = 500;
             await context.Response.WriteAsJsonAsync(exception.Message);
         }

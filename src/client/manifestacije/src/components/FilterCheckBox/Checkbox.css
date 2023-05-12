@@ -1,0 +1,11 @@
+﻿:where(.css-dev-only-do-not-override-htwhyh).ant-collapse>.ant-collapse-item >.ant-collapse-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: x-large;
+    padding-right: 25px;
+    padding-left: 17px;
+}
+:where(.css-dev-only-do-not-override-htwhyh).ant-collapse>.ant-collapse-item {
+    width: 100%;
+}

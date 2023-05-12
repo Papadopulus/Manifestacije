@@ -1,0 +1,90 @@
+.register-form, .reset-form{
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100vh;
+}
+.right-register-container, .right-reset-container {
+    width: 28%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    /*background-image: linear-gradient(#3333ff,#9900cc);*/
+    box-shadow: -20px 0px 20px rgba(0,0,0,0.3);
+}
+.left-register-container{
+    width: 72%;
+    min-height: 100vh;
+    display: flex;
+    overflow-y: auto;
+    background-color: grey;
+}
+.right-reset-container{
+    width: 100%;
+}
+@media only screen and (max-width: 960px) {
+    .left-register-container{
+        display: none;
+    }
+
+    .right-register-container{
+        width: 100%;
+        /*align-items: flex-start;*/
+    }
+}
+
+.register-handler, .reset-handler{
+    padding: 0 20px;
+    margin: 0 auto;
+    max-width: 485px;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+@font-face {
+    font-family: 'Lexand-Regular';
+    src: url("../../fonts/Lexend-Regular.ttf");
+}
+.main-sign{
+    font-size: 55px;
+    font-weight: 700;
+    color: #333333;
+    text-align: center;
+    line-height: 1.25;
+    margin-bottom: 30px;
+    margin-top: 15px;
+    font-family: 'Outfit-Medium';
+}
+/*.icon{
+    margin: 50px auto 20px;
+    width: 100px;
+    height: 100px;
+    background: rgba(0, 0, 0, 0) url(../../multimedia/login_icon_resized.webp) no-repeat scroll 0 0;
+}*/
+.register-links{
+    color: #333333;
+}
+@font-face {
+    font-family: 'Lexand-Medium';
+    src: url("../../fonts/Lexend-Medium.ttf");
+}
+.already-have-account{
+    color: #999999;
+    font-family: 'Lexand-Medium';
+    font-size: 18px;
+    margin-top: 5px;
+}
+.register-button, .reset-button{
+    width: 100%;
+}
+.register-button-div .reset-button-div{
+    text-align: right;
+    /*margin: 3rem;*/
+    margin-top: 0.5rem;
+    margin-bottom: 5rem;
+}
+.error-text {
+    color: #ff3333;
+    font-family: 'Lexand-Medium';
+    font-size: 18px;
+}
