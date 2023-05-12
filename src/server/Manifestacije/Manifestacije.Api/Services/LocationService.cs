@@ -34,31 +34,8 @@ public sealed class LocationService : ILocationService
             throw new InvalidInputException("Location with a given name already exists");
         }
 
-        var partners = new List<Partner>();
         var location = LocationMapper.LocationCreateRequestToLocation(locationCreateRequest);
-        if (locationCreateRequest.TransportPartnerId is not null)
-        {
-            var partner = await _partnerRepository.GetPartnerByIdAsync(locationCreateRequest.TransportPartnerId);
-            if (partner is null)
-            {
-                throw new NotFoundException("Partner with a given id does not exist");
-            }
-
-            location.TransportPartner = PartnerMapper.PartnerToPartnerPartial(partner);
-            partners.Add(partner);
-        }
-
-        if (locationCreateRequest.AccommodationPartnerId is not null)
-        {
-            var partner = await _partnerRepository.GetPartnerByIdAsync(locationCreateRequest.AccommodationPartnerId);
-            if (partner is null)
-            {
-                throw new NotFoundException("Partner with a given id does not exist");
-            }
-
-            location.AccommodationPartner = PartnerMapper.PartnerToPartnerPartial(partner);
-            partners.Add(partner);
-        }
+        var partners = await AddPartners(locationCreateRequest.AccommodationPartnerId, locationCreateRequest.TransportPartnerId, location);
 
         var success = await _locationRepository.CreateLocationAsync(location);
         if (!success)
@@ -85,6 +62,16 @@ public sealed class LocationService : ILocationService
 
         existingLocation.Name = locationUpdateRequest.Name;
         existingLocation.UpdatedAtUtc = DateTime.Now;
+        
+        var partners = await AddPartners(locationUpdateRequest.AccommodationPartnerId, locationUpdateRequest.TransportPartnerId,
+            existingLocation);
+        
+        foreach (var partner in partners)
+        {
+            partner.Locations.Add(LocationMapper.LocationToLocationPartial(existingLocation));
+            await _partnerRepository.UpdatePartnerAsync(partner);
+        }
+
         var success = await _locationRepository.UpdateLocationAsync(existingLocation);
         if (!success)
         {
@@ -105,5 +92,37 @@ public sealed class LocationService : ILocationService
         existingLocation.IsDeleted = true;
         existingLocation.DeletedAtUtc = DateTime.Now;
         return await _locationRepository.UpdateLocationAsync(existingLocation);
+    }
+    
+    private async Task<List<Partner>> AddPartners(string? accommodationPartnerId, 
+        string? transportPartnerId,
+        Location location)
+    {
+        var partners = new List<Partner>();
+        if (transportPartnerId is not null)
+        {
+            var partner = await _partnerRepository.GetPartnerByIdAsync(transportPartnerId);
+            if (partner is null)
+            {
+                throw new NotFoundException("Partner with a given id does not exist");
+            }
+
+            location.TransportPartner = PartnerMapper.PartnerToPartnerPartial(partner);
+            partners.Add(partner);
+        }
+
+        if (accommodationPartnerId is not null)
+        {
+            var partner = await _partnerRepository.GetPartnerByIdAsync(accommodationPartnerId);
+            if (partner is null)
+            {
+                throw new NotFoundException("Partner with a given id does not exist");
+            }
+
+            location.AccommodationPartner = PartnerMapper.PartnerToPartnerPartial(partner);
+            partners.Add(partner);
+        }
+
+        return partners;
     }
 }
