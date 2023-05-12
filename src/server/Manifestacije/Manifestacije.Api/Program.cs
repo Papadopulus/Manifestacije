@@ -120,7 +120,8 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
-await DbInitializer.InitializeAsync(app.Services.GetService<IUserRepository>()!);
+await DbInitializer.InitializeAsync(app.Services.GetService<IUserRepository>()!,
+    app.Services.GetService<IOrganizationRepository>()!);
 
 app.UseCors("AllowAll");
 

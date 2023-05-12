@@ -5,13 +5,20 @@ namespace Manifestacije.Api.Database;
 
 public static class DbInitializer
 {
-    public static async Task InitializeAsync(IUserRepository userRepository)
+    public static async Task InitializeAsync(IUserRepository userRepository, IOrganizationRepository organizationRepository)
     {
         if ((await userRepository.GetAllUsersAsync(new UserQueryFilter())).Count > 0)
         {
             return;
         }
 
+        var organizationOrg = new Organization()
+        {
+            Name = "Org"
+        };
+
+        await organizationRepository.CreateOrganizationAsync(organizationOrg);
+        
         var admin = new User
         {
             FirstName = "Admin",
@@ -36,6 +43,11 @@ public static class DbInitializer
             Roles = new List<string> { "Organization" },
             PasswordHash = "null",
             PasswordSalt = "null",
+            Organization = new OrganizationPartial
+            {
+                Id = organizationOrg.Id,
+                Name = organizationOrg.Name
+            }
         };
         (organization.PasswordSalt, organization.PasswordHash) = Auth.HashPassword("Sifra.1234");
 
