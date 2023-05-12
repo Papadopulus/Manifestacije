@@ -30,19 +30,6 @@ public sealed class PartnerService : IPartnerService
         }
 
         var partner = PartnerMapper.PartnerCreateRequestToPartner(partnerCreateRequest);
-        if (partnerCreateRequest.Locations.Any())
-        {
-            foreach (var id in partnerCreateRequest.Locations)
-            {
-                var location = await _locationRepository.GetLocationByIdAsync(id);
-                if (location is null)
-                {
-                    throw new NotFoundException("Location does not exist");
-                }
-
-                partner.Locations.Add(LocationMapper.LocationToLocationPartial(location));
-            }
-        }
 
         var success = await _partnerRepository.CreatePartnerAsync(partner);
         if (!success)
@@ -66,6 +53,7 @@ public sealed class PartnerService : IPartnerService
         existingPartner.UpdatedAtUtc = DateTime.UtcNow;
         existingPartner.IsTransport = partnerUpdateRequest.IsTransport;
         existingPartner.IsAccommodation = partnerUpdateRequest.IsAccommodation;
+
         var success = await _partnerRepository.UpdatePartnerAsync(existingPartner);
         if (!success)
         {

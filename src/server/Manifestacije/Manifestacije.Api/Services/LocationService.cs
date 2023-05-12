@@ -35,18 +35,12 @@ public sealed class LocationService : ILocationService
         }
 
         var location = LocationMapper.LocationCreateRequestToLocation(locationCreateRequest);
-        var partners = await AddPartners(locationCreateRequest.AccommodationPartnerId, locationCreateRequest.TransportPartnerId, location);
+        await AddPartners(locationCreateRequest.AccommodationPartnerId, locationCreateRequest.TransportPartnerId, location);
 
         var success = await _locationRepository.CreateLocationAsync(location);
         if (!success)
         {
             throw new DatabaseException("Failed to create location");
-        }
-
-        foreach (var partner in partners)
-        {
-            partner.Locations.Add(LocationMapper.LocationToLocationPartial(location));
-            await _partnerRepository.UpdatePartnerAsync(partner);
         }
 
         return location;
@@ -63,14 +57,8 @@ public sealed class LocationService : ILocationService
         existingLocation.Name = locationUpdateRequest.Name;
         existingLocation.UpdatedAtUtc = DateTime.Now;
         
-        var partners = await AddPartners(locationUpdateRequest.AccommodationPartnerId, locationUpdateRequest.TransportPartnerId,
+        await AddPartners(locationUpdateRequest.AccommodationPartnerId, locationUpdateRequest.TransportPartnerId,
             existingLocation);
-        
-        foreach (var partner in partners)
-        {
-            partner.Locations.Add(LocationMapper.LocationToLocationPartial(existingLocation));
-            await _partnerRepository.UpdatePartnerAsync(partner);
-        }
 
         var success = await _locationRepository.UpdateLocationAsync(existingLocation);
         if (!success)
@@ -94,11 +82,10 @@ public sealed class LocationService : ILocationService
         return await _locationRepository.UpdateLocationAsync(existingLocation);
     }
     
-    private async Task<List<Partner>> AddPartners(string? accommodationPartnerId, 
+    private async Task AddPartners(string? accommodationPartnerId, 
         string? transportPartnerId,
         Location location)
     {
-        var partners = new List<Partner>();
         if (transportPartnerId is not null)
         {
             var partner = await _partnerRepository.GetPartnerByIdAsync(transportPartnerId);
@@ -108,7 +95,6 @@ public sealed class LocationService : ILocationService
             }
 
             location.TransportPartner = PartnerMapper.PartnerToPartnerPartial(partner);
-            partners.Add(partner);
         }
 
         if (accommodationPartnerId is not null)
@@ -120,9 +106,6 @@ public sealed class LocationService : ILocationService
             }
 
             location.AccommodationPartner = PartnerMapper.PartnerToPartnerPartial(partner);
-            partners.Add(partner);
         }
-
-        return partners;
     }
 }

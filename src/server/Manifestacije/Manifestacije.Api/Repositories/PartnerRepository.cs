@@ -73,18 +73,4 @@ public sealed class PartnerRepository : IPartnerRepository
             .Find(filter)
             .FirstOrDefaultAsync();
     }
-
-    public async Task<Partner?> GetPartnerByLocationAsync(string locationId, bool transport = false, bool accommodation = false)
-    {
-        if (transport && accommodation)
-            return null;
-        
-        var filter = Builders<Partner>.Filter.ElemMatch(x => x.Locations, x => x.Id == locationId);
-        filter &= Builders<Partner>.Filter.Eq(partner => partner.IsDeleted, false);
-        filter &= Builders<Partner>.Filter.Eq(partner => partner.IsTransport, transport);
-        filter &= Builders<Partner>.Filter.Eq(partner => partner.IsAccommodation, accommodation);
-        return await _partnerCollection
-            .Find(filter)
-            .FirstOrDefaultAsync();
-    }
 }
