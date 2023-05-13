@@ -17,7 +17,6 @@ public static class QueryExtensions
     {
         if (string.IsNullOrEmpty(filter.SortColumn))
         {
-            // TODO: Add default sort
             return Builders<TType>.Sort.Descending("CreatedAtUtc");
         }
 
@@ -123,9 +122,6 @@ public static class QueryExtensions
                 continue;
             }
 
-            var property = typeof(TType).GetProperty(name,
-                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)!;
-
             var filterProp = Builders<TType>.Filter.ElemMatch<string>(name, value.ToString());
 
             filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
@@ -140,9 +136,6 @@ public static class QueryExtensions
             {
                 continue;
             }
-
-            var property = typeof(TType).GetProperty(name,
-                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)!;
 
             var filterProp = Builders<TType>.Filter
                 .Eq(name[..^2] + ".Id", value.ToString());
