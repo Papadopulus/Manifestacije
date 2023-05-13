@@ -8,9 +8,9 @@ namespace Manifestacije.Api.Services;
 public sealed class UserService : IUserService
 {
     private readonly IMailService _mailService;
+    private readonly IOrganizationService _organizationService;
     private readonly string _secret;
     private readonly IUserRepository _userRepository;
-    private readonly IOrganizationService _organizationService;
 
     public UserService(IUserRepository userRepository,
         IConfiguration configuration,
@@ -43,7 +43,7 @@ public sealed class UserService : IUserService
 
         var user = UserMapper.UserCreateRequestToUser(userCreateRequest);
         (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword(userCreateRequest.Password);
-        
+
         if (userCreateRequest.Organization is not null)
         {
             var organization = await _organizationService.CreateOrganizationAsync(
@@ -55,7 +55,7 @@ public sealed class UserService : IUserService
         {
             user.Roles.Add("User");
         }
-        
+
         var success = await _userRepository.CreateUserAsync(user);
         if (!success)
         {

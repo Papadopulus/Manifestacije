@@ -16,7 +16,9 @@ public static class DbInitializer
         {
             var organizationExists = await organizationRepository.GetOrganizationByNameAsync("Org");
             if (organizationExists is not null)
+            {
                 await organizationRepository.DeleteOrganizationAsync(organizationExists.Id);
+            }
 
             var organizationOrg = new Organization
             {
@@ -34,7 +36,7 @@ public static class DbInitializer
                     "Admin"
                 },
                 PasswordHash = "null",
-                PasswordSalt = "null",
+                PasswordSalt = "null"
             };
             (admin.PasswordSalt, admin.PasswordHash) = Auth.HashPassword("Sifra.1234");
             await userRepository.CreateUserAsync(admin);
@@ -68,7 +70,7 @@ public static class DbInitializer
                     new() { ExpireDate = DateTime.UtcNow.AddMinutes(1), Token = "eaeaea2" }
                 },
                 PasswordHash = "null",
-                PasswordSalt = "null",
+                PasswordSalt = "null"
             };
             (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword("Sifra.1234");
             await userRepository.CreateUserAsync(user);
@@ -109,12 +111,12 @@ public static class DbInitializer
             {
                 Name = "Lokacija",
                 AccommodationPartner = PartnerMapper.PartnerToPartnerPartial(partner),
-                TransportPartner = PartnerMapper.PartnerToPartnerPartial(partner),
+                TransportPartner = PartnerMapper.PartnerToPartnerPartial(partner)
             };
             await locationRepository.CreateLocationAsync(location);
         }
-        
-        if(!(await categoryRepository.GetAllCategoriesAsync(new CategoryQueryFilter())).Any())
+
+        if (!(await categoryRepository.GetAllCategoriesAsync(new CategoryQueryFilter())).Any())
         {
             var category = new Category
             {

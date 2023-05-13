@@ -4,8 +4,8 @@ namespace Manifestacije.Api.Contracts.Requests;
 
 public sealed class EventCreateRequest
 {
-    [JsonIgnore] 
-    public string UserId { get; set; } = default!;
+    [JsonIgnore] public string UserId { get; set; } = default!;
+
     public required string Title { get; set; }
     public required string Description { get; set; }
     public required DateTime StartingDate { get; set; }

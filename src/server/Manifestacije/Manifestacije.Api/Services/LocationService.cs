@@ -35,7 +35,8 @@ public sealed class LocationService : ILocationService
         }
 
         var location = LocationMapper.LocationCreateRequestToLocation(locationCreateRequest);
-        await AddPartners(locationCreateRequest.AccommodationPartnerId, locationCreateRequest.TransportPartnerId, location);
+        await AddPartners(locationCreateRequest.AccommodationPartnerId, locationCreateRequest.TransportPartnerId,
+            location);
 
         var success = await _locationRepository.CreateLocationAsync(location);
         if (!success)
@@ -56,7 +57,7 @@ public sealed class LocationService : ILocationService
 
         existingLocation.Name = locationUpdateRequest.Name;
         existingLocation.UpdatedAtUtc = DateTime.Now;
-        
+
         await AddPartners(locationUpdateRequest.AccommodationPartnerId, locationUpdateRequest.TransportPartnerId,
             existingLocation);
 
@@ -81,8 +82,8 @@ public sealed class LocationService : ILocationService
         existingLocation.DeletedAtUtc = DateTime.Now;
         return await _locationRepository.UpdateLocationAsync(existingLocation);
     }
-    
-    private async Task AddPartners(string? accommodationPartnerId, 
+
+    private async Task AddPartners(string? accommodationPartnerId,
         string? transportPartnerId,
         Location location)
     {

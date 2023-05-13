@@ -9,7 +9,7 @@ public static class ClaimsPrincipalExtension
         var userId = user.Claims.FirstOrDefault(c => c.Type == "Id");
         return userId == null ? "" : userId.Value;
     }
-    
+
     internal static string GetOrganizationId(this ClaimsPrincipal user)
     {
         var organizationId = user.Claims.FirstOrDefault(c => c.Type == "OrganizationId");

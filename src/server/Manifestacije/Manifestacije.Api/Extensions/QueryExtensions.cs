@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
-using Manifestacije.Api.Models;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 
 namespace Manifestacije.Api.Extensions;
 

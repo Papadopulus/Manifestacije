@@ -6,10 +6,10 @@ namespace Manifestacije.Api.Services;
 
 public class EventService : IEventService
 {
-    private readonly IEventRepository _eventRepository;
     private readonly ICategoryRepository _categoryRepository;
-    private readonly IOrganizationRepository _organizationRepository;
+    private readonly IEventRepository _eventRepository;
     private readonly ILocationRepository _locationRepository;
+    private readonly IOrganizationRepository _organizationRepository;
     private readonly IUserRepository _userRepository;
 
     public EventService(IEventRepository eventRepository,
@@ -99,8 +99,10 @@ public class EventService : IEventService
         var eventToGet = await _eventRepository.GetEventByIdAsync(id);
 
         if (eventToGet is null)
+        {
             return null;
-        
+        }
+
         eventToGet.Views++;
         await _eventRepository.UpdateEventAsync(eventToGet);
 
@@ -117,7 +119,9 @@ public class EventService : IEventService
         var eventToDelete = await _eventRepository.GetEventByIdAsync(id);
 
         if (eventToDelete is null)
+        {
             return false;
+        }
 
         return await _eventRepository.DeleteEventAsync(id);
     }
@@ -127,10 +131,14 @@ public class EventService : IEventService
         var eventToUpdate = await _eventRepository.GetEventByIdAsync(id);
 
         if (eventToUpdate is null)
+        {
             return false;
+        }
 
         if (eventToUpdate.Sponsored)
+        {
             return true;
+        }
 
         eventToUpdate.Sponsored = true;
         return await _eventRepository.UpdateEventAsync(eventToUpdate);

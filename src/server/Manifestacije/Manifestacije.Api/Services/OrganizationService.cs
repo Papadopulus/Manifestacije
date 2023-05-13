@@ -11,7 +11,7 @@ public sealed class OrganizationService : IOrganizationService
     {
         _organizationRepository = organizationRepository;
     }
-    
+
     public async Task<List<Organization>> GetAllOrganizationsAsync(OrganizationQueryFilter organizationQueryFilter)
     {
         return await _organizationRepository.GetAllOrganizationsAsync(organizationQueryFilter);
@@ -29,7 +29,7 @@ public sealed class OrganizationService : IOrganizationService
         {
             throw new InvalidInputException($"Organization with name {organization.Name} already exists");
         }
-        
+
         await _organizationRepository.CreateOrganizationAsync(organization);
         return organization;
     }
@@ -41,14 +41,14 @@ public sealed class OrganizationService : IOrganizationService
         {
             throw new NotFoundException($"Organization with id {id} does not exist");
         }
-        
+
         existingOrganization.Description = organization.Description;
         existingOrganization.FacebookUrl = organization.FacebookUrl;
         existingOrganization.InstagramUrl = organization.InstagramUrl;
         existingOrganization.TwitterUrl = organization.TwitterUrl;
         existingOrganization.WebsiteUrl = organization.WebsiteUrl;
         existingOrganization.LogoUrl = organization.LogoUrl;
-        
+
         await _organizationRepository.UpdateOrganizationAsync(existingOrganization);
         return existingOrganization;
     }
@@ -60,7 +60,7 @@ public sealed class OrganizationService : IOrganizationService
         {
             throw new NotFoundException($"Organization with id {id} does not exist");
         }
-        
+
         existingOrganization.IsDeleted = true;
         existingOrganization.DeletedAtUtc = DateTime.UtcNow;
         return await _organizationRepository.UpdateOrganizationAsync(existingOrganization);
