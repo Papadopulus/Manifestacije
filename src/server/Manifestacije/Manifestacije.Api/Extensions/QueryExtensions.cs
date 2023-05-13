@@ -145,7 +145,7 @@ public static class QueryExtensions
                 BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)!;
 
             var filterProp = Builders<TType>.Filter
-                .Eq(name[..^2] + "." + name, value.ToString());
+                .Eq(name[..^2] + ".Id", value.ToString());
 
             filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
         }
