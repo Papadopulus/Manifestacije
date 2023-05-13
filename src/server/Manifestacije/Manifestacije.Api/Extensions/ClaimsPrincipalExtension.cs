@@ -16,7 +16,6 @@ public static class ClaimsPrincipalExtension
         return organizationId == null ? "" : organizationId.Value;
     }
 
-
     internal static string GetRole(this ClaimsPrincipal user)
     {
         var userRole = user.Claims.FirstOrDefault(c => c.Type == "Roles");

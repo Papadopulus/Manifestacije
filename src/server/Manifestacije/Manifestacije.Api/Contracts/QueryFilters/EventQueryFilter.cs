@@ -18,4 +18,10 @@ public sealed class EventQueryFilter : QueryFilterBase
     public string? LocationId { get; set; }
     public string? OrganizationId { get; set; }
     public string? CategoryId { get; set; }
+    public uint? MinViews { get; set; }
+    public uint? MaxViews { get; set; }
+    public uint? MinGoing { get; set; }
+    public uint? MaxGoing { get; set; }
+    public uint? MinFavourites { get; set; }
+    public uint? MaxFavourites { get; set; }
 }

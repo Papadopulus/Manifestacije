@@ -88,6 +88,7 @@ public class EventService : IEventService
         eventToUpdate.Street = eventUpdateRequest.Street;
         eventToUpdate.Latitude = eventUpdateRequest.Latitude;
         eventToUpdate.Longitude = eventUpdateRequest.Longitude;
+        eventToUpdate.UpdatedAtUtc = DateTime.UtcNow;
 
         await _eventRepository.UpdateEventAsync(eventToUpdate);
         return eventToUpdate;
@@ -95,7 +96,15 @@ public class EventService : IEventService
 
     public async Task<Event?> GetEventByIdAsync(string id)
     {
-        return await _eventRepository.GetEventByIdAsync(id);
+        var eventToGet = await _eventRepository.GetEventByIdAsync(id);
+
+        if (eventToGet is null)
+            return null;
+        
+        eventToGet.Views++;
+        await _eventRepository.UpdateEventAsync(eventToGet);
+
+        return eventToGet;
     }
 
     public async Task<List<Event>> GetEventsAsync(EventQueryFilter eventQueryFilter)
