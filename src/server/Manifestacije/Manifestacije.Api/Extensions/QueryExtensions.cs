@@ -135,8 +135,19 @@ public static class QueryExtensions
                 continue;
             }
 
-            var filterProp = Builders<TType>.Filter
-                .Eq(name[..^2] + ".Id", value.ToString());
+            var values = value.ToString()!.Split(',');
+
+            FilterDefinition<TType>? filterProp = null;
+            foreach (var id in values)
+            {
+                if(string.IsNullOrWhiteSpace(id))
+                    continue;
+                
+                var currentFilter = Builders<TType>.Filter
+                    .Eq(name[..^2] + ".Id", id);
+
+                filterProp = filterProp is null ? currentFilter : filterProp | currentFilter;
+            }
 
             filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
         }
