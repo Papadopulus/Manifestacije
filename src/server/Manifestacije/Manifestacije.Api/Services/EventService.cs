@@ -35,7 +35,7 @@ public class EventService : IEventService
                 $"There is no category with the id of: {eventCreateRequest.CategoryId}"));
 
         var organizationId = (await _userRepository.GetUserByIdAsync(userId))?.Organization?.Id ??
-                             throw new NotFoundException($"There is no user with the id of: {userId}");
+                             throw new NotFoundException($"There is no user with the id of: {userId} or he is not part of an organization");
 
         eventToCreate.Organization = OrganizationMapper.OrganizationToOrganizationPartial(
             await _organizationRepository.GetOrganizationByIdAsync(organizationId) ??

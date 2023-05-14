@@ -10,6 +10,7 @@ import PasswordReset from "./components/PasswordReset/PasswordReset";
 import OrganisationEvent from "./components/Organizator/OrganisationEvent";
 import AdminPanel from "./components/Admin/AdminPanel";
 import Home from "./pages/HomePage/Home";
+import AboutPage from "./pages/AboutPage/AboutPage";
 
 function App() {
     return (
@@ -43,6 +44,7 @@ function App() {
 
                         /*treba da se izbrise,stavio sam samo zbog testiranja*/
                         <Route path="/reset" element={<PasswordReset />} />
+                        <Route path="/about" element={<AboutPage />} />
 
                     </Routes>
                     
