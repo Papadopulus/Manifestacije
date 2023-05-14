@@ -149,26 +149,26 @@ const User = () => {
                             Organisations
                         </a>}
                         {user.Roles==="Admin" && <a
-                            className={`${classes['item-menu']} ${activeLink === 'allPartners' ? classes['active'] : ''}`}
+                            className={`${classes['item-menu-bottom']} ${activeLink === 'allPartners' ? classes['active'] : ''}`}
                             href="#"
                             onClick={() => handleLinkClick('allPartners')}
                         >
                             Partners
                         </a>}
-                        <a
+                        {user.Roles !== "Admin" && <a
                             className={`${classes['item-menu']} ${activeLink === 'favorites' ? classes['active'] : ''}`}
                             href="#"
                             onClick={() => handleLinkClick('favorites')}
                         >
                             Favorites
-                        </a>
-                        <a
+                        </a>}
+                        {user.Roles !== "Admin" && <a
                             className={`${classes['item-menu-bottom']} ${activeLink === 'going' ? classes['active'] : ''}`}
                             href="#"
                             onClick={() => handleLinkClick('going')}
                         >
                             Going
-                        </a>
+                        </a>}
                         
                     </div>
                 </div>

@@ -34,6 +34,11 @@
 .custom-dialog-box button {
     margin-left: 16px;
 }
+.check-div{
+    display: flex;
+    flex-direction: column;    
+}
+
 .error-text {
     color: #CC2929;
     font-family: 'Lexand-Medium';
