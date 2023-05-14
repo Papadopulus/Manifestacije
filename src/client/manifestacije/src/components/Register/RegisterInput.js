@@ -10,7 +10,7 @@ import Introduction from "../Introduction/Introduction";
 const RegisterInput = () => {
     const {register} = useContext(AuthContext);
     const [isOrganisator, setIsOrganisator] = useState(false);
-
+    const [description,setDescription] = useState(null);
     const {
         value: enteredName,
         isValid: enteredNameIsValid,
@@ -115,7 +115,11 @@ const RegisterInput = () => {
     const handleCheckboxChange = (event) => {
         setIsOrganisator(event.target.checked);
     }
-
+    
+    const handleDescriptionOnChange = (event) => {
+        setDescription(event.target.value);
+    }
+    
     let registrationNotValid = true;
     if (enteredNameIsValid &&
         enteredSurnameIsValid &&
@@ -132,7 +136,7 @@ const RegisterInput = () => {
     } else {
         registrationNotValid = true;
     }
-
+    
     const registerSubmitHandler = async (event) => {
         event.preventDefault();
         if (!enteredNameIsValid ||
@@ -143,7 +147,8 @@ const RegisterInput = () => {
             !enteredNameOrgIsValid) {
             return;
         }
-
+        
+        
         let payload = {
             firstName: enteredName,
             lastName: enteredSurname,
@@ -152,7 +157,9 @@ const RegisterInput = () => {
         }
         if (isOrganisator) {
             payload.organization = {
+                
                 name: enteredNameOrg,
+                description : description,
                 logoUrl: logoUrl,
                 websiteUrl: websiteUrl,
                 facebookUrl: enteredFBOrg,
@@ -160,9 +167,13 @@ const RegisterInput = () => {
                 twitterUrl: twitterOrg,
                 youtubeUrl: youtubeOrg,
                 linkedInUrl: linkedinOrg,
+                
             };
+            
         }
+        
         await register(payload);
+        
         resetNameFunction();
         resetEmailFunction();
         resetSurnameFunction();
@@ -270,7 +281,7 @@ const RegisterInput = () => {
                     <div className={classes["choose-org"]}>
                         
                         <input  className={classes["org-check"]} type={"checkbox"} onChange={handleCheckboxChange}></input>
-                        <label className={classes["org-label"]}>Sign up as Organisator</label>
+                        <label id={"description-textarea"} className={classes["org-label"]}>Sign up as Organisator</label>
                     </div>
                     
                     {isOrganisator && (
@@ -290,6 +301,13 @@ const RegisterInput = () => {
                                 </label>
                             )}
 
+                            <div className={classes["desc-div"]}>
+                                <label>Description</label>
+                                <textarea 
+                                    onChange={handleDescriptionOnChange}
+                                    className={classes["description-area"]}
+                                />
+                            </div>
                             <Input
                                 label={"Logo URL"}
                                 type="text"
@@ -346,7 +364,8 @@ const RegisterInput = () => {
                                 value={linkedinOrg}
                                 onChange={linkedinOrgChangeHandler}
                             ></Input>
-
+                            
+                            
                         </div>
                     )}
 
