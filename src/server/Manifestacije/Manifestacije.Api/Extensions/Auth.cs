@@ -23,7 +23,7 @@ public static class Auth
 
     public static (string, string) GenerateTokens(this User user, string secret)
     {
-        return (GenerateJwtToken(user, DateTime.Now.AddMinutes(1), secret), GenerateRefreshToken());
+        return (GenerateJwtToken(user, DateTime.Now.AddMinutes(5), secret), GenerateRefreshToken());
     }
 
     private static string GenerateJwtToken(User user,
