@@ -6,7 +6,7 @@ import EditNameBox from "../DialogBoxes/EditNameBox";
 import ViewBox from "../DialogBoxes/ViewBox";
 import EditPartnerBox from "../DialogBoxes/EditPartnerBox";
 import ViewPartnerBox from "../DialogBoxes/ViewPartnerBox";
-
+import "./Admin.css";
 const CategoriesList = () => {
     const [allPartners, setAllPartners] = useState([]);
 

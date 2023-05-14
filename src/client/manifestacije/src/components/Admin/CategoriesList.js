@@ -4,6 +4,7 @@ import axios from "axios";
 import UserDeleteBox from "../DialogBoxes/UserDeleteBox";
 import EditNameBox from "../DialogBoxes/EditNameBox";
 import ViewBox from "../DialogBoxes/ViewBox";
+import "./Admin.css";
 
 const CategoriesList = () => {
     const [allCategories, setAllCategories] = useState([]);

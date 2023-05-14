@@ -4,6 +4,11 @@ import checkTokenAndRefresh from "../../shared/tokenCheck";
 import UserDeleteBox from "../DialogBoxes/UserDeleteBox";
 import EditUserBox from "../DialogBoxes/EditUserBox";
 import ViewUserBox from "../DialogBoxes/ViewUserBox";
+import "./Admin.css";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import PersonIcon from '@mui/icons-material/Person';
+import {IconButton} from '@mui/material';
 
 const UsersList = () => {
 
@@ -118,15 +123,24 @@ const UsersList = () => {
                             <td>{user.firstName}</td>
                             <td>{user.lastName}</td>
                             <td>{user.email}</td>
+
                             <td>
-                                <button onClick={() => confirmDelete(user)}>Delete User</button>
+                                <IconButton onClick={() => confirmDelete(user)} >
+                                    <DeleteIcon sx={{ fontSize: 30 }}></DeleteIcon>
+                                </IconButton>
                             </td>
                             <td>
-                                <button onClick={() => confirmEdits(user)}>Edit User</button>
+                                <IconButton onClick={() => confirmEdits(user)}>
+                                    <EditIcon sx={{ fontSize: 30 }}></EditIcon>
+                                </IconButton>
                             </td>
                             <td>
-                                <button onClick={() => confirmViewUser(user)}>Details of User</button>
+                                <IconButton onClick={() => confirmViewUser(user)}>
+                                    <PersonIcon sx={{ fontSize: 32 }}></PersonIcon>
+                                </IconButton>
                             </td>
+
+
                         </tr>
                     ))}
                     </tbody>

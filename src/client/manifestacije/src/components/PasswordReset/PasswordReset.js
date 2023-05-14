@@ -53,10 +53,10 @@ const PasswordReset = () => {
             <div className={classes["right-reset-container"]}>
                 <div className={classes["reset-handler"]}>
                     <div className={classes["icon"]}></div>
-                    <h1 className={classes["main-sign"]}>Enter new password</h1>
+                    <h1 className={classes["main-sign"]}>Unesite novu lozinku</h1>
 
                     <Input
-                        label={"Password"}
+                        label={"Lozinka"}
                         type="password"
                         id="resetPassword"
                         value={enteredPassword}
@@ -66,12 +66,12 @@ const PasswordReset = () => {
                     ></Input>
                     {passwordError && (
                         <label className={classes["error-text"]}>
-                            Please enter a valid password!
+                            Lozinka nije validna!
                         </label>
                     )}
 
                     <Input
-                        label={"Confirm password"}
+                        label={"Potvrdite lozinku"}
                         type="password"
                         id="confirmPassword"
                         value={confirmPassword}
@@ -81,7 +81,7 @@ const PasswordReset = () => {
                     ></Input>
                     {confirmPasswordError && (
                         <label className={classes["error-text"]}>
-                            The passwords don't match!
+                            Lozinke se ne poklapaju!
                         </label>
                     )}
                     <div className={classes["reset-button-div"]}>
@@ -89,7 +89,7 @@ const PasswordReset = () => {
                             type={"submit"}
                             className={classes["reset-button"]}
                             disabled={resetNotValid}>
-                            Change your password</Button>
+                            Izmeni lozinku</Button>
                     </div>
                 </div>
             </div>

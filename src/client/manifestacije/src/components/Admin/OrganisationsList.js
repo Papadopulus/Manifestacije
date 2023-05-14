@@ -6,7 +6,7 @@ import EditNameBox from "../DialogBoxes/EditNameBox";
 import ViewBox from "../DialogBoxes/ViewBox";
 import EditOrgBox from "../DialogBoxes/EditOrgBox";
 import ViewBoxOrg from "../DialogBoxes/ViewBoxOrg";
-
+import "./Admin.css";
 const CategoriesList = () => {
     const [allOrganisations, setAllOrganisations] = useState([]);
 

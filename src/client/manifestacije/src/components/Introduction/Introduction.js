@@ -2,7 +2,7 @@ import './Introduction.css'
 import React from "react";
 import Typewriter from 'typewriter-effect';
 const Introduction=()=>{
-    const words = ['Koncert?', 'Festival?', 'Žurku?','Izlet?','Vasar?'];
+    const words = ['Koncert?', 'Festival?', 'Žurku?','Izlet?','Vašar?'];
     return(
         <div className={"background-div"}>
             <div className={"main-div"}>
