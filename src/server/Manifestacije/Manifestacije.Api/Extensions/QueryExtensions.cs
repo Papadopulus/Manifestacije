@@ -137,7 +137,6 @@ public static class QueryExtensions
 
             var values = value.ToString()!.Split(',');
 
-            
             FilterDefinition<TType>? filterProp = null;
             foreach (var id in values)
             {
