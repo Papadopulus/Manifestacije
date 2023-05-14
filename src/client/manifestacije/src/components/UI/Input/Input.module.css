@@ -40,7 +40,10 @@
     border-color: red;
     background: #fbdada;
 }
-
+.required{
+    color:indianred;
+    font-size: 13px;
+}
 @media (min-width: 768px) {
     .control {
         align-items: center;

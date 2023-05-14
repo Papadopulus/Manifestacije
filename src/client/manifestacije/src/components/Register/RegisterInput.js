@@ -210,6 +210,7 @@ const RegisterInput = () => {
                         onChange={nameChangeHandler}
                         onBlur={nameBlurHandler}
                         isNotValid={nameError}
+                        isRequeired={true}
                     ></Input>
                     {nameError && (
                         <label className={classes["error-text"]}>
@@ -226,6 +227,7 @@ const RegisterInput = () => {
                         onChange={surnameChangeHandler}
                         onBlur={surnameBlurHandler}
                         isNotValid={surnameError}
+                        isRequeired={true}
                     ></Input>
                     {surnameError && (
                         <label className={classes["error-text"]}>
@@ -241,6 +243,7 @@ const RegisterInput = () => {
                         onChange={emailChangeHandler}
                         onBlur={emailBlurHandler}
                         isNotValid={emailError}
+                        isRequeired={true}
                     ></Input>
                     {emailError && (
                         <label className={classes["error-text"]}>
@@ -256,6 +259,7 @@ const RegisterInput = () => {
                         onChange={passwordChangeHandler}
                         onBlur={passwordBlurHandler}
                         isNotValid={passwordError}
+                        isRequeired={true}
                     ></Input>
                     {passwordError && (
                         <label className={classes["error-text"]}>
@@ -271,6 +275,7 @@ const RegisterInput = () => {
                         onChange={confirmPasswordChangeHandler}
                         onBlur={confirmPasswordBlurHandler}
                         isNotValid={confirmPasswordError}
+                        isRequeired={true}
                     ></Input>
                     {confirmPasswordError && (
                         <label className={classes["error-text"]}>
@@ -293,7 +298,10 @@ const RegisterInput = () => {
                                 value={enteredNameOrg}
                                 onChange={nameOrgChangeHandler}
                                 onBlur={nameOrgBlurHandler}
-                                isNotValid={nameOrgError}>
+                                isNotValid={nameOrgError}
+                                isRequeired={true}
+                            >
+                                
                             </Input>
                             {nameOrgError && (
                                 <label className={classes["error-text"]}>
