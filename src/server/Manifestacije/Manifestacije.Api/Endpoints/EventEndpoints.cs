@@ -44,9 +44,7 @@ public class EventEndpoints : IEndpoints
         }
 
         var createdEvent = await eventService.CreateEventAsync(createEventRequest, httpContext.User.GetUserId());
-        return Results.CreatedAtRoute(
-            nameof(GetEventById),
-            new { id = createdEvent.Id },
+        return Results.Created($"{BaseRoute}/{createdEvent.Id}",
             EventMapper.EventToEventViewResponse(createdEvent));
     }
 

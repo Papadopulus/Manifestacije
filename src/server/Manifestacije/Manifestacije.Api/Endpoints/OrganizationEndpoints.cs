@@ -42,7 +42,7 @@ public class OrganizationEndpoints : IEndpoints
 
     internal static async Task<IResult> UpdateOrganization(
         HttpContext context,
-        string id, 
+        string id,
         [FromBody] OrganizationUpdateRequest organizationUpdateDto,
         IOrganizationService organizationService,
         IValidator<OrganizationUpdateRequest> validator)
@@ -51,8 +51,9 @@ public class OrganizationEndpoints : IEndpoints
         {
             return Results.Forbid();
         }
+
         await validator.ValidateAndThrowAsync(organizationUpdateDto);
-        
+
         var organization = OrganizationMapper.OrganizationUpdateRequestToOrganization(organizationUpdateDto);
         var updatedOrganization = await organizationService.UpdateOrganizationAsync(id, organization);
         return Results.Ok(updatedOrganization);

@@ -21,7 +21,7 @@ public sealed class OrganizationRepository : IOrganizationRepository
         _organizationsCollection = mongoDatabase.GetCollection<Organization>(
             databaseSettings.Value.OrganizationsCollectionName);
     }
-    
+
     public async Task<List<Organization>> GetAllOrganizationsAsync(OrganizationQueryFilter organizationQueryFilter)
     {
         var filter = organizationQueryFilter.Filter<Organization, OrganizationQueryFilter>();

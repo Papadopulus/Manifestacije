@@ -2,5 +2,5 @@
 
 public sealed class Category : ModelBase
 {
-    public required string Name { get; set; } 
+    public required string Name { get; set; }
 }

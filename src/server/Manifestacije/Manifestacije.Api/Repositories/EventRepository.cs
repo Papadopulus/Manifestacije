@@ -11,7 +11,7 @@ public class EventRepository : IEventRepository
     private readonly IMongoCollection<Event> _eventsCollection;
 
     public EventRepository(IOptions<DatabaseSettings> databaseSettings)
-    {   
+    {
         var mongoClient = new MongoClient(
             databaseSettings.Value.ConnectionString);
         var mongoDatabase = mongoClient.GetDatabase(
@@ -19,7 +19,7 @@ public class EventRepository : IEventRepository
         _eventsCollection = mongoDatabase.GetCollection<Event>(
             databaseSettings.Value.EventsCollectionName);
     }
-    
+
     public async Task<bool> CreateEventAsync(Event eventToCreate)
     {
         await _eventsCollection.InsertOneAsync(eventToCreate);
@@ -46,7 +46,7 @@ public class EventRepository : IEventRepository
     {
         var filter = eventQueryFilter.Filter<Event, EventQueryFilter>();
         var sort = QueryExtensions.Sort<Event>(eventQueryFilter);
-        
+
         return await _eventsCollection
             .Find(filter)
             .Sort(sort)
