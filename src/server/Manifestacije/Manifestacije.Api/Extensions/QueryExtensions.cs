@@ -140,7 +140,7 @@ public static class QueryExtensions
             FilterDefinition<TType>? filterProp = null;
             foreach (var id in values)
             {
-                if(id is null || string.IsNullOrWhiteSpace(id))
+                if(string.IsNullOrWhiteSpace(id))
                     continue;
                 
                 var currentFilter = Builders<TType>.Filter
