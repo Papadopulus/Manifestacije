@@ -146,7 +146,7 @@ public static class QueryExtensions
                 var currentFilter = Builders<TType>.Filter
                     .Eq(name[..^2] + ".Id", value.ToString());
 
-                filterProp = filterProp is not null ? filterProp | currentFilter : null;
+                filterProp = filterProp is not null ? filterProp | currentFilter : currentFilter;
             }
 
             filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
