@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
-using Manifestacije.Api.Models;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 
 namespace Manifestacije.Api.Extensions;
 
@@ -17,7 +15,6 @@ public static class QueryExtensions
     {
         if (string.IsNullOrEmpty(filter.SortColumn))
         {
-            // TODO: Add default sort
             return Builders<TType>.Sort.Descending("CreatedAtUtc");
         }
 
@@ -37,7 +34,8 @@ public static class QueryExtensions
         var propsWithoutMinMax = props
             .Where(x => !x.Name.AsSpan().StartsWith("Min")
                         && !x.Name.AsSpan().StartsWith("Max")
-                        && !x.Name.AsSpan().EndsWith("List"))
+                        && !x.Name.AsSpan().EndsWith("List")
+                        && !x.Name.AsSpan().EndsWith("Id"))
             .ToArray();
 
         var propsMin = props
@@ -46,9 +44,13 @@ public static class QueryExtensions
         var propsMax = props
             .Where(x => x.Name.AsSpan().StartsWith("Max"))
             .ToArray();
-        
+
         var propsList = props
             .Where(x => x.Name.AsSpan().EndsWith("List"))
+            .ToArray();
+
+        var propsId = props
+            .Where(x => x.Name.AsSpan().EndsWith("Id"))
             .ToArray();
 
         var intersect = query.GetType()
@@ -107,22 +109,46 @@ public static class QueryExtensions
 
             filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
         }
-        
+
         foreach (var prop in propsList)
         {
             var value = prop.GetValue(query);
             var name = prop.Name;
-        
+
             if (value is null)
             {
                 continue;
             }
-            
-            var property = typeof(TType).GetProperty(name,
-                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)!;
 
             var filterProp = Builders<TType>.Filter.ElemMatch<string>(name, value.ToString());
-        
+
+            filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
+        }
+
+        foreach (var prop in propsId)
+        {
+            var value = prop.GetValue(query);
+            var name = prop.Name;
+
+            if (value is null)
+            {
+                continue;
+            }
+
+            var values = value.ToString()!.Split(',');
+
+            FilterDefinition<TType>? filterProp = null;
+            foreach (var id in values)
+            {
+                if(string.IsNullOrWhiteSpace(id))
+                    continue;
+                
+                var currentFilter = Builders<TType>.Filter
+                    .Eq(name[..^2] + ".Id", id);
+
+                filterProp = filterProp is null ? currentFilter : filterProp | currentFilter;
+            }
+
             filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
         }
 

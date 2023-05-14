@@ -19,7 +19,8 @@ public sealed class CategoryRepositoryTests : IClassFixture<ManifestacijeApiFact
             LocationsCollectionName = null,
             PartnersCollectionName = null,
             OrganizationsCollectionName = null,
-            EventsCollectionName = null
+            EventsCollectionName = null,
+            ReviewsCollectionName = null
         });
         _sut = new CategoryRepository(databaseSettings);
     }

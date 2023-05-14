@@ -35,27 +35,8 @@ public sealed class LocationService : ILocationService
         }
 
         var location = LocationMapper.LocationCreateRequestToLocation(locationCreateRequest);
-        if (locationCreateRequest.TransportPartnerId is not null)
-        {
-            var partner = await _partnerRepository.GetPartnerByIdAsync(locationCreateRequest.TransportPartnerId);
-            if (partner is null)
-            {
-                throw new NotFoundException("Partner with a given id does not exist");
-            }
-
-            location.TransportPartner = PartnerMapper.PartnerToPartnerPartial(partner);
-        }
-
-        if (locationCreateRequest.AccommodationPartnerId is not null)
-        {
-            var partner = await _partnerRepository.GetPartnerByIdAsync(locationCreateRequest.AccommodationPartnerId);
-            if (partner is null)
-            {
-                throw new NotFoundException("Partner with a given id does not exist");
-            }
-
-            location.AccommodationPartner = PartnerMapper.PartnerToPartnerPartial(partner);
-        }
+        await AddPartners(locationCreateRequest.AccommodationPartnerId, locationCreateRequest.TransportPartnerId,
+            location);
 
         var success = await _locationRepository.CreateLocationAsync(location);
         if (!success)
@@ -76,6 +57,10 @@ public sealed class LocationService : ILocationService
 
         existingLocation.Name = locationUpdateRequest.Name;
         existingLocation.UpdatedAtUtc = DateTime.Now;
+
+        await AddPartners(locationUpdateRequest.AccommodationPartnerId, locationUpdateRequest.TransportPartnerId,
+            existingLocation);
+
         var success = await _locationRepository.UpdateLocationAsync(existingLocation);
         if (!success)
         {
@@ -96,5 +81,32 @@ public sealed class LocationService : ILocationService
         existingLocation.IsDeleted = true;
         existingLocation.DeletedAtUtc = DateTime.Now;
         return await _locationRepository.UpdateLocationAsync(existingLocation);
+    }
+
+    private async Task AddPartners(string? accommodationPartnerId,
+        string? transportPartnerId,
+        Location location)
+    {
+        if (transportPartnerId is not null)
+        {
+            var partner = await _partnerRepository.GetPartnerByIdAsync(transportPartnerId);
+            if (partner is null)
+            {
+                throw new NotFoundException("Partner with a given id does not exist");
+            }
+
+            location.TransportPartner = PartnerMapper.PartnerToPartnerPartial(partner);
+        }
+
+        if (accommodationPartnerId is not null)
+        {
+            var partner = await _partnerRepository.GetPartnerByIdAsync(accommodationPartnerId);
+            if (partner is null)
+            {
+                throw new NotFoundException("Partner with a given id does not exist");
+            }
+
+            location.AccommodationPartner = PartnerMapper.PartnerToPartnerPartial(partner);
+        }
     }
 }

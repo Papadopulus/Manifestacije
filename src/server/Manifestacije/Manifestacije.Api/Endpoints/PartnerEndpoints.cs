@@ -82,7 +82,7 @@ public class PartnerEndpoints : IEndpoints
     {
         var partner = await partnerService.GetPartnerByIdAsync(id);
         return partner is null
-            ? Results.NotFound($"Partner with the given id not found")
+            ? Results.NotFound("Partner with the given id not found")
             : Results.Ok(PartnerMapper.PartnerToPartnerViewResponse(partner));
     }
 }

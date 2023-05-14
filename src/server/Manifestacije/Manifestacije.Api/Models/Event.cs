@@ -22,4 +22,7 @@ public sealed class Event : ModelBase
     public required double Longitude { get; set; }
     public OrganizationPartial Organization { get; set; } = default!;
     public CategoryPartial Category { get; set; } = default!;
+    public uint Views { get; set; } = 0;
+    public uint Going { get; set; } = 0;
+    public uint Favourites { get; set; } = 0;
 }
