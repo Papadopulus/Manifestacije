@@ -42,7 +42,7 @@ public sealed class UserService : IUserService
         }
 
         var user = UserMapper.UserCreateRequestToUser(userCreateRequest);
-        (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword(userCreateRequest.Password);
+        (user.PasswordSalt, user.PasswordHash) = AuthHelpers.HashPassword(userCreateRequest.Password);
 
         if (userCreateRequest.Organization is not null)
         {
@@ -178,7 +178,7 @@ public sealed class UserService : IUserService
         }
 
         user.RefreshTokens = new List<RefreshToken>();
-        (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword(newPassword);
+        (user.PasswordSalt, user.PasswordHash) = AuthHelpers.HashPassword(newPassword);
         await _userRepository.UpdateUserAsync(user);
         return true;
     }

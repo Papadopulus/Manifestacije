@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Manifestacije.Api.Extensions;
 
-public static class Auth
+public static class AuthHelpers
 {
     public static bool ValidatePassword(this User user, string password)
     {
@@ -23,7 +23,7 @@ public static class Auth
 
     public static (string, string) GenerateTokens(this User user, string secret)
     {
-        return (GenerateJwtToken(user, DateTime.Now.AddMinutes(5), secret), GenerateRefreshToken());
+        return (GenerateJwtToken(user, DateTime.Now.AddMinutes(20), secret), GenerateRefreshToken());
     }
 
     private static string GenerateJwtToken(User user,
