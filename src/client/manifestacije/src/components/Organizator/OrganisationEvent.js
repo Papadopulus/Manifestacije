@@ -4,11 +4,10 @@ import classes from "../Login/LoginInput.module.css";
 import Button from "../UI/Button/Button";
 import axios from "axios";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
-import ChangeProfile from "../User/ChangeProfile";
 import {useEffect, useRef, useState} from "react";
 
 
-const AddEventForm = (props) => {
+const AddEventForm = () => {
 
     const [sponsorInputFields, setSponsorInputFields] = useState([''])
     const [guestsInputFields, setGuestsInputFields] = useState(['']);
@@ -163,6 +162,7 @@ const AddEventForm = (props) => {
             locationId: selectedLocation,
             categoryId:selectedCategory,
         };
+        console.log(payload);
         // await checkTokenAndRefresh();
         // let header = {
         //     "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
@@ -172,6 +172,7 @@ const AddEventForm = (props) => {
         resetTitleFunction();
         resetDateStartFunction();
     };
+    
     return (
         <>
             <form onSubmit={formSubmissionHandler}>
