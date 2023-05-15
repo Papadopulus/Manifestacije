@@ -35,7 +35,7 @@ public class ReviewEndpoints : IEndpoints
     }
     
     internal static async Task<IResult> GetAllReviews(
-        ReviewQueryFilter queryFilter,
+        [AsParameters] ReviewQueryFilter queryFilter,
         IReviewService reviewService)
     {
         var reviews = await reviewService.GetAllReviewsAsync(queryFilter);

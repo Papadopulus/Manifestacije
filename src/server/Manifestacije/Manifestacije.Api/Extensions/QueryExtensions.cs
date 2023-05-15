@@ -53,15 +53,25 @@ public static class QueryExtensions
             .Where(x => x.Name.AsSpan().EndsWith("Id"))
             .ToArray();
 
-        var intersect = query.GetType()
+        var intersection = query.GetType()
             .GetProperties()
-            .First(x => x.Name.Contains("Intersection")).GetValue(query) as bool? ?? false;
+            .First(x => x.Name.Contains("IntersectionColumns")).GetValue(query) as string;
+
+        var union = query.GetType()
+            .GetProperties()
+            .First(x => x.Name.Contains("UnionColumns")).GetValue(query) as string;
+
+        var intersectionColumns = intersection?.Split(',') ?? new string[] { };
+        var unionColumns = union?.Split(',') ?? new string[] { };
+
 
         var showDeleted = query.GetType()
             .GetProperties()
             .First(x => x.Name.Contains("ShowDeleted")).GetValue(query) as bool? ?? false;
 
         FilterDefinition<TType>? filter = null;
+        FilterDefinition<TType>? filterIntersection = null;
+        FilterDefinition<TType>? filterUnion = null;
 
         foreach (var prop in propsMin)
         {
@@ -87,7 +97,16 @@ public static class QueryExtensions
                 filterMinMax &= Builders<TType>.Filter.Lte(name, valueMax);
             }
 
-            filter = filter is null ? filterMinMax : intersect ? filter & filterMinMax : filter | filterMinMax;
+            if (intersectionColumns.Contains(name))
+            {
+                filterIntersection = filterIntersection is null ? filterMinMax : filterIntersection & filterMinMax;
+                continue;
+            }
+
+            if (unionColumns.Contains(name))
+            {
+                filterUnion = filterUnion is null ? filterMinMax : filterUnion | filterMinMax;
+            }
         }
 
         foreach (var prop in propsWithoutMinMax)
@@ -107,7 +126,16 @@ public static class QueryExtensions
                 ? Builders<TType>.Filter.Regex(name, $"/{value}/i")
                 : Builders<TType>.Filter.Eq(name, value.ToString());
 
-            filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
+            if (intersectionColumns.Contains(name))
+            {
+                filterIntersection = filterIntersection is null ? filterProp : filterIntersection & filterProp;
+                continue;
+            }
+
+            if (unionColumns.Contains(name))
+            {
+                filterUnion = filterUnion is null ? filterProp : filterUnion | filterProp;
+            }
         }
 
         foreach (var prop in propsList)
@@ -120,9 +148,18 @@ public static class QueryExtensions
                 continue;
             }
 
-            var filterProp = Builders<TType>.Filter.ElemMatch<string>(name, value.ToString());
+            var filterProp = Builders<TType>.Filter.AnyIn(name, $"/{value}/i");
 
-            filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
+            if (intersectionColumns.Contains(name))
+            {
+                filterIntersection = filterIntersection is null ? filterProp : filterIntersection & filterProp;
+                continue;
+            }
+
+            if (unionColumns.Contains(name))
+            {
+                filterUnion = filterUnion is null ? filterProp : filterUnion | filterProp;
+            }
         }
 
         foreach (var prop in propsId)
@@ -140,26 +177,44 @@ public static class QueryExtensions
             FilterDefinition<TType>? filterProp = null;
             foreach (var id in values)
             {
-                if(string.IsNullOrWhiteSpace(id))
+                if (string.IsNullOrWhiteSpace(id))
                     continue;
-                
+
                 var currentFilter = Builders<TType>.Filter
                     .Eq(name[..^2] + ".Id", id);
 
                 filterProp = filterProp is null ? currentFilter : filterProp | currentFilter;
             }
 
-            filter = filter is null ? filterProp : intersect ? filter & filterProp : filter | filterProp;
+            if (intersectionColumns.Contains(name))
+            {
+                filterIntersection = filterIntersection is null ? filterProp : filterIntersection & filterProp;
+                continue;
+            }
+
+            if (unionColumns.Contains(name))
+            {
+                filterUnion = filterUnion is null ? filterProp : filterUnion | filterProp;
+            }
         }
+
+        if (filterIntersection is null && filterUnion is null) 
+            filter = Builders<TType>.Filter.Empty;
+        else if (filterIntersection is not null && filterUnion is null) 
+            filter = filterIntersection;
+        else if (filterIntersection is null && filterUnion is not null) 
+            filter = filterUnion;
+        else 
+            filter = filterIntersection & filterUnion;
 
         if (showDeleted)
         {
-            return filter ?? Builders<TType>.Filter.Empty;
+            return filter;
         }
 
         var deletedFilter = Builders<TType>.Filter.Eq("IsDeleted", false);
-        filter = filter is null ? deletedFilter : filter & deletedFilter;
+        filter &= deletedFilter;
 
-        return filter ?? Builders<TType>.Filter.Empty;
+        return filter;
     }
 }
