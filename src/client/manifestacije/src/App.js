@@ -11,6 +11,7 @@ import OrganisationEvent from "./components/Organizator/OrganisationEvent";
 import AdminPanel from "./components/Admin/AdminPanel";
 import Home from "./pages/HomePage/Home";
 import AboutPage from "./pages/AboutPage/AboutPage";
+import AddEventForm from "./components/Organizator/OrganisationEvent";
 
 function App() {
     return (
@@ -34,7 +35,7 @@ function App() {
                         
                         <Route path={"/organisation/event"} element={
                             <ProtectedRoutes accessBy={"authenticated"} allowedRoles={["Organization","Admin"]}>
-                                <OrganisationEvent/>
+                                <AddEventForm/>
                             </ProtectedRoutes>}/>
 
                         <Route path={"/adminPanel"} element={
