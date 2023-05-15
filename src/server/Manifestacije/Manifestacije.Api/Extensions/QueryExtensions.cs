@@ -78,6 +78,7 @@ public static class QueryExtensions
         {
             var valueMin = prop.GetValue(query);
             var name = prop.Name[3..];
+            var maxName = "Max" + name;
             var valueMax = propsMax.FirstOrDefault(x => x.Name[3..] == name)?.GetValue(query);
 
             if (valueMin is null
@@ -106,13 +107,13 @@ public static class QueryExtensions
                     : Builders<TType>.Filter.Lte(name, isDateTimeMax ? dateMax : valueMax) & filterMinMax;
             }
 
-            if (intersectionColumns.Contains(prop.Name))
+            if (intersectionColumns.Contains(prop.Name) || intersectionColumns.Contains(maxName))
             {
                 filterIntersection = filterIntersection is null ? filterMinMax : filterIntersection & filterMinMax;
                 continue;
             }
 
-            if (unionColumns.Contains(prop.Name))
+            if (unionColumns.Contains(prop.Name) || intersectionColumns.Contains(maxName))
             {
                 filterUnion = filterUnion is null ? filterMinMax : filterUnion | filterMinMax;
             }
