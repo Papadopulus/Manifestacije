@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Manifestacije.Api.Models;
 using MongoDB.Driver;
 
 namespace Manifestacije.Api.Extensions;
@@ -86,19 +87,23 @@ public static class QueryExtensions
             }
 
             FilterDefinition<TType>? filterMinMax = null;
+            
+            var isDateTimeMin = DateTime.TryParse(valueMin?.ToString(), out var dateMin);
+            var isDateTimeMax = DateTime.TryParse(valueMin?.ToString(), out var dateMax);
 
             if (valueMin is not null)
             {
                 filterMinMax = filterMinMax is null
-                    ? Builders<TType>.Filter.Gte(name, valueMin)
-                    : Builders<TType>.Filter.Gte(name, valueMin) & filterMinMax;
+                    ? Builders<TType>.Filter.Gte(name, isDateTimeMin ? dateMin : valueMin)
+                    : Builders<TType>.Filter.Gte(name, isDateTimeMin ? dateMin : valueMin) & filterMinMax;
             }
 
             if (valueMax is not null)
             {
+                
                 filterMinMax = filterMinMax is null
-                    ? Builders<TType>.Filter.Lte(name, valueMax)
-                    : Builders<TType>.Filter.Lte(name, valueMax) & filterMinMax;
+                    ? Builders<TType>.Filter.Lte(name, isDateTimeMax ? dateMax : valueMax)
+                    : Builders<TType>.Filter.Lte(name, isDateTimeMax ? dateMax : valueMax) & filterMinMax;
             }
 
             if (intersectionColumns.Contains(prop.Name))
