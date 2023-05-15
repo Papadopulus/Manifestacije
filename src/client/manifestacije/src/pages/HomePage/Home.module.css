@@ -4,12 +4,27 @@
 }
 
 .left-containter-home{
-    width: 15%;
+    width: 16%;
     margin-left: 20px;
     margin-top: 20px;
 }
 .right-containter-home
 {
-    width: 85%;
-    background: #ffd9ce;
+    width: 84%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+.sort-selection{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    font-size: x-large;
+    background: white;
+    
+}
+.sort-title{
+    margin-right: 10px;
 }

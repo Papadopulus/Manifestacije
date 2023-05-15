@@ -1,12 +1,39 @@
 ﻿import React, { useEffect, useRef, useState } from "react";
 import CheckBox from "./CheckBox";
 import axios from "../../api/axios";
+import PriceSlider from "./PriceSlider";
+import classes from "./MainPageFilter.module.css";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css";
+import { DateRange } from "react-date-range"; // theme css file
+import "./MainPageFilter.css";
 
-function MainPageFilter() {
-  const [Filters, setFilters] = useState({ categories: [], locations: [] });
+function MainPageFilter(props) {
+  const [Filters, setFilters] = useState({
+    categories: [],
+    locations: [],
+    organizations: [],
+  });
   const [categories, SetCategories] = useState([]);
   const [locations, SetLocations] = useState([]);
+  const [organizations, SetOrganizations] = useState([]);
+  const [selectedPrice, SetSelectedPrice] = useState([0, 10000]);
+  const [startDate, SetStartDate] = useState(new Date());
+  const [endDate, SetEndDate] = useState(new Date(2025, 1, 1));
+  const [querySearch, SetQuerySearch] = useState("");
   const shouldLog = useRef(true);
+
+  const handleSelect = (pickedDate) => {
+    SetStartDate(pickedDate.selection.startDate);
+    SetEndDate(pickedDate.selection.endDate);
+    console.log(pickedDate.selection.startDate.toISOString());
+    console.log(pickedDate.selection.endDate.toISOString());
+  };
+  const selectionRange = {
+    startDate: startDate,
+    endDate: endDate,
+    key: "selection",
+  };
 
   useEffect(() => {
     if (shouldLog.current) {
@@ -15,7 +42,6 @@ function MainPageFilter() {
         .get(`${process.env.REACT_APP_BASE_URL}/categories`)
         .then((response) => {
           SetCategories(response.data);
-          console.log(response.data);
         })
         .catch((err) => {
           console.log(err);
@@ -24,7 +50,14 @@ function MainPageFilter() {
         .get(`${process.env.REACT_APP_BASE_URL}/locations`)
         .then((response) => {
           SetLocations(response.data);
-          console.log(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      axios
+        .get(`${process.env.REACT_APP_BASE_URL}/organizations`)
+        .then((response) => {
+          SetOrganizations(response.data);
         })
         .catch((err) => {
           console.log(err);
@@ -34,18 +67,80 @@ function MainPageFilter() {
       shouldLog.current = false;
     };
   }, []);
+
   function handleFilters(filters, category) {
     const newFilters = { ...Filters };
     newFilters[category] = filters;
-    //ovde se treba ubaci handle za filtere da se promene eventovi
-    if (category === "locations") {
-      console.log(filters);
-    }
+
+    const minPrice = selectedPrice[0];
+    const maxPrice = selectedPrice[1];
+
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/events`, {
+        params: {
+          CategoryId:
+            newFilters["categories"].length < 1
+              ? null
+              : newFilters["categories"].toString(),
+          LocationId:
+            newFilters["locations"].length < 1
+              ? null
+              : newFilters["locations"].toString(),
+          OrganizationId:
+            newFilters["organizations"].length < 1
+              ? null
+              : newFilters["organizations"].toString(),
+          MinTicketPrice: minPrice,
+          MaxTicketPrice: maxPrice,
+          MinStartingDate: startDate.toISOString(),
+          MaxEndingDate: endDate.toISOString(),
+          Title: querySearch.length < 1 ? null : querySearch,
+          Description: querySearch.length < 1 ? null : querySearch,
+          Street: querySearch.length < 1 ? null : querySearch,
+          SortColumn: props.SortColumn,
+          SortDirection: props.SortDirection,
+          UnionColumns: "Title,Description,Street",
+          IntersectionColumns:
+            "MinEndingDate,CategoryId,LocationId,OrganizationId,MinTicketPrice,MaxTicketPrice,MinStartingDate,MaxEndingDate",
+        },
+      })
+      .then((response) => {
+        props.options(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setFilters(newFilters);
+  }
+  useEffect(() => {
+    handleFilters();
+  }, [
+    selectedPrice,
+    startDate,
+    endDate,
+    querySearch,
+    props.SortColumn,
+    props.SortDirection,
+  ]);
+  const changePrice = (event, value) => {
+    SetSelectedPrice(value);
+  };
+
+  function setSearchQuery(value) {
+    SetQuerySearch(value);
   }
 
   return (
     <>
+      <div className={classes["wrapper"]}>
+        <i className={"fa fa-search"} aria-hidden="true"></i>
+        <input
+          className={classes["search-filter"]}
+          placeholder={"Pretrazi manifestaciju"}
+          type={"text"}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
       <CheckBox
         name={"Categories"}
         list={categories}
@@ -56,6 +151,23 @@ function MainPageFilter() {
         list={locations}
         handleFilters={(filters) => handleFilters(filters, "locations")}
       ></CheckBox>
+      <CheckBox
+        name={"Organizations"}
+        list={organizations}
+        handleFilters={(filters) => handleFilters(filters, "organizations")}
+      ></CheckBox>
+      <div className={classes["price-slider"]}>
+        <p>Price Range</p>
+        <PriceSlider
+          value={selectedPrice}
+          changePrice={changePrice}
+        ></PriceSlider>
+        <DateRange
+          ranges={[selectionRange]}
+          onChange={handleSelect}
+          className={classes["date-picker"]}
+        />
+      </div>
     </>
   );
 }
