@@ -85,16 +85,20 @@ public static class QueryExtensions
                 continue;
             }
 
-            var filterMinMax = Builders<TType>.Filter.Empty;
+            FilterDefinition<TType>? filterMinMax = null;
 
             if (valueMin is not null)
             {
-                filterMinMax &= Builders<TType>.Filter.Gte(name, valueMin);
+                filterMinMax = filterMinMax is null
+                    ? Builders<TType>.Filter.Gte(name, valueMin)
+                    : Builders<TType>.Filter.Gte(name, valueMin) & filterMinMax;
             }
 
             if (valueMax is not null)
             {
-                filterMinMax &= Builders<TType>.Filter.Lte(name, valueMax);
+                filterMinMax = filterMinMax is null
+                    ? Builders<TType>.Filter.Lte(name, valueMax)
+                    : Builders<TType>.Filter.Lte(name, valueMax) & filterMinMax;
             }
 
             if (intersectionColumns.Contains(name))
@@ -198,13 +202,13 @@ public static class QueryExtensions
             }
         }
 
-        if (filterIntersection is null && filterUnion is null) 
+        if (filterIntersection is null && filterUnion is null)
             filter = Builders<TType>.Filter.Empty;
-        else if (filterIntersection is not null && filterUnion is null) 
+        else if (filterIntersection is not null && filterUnion is null)
             filter = filterIntersection;
-        else if (filterIntersection is null && filterUnion is not null) 
+        else if (filterIntersection is null && filterUnion is not null)
             filter = filterUnion;
-        else 
+        else
             filter = filterIntersection & filterUnion;
 
         if (showDeleted)
