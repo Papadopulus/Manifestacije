@@ -4,12 +4,19 @@
     height: 200px;
     object-fit: cover;
 }
+.listItem-wrap img:hover{
+    transform: scale(1.04);
+}
+.listItem-wrap h4:hover{
+    transform: scale(1.1);
+}
 .listItem-wrap header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 1rem 0 1rem 0;
+    margin: 0.5rem 0 0.5rem 0;
     align-items: center;
+    font-size: larger;
 }
 
 .listItem-wrap header span {
@@ -23,8 +30,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
 }
 .listItem-wrap footer p:first-child span {
     color: rgba(0, 0, 0, 0.26);
     font-weight: 600;
+}
+.listItem-wrap{
+    background-color: white;
+    border-radius: 15px;
+    padding: 4.4px;
+    font-size: larger;
+}
+.listItem-wrap:hover{
+    filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.85));
+
+}
+.listItem-description{
+    font-size: smaller;
 }
