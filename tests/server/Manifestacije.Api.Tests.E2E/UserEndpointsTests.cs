@@ -416,7 +416,7 @@ public sealed class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>,
         // Arrange
         var refreshTokenRequest = new RefreshTokenRequest
         {
-            Token = null
+            Token = "Init"
         };
 
         // Act
