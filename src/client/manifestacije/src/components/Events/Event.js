@@ -9,8 +9,9 @@ function Event({ event }) {
   return (
     <div className={classes["listItem-wrap"]}>
       <img src={event.imageUrls} alt="" onClick={onClickEventHandler} />
+
       <header>
-        <h4>{event.title}</h4>
+        <h4 onClick={onClickEventHandler}>{event.title}</h4>
       </header>
 
       <footer>
