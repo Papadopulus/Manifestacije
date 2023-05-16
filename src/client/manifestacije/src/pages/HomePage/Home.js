@@ -2,6 +2,7 @@
 import classes from "./Home.module.css";
 import { useEffect, useRef, useState } from "react";
 import axios from "../../api/axios";
+import EventList from "../../components/Events/EventList";
 
 const Home = () => {
   const [events, SetEvents] = useState([]);
@@ -17,6 +18,7 @@ const Home = () => {
         .get(`${process.env.REACT_APP_BASE_URL}/events`)
         .then((response) => {
           SetEvents(response.data);
+          console.log(response.data);
         })
         .catch((err) => {
           console.log(err);
@@ -76,11 +78,12 @@ const Home = () => {
           </div>
         </div>
         <div className={classes["main-events"]}>
-          {events.map((event) => (
+          <EventList events={events}></EventList>
+          {/*{events.map((event) => (
             <div key={event.id}>
               <p>{event.title}</p>
             </div>
-          ))}
+          ))}*/}
         </div>
       </div>
     </div>
