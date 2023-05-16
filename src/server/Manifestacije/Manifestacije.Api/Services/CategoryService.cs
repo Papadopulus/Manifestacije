@@ -49,8 +49,6 @@ public sealed class CategoryService : ICategoryService
             return null;
         }
 
-        // TODO: We are waiting for mapperly to implement this feature of custom mapping
-        //existingCategory = CategoryMapper.CategoryUpdateRequestToCategory(categoryUpdateRequest);
         existingCategory.Name = categoryUpdateRequest.Name;
         existingCategory.UpdatedAtUtc = DateTime.UtcNow;
         var success = await _categoryRepository.UpdateCategoryAsync(existingCategory);

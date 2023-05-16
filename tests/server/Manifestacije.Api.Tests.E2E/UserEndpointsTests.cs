@@ -414,7 +414,10 @@ public sealed class UserEndpointsTests : IClassFixture<ManifestacijeApiFactory>,
     public async Task RefreshToken_ShouldReturnValidationErrors_WhenRefreshTokenRequestIsInvalid()
     {
         // Arrange
-        var refreshTokenRequest = new RefreshTokenRequest();
+        var refreshTokenRequest = new RefreshTokenRequest
+        {
+            Token = "Init"
+        };
 
         // Act
         var response = await _client.PostAsJsonAsync("/authenticate/refresh", refreshTokenRequest);
