@@ -73,8 +73,6 @@ public sealed class UserService : IUserService
             return null;
         }
 
-        // TODO: We are waiting for mapperly to implement this feature of custom mapping
-        // existingUser = UserMapper.UserUpdateRequestToUser(userUpdateRequest);
         existingUser.FirstName = userUpdateRequest.FirstName;
         existingUser.LastName = userUpdateRequest.LastName;
         existingUser.UpdatedAtUtc = DateTime.UtcNow;
