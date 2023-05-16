@@ -1,9 +1,11 @@
 ﻿import React from "react";
 import classes from "./Event.module.css";
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 function Event({ event }) {
+  const navigate = useNavigate();
   function onClickEventHandler() {
-    console.log("Jebem");
+    navigate("/events/" + event.id);
   }
 
   return (
