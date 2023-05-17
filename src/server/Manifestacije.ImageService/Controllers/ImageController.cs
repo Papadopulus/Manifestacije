@@ -14,7 +14,7 @@ public class ImageController : ControllerBase
         List<(int, string)> images = new();
         foreach (var req in imageRequest)
         {
-            if (!req.File.ContentType.StartsWith("image/") || !req.File.ContentType.StartsWith("video/"))
+            if (!req.File.ContentType.StartsWith("image/") && !req.File.ContentType.StartsWith("video/"))
                 return BadRequest("Image is not present");
 
             var newName = Guid.NewGuid().ToString();
