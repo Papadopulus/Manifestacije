@@ -3,7 +3,7 @@ const MapDisplay = () => {
     return (
         <>
             <div>
-            <Map/>
+                <Map/>
             </div>
         </>
     )

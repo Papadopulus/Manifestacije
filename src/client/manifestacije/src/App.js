@@ -12,8 +12,8 @@ import AdminPanel from "./components/Admin/AdminPanel";
 import Home from "./pages/HomePage/Home";
 import AboutPage from "./pages/AboutPage/AboutPage";
 import AddEventForm from "./components/Organizator/OrganisationEvent";
-import StartMap from "./GoogleMaps/StartMap";
 import MapDisplay from "./GoogleMaps/GPTMaps/MapDisplay";
+
 
 function App() {
     return (
@@ -49,8 +49,8 @@ function App() {
                         <Route path="/reset" element={<PasswordReset />} />
                         <Route path="/about" element={<AboutPage />} />
                         
-                        <Route path="/maps" element={<StartMap/>}></Route>
-                        <Route path="/maps2" element={<MapDisplay/>}></Route>
+                        {/*<Route path="/maps" element={<StartMap/>}></Route>*/}
+                        <Route path="/maps" element={<MapDisplay/>}></Route>
 
 
 

@@ -5,7 +5,8 @@ import Button from "../UI/Button/Button";
 import axios from "axios";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
 import {useEffect, useRef, useState} from "react";
-
+import Map from "../../GoogleMaps/GPTMaps/GptMapsProba"
+import OrganisationEvent from "./OrganisationEvent.css"
 
 const AddEventForm = () => {
 
@@ -16,7 +17,7 @@ const AddEventForm = () => {
     const [allCategories, setAllCategories] = useState([]);
     const [selectedLocation, setSelectedLocation] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
-
+    const [marker, setMarker] = useState(null);
     const shouldLog = useRef(true);
 
     const getLocationsAndCategories = async () => {
@@ -96,6 +97,15 @@ const AddEventForm = () => {
         resetFunction: resetTicketUrlFunction,
     } = useInput((value) => value.trim() !== '');
 
+    const {
+        value: address,
+        isValid: addressIsValid,
+        hasError: addressInputHasError,
+        valueChangedHandler: addressChangedHandler,
+        inputBlurHandler: addressBlurHandler,
+        resetFunction: resetAddressFunction,
+    } = useInput((value) => value.trim() !== '');
+
 
     let formIsValid = false;
     if (titleIsValid && dateStartIsValid) {
@@ -124,6 +134,16 @@ const AddEventForm = () => {
     const handleAddInput = () => {
         setSponsorInputFields([...sponsorInputFields, '']);
     }
+    const resetGuestList = () => {
+        setGuestsInputFields(['']);
+    }
+    const resetCompetitorList = () => {
+        setCompetitorsFields(['']);
+    }
+    const resetSponsorList = () => {
+        setSponsorInputFields(['']);
+    }
+    // const reset
     const handleInputChange = (index, value) => {
         const updatedInputFields = [...sponsorInputFields];
         updatedInputFields[index] = value;
@@ -149,10 +169,16 @@ const AddEventForm = () => {
         // if (!titleIsValid || !dateStartIsValid) {
         //     return;
         // }
+        let dateTimeMilliSeconds = new Date(dateStart);
+        let convertedDateStart = dateTimeMilliSeconds.toISOString();
+        let dateTimeMilliSecondsEnd = new Date(endingDate);
+        let convertedDateEnd = dateTimeMilliSecondsEnd.toISOString();
+        console.log(convertedDateStart);
         let payload = {
             title: title,
-            startingDate: dateStart,
-            endingDate: endingDate,
+            description:"probaDesc",
+            startingDate: convertedDateStart,
+            endingDate: convertedDateEnd,
             guests: guestsInputFields,
             competitors: competitorsFields,
             capacity: capacity,
@@ -161,26 +187,43 @@ const AddEventForm = () => {
             sponsors: sponsorInputFields,
             locationId: selectedLocation,
             categoryId:selectedCategory,
+            street:address,
+            latitude:marker.lat,
+            longitude:marker.lng,
         };
         console.log(payload);
+        await checkTokenAndRefresh();
+        let header = {
+            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
+        }
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/events`,payload,{headers:header});
+        console.log(response);
         // await checkTokenAndRefresh();
         // let header = {
         //     "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
         // }
         // const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/users/${props.id}`,payload,{headers:header});
         // props.setUser(response.data);
-        resetTitleFunction();
-        resetDateStartFunction();
+        // resetTitleFunction();
+        // resetDateStartFunction();
+        // resetEndingDateFunction();
+        // resetGuestList();
+        // resetCompetitorList();
+        // resetSponsorList();
+        // resetCapacityFunction();
+        // resetTicketPriceFunction();
+        // resetTicketUrlFunction();
+        
     };
     
     return (
         <>
-            <form onSubmit={formSubmissionHandler}>
+            <form className={"forma-event"} onSubmit={formSubmissionHandler}>
                 <p className={"main-text"}>Add en Event!</p>
                 <Input
                     label={"Title"}
                     type="text"
-                    id="name"
+                    id="titleEvent"
                     value={title}
                     onChange={titleChangedHandler}
                     onBlur={titleBlurHandler}
@@ -195,8 +238,8 @@ const AddEventForm = () => {
                 )}
                 <Input
                     label={"Starting date"}
-                    type="date"
-                    id="surname"
+                    type="datetime-local"
+                    id="dateStart"
                     value={dateStart}
                     onChange={dateStartChangedHandler}
                     onBlur={dateStartBlurHandler}
@@ -206,12 +249,12 @@ const AddEventForm = () => {
                 ></Input>
                 {dateStartInputHasError && (
                     <label className={classes["error-text"]}>
-                        Invalid title!
+                        Invalid starting date!
                     </label>
                 )}
                 <Input
                     label={"Ending date"}
-                    type="date"
+                    type="datetime-local"
                     id="endingDate"
                     value={endingDate}
                     onChange={endingDateChangedHandler}
@@ -273,6 +316,7 @@ const AddEventForm = () => {
                     onBlur={capacityBlurHandler}
                     isNotValid={capacityInputHasError}
                     className={classes["input-form"]}
+                    isRequeired={true}
                 ></Input>
                 {capacityInputHasError && (
                     <label className={classes["error-text"]}>
@@ -299,7 +343,7 @@ const AddEventForm = () => {
                 {sponsorInputFields.map((input, index) => (
                     <Input
                         key={index}
-                        label={`Input ${index + 1}`}
+                        label={`Sponsor ${index + 1}`}
                         type="text"
                         value={input}
                         onChange={(event) => handleInputChange(index, event.target.value)}
@@ -312,16 +356,9 @@ const AddEventForm = () => {
                     onClick={handleAddInput}
                     className={classes["login-button"]}
                 >
-                    Add Input
+                    Add Sponsor
                 </Button>
 
-                <Button
-                    type={"submit"}
-                    className={classes["login-button"]}
-                    // disabled={!formIsValid}
-                >
-                    Add an event
-                </Button>
                 <select
                     value={selectedLocation}
                     onChange={(event) => setSelectedLocation(event.target.value)}
@@ -344,7 +381,36 @@ const AddEventForm = () => {
                         </option>
                     ))}
                 </select>
+                <Input
+                    label="Address"
+                    type="text"
+                    id="address"
+                    value={address}
+                    onChange={addressChangedHandler}
+                    onBlur={addressBlurHandler}
+                    isNotValid={addressInputHasError}
+                    className={classes["input-form"]}
+                    isRequeired={true}
+                ></Input>
+                {addressInputHasError && (
+                    <label className={classes["error-text"]}>
+                        Invalid address!
+                    </label>
+                )}
+
+                <Map setMarker={setMarker}/>
+                
+                <Button
+                    type={"submit"}
+                    className={classes["login-button"]}
+                    // disabled={!formIsValid}
+                >
+                    Add an event
+                </Button>
+                
+               
             </form>
+           
         </>
     );
 }
