@@ -7,6 +7,9 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css";
 import { DateRange } from "react-date-range"; // theme css file
 import "./MainPageFilter.css";
+import { Collapse } from "antd";
+import { Button } from "../Navbar/NavButton";
+const { Panel } = Collapse;
 
 function MainPageFilter(props) {
   const [Filters, setFilters] = useState({
@@ -21,6 +24,8 @@ function MainPageFilter(props) {
   const [startDate, SetStartDate] = useState(new Date());
   const [endDate, SetEndDate] = useState(new Date(2025, 1, 1));
   const [querySearch, SetQuerySearch] = useState("");
+  const [resetFilters, SetResetFilters] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
   const shouldLog = useRef(true);
 
   const handleSelect = (pickedDate) => {
@@ -113,6 +118,7 @@ function MainPageFilter(props) {
     setFilters(newFilters);
   }
   useEffect(() => {
+    SetResetFilters(false);
     handleFilters();
   }, [
     selectedPrice,
@@ -121,6 +127,7 @@ function MainPageFilter(props) {
     querySearch,
     props.SortColumn,
     props.SortDirection,
+    resetFilters,
   ]);
   const changePrice = (event, value) => {
     SetSelectedPrice(value);
@@ -129,6 +136,30 @@ function MainPageFilter(props) {
   function setSearchQuery(value) {
     SetQuerySearch(value);
   }
+
+  function resetFiltersHandler() {
+    SetSelectedPrice([0, 10000]);
+    SetStartDate(new Date());
+    SetEndDate(new Date(2025, 1, 1));
+    SetQuerySearch("");
+    setFilters({ categories: [], locations: [], organizations: [] });
+    SetResetFilters(true);
+  }
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 960) {
+        setIsMobileView(true);
+      } else {
+        setIsMobileView(false);
+      }
+    };
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
@@ -141,33 +172,152 @@ function MainPageFilter(props) {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
-      <CheckBox
-        name={"Categories"}
-        list={categories}
-        handleFilters={(filters) => handleFilters(filters, "categories")}
-      ></CheckBox>
-      <CheckBox
-        name={"Locations"}
-        list={locations}
-        handleFilters={(filters) => handleFilters(filters, "locations")}
-      ></CheckBox>
-      <CheckBox
-        name={"Organizations"}
-        list={organizations}
-        handleFilters={(filters) => handleFilters(filters, "organizations")}
-      ></CheckBox>
-      <div className={classes["price-slider"]}>
-        <p>Price Range</p>
-        <PriceSlider
-          value={selectedPrice}
-          changePrice={changePrice}
-        ></PriceSlider>
-        <DateRange
-          ranges={[selectionRange]}
-          onChange={handleSelect}
-          className={classes["date-picker"]}
-        />
-      </div>
+      {isMobileView ? (
+        <Collapse
+          defaultActiveKey={["0"]}
+          className={classes["home-filter-panel"]}
+        >
+          <Panel
+            header={"Price Range"}
+            key="1"
+            className={classes["home-filter-panel-name"]}
+          >
+            <div className={classes["dropdown-options"]}>
+              <CheckBox
+                name={"Categories"}
+                list={categories}
+                handleFilters={(filters) =>
+                  handleFilters(filters, "categories")
+                }
+                resetFilters={resetFilters}
+              ></CheckBox>
+              <CheckBox
+                name={"Locations"}
+                list={locations}
+                handleFilters={(filters) => handleFilters(filters, "locations")}
+                resetFilters={resetFilters}
+              ></CheckBox>
+              <CheckBox
+                name={"Organizations"}
+                list={organizations}
+                handleFilters={(filters) =>
+                  handleFilters(filters, "organizations")
+                }
+                resetFilters={resetFilters}
+              ></CheckBox>
+
+              <Collapse
+                defaultActiveKey={["0"]}
+                className={classes["home-filter-panel"]}
+              >
+                <Panel
+                  header={"Price Range"}
+                  key="1"
+                  className={classes["home-filter-panel-name"]}
+                >
+                  <div className={classes["dropdown-options"]}>
+                    <PriceSlider
+                      value={selectedPrice}
+                      changePrice={changePrice}
+                    ></PriceSlider>
+                  </div>
+                </Panel>
+              </Collapse>
+              {/*<Collapse
+                defaultActiveKey={["0"]}
+                className={classes["home-filter-panel"]}
+              >
+                <Panel
+                  header={"Date Range"}
+                  key="1"
+                  className={classes["home-filter-panel-name"]}
+                >
+                  <div className={classes["dropdown-options-date"]}>
+                    <DateRange
+                      ranges={[selectionRange]}
+                      onChange={handleSelect}
+                      className={classes["date-picker"]}
+                    />
+                  </div>
+                </Panel>
+              </Collapse>*/}
+              <div className={classes["button-wrapper"]}>
+                <Button
+                  onClick={resetFiltersHandler}
+                  className={classes["home-filter-button"]}
+                >
+                  Clean Filters
+                </Button>
+              </div>
+            </div>
+          </Panel>
+        </Collapse>
+      ) : (
+        <div className={classes["filters-wrapper"]}>
+          <CheckBox
+            name={"Categories"}
+            list={categories}
+            handleFilters={(filters) => handleFilters(filters, "categories")}
+            resetFilters={resetFilters}
+          ></CheckBox>
+          <CheckBox
+            name={"Locations"}
+            list={locations}
+            handleFilters={(filters) => handleFilters(filters, "locations")}
+            resetFilters={resetFilters}
+          ></CheckBox>
+          <CheckBox
+            name={"Organizations"}
+            list={organizations}
+            handleFilters={(filters) => handleFilters(filters, "organizations")}
+            resetFilters={resetFilters}
+          ></CheckBox>
+
+          <Collapse
+            defaultActiveKey={["0"]}
+            className={classes["home-filter-panel"]}
+          >
+            <Panel
+              header={"Price Range"}
+              key="1"
+              className={classes["home-filter-panel-name"]}
+            >
+              <div className={classes["dropdown-options"]}>
+                <PriceSlider
+                  value={selectedPrice}
+                  changePrice={changePrice}
+                ></PriceSlider>
+              </div>
+            </Panel>
+          </Collapse>
+          <Collapse
+            defaultActiveKey={["0"]}
+            className={classes["home-filter-panel"]}
+          >
+            <Panel
+              header={"Date Range"}
+              key="1"
+              className={classes["home-filter-panel-name"]}
+            >
+              <div className={classes["dropdown-options-date"]}>
+                <DateRange
+                  ranges={[selectionRange]}
+                  onChange={handleSelect}
+                  className={classes["date-picker"]}
+                />
+              </div>
+            </Panel>
+          </Collapse>
+          <div className={classes["button-wrapper"]}>
+            <Button
+              onClick={resetFiltersHandler}
+              className={classes["home-filter-button"]}
+            >
+              Clean Filters
+            </Button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

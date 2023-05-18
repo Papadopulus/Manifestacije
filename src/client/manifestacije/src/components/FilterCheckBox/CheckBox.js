@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { Checkbox, Collapse } from "antd";
 import classes from "./CheckBoxStyle.module.css";
 import "./Checkbox.css";
@@ -21,6 +21,11 @@ function CheckBox(props) {
     props.handleFilters(newChecked);
     //update this checked information into Parent Component
   };
+  useEffect(() => {
+    if (props.resetFilters) {
+      setChecked([]);
+    }
+  }, [props.resetFilters]);
   const renderCheckboxLists = () =>
     props.list &&
     props.list.map((value, index) => (

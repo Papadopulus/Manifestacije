@@ -53,16 +53,16 @@ const Home = () => {
   };
   return (
     <div className={classes["home-container"]}>
-      <div className={classes["left-containter-home"]}>
+      <div className={classes["left-container-home"]}>
         <MainPageFilter
           options={SetEvents}
           SortColumn={columnName}
           SortDirection={directionSort}
         ></MainPageFilter>
       </div>
-      <div className={classes["right-containter-home"]}>
-        <div>
-          <div className={classes["sort-selection"]}>
+      <div className={classes["right-container-home"]}>
+        <div className={classes["sort-selection"]}>
+          <div className={classes["sort-wrapper"]}>
             <h5 className={classes["sort-title"]}>Sortiraj prema:</h5>
             <select
               value={selectedPriceOrder}
@@ -77,6 +77,7 @@ const Home = () => {
             </select>
           </div>
         </div>
+
         <div className={classes["main-events"]}>
           <EventList events={events}></EventList>
           {/*{events.map((event) => (
