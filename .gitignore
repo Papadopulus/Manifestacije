@@ -4,6 +4,7 @@
 /src/server/Manifestacije/Manifestacije.Api/obj
 /src/server/Manifestacije.ImageService/bin
 /src/server/Manifestacije.ImageService/obj
+/src/server/Manifestacije.ImageService/wwwroot
 /tests/server/.idea
 /tests/server/Manifestacije.Api.Tests.Unit/Manifestacije.Api.Tests.Unit/bin
 /tests/server/Manifestacije.Api.Tests.Unit/Manifestacije.Api.Tests.Unit/obj
