@@ -49,7 +49,6 @@ function App() {
                         <Route path="/reset" element={<PasswordReset />} />
                         <Route path="/about" element={<AboutPage />} />
                         
-                        {/*<Route path="/maps" element={<StartMap/>}></Route>*/}
                         <Route path="/maps" element={<MapDisplay/>}></Route>
 
 

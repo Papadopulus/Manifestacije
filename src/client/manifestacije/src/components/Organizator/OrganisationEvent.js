@@ -1,6 +1,7 @@
 ﻿import useInput from "../../hooks/use-input";
 import Input from "../UI/Input/Input";
 import classes from "../Login/LoginInput.module.css";
+import classes2 from "../Register/RegisterInput.module.css"
 import Button from "../UI/Button/Button";
 import axios from "axios";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
@@ -18,6 +19,9 @@ const AddEventForm = () => {
     const [selectedLocation, setSelectedLocation] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [marker, setMarker] = useState(null);
+    const [images, setImages] = useState([]);
+    const [description,setDescription] = useState(null);
+
     const shouldLog = useRef(true);
 
     const getLocationsAndCategories = async () => {
@@ -143,6 +147,10 @@ const AddEventForm = () => {
     const resetSponsorList = () => {
         setSponsorInputFields(['']);
     }
+
+    const handleDescriptionOnChange = (event) => {
+        setDescription(event.target.value);
+    }
     // const reset
     const handleInputChange = (index, value) => {
         const updatedInputFields = [...sponsorInputFields];
@@ -173,12 +181,23 @@ const AddEventForm = () => {
         let convertedDateStart = dateTimeMilliSeconds.toISOString();
         let dateTimeMilliSecondsEnd = new Date(endingDate);
         let convertedDateEnd = dateTimeMilliSecondsEnd.toISOString();
-        console.log(convertedDateStart);
+
+        const formData = new FormData();
+        images.forEach( (image) => {
+            formData.append("imageRequest", image);
+        })
+        const imgResponse = await axios.post('https://localhost:7085/Image/onlyfiles', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        setImages(imgResponse.data);
         let payload = {
             title: title,
-            description:"probaDesc",
+            description: description,
             startingDate: convertedDateStart,
             endingDate: convertedDateEnd,
+            imageUrls : images,
             guests: guestsInputFields,
             competitors: competitorsFields,
             capacity: capacity,
@@ -186,18 +205,21 @@ const AddEventForm = () => {
             ticketUrl: ticketUrl,
             sponsors: sponsorInputFields,
             locationId: selectedLocation,
-            categoryId:selectedCategory,
-            street:address,
-            latitude:marker.lat,
-            longitude:marker.lng,
+            categoryId: selectedCategory,
+            street: address,
+            latitude: marker.lat,
+            longitude: marker.lng,
         };
         console.log(payload);
         await checkTokenAndRefresh();
-        let header = {
-            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
-        }
-        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/events`,payload,{headers:header});
-        console.log(response);
+        // let header = {
+        //     "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
+        // }
+        // const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/events`, payload, {headers: header});
+        // console.log(response);
+        
+        // console.log(imgResponse.data);
+        // setImages(imgResponse.data);
         // await checkTokenAndRefresh();
         // let header = {
         //     "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
@@ -213,8 +235,9 @@ const AddEventForm = () => {
         // resetCapacityFunction();
         // resetTicketPriceFunction();
         // resetTicketUrlFunction();
-        
+
     };
+    
     
     return (
         <>
@@ -236,6 +259,13 @@ const AddEventForm = () => {
                         Invalid name!
                     </label>
                 )}
+                <div className={classes2["desc-div"]}>
+                    <label>Description</label>
+                    <textarea
+                        onChange={handleDescriptionOnChange}
+                        className={classes2["description-area"]}
+                    />
+                </div>
                 <Input
                     label={"Starting date"}
                     type="datetime-local"
@@ -398,8 +428,17 @@ const AddEventForm = () => {
                     </label>
                 )}
 
+                <input
+                    type={"file"}
+                    multiple
+                    onChange={(event) => {
+                        const files = Array.from(event.target.files);
+                        setImages(files);
+                    }}
+                />
+
                 <Map setMarker={setMarker}/>
-                
+
                 <Button
                     type={"submit"}
                     className={classes["login-button"]}
@@ -407,10 +446,10 @@ const AddEventForm = () => {
                 >
                     Add an event
                 </Button>
-                
-               
+
+
             </form>
-           
+
         </>
     );
 }
