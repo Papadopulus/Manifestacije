@@ -24,6 +24,7 @@ public class ImageController : ControllerBase
                 newName += ".mp4";
 
             var path = Path.Combine(_imagePath, newName);
+            Directory.CreateDirectory(_imagePath);
 
             await using (var stream = new FileStream(path, FileMode.Create))
             {
@@ -51,6 +52,7 @@ public class ImageController : ControllerBase
                 newName += ".mp4";
 
             var path = Path.Combine(_imagePath, newName);
+            Directory.CreateDirectory(_imagePath);
 
             await using (var stream = new FileStream(path, FileMode.Create))
             {
