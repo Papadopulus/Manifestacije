@@ -42,7 +42,7 @@ public sealed class UserService : IUserService
         }
 
         var user = UserMapper.UserCreateRequestToUser(userCreateRequest);
-        (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword(userCreateRequest.Password);
+        (user.PasswordSalt, user.PasswordHash) = AuthHelpers.HashPassword(userCreateRequest.Password);
 
         if (userCreateRequest.Organization is not null)
         {
@@ -73,8 +73,6 @@ public sealed class UserService : IUserService
             return null;
         }
 
-        // TODO: We are waiting for mapperly to implement this feature of custom mapping
-        // existingUser = UserMapper.UserUpdateRequestToUser(userUpdateRequest);
         existingUser.FirstName = userUpdateRequest.FirstName;
         existingUser.LastName = userUpdateRequest.LastName;
         existingUser.UpdatedAtUtc = DateTime.UtcNow;
@@ -178,7 +176,7 @@ public sealed class UserService : IUserService
         }
 
         user.RefreshTokens = new List<RefreshToken>();
-        (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword(newPassword);
+        (user.PasswordSalt, user.PasswordHash) = AuthHelpers.HashPassword(newPassword);
         await _userRepository.UpdateUserAsync(user);
         return true;
     }

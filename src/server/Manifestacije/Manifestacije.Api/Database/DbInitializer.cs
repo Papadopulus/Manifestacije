@@ -12,7 +12,9 @@ public static class DbInitializer
         IPartnerRepository partnerRepository,
         ICategoryRepository categoryRepository)
     {
-        if (!(await userRepository.GetAllUsersAsync(new UserQueryFilter())).Any())
+        var tmp = (await userRepository.GetAllUsersAsync(new UserQueryFilter())).Any();   
+        
+        if (!tmp)
         {
             var organizationExists = await organizationRepository.GetOrganizationByNameAsync("Org");
             if (organizationExists is not null)
@@ -38,7 +40,7 @@ public static class DbInitializer
                 PasswordHash = "null",
                 PasswordSalt = "null"
             };
-            (admin.PasswordSalt, admin.PasswordHash) = Auth.HashPassword("Sifra.1234");
+            (admin.PasswordSalt, admin.PasswordHash) = AuthHelpers.HashPassword("Sifra.1234");
             await userRepository.CreateUserAsync(admin);
 
             var organization = new User
@@ -55,7 +57,7 @@ public static class DbInitializer
                     Name = organizationOrg.Name
                 }
             };
-            (organization.PasswordSalt, organization.PasswordHash) = Auth.HashPassword("Sifra.1234");
+            (organization.PasswordSalt, organization.PasswordHash) = AuthHelpers.HashPassword("Sifra.1234");
             await userRepository.CreateUserAsync(organization);
 
             var user = new User
@@ -72,7 +74,7 @@ public static class DbInitializer
                 PasswordHash = "null",
                 PasswordSalt = "null"
             };
-            (user.PasswordSalt, user.PasswordHash) = Auth.HashPassword("Sifra.1234");
+            (user.PasswordSalt, user.PasswordHash) = AuthHelpers.HashPassword("Sifra.1234");
             await userRepository.CreateUserAsync(user);
         }
 

@@ -60,6 +60,7 @@ builder.Services.AddSingleton<IPartnerRepository, PartnerRepository>();
 builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 builder.Services.AddSingleton<IOrganizationRepository, OrganizationRepository>();
 builder.Services.AddSingleton<IEventRepository, EventRepository>();
+builder.Services.AddSingleton<IReviewRepository, ReviewRepository>();
 
 // Services
 builder.Services.AddSingleton<IUserService, UserService>();
@@ -69,6 +70,7 @@ builder.Services.AddSingleton<ICategoryService, CategoryService>();
 builder.Services.AddSingleton<ILocationService, LocationService>();
 builder.Services.AddSingleton<IPartnerService, PartnerService>();
 builder.Services.AddSingleton<IEventService, EventService>();
+builder.Services.AddSingleton<IReviewService, ReviewService>();
 
 // Database
 builder.Services.Configure<DatabaseSettings>(

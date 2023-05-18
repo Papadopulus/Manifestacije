@@ -6,6 +6,7 @@ public class QueryFilterBase
     public int? PageNumber { get; set; } = 1;
     public string? SortColumn { get; set; }
     public string? SortDirection { get; set; } = "";
-    public bool? Intersection { get; set; } = true;
+    public string? IntersectionColumns { get; set; }
+    public string? UnionColumns { get; set; }
     public bool? ShowDeleted { get; set; } = false;
 }
