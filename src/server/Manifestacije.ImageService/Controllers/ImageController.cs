@@ -35,7 +35,7 @@ public class ImageController : ControllerBase
         return Ok(images);
     }
     
-    [HttpPost]
+    [HttpPost("onlyfiles")]
     public async Task<IActionResult> Post([FromForm] List<IFormFile> imageRequest)
     {
         List<string> images = new();
