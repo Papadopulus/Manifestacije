@@ -34,6 +34,33 @@ public class ImageController : ControllerBase
 
         return Ok(images);
     }
+    
+    [HttpPost("onlyfiles")]
+    public async Task<IActionResult> Post([FromForm] List<IFormFile> imageRequest)
+    {
+        List<string> images = new();
+        foreach (var req in imageRequest)
+        {
+            if (!req.ContentType.StartsWith("image/") && !req.ContentType.StartsWith("video/"))
+                return BadRequest("Image is not present");
+
+            var newName = Guid.NewGuid().ToString();
+            if (req.ContentType.StartsWith("image/"))
+                newName += ".jpg";
+            else
+                newName += ".mp4";
+
+            var path = Path.Combine(_imagePath, newName);
+
+            await using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await req.CopyToAsync(stream);
+            }
+            images.Add(newName);
+        }
+
+        return Ok(images);
+    }
 
     [HttpGet("{name}")]
     public IActionResult Get(string name)
