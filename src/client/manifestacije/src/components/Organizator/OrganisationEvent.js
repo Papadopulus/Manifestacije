@@ -20,7 +20,7 @@ const AddEventForm = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [marker, setMarker] = useState(null);
     const [images, setImages] = useState([]);
-    const [description,setDescription] = useState(null);
+    const [description, setDescription] = useState(null);
 
     const shouldLog = useRef(true);
 
@@ -159,6 +159,7 @@ const AddEventForm = () => {
     };
     const formSubmissionHandler = async (event) => {
         event.preventDefault();
+        await checkTokenAndRefresh();
 
 
         while (sponsorInputFields[sponsorInputFields.length - 1] === '') {
@@ -183,7 +184,7 @@ const AddEventForm = () => {
         let convertedDateEnd = dateTimeMilliSecondsEnd.toISOString();
 
         const formData = new FormData();
-        images.forEach( (image) => {
+        images.forEach((image) => {
             formData.append("imageRequest", image);
         })
         const imgResponse = await axios.post('https://localhost:7085/Image/onlyfiles', formData, {
@@ -192,12 +193,13 @@ const AddEventForm = () => {
             }
         })
         setImages(imgResponse.data);
+        console.log(imgResponse)
         let payload = {
             title: title,
             description: description,
             startingDate: convertedDateStart,
             endingDate: convertedDateEnd,
-            imageUrls : images,
+            imageUrls: images,
             guests: guestsInputFields,
             competitors: competitorsFields,
             capacity: capacity,
@@ -211,21 +213,15 @@ const AddEventForm = () => {
             longitude: marker.lng,
         };
         console.log(payload);
-        await checkTokenAndRefresh();
-        // let header = {
-        //     "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
-        // }
-        // const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/events`, payload, {headers: header});
-        // console.log(response);
-        
+
+        let header = {
+            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
+        }
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/events`, payload, {headers: header});
+        console.log(response);
+
         // console.log(imgResponse.data);
         // setImages(imgResponse.data);
-        // await checkTokenAndRefresh();
-        // let header = {
-        //     "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
-        // }
-        // const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/users/${props.id}`,payload,{headers:header});
-        // props.setUser(response.data);
         // resetTitleFunction();
         // resetDateStartFunction();
         // resetEndingDateFunction();
@@ -237,219 +233,240 @@ const AddEventForm = () => {
         // resetTicketUrlFunction();
 
     };
-    
-    
+
+
     return (
         <>
-            <form className={"forma-event"} onSubmit={formSubmissionHandler}>
-                <p className={"main-text"}>Add en Event!</p>
-                <Input
-                    label={"Title"}
-                    type="text"
-                    id="titleEvent"
-                    value={title}
-                    onChange={titleChangedHandler}
-                    onBlur={titleBlurHandler}
-                    isNotValid={titleInputHasError}
-                    className={classes["input-form"]}
-                    isRequeired={true}
-                ></Input>
-                {titleInputHasError && (
-                    <label className={classes["error-text"]}>
-                        Invalid name!
-                    </label>
-                )}
-                <div className={classes2["desc-div"]}>
-                    <label>Description</label>
-                    <textarea
-                        onChange={handleDescriptionOnChange}
-                        className={classes2["description-area"]}
-                    />
-                </div>
-                <Input
-                    label={"Starting date"}
-                    type="datetime-local"
-                    id="dateStart"
-                    value={dateStart}
-                    onChange={dateStartChangedHandler}
-                    onBlur={dateStartBlurHandler}
-                    isNotValid={dateStartInputHasError}
-                    className={classes["input-form"]}
-                    isRequeired={true}
-                ></Input>
-                {dateStartInputHasError && (
-                    <label className={classes["error-text"]}>
-                        Invalid starting date!
-                    </label>
-                )}
-                <Input
-                    label={"Ending date"}
-                    type="datetime-local"
-                    id="endingDate"
-                    value={endingDate}
-                    onChange={endingDateChangedHandler}
-                    onBlur={endingDateBlurHandler}
-                    isNotValid={endingDateInputHasError}
-                    className={classes["input-form"]}
-                    isRequeired={true}
-                ></Input>
-                {endingDateInputHasError && (
-                    <label className={classes["error-text"]}>
-                        Invalid ending date!
-                    </label>
-                )}
+            <div className={"div-container"}>
 
-                {guestsInputFields.map((input, index) => (
-                    <Input
-                        key={index}
-                        label={`Guest ${index + 1}`}
-                        type="text"
-                        value={input}
-                        onChange={(event) => handleGuestInputChange(index, event.target.value)}
-                        className={classes["input-form"]}
-                    />
-                ))}
+                <form className={"forma-event"} onSubmit={formSubmissionHandler}>
+
+                    <div className={"right-side-form"}>
+
+                        <p className={"main-text"}>Add en Event!</p>
+                        <Input
+                            label={"Title"}
+                            type="text"
+                            id="titleEvent"
+                            value={title}
+                            onChange={titleChangedHandler}
+                            onBlur={titleBlurHandler}
+                            isNotValid={titleInputHasError}
+                            className={classes["input-form"]}
+                            isRequeired={true}
+                        ></Input>
+                        {titleInputHasError && (
+                            <label className={classes["error-text"]}>
+                                Invalid name!
+                            </label>
+                        )}
+                        <div className={classes2["desc-div"]}>
+                            <label>Description</label>
+                            <textarea
+                                onChange={handleDescriptionOnChange}
+                                className={classes2["description-area"]}
+                            />
+                        </div>
+
+                        <div className={"two-in-row"}>
+
+                            <Input
+                                label={"Starting date"}
+                                type="datetime-local"
+                                id="dateStart"
+                                value={dateStart}
+                                onChange={dateStartChangedHandler}
+                                onBlur={dateStartBlurHandler}
+                                isNotValid={dateStartInputHasError}
+                                className={classes["input-form"]}
+                                isRequeired={true}
+                            ></Input>
+                            {dateStartInputHasError && (
+                                <label className={classes["error-text"]}>
+                                    Invalid starting date!
+                                </label>
+                            )}
+                            <Input
+                                label={"Ending date"}
+                                type="datetime-local"
+                                id="endingDate"
+                                value={endingDate}
+                                onChange={endingDateChangedHandler}
+                                onBlur={endingDateBlurHandler}
+                                isNotValid={endingDateInputHasError}
+                                className={classes["input-form"]}
+                                isRequeired={true}
+                            ></Input>
+                            {endingDateInputHasError && (
+                                <label className={classes["error-text"]}>
+                                    Invalid ending date!
+                                </label>
+                            )}
+                        </div>
+
+                        <div className={"adding-inputs"}>
+                            {guestsInputFields.map((input, index) => (
+                                <Input
+                                    key={index}
+                                    label={`Guest ${index + 1}`}
+                                    type="text"
+                                    value={input}
+                                    onChange={(event) => handleGuestInputChange(index, event.target.value)}
+                                    className={classes["input-form"]}
+                                />
+                            ))}
+
+                            <Button
+                                type={"button"}
+                                onClick={handleAddGuestInput}
+                                className={classes["login-button"]}
+                            >
+                                Add Guest Input
+                            </Button>
+                        </div>
+
+                        <div className={"adding-inputs"}>
+                            {competitorsFields.map((input, index) => (
+                                <Input
+                                    key={index}
+                                    label={`Competitor ${index + 1}`}
+                                    type="text"
+                                    value={input}
+                                    onChange={(event) => handleCompetitorInputChange(index, event.target.value)}
+                                    className={classes["input-form"]}
+                                />
+                            ))}
+                            <Button
+                                type={"button"}
+                                onClick={handleAddCompetitorInput}
+                                className={classes["login-button"]}
+                            >
+                                Add Competitor Input
+                            </Button>
+                        </div>
+                        <Input
+                            label="Capacity"
+                            type="number"
+                            id="capacity"
+                            value={capacity}
+                            onChange={capacityChangedHandler}
+                            onBlur={capacityBlurHandler}
+                            isNotValid={capacityInputHasError}
+                            className={classes["input-form"]}
+                            isRequeired={true}
+                        ></Input>
+                        {capacityInputHasError && (
+                            <label className={classes["error-text"]}>
+                                Invalid capacity!
+                            </label>
+                        )}
+                        <div className={"two-in-row"}>
+                            <Input
+                                label="Ticket Price"
+                                type="number"
+                                id="ticketPrice"
+                                value={ticketPrice}
+                                onChange={ticketPriceChangedHandler}
+                                className={classes["input-form"]}
+                            ></Input>
+                            <Input
+                                label="Ticket URL"
+                                type="text"
+                                id="ticketUrl"
+                                value={ticketUrl}
+                                onChange={ticketUrlChangedHandler}
+                                className={classes["input-form"]}
+                            ></Input>
+                        </div>
+
+                        <div className={"adding-inputs"}>
+                            {sponsorInputFields.map((input, index) => (
+                                <Input
+                                    key={index}
+                                    label={`Sponsor ${index + 1}`}
+                                    type="text"
+                                    value={input}
+                                    onChange={(event) => handleInputChange(index, event.target.value)}
+                                    className={classes["input-form"]}
+                                />
+                            ))}
+
+                            <Button
+                                type={"button"}
+                                onClick={handleAddInput}
+                                className={classes["login-button"]}
+                            >
+                                Add Sponsor
+                            </Button>
+                        </div>
+
+                        <div className={"two-in-row"}>
+                            <select
+                                value={selectedLocation}
+                                onChange={(event) => setSelectedLocation(event.target.value)}
+                                className={classes["input-form"]}>
+                                <option value="">Select Location</option>
+                                {allLocations.map((location) => (
+                                    <option key={location.id} value={location.id}>
+                                        {location.name}
+                                    </option>
+                                ))}
+                            </select>
+                            <select
+                                value={selectedCategory}
+                                onChange={(event) => setSelectedCategory(event.target.value)}
+                                className={classes["input-form"]}>
+                                <option value="">Select Category</option>
+                                {allCategories.map((category) => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <Input
+                            label="Address"
+                            type="text"
+                            id="address"
+                            value={address}
+                            onChange={addressChangedHandler}
+                            onBlur={addressBlurHandler}
+                            isNotValid={addressInputHasError}
+                            className={classes["input-form"]}
+                            isRequeired={true}
+                        ></Input>
+                        {addressInputHasError && (
+                            <label className={classes["error-text"]}>
+                                Invalid address!
+                            </label>
+                        )}
+
+                        <input
+                            type={"file"}
+                            multiple
+                            onChange={(event) => {
+                                const files = Array.from(event.target.files);
+                                setImages(files);
+                            }}
+                        />
+
+                        <Button
+                            type={"submit"}
+                            className={classes["login-button"]}
+                            // disabled={!formIsValid}
+                        >
+                            Add an event
+                        </Button>
 
 
-                <Button
-                    type={"button"}
-                    onClick={handleAddGuestInput}
-                    className={classes["login-button"]}
-                >
-                    Add Guest Input
-                </Button>
-
-                {competitorsFields.map((input, index) => (
-                    <Input
-                        key={index}
-                        label={`Competitor ${index + 1}`}
-                        type="text"
-                        value={input}
-                        onChange={(event) => handleCompetitorInputChange(index, event.target.value)}
-                        className={classes["input-form"]}
-                    />
-                ))}
-                <Button
-                    type={"button"}
-                    onClick={handleAddCompetitorInput}
-                    className={classes["login-button"]}
-                >
-                    Add Competitor Input
-                </Button>
-
-                <Input
-                    label="Capacity"
-                    type="number"
-                    id="capacity"
-                    value={capacity}
-                    onChange={capacityChangedHandler}
-                    onBlur={capacityBlurHandler}
-                    isNotValid={capacityInputHasError}
-                    className={classes["input-form"]}
-                    isRequeired={true}
-                ></Input>
-                {capacityInputHasError && (
-                    <label className={classes["error-text"]}>
-                        Invalid capacity!
-                    </label>
-                )}
-                <Input
-                    label="Ticket Price"
-                    type="number"
-                    id="ticketPrice"
-                    value={ticketPrice}
-                    onChange={ticketPriceChangedHandler}
-                    className={classes["input-form"]}
-                ></Input>
-                <Input
-                    label="Ticket URL"
-                    type="text"
-                    id="ticketUrl"
-                    value={ticketUrl}
-                    onChange={ticketUrlChangedHandler}
-                    className={classes["input-form"]}
-                ></Input>
-
-                {sponsorInputFields.map((input, index) => (
-                    <Input
-                        key={index}
-                        label={`Sponsor ${index + 1}`}
-                        type="text"
-                        value={input}
-                        onChange={(event) => handleInputChange(index, event.target.value)}
-                        className={classes["input-form"]}
-                    />
-                ))}
-
-                <Button
-                    type={"button"}
-                    onClick={handleAddInput}
-                    className={classes["login-button"]}
-                >
-                    Add Sponsor
-                </Button>
-
-                <select
-                    value={selectedLocation}
-                    onChange={(event) => setSelectedLocation(event.target.value)}
-                    className={classes["input-form"]}>
-                    <option value="">Select Location</option>
-                    {allLocations.map((location) => (
-                        <option key={location.id} value={location.id}>
-                            {location.name}
-                        </option>
-                    ))}
-                </select>
-                <select
-                    value={selectedCategory}
-                    onChange={(event) => setSelectedCategory(event.target.value)}
-                    className={classes["input-form"]}>
-                    <option value="">Select Category</option>
-                    {allCategories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                            {category.name}
-                        </option>
-                    ))}
-                </select>
-                <Input
-                    label="Address"
-                    type="text"
-                    id="address"
-                    value={address}
-                    onChange={addressChangedHandler}
-                    onBlur={addressBlurHandler}
-                    isNotValid={addressInputHasError}
-                    className={classes["input-form"]}
-                    isRequeired={true}
-                ></Input>
-                {addressInputHasError && (
-                    <label className={classes["error-text"]}>
-                        Invalid address!
-                    </label>
-                )}
-
-                <input
-                    type={"file"}
-                    multiple
-                    onChange={(event) => {
-                        const files = Array.from(event.target.files);
-                        setImages(files);
-                    }}
-                />
-
-                <Map setMarker={setMarker}/>
-
-                <Button
-                    type={"submit"}
-                    className={classes["login-button"]}
-                    // disabled={!formIsValid}
-                >
-                    Add an event
-                </Button>
+                    </div>
+                    <div className={"left-side-form"}>
+                        <Map setMarker={setMarker}/>
+                    </div>
 
 
-            </form>
-
+                </form>
+            </div>
         </>
     );
 }

@@ -3,12 +3,12 @@ import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps
 
 const libraries = ['places'];
 const mapContainerStyle = {
-    width: '400px',
-    height: '400px',
+    width: '100%',
+    height: '100%',
 };
 const center = {
-    lat: 42.3601,
-    lng: -71.0589,
+    lat: 43.87247349255261,
+    lng: 20.81936257123989,
 };
 
 export default function Map( props ) {
