@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq.Expressions;
+using System.Reflection;
 using Manifestacije.Api.Models;
 using MongoDB.Driver;
 
@@ -151,15 +152,16 @@ public static class QueryExtensions
         foreach (var prop in propsList)
         {
             var value = prop.GetValue(query)?.ToString();
-            var name = prop.Name;
+            var name = prop.Name[..^4];
 
             if (value is null)
             {
                 continue;
             }
-
-            var filterProp = Builders<TType>.Filter.AnyIn(name, $"/{value}/i");
-
+                
+            var filterProp = Builders<TType>.Filter.ElemMatch(GetPropertySelector<TType, IEnumerable<string>>(name), 
+                Builders<string>.Filter.Regex(x => x.ToString(), $"/{value}/i"));
+            
             if (intersectionColumns.Contains(name))
             {
                 filterIntersection = filterIntersection is null ? filterProp : filterIntersection & filterProp;
@@ -226,5 +228,14 @@ public static class QueryExtensions
         filter &= deletedFilter;
 
         return filter;
+    }
+    
+    public static Expression<Func<T, R>> GetPropertySelector<T, R>(string propertyName)
+    {
+        var arg = Expression.Parameter(typeof(T), "x");
+        var property = Expression.Property(arg, propertyName);
+        var conv = Expression.Convert(property, typeof(R));
+        var exp = Expression.Lambda<Func<T, R>>(conv, arg);
+        return exp;
     }
 }
