@@ -1,0 +1,64 @@
+﻿.div-container{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.forma-event{
+    background-color: #8B749D;
+    width: 80%;
+    display: flex;
+    flex-direction: row-reverse;
+    height: 800px;
+}
+.left-side-form{
+    width: 35%;
+}
+.right-side-form{
+    width: 65%;
+    overflow-y: scroll;
+    padding:40px;
+    display: flex;
+    flex-direction: column;
+}
+.two-in-row{
+    display: flex;
+}
+.adding-inputs{
+    display: flex;
+}
+.description-area{
+    resize: none;
+    width: 100%;
+    height: 200px;
+    font-size: 20px;
+    border-radius: 20px;
+}
+.desc-div{
+    margin: 0.3rem 0;
+    align-items: stretch;
+    flex-direction: column;
+}
+.desc-div label {
+    flex: 1;
+    color: #333333;
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
+    font-family: 'Lexand-Medium';
+    font-size: 20px;
+}
+.desc-div textarea {
+    flex: 3;
+    font-size: 20px;
+    padding: 0.35rem 0.35rem;
+    border-radius: 20px;
+    border-color:transparent;
+    width: 100%;
+    height: 200px;
+    font-family: 'Lexand-Medium';
+    background: #e6e6e6;
+}
+.desc-div textarea:focus {
+    border-color: #333333;
+    background: #cccccc;
+}

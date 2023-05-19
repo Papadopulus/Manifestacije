@@ -7,7 +7,7 @@ import axios from "axios";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
 import {useEffect, useRef, useState} from "react";
 import Map from "../../GoogleMaps/GPTMaps/GptMapsProba"
-import OrganisationEvent from "./OrganisationEvent.css"
+import classesEvent from "./OrganisationEvent.module.css"
 
 const AddEventForm = () => {
 
@@ -237,11 +237,11 @@ const AddEventForm = () => {
 
     return (
         <>
-            <div className={"div-container"}>
+            <div className={classesEvent["div-container"]}>
 
-                <form className={"forma-event"} onSubmit={formSubmissionHandler}>
+                <form className={classesEvent["forma-event"]} onSubmit={formSubmissionHandler}>
 
-                    <div className={"right-side-form"}>
+                    <div className={classesEvent["right-side-form"]}>
 
                         <p className={"main-text"}>Add en Event!</p>
                         <Input
@@ -268,7 +268,7 @@ const AddEventForm = () => {
                             />
                         </div>
 
-                        <div className={"two-in-row"}>
+                        <div className={classesEvent["two-in-row"]}>
 
                             <Input
                                 label={"Starting date"}
@@ -304,7 +304,7 @@ const AddEventForm = () => {
                             )}
                         </div>
 
-                        <div className={"adding-inputs"}>
+                        <div className={classesEvent["adding-inputs"]}>
                             {guestsInputFields.map((input, index) => (
                                 <Input
                                     key={index}
@@ -325,7 +325,7 @@ const AddEventForm = () => {
                             </Button>
                         </div>
 
-                        <div className={"adding-inputs"}>
+                        <div className={classesEvent["adding-inputs"]}>
                             {competitorsFields.map((input, index) => (
                                 <Input
                                     key={index}
@@ -360,7 +360,7 @@ const AddEventForm = () => {
                                 Invalid capacity!
                             </label>
                         )}
-                        <div className={"two-in-row"}>
+                        <div className={classesEvent["two-in-row"]}>
                             <Input
                                 label="Ticket Price"
                                 type="number"
@@ -379,7 +379,7 @@ const AddEventForm = () => {
                             ></Input>
                         </div>
 
-                        <div className={"adding-inputs"}>
+                        <div className={classesEvent["adding-inputs"]}>
                             {sponsorInputFields.map((input, index) => (
                                 <Input
                                     key={index}
@@ -400,7 +400,7 @@ const AddEventForm = () => {
                             </Button>
                         </div>
 
-                        <div className={"two-in-row"}>
+                        <div className={classesEvent["two-in-row"]}>
                             <select
                                 value={selectedLocation}
                                 onChange={(event) => setSelectedLocation(event.target.value)}
@@ -441,14 +441,17 @@ const AddEventForm = () => {
                             </label>
                         )}
 
-                        <input
-                            type={"file"}
-                            multiple
-                            onChange={(event) => {
-                                const files = Array.from(event.target.files);
-                                setImages(files);
-                            }}
-                        />
+                        <div className={classesEvent["choose-file"]}>
+                            <input
+                                type={"file"}
+                                multiple
+                                onChange={(event) => {
+                                    const files = Array.from(event.target.files);
+                                    setImages(files);
+                                }}
+                            />
+                        </div>
+                        
 
                         <Button
                             type={"submit"}
@@ -460,7 +463,7 @@ const AddEventForm = () => {
 
 
                     </div>
-                    <div className={"left-side-form"}>
+                    <div className={classesEvent["left-side-form"]}>
                         <Map setMarker={setMarker}/>
                     </div>
 
