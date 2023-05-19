@@ -13,4 +13,8 @@ public interface IUserService
     Task<TokenResponse> RefreshTokenAsync(RefreshTokenRequest refreshTokenRequest);
     Task<bool> SendEmailResetPasswordAsync(string email);
     Task<bool> ResetPasswordAsync(string token, string newPassword);
+    Task<bool> AddEventToFavouritesAsync(string userId, string eventId, CancellationToken ct);
+    Task<bool> RemoveEventFromFavouritesAsync(string userId, string eventId, CancellationToken ct);
+    Task<bool> AddEventToGoingAsync(string userId, string eventId, CancellationToken ct);
+    Task<bool> RemoveEventFromGoingAsync(string userId, string eventId, CancellationToken ct);
 }
