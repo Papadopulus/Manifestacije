@@ -150,7 +150,7 @@ public static class QueryExtensions
 
         foreach (var prop in propsList)
         {
-            var value = prop.GetValue(query);
+            var value = prop.GetValue(query)?.ToString();
             var name = prop.Name;
 
             if (value is null)

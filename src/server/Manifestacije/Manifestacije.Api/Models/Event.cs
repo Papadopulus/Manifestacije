@@ -6,7 +6,7 @@ public sealed class Event : ModelBase
     public required string Description { get; set; }
     public required DateTime StartingDate { get; set; }
     public required DateTime EndingDate { get; set; }
-    public List<string> ImageUrls { get; set; } = new();
+    public List<(int, string)> ImageUrls { get; set; } = new();
     public List<string> Guests { get; set; } = new();
     public List<string> Competitors { get; set; } = new();
     public required ulong Capacity { get; set; }
