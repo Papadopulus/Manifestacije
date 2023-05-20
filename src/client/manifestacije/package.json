@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@googlemaps/extended-component-library": "^0.1.0",
+    "@material-ui/icons": "^4.11.3",
     "@reach/combobox": "^0.18.0",
     "@react-google-maps/api": "^2.18.1",
     "@testing-library/jest-dom": "^5.16.5",

@@ -8,7 +8,16 @@ import checkTokenAndRefresh from "../../shared/tokenCheck";
 import {useEffect, useRef, useState} from "react";
 import Map from "../../GoogleMaps/GPTMaps/GptMapsProba"
 import classesEvent from "./OrganisationEvent.module.css"
+import uploadImage from "../../multimedia/uploadImage.jpg"
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import {makeStyles} from '@material-ui/core/styles';
 
+const useStyles = makeStyles({
+    uploadIcon: {
+        width: '100%',
+        height: '100%',
+    },
+});
 const AddEventForm = () => {
 
     const [sponsorInputFields, setSponsorInputFields] = useState([''])
@@ -135,7 +144,7 @@ const AddEventForm = () => {
         updatedInputFields[index] = value;
         setGuestsInputFields(updatedInputFields);
     };
-    const handleAddInput = () => {
+    const handleAddSponsor = () => {
         setSponsorInputFields([...sponsorInputFields, '']);
     }
     const resetGuestList = () => {
@@ -234,6 +243,7 @@ const AddEventForm = () => {
 
     };
 
+    const classes = useStyles();
 
     return (
         <>
@@ -270,38 +280,45 @@ const AddEventForm = () => {
 
                         <div className={classesEvent["two-in-row"]}>
 
-                            <Input
-                                label={"Starting date"}
-                                type="datetime-local"
-                                id="dateStart"
-                                value={dateStart}
-                                onChange={dateStartChangedHandler}
-                                onBlur={dateStartBlurHandler}
-                                isNotValid={dateStartInputHasError}
-                                className={classes["input-form"]}
-                                isRequeired={true}
-                            ></Input>
-                            {dateStartInputHasError && (
-                                <label className={classes["error-text"]}>
-                                    Invalid starting date!
-                                </label>
-                            )}
-                            <Input
-                                label={"Ending date"}
-                                type="datetime-local"
-                                id="endingDate"
-                                value={endingDate}
-                                onChange={endingDateChangedHandler}
-                                onBlur={endingDateBlurHandler}
-                                isNotValid={endingDateInputHasError}
-                                className={classes["input-form"]}
-                                isRequeired={true}
-                            ></Input>
-                            {endingDateInputHasError && (
-                                <label className={classes["error-text"]}>
-                                    Invalid ending date!
-                                </label>
-                            )}
+                            <div className={classesEvent["column-in-row"]}>
+
+                                <Input
+                                    label={"Starting date"}
+                                    type="datetime-local"
+                                    id="dateStart"
+                                    value={dateStart}
+                                    onChange={dateStartChangedHandler}
+                                    onBlur={dateStartBlurHandler}
+                                    isNotValid={dateStartInputHasError}
+                                    // className={classesEvent["dateStart"]}
+                                    isRequeired={true}
+                                ></Input>
+                                {dateStartInputHasError && (
+                                    <label className={classes["error-text"]}>
+                                        Invalid starting date!
+                                    </label>
+                                )}
+                            </div>
+
+                            <div className={classesEvent["column-in-row"]}>
+
+                                <Input
+                                    label={"Ending date"}
+                                    type="datetime-local"
+                                    id="endingDate"
+                                    value={endingDate}
+                                    onChange={endingDateChangedHandler}
+                                    onBlur={endingDateBlurHandler}
+                                    isNotValid={endingDateInputHasError}
+                                    // className={classesEvent["endingDate"]}
+                                    isRequeired={true}
+                                ></Input>
+                                {endingDateInputHasError && (
+                                    <label className={classes["error-text"]}>
+                                        Invalid ending date!
+                                    </label>
+                                )}
+                            </div>
                         </div>
 
                         <div className={classesEvent["adding-inputs"]}>
@@ -312,17 +329,19 @@ const AddEventForm = () => {
                                     type="text"
                                     value={input}
                                     onChange={(event) => handleGuestInputChange(index, event.target.value)}
-                                    className={classes["input-form"]}
+                                    // className={classes["input-form"]}
                                 />
                             ))}
 
-                            <Button
-                                type={"button"}
-                                onClick={handleAddGuestInput}
-                                className={classes["login-button"]}
-                            >
-                                Add Guest Input
-                            </Button>
+                            <div className={`${classesEvent["button-add"]}`}>
+                                <button
+                                    type={"button"}
+                                    onClick={handleAddGuestInput}
+                                    className={`${classesEvent["plus-button"]} ${classesEvent["button-with-image"]}`}
+                                >
+                                    +
+                                </button>
+                            </div>
                         </div>
 
                         <div className={classesEvent["adding-inputs"]}>
@@ -336,13 +355,15 @@ const AddEventForm = () => {
                                     className={classes["input-form"]}
                                 />
                             ))}
-                            <Button
-                                type={"button"}
-                                onClick={handleAddCompetitorInput}
-                                className={classes["login-button"]}
-                            >
-                                Add Competitor Input
-                            </Button>
+                            <div className={`${classesEvent["button-add"]}`}>
+                                <button
+                                    type={"button"}
+                                    onClick={handleAddCompetitorInput}
+                                    className={`${classesEvent["plus-button"]} ${classesEvent["button-with-image"]}`}
+                                >
+                                    +
+                                </button>
+                            </div>
                         </div>
                         <Input
                             label="Capacity"
@@ -361,22 +382,28 @@ const AddEventForm = () => {
                             </label>
                         )}
                         <div className={classesEvent["two-in-row"]}>
-                            <Input
-                                label="Ticket Price"
-                                type="number"
-                                id="ticketPrice"
-                                value={ticketPrice}
-                                onChange={ticketPriceChangedHandler}
-                                className={classes["input-form"]}
-                            ></Input>
-                            <Input
-                                label="Ticket URL"
-                                type="text"
-                                id="ticketUrl"
-                                value={ticketUrl}
-                                onChange={ticketUrlChangedHandler}
-                                className={classes["input-form"]}
-                            ></Input>
+
+                            <div className={classesEvent["column-in-row"]}>
+
+                                <Input
+                                    label="Ticket Price"
+                                    type="number"
+                                    id="ticketPrice"
+                                    value={ticketPrice}
+                                    onChange={ticketPriceChangedHandler}
+                                    // className={classes["input-form"]}
+                                ></Input>
+                            </div>
+                            <div className={classesEvent["column-in-row"]}>
+                                <Input
+                                    label="Ticket URL"
+                                    type="text"
+                                    id="ticketUrl"
+                                    value={ticketUrl}
+                                    onChange={ticketUrlChangedHandler}
+                                    // className={classes["input-form"]}
+                                ></Input>
+                            </div>
                         </div>
 
                         <div className={classesEvent["adding-inputs"]}>
@@ -391,20 +418,22 @@ const AddEventForm = () => {
                                 />
                             ))}
 
-                            <Button
-                                type={"button"}
-                                onClick={handleAddInput}
-                                className={classes["login-button"]}
-                            >
-                                Add Sponsor
-                            </Button>
+                            <div className={`${classesEvent["button-add"]}`}>
+                                <button
+                                    type={"button"}
+                                    onClick={handleAddSponsor}
+                                    className={`${classesEvent["plus-button"]} ${classesEvent["button-with-image"]}`}
+                                >
+                                    +
+                                </button>
+                            </div>
                         </div>
 
                         <div className={classesEvent["two-in-row"]}>
                             <select
                                 value={selectedLocation}
                                 onChange={(event) => setSelectedLocation(event.target.value)}
-                                className={classes["input-form"]}>
+                                className={classesEvent["selections"]}>
                                 <option value="">Select Location</option>
                                 {allLocations.map((location) => (
                                     <option key={location.id} value={location.id}>
@@ -415,7 +444,7 @@ const AddEventForm = () => {
                             <select
                                 value={selectedCategory}
                                 onChange={(event) => setSelectedCategory(event.target.value)}
-                                className={classes["input-form"]}>
+                                className={classesEvent["selections"]}>
                                 <option value="">Select Category</option>
                                 {allCategories.map((category) => (
                                     <option key={category.id} value={category.id}>
@@ -441,17 +470,33 @@ const AddEventForm = () => {
                             </label>
                         )}
 
-                        <div className={classesEvent["choose-file"]}>
-                            <input
-                                type={"file"}
-                                multiple
-                                onChange={(event) => {
-                                    const files = Array.from(event.target.files);
-                                    setImages(files);
-                                }}
-                            />
+                        <div className={classesEvent["upload-div"]}>
+                            <div className={`${classesEvent["choose-file"]}`}>
+
+                                <label className={classesEvent["choose-file-label"]}>
+                                    {/*<img src={CloudUploadIcon} alt="Upload Icon" className={classesEvent["upload-icon"]} />*/}
+                                    <CloudUploadIcon className={classes.uploadIcon}/>
+                                    <input
+                                        type={"file"}
+                                        multiple
+                                        onChange={(event) => {
+                                            const files = Array.from(event.target.files);
+                                            setImages(files);
+                                        }}
+                                    />
+                                </label>
+
+                            </div>
+                            <div className={classesEvent["image-preview-container"]}>
+                                {images.map((image, index) => (
+                                    <div className={classesEvent["image-div"]} key={index}>
+                                        <img className={classesEvent["img"]} src={URL.createObjectURL(image)}
+                                             alt={`Image ${index + 1}`}/>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                        
+
 
                         <Button
                             type={"submit"}
