@@ -1,44 +1,52 @@
-﻿.div-container{
+﻿.div-container {
     display: flex;
     justify-content: center;
     margin-top: 50px;
     margin-bottom: 50px;
 }
-.forma-event{
+
+.forma-event {
     background-color: #8B749D;
     width: 80%;
     display: flex;
     flex-direction: row-reverse;
     height: 800px;
 }
-.left-side-form{
+
+.left-side-form {
     width: 35%;
 }
-.right-side-form{
+
+.right-side-form {
     width: 65%;
     overflow-y: scroll;
-    padding:40px;
+    padding: 40px;
     display: flex;
     flex-direction: column;
 }
-.two-in-row{
+
+.two-in-row {
     display: flex;
 }
-.adding-inputs{
+
+.adding-inputs {
     display: flex;
 }
-.description-area{
+
+.description-area {
     resize: none;
     width: 100%;
     height: 200px;
     font-size: 20px;
     border-radius: 20px;
 }
-.desc-div{
+
+.desc-div {
     margin: 0.3rem 0;
     align-items: stretch;
     flex-direction: column;
 }
+
 .desc-div label {
     flex: 1;
     color: #333333;
@@ -47,25 +55,29 @@
     font-family: 'Lexand-Medium';
     font-size: 20px;
 }
+
 .desc-div textarea {
     flex: 3;
     font-size: 20px;
     padding: 0.35rem 0.35rem;
     border-radius: 20px;
-    border-color:transparent;
+    border-color: transparent;
     width: 100%;
     height: 200px;
     font-family: 'Lexand-Medium';
     background: #e6e6e6;
 }
+
 .desc-div textarea:focus {
     border-color: #333333;
     background: #cccccc;
 }
-.two-in-row{
+
+.two-in-row {
     display: flex;
     justify-content: space-between;
 }
+
 .plus-button {
     display: flex;
     justify-content: center;
@@ -85,12 +97,14 @@
 .plus-button:hover {
     background-color: #5e42a1;
 }
-.button-add{
+
+.button-add {
     display: flex;
     flex-direction: column-reverse;
-    margin-bottom: 0.3rem ;
+    margin-bottom: 0.3rem;
 }
-.selections{
+
+.selections {
     font-size: 20px;
     padding: 0.35rem 0.35rem;
     border-radius: 20px;
@@ -102,7 +116,6 @@
     margin-top: 25px;
     width: 45%;
 }
-
 
 
 /*odavde ide za slike*/
@@ -118,6 +131,7 @@
     background: #e6e6e6;
     /*margin-top: 25px;*/
 }
+
 /*.upload-icon{*/
 /*    width: 100%;*/
 /*    height: 100%;*/
@@ -140,20 +154,73 @@
     justify-content: space-evenly;
     /*margin-top: 35px;*/
 }
-.image-div{
+
+.image-div {
     width: 140px;
     height: 140px;
     border: 10px solid black;
     justify-content: center;
     align-items: center;
     /*margin-top: 10px;*/
-    
+
 }
-.img{
+
+.img {
     width: 100%;
     height: 100%;
 }
-.upload-div{
+
+.upload-div {
     display: flex;
     margin-top: 35px;
+}
+
+@media only screen and (max-width: 960px) {
+    .forma-event {
+        flex-direction: column;
+    }
+
+    .right-side-form {
+        width: 100%;
+    }
+
+    .left-side-form {
+        flex: 1; /* Allow the left side to take the remaining space */
+        min-height: 300px;
+        width: 100%;
+        margin-top: 25px;
+        border-radius: 20px;
+    }
+
+    .left-side-form p {
+        color: #333333;
+        margin-bottom: 0.5rem;
+        margin-right: 0.5rem;
+        font-family: 'Lexand-Medium';
+        font-size: 20px;
+    }
+
+    .choose-file {
+        margin-top: 25px;
+    }
+
+    .two-in-row {
+        flex-wrap: wrap;
+    }
+}
+
+@media only screen and (max-width: 1250px) {
+    .two-in-row{
+        flex-wrap: wrap;
+    }
+    .column-in-row{
+        width: 100%;
+    }
+    .upload-div{
+        flex-direction: column;
+        align-items: center;
+    }
+    .choose-file{
+        margin-bottom: 20px;
+    }
 }

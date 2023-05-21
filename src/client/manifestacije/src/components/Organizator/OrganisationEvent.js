@@ -33,6 +33,25 @@ const AddEventForm = () => {
 
     const shouldLog = useRef(true);
 
+    const [showMap, setShowMap] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setShowMap(window.innerWidth < 960);
+        };
+
+        // Add event listener for window resize
+        window.addEventListener('resize', handleResize);
+
+        // Initial check for the screen width
+        handleResize();
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     const getLocationsAndCategories = async () => {
         await checkTokenAndRefresh();
         let header = {
@@ -319,6 +338,7 @@ const AddEventForm = () => {
                                     </label>
                                 )}
                             </div>
+                            
                         </div>
 
                         <div className={classesEvent["adding-inputs"]}>
@@ -469,6 +489,12 @@ const AddEventForm = () => {
                                 Invalid address!
                             </label>
                         )}
+                        {showMap &&
+                            (<div className={classesEvent["left-side-form"]}>
+                                <p>Pin your location on the map!</p>
+                                <Map setMarker={setMarker}/>
+                            </div>)
+                        }
 
                         <div className={classesEvent["upload-div"]}>
                             <div className={`${classesEvent["choose-file"]}`}>
@@ -508,9 +534,11 @@ const AddEventForm = () => {
 
 
                     </div>
-                    <div className={classesEvent["left-side-form"]}>
-                        <Map setMarker={setMarker}/>
-                    </div>
+                    {!showMap &&
+                        <div className={classesEvent["left-side-form"]}>
+                            <Map setMarker={setMarker}/>
+                        </div>
+                    }
 
 
                 </form>
