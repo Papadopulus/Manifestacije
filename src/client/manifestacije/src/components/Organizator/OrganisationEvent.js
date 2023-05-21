@@ -285,7 +285,7 @@ const AddEventForm = () => {
                             isRequeired={true}
                         ></Input>
                         {titleInputHasError && (
-                            <label className={classes["error-text"]}>
+                            <label className={classes2["error-text"]}>
                                 Invalid name!
                             </label>
                         )}
@@ -309,11 +309,11 @@ const AddEventForm = () => {
                                     onChange={dateStartChangedHandler}
                                     onBlur={dateStartBlurHandler}
                                     isNotValid={dateStartInputHasError}
-                                    // className={classesEvent["dateStart"]}
+                                    className={classesEvent["input-form"]}
                                     isRequeired={true}
                                 ></Input>
                                 {dateStartInputHasError && (
-                                    <label className={classes["error-text"]}>
+                                    <label className={classes2["error-text"]}>
                                         Invalid starting date!
                                     </label>
                                 )}
@@ -329,11 +329,11 @@ const AddEventForm = () => {
                                     onChange={endingDateChangedHandler}
                                     onBlur={endingDateBlurHandler}
                                     isNotValid={endingDateInputHasError}
-                                    // className={classesEvent["endingDate"]}
+                                    className={classesEvent['input-form']}
                                     isRequeired={true}
                                 ></Input>
                                 {endingDateInputHasError && (
-                                    <label className={classes["error-text"]}>
+                                    <label className={classes2["error-text"]}>
                                         Invalid ending date!
                                     </label>
                                 )}
@@ -397,7 +397,7 @@ const AddEventForm = () => {
                             isRequeired={true}
                         ></Input>
                         {capacityInputHasError && (
-                            <label className={classes["error-text"]}>
+                            <label className={classes2["error-text"]}>
                                 Invalid capacity!
                             </label>
                         )}
@@ -485,7 +485,7 @@ const AddEventForm = () => {
                             isRequeired={true}
                         ></Input>
                         {addressInputHasError && (
-                            <label className={classes["error-text"]}>
+                            <label className={classes2["error-text"]}>
                                 Invalid address!
                             </label>
                         )}
