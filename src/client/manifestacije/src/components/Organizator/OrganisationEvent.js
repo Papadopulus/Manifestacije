@@ -289,7 +289,7 @@ const AddEventForm = () => {
                                 Invalid name!
                             </label>
                         )}
-                        <div className={classes2["desc-div"]}>
+                        <div className={classesEvent["desc-div"]}>
                             <label>Description</label>
                             <textarea
                                 onChange={handleDescriptionOnChange}

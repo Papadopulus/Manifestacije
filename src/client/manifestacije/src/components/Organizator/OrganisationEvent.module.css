@@ -45,6 +45,8 @@
     margin: 0.3rem 0;
     align-items: stretch;
     flex-direction: column;
+}
+.desc-div textarea{
     margin-top: 8px;
 }
 
