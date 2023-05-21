@@ -9,18 +9,21 @@ public sealed class UserService : IUserService
 {
     private readonly IMailService _mailService;
     private readonly IOrganizationService _organizationService;
+    private readonly IEventRepository _eventRepository;
     private readonly string _secret;
     private readonly IUserRepository _userRepository;
 
     public UserService(IUserRepository userRepository,
         IConfiguration configuration,
         IMailService mailService,
-        IOrganizationService organizationService)
+        IOrganizationService organizationService,
+        IEventRepository eventRepository)
     {
         _userRepository = userRepository;
         _secret = configuration["Authorization:Secret"]!;
         _mailService = mailService;
         _organizationService = organizationService;
+        _eventRepository = eventRepository;
     }
 
     public async Task<List<User>> GetAllUsersAsync(UserQueryFilter userQueryFilter)
@@ -178,6 +181,130 @@ public sealed class UserService : IUserService
         user.RefreshTokens = new List<RefreshToken>();
         (user.PasswordSalt, user.PasswordHash) = AuthHelpers.HashPassword(newPassword);
         await _userRepository.UpdateUserAsync(user);
+        return true;
+    }
+
+    public async Task<bool> AddEventToFavouritesAsync(string userId,
+        string eventId,
+        CancellationToken ct)
+    {
+        var user = await _userRepository.GetUserByIdAsync(userId);
+        if (user is null)
+        {
+            throw new NotFoundException($"There is no user with the id of {userId}");
+        }
+
+        var eventFromDb = await _eventRepository.GetEventByIdAsync(eventId);
+        if (eventFromDb is null)
+        {
+            throw new NotFoundException($"There is no event with the id of {eventId}");
+        }
+        
+        if(user.FavouriteEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+        {
+            throw new InvalidInputException("You are already going to this event");
+        }
+
+        user.FavouriteEvents.Add(EventMapper.EventToEventPartial(eventFromDb));
+        eventFromDb.Favourites++;
+        var updateEventTask = _eventRepository.UpdateEventAsync(eventFromDb);
+        var updateUserTask = _userRepository.UpdateUserAsync(user);
+
+        Task.WaitAll(new Task[] { updateEventTask, updateUserTask }, cancellationToken: ct);
+
+        return true;
+    }
+
+    public async Task<bool> RemoveEventFromFavouritesAsync(string userId,
+        string eventId,
+        CancellationToken ct)
+    {
+        var user = await _userRepository.GetUserByIdAsync(userId);
+        if (user is null)
+        {
+            throw new NotFoundException($"There is no user with the id of {userId}");
+        }
+
+        var eventFromDb = await _eventRepository.GetEventByIdAsync(eventId);
+        if (eventFromDb is null)
+        {
+            throw new NotFoundException($"There is no event with the id of {eventId}");
+        }
+        
+        if(user.GoingEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+        {
+            throw new InvalidInputException("You are already going to this event");
+        }
+
+        user.GoingEvents.Add(EventMapper.EventToEventPartial(eventFromDb));
+        eventFromDb.Going++;
+        var updateEventTask = _eventRepository.UpdateEventAsync(eventFromDb);
+        var updateUserTask = _userRepository.UpdateUserAsync(user);
+
+        Task.WaitAll(new Task[] { updateEventTask, updateUserTask }, cancellationToken: ct);
+
+        return true;
+    }
+
+    public async Task<bool> AddEventToGoingAsync(string userId,
+        string eventId,
+        CancellationToken ct)
+    {
+        var user = await _userRepository.GetUserByIdAsync(userId);
+        if (user is null)
+        {
+            throw new NotFoundException($"There is no user with the id of {userId}");
+        }
+
+        var eventFromDb = await _eventRepository.GetEventByIdAsync(eventId);
+        if (eventFromDb is null)
+        {
+            throw new NotFoundException($"There is no event with the id of {eventId}");
+        }
+        
+        if(!user.FavouriteEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+        {
+            throw new InvalidInputException("You are already going to this event");
+        }
+
+        user.FavouriteEvents.Remove(EventMapper.EventToEventPartial(eventFromDb));
+        eventFromDb.Favourites--;
+        var updateEventTask = _eventRepository.UpdateEventAsync(eventFromDb);
+        var updateUserTask = _userRepository.UpdateUserAsync(user);
+
+        Task.WaitAll(new Task[] { updateEventTask, updateUserTask }, cancellationToken: ct);
+
+        return true;
+    }
+
+    public async Task<bool> RemoveEventFromGoingAsync(string userId,
+        string eventId,
+        CancellationToken ct)
+    {
+        var user = await _userRepository.GetUserByIdAsync(userId);
+        if (user is null)
+        {
+            throw new NotFoundException($"There is no user with the id of {userId}");
+        }
+
+        var eventFromDb = await _eventRepository.GetEventByIdAsync(eventId);
+        if (eventFromDb is null)
+        {
+            throw new NotFoundException($"There is no event with the id of {eventId}");
+        }
+
+        if(!user.GoingEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+        {
+            throw new InvalidInputException("You are already going to this event");
+        }
+
+        user.FavouriteEvents.Remove(EventMapper.EventToEventPartial(eventFromDb));
+        eventFromDb.Favourites--;
+        var updateEventTask = _eventRepository.UpdateEventAsync(eventFromDb);
+        var updateUserTask = _userRepository.UpdateUserAsync(user);
+
+        Task.WaitAll(new Task[] { updateEventTask, updateUserTask }, cancellationToken: ct);
+
         return true;
     }
 }

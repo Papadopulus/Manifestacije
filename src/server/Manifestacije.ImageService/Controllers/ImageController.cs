@@ -30,12 +30,13 @@ public class ImageController : ControllerBase
             {
                 await req.File.CopyToAsync(stream);
             }
+
             images.Add((req.OrderNumber, newName));
         }
 
         return Ok(images);
     }
-    
+
     [HttpPost("onlyfiles")]
     public async Task<IActionResult> Post([FromForm] List<IFormFile> imageRequest)
     {
@@ -58,6 +59,7 @@ public class ImageController : ControllerBase
             {
                 await req.CopyToAsync(stream);
             }
+
             images.Add(newName);
         }
 
@@ -67,7 +69,15 @@ public class ImageController : ControllerBase
     [HttpGet("{name}")]
     public IActionResult Get(string name)
     {
-        var image = System.IO.File.OpenRead(Path.Combine(_imagePath, name));
-        return File(image, "image/jpeg");
+        try
+        {
+            var image = System.IO.File.OpenRead(Path.Combine(_imagePath, name));
+            return File(image, "image/jpeg");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return NotFound("Image not found");
+        }
     }
 }
