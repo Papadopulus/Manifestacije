@@ -5,7 +5,8 @@ import {RadioButtonUncheckedSharp} from "@material-ui/icons";
 const libraries = ['places'];
 const mapContainerStyle = {
     width: '100%',
-    height: '500px',
+    height: '400px',
+    borderRadius: `45%`
 };
 const center = {
     lat: 43.87247349255261,
