@@ -1,7 +1,4 @@
-﻿.navbar{
-    z-index: 1;
-}
-.div-container {
+﻿.div-container {
     display: flex;
     justify-content: center;
     margin-top: 50px;
@@ -9,11 +6,25 @@
 }
 
 .forma-event {
-    background-color: #8B749D;
+    background-color: #2d0c4d;
     width: 80%;
     display: flex;
+    border-radius: 20px;
 }
-
+.forma-event p{
+    color: navajowhite;
+}
+.forma-event button:first-of-type{
+    background-color: navajowhite;
+    color:black;
+}
+.forma-event button:first-of-type:hover{
+    background-color: hotpink;
+    color:black;
+}
+.Input_control{
+    color: red;
+}
 .right-side-form {
     width: 100%;
     padding: 40px;
@@ -53,7 +64,7 @@
 
 .desc-div label {
     flex: 1;
-    color: #333333;
+    color: navajowhite;
     margin-right: 0.5rem;
     font-family: 'Lexand-Medium';
     font-size: 20px;
@@ -76,8 +87,6 @@
     background: #cccccc;
 }
 
-
-
 .adr-and-map{
     display: flex;
     justify-content: space-between;
@@ -93,8 +102,8 @@
 .map-form{
     width: 50%;
 }
-.map-form p {
-    color: #333333;
+.map-form p:first-of-type{
+    color: navajowhite;
     margin-bottom: 0.5rem;
     margin-right: 0.5rem;
     font-family: 'Lexand-Medium';
@@ -109,8 +118,8 @@
     height: 43px;
     border-radius: 50%;
     border: none;
-    background-color: #240370;
-    color: white;
+    background-color: navajowhite;
+    color: purple;
     font-size: 30px;
     font-family: --webkit-body;
     font-weight: 800;
@@ -118,7 +127,7 @@
 }
 
 .plus-button:hover {
-    background-color: #5e42a1;
+    background-color: hotpink;
 }
 
 .button-add {
@@ -132,12 +141,11 @@
     padding: 0.35rem 0.35rem;
     border-radius: 20px;
     border-color: transparent;
-    width: 100%;
     height: 43px;
     font-family: 'Lexand-Medium';
     background: #e6e6e6;
     margin-top: 25px;
-    width: 45%;
+    width: 40%;
 }
 
 
@@ -232,6 +240,7 @@
     .forma-event {
         flex-direction: column;
         width: 100%;
+        border-radius: unset;
     }
 
     .right-side-form {

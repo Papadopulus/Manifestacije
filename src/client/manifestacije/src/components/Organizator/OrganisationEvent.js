@@ -284,6 +284,7 @@ const AddEventForm = () => {
                             isNotValid={titleInputHasError}
                             className={classes["input-form"]}
                             isRequeired={true}
+                            firstLabelColor={'navajowhite'}
                         ></Input>
                         {titleInputHasError && (
                             <label className={classes2["error-text"]}>
@@ -312,6 +313,7 @@ const AddEventForm = () => {
                                     isNotValid={dateStartInputHasError}
                                     className={classesEvent["input-form"]}
                                     isRequeired={true}
+                                    firstLabelColor={'navajowhite'}
                                 ></Input>
                                 {dateStartInputHasError && (
                                     <label className={classes2["error-text"]}>
@@ -332,6 +334,7 @@ const AddEventForm = () => {
                                     isNotValid={endingDateInputHasError}
                                     className={classesEvent['input-form']}
                                     isRequeired={true}
+                                    firstLabelColor={'navajowhite'}
                                 ></Input>
                                 {endingDateInputHasError && (
                                     <label className={classes2["error-text"]}>
@@ -350,6 +353,7 @@ const AddEventForm = () => {
                                     type="text"
                                     value={input}
                                     onChange={(event) => handleGuestInputChange(index, event.target.value)}
+                                    firstLabelColor={'navajowhite'}
                                     // className={classes["input-form"]}
                                 />
                             ))}
@@ -374,6 +378,7 @@ const AddEventForm = () => {
                                     value={input}
                                     onChange={(event) => handleCompetitorInputChange(index, event.target.value)}
                                     className={classes["input-form"]}
+                                    firstLabelColor={'navajowhite'}
                                 />
                             ))}
                             <div className={`${classesEvent["button-add"]}`}>
@@ -396,6 +401,7 @@ const AddEventForm = () => {
                             isNotValid={capacityInputHasError}
                             className={classes["input-form"]}
                             isRequeired={true}
+                            firstLabelColor={'navajowhite'}
                         ></Input>
                         {capacityInputHasError && (
                             <label className={classes2["error-text"]}>
@@ -412,6 +418,7 @@ const AddEventForm = () => {
                                     id="ticketPrice"
                                     value={ticketPrice}
                                     onChange={ticketPriceChangedHandler}
+                                    firstLabelColor={'navajowhite'}
                                     // className={classes["input-form"]}
                                 ></Input>
                             </div>
@@ -422,6 +429,7 @@ const AddEventForm = () => {
                                     id="ticketUrl"
                                     value={ticketUrl}
                                     onChange={ticketUrlChangedHandler}
+                                    firstLabelColor={'navajowhite'}
                                     // className={classes["input-form"]}
                                 ></Input>
                             </div>
@@ -436,6 +444,7 @@ const AddEventForm = () => {
                                     value={input}
                                     onChange={(event) => handleInputChange(index, event.target.value)}
                                     className={classes["input-form"]}
+                                    firstLabelColor={'navajowhite'}
                                 />
                             ))}
 
@@ -486,6 +495,7 @@ const AddEventForm = () => {
                                     isNotValid={addressInputHasError}
                                     className={`${classes["input-form"]}`}
                                     isRequeired={true}
+                                    firstLabelColor={'navajowhite'}
                                 ></Input>
                                 {addressInputHasError && (
                                     <label className={classes2["error-text"]}>
