@@ -29,6 +29,7 @@ const AddEventForm = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [marker, setMarker] = useState(null);
     const [images, setImages] = useState([]);
+    const [imageNames, setImageNames] = useState([]);
     const [description, setDescription] = useState(null);
 
     const shouldLog = useRef(true);
@@ -220,14 +221,14 @@ const AddEventForm = () => {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        setImages(imgResponse.data);
-        console.log(imgResponse)
+        // setImageNames(imgResponse.data);
+        // console.log(imageNames);
         let payload = {
             title: title,
             description: description,
             startingDate: convertedDateStart,
             endingDate: convertedDateEnd,
-            imageUrls: images,
+            imageUrls: imgResponse.data,
             guests: guestsInputFields,
             competitors: competitorsFields,
             capacity: capacity,
@@ -242,11 +243,11 @@ const AddEventForm = () => {
         };
         console.log(payload);
 
-        let header = {
-            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
-        }
-        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/events`, payload, {headers: header});
-        console.log(response);
+        // let header = {
+        //     "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
+        // }
+        // const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/events`, payload, {headers: header});
+        // console.log(response);
 
         // console.log(imgResponse.data);
         // setImages(imgResponse.data);
@@ -338,7 +339,7 @@ const AddEventForm = () => {
                                     </label>
                                 )}
                             </div>
-                            
+
                         </div>
 
                         <div className={classesEvent["adding-inputs"]}>
@@ -473,30 +474,35 @@ const AddEventForm = () => {
                                 ))}
                             </select>
                         </div>
-                        <Input
-                            label="Address"
-                            type="text"
-                            id="address"
-                            value={address}
-                            onChange={addressChangedHandler}
-                            onBlur={addressBlurHandler}
-                            isNotValid={addressInputHasError}
-                            className={classes["input-form"]}
-                            isRequeired={true}
-                        ></Input>
-                        {addressInputHasError && (
-                            <label className={classes2["error-text"]}>
-                                Invalid address!
-                            </label>
-                        )}
-                        {showMap &&
-                            (<div className={classesEvent["left-side-form"]}>
+                        <div className={classesEvent["adr-and-map"]}>
+                            <div className={classesEvent["input-address"]}>
+                                <Input
+                                    label="Address"
+                                    type="text"
+                                    id="address"
+                                    value={address}
+                                    onChange={addressChangedHandler}
+                                    onBlur={addressBlurHandler}
+                                    isNotValid={addressInputHasError}
+                                    className={`${classes["input-form"]}`}
+                                    isRequeired={true}
+                                ></Input>
+                                {addressInputHasError && (
+                                    <label className={classes2["error-text"]}>
+                                        Invalid address!
+                                    </label>
+                                )}
+                            </div>
+
+                            <div className={classesEvent["map-form"]}>
                                 <p>Pin your location on the map!</p>
                                 <Map setMarker={setMarker}/>
-                            </div>)
-                        }
+                            </div>
 
+                        </div>
+                        <p className={classesEvent["upload-pictures"]}>Click here to upload pictures!</p>
                         <div className={classesEvent["upload-div"]}>
+                            
                             <div className={`${classesEvent["choose-file"]}`}>
 
                                 <label className={classesEvent["choose-file-label"]}>
@@ -505,19 +511,36 @@ const AddEventForm = () => {
                                     <input
                                         type={"file"}
                                         multiple
-                                        onChange={(event) => {
-                                            const files = Array.from(event.target.files);
-                                            setImages(files);
+                                        onChange={async (event) => {
+                                            // const files = Array.from(event.target.files);
+                                            // setImages(files);
+                                            const files = Array.from(event.target.files); // Convert the FileList to an array
+
+                                            // Validate if files are selected
+                                            if (files.length > 0) {
+                                                setImages(files);
+                                            }
+
                                         }}
                                     />
                                 </label>
 
                             </div>
                             <div className={classesEvent["image-preview-container"]}>
+                                {/*{images.map((image, index) => (*/}
+                                {/*    <div className={classesEvent["image-div"]} key={index}>*/}
+                                {/*        <img className={classesEvent["img"]} src={image}*/}
+                                {/*             alt={`Image ${index + 1}`}/>*/}
+                                {/*    </div>*/}
+                                {/*))}*/}
                                 {images.map((image, index) => (
                                     <div className={classesEvent["image-div"]} key={index}>
-                                        <img className={classesEvent["img"]} src={URL.createObjectURL(image)}
-                                             alt={`Image ${index + 1}`}/>
+                                        {image instanceof Blob || image instanceof File ? (
+                                            <img className={classesEvent["img"]} src={URL.createObjectURL(image)}
+                                                 alt={`Image ${index + 1}`}/>
+                                        ) : (
+                                            <p>Not a valid image file</p>
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -534,11 +557,11 @@ const AddEventForm = () => {
 
 
                     </div>
-                    {!showMap &&
-                        <div className={classesEvent["left-side-form"]}>
-                            <Map setMarker={setMarker}/>
-                        </div>
-                    }
+                    {/*{!showMap &&*/}
+                    {/*    <div className={classesEvent["left-side-form"]}>*/}
+                    {/*        <Map setMarker={setMarker}/>*/}
+                    {/*    </div>*/}
+                    {/*}*/}
 
 
                 </form>

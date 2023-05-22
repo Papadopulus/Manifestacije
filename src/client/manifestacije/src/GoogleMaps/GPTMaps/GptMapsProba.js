@@ -4,7 +4,7 @@ import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps
 const libraries = ['places'];
 const mapContainerStyle = {
     width: '100%',
-    height: '100%',
+    height: '500px',
 };
 const center = {
     lat: 43.87247349255261,
