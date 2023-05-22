@@ -243,11 +243,11 @@ const AddEventForm = () => {
         };
         console.log(payload);
 
-        // let header = {
-        //     "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
-        // }
-        // const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/events`, payload, {headers: header});
-        // console.log(response);
+        let header = {
+            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
+        }
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/events`, payload, {headers: header});
+        console.log(response);
 
         // console.log(imgResponse.data);
         // setImages(imgResponse.data);
