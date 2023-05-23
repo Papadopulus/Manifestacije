@@ -203,6 +203,7 @@ const RegisterInput = () => {
             };
 
         }
+        console.log(images);
 
         await register(payload);
 
