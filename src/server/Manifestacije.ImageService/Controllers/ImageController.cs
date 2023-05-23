@@ -9,32 +9,26 @@ public class ImageController : ControllerBase
     private readonly string _imagePath = Path.Combine("wwwroot", "images");
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromForm] List<ImageRequest> imageRequest)
+    public async Task<IActionResult> Post([FromForm] IFormFile req)
     {
-        List<(int, string)> images = new();
-        foreach (var req in imageRequest)
+        if (!req.ContentType.StartsWith("image/") && !req.ContentType.StartsWith("video/"))
+            return BadRequest("Image is not present");
+
+        var newName = Guid.NewGuid().ToString();
+        if (req.ContentType.StartsWith("image/"))
+            newName += ".jpg";
+        else
+            newName += ".mp4";
+
+        var path = Path.Combine(_imagePath, newName);
+        Directory.CreateDirectory(_imagePath);
+
+        await using (var stream = new FileStream(path, FileMode.Create))
         {
-            if (!req.File.ContentType.StartsWith("image/") && !req.File.ContentType.StartsWith("video/"))
-                return BadRequest("Image is not present");
-
-            var newName = Guid.NewGuid().ToString();
-            if (req.File.ContentType.StartsWith("image/"))
-                newName += ".jpg";
-            else
-                newName += ".mp4";
-
-            var path = Path.Combine(_imagePath, newName);
-            Directory.CreateDirectory(_imagePath);
-
-            await using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await req.File.CopyToAsync(stream);
-            }
-
-            images.Add((req.OrderNumber, newName));
+            await req.CopyToAsync(stream);
         }
 
-        return Ok(images);
+        return Ok(newName);
     }
 
     [HttpPost("onlyfiles")]
