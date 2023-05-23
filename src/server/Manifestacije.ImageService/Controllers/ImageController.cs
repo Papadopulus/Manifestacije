@@ -9,13 +9,13 @@ public class ImageController : ControllerBase
     private readonly string _imagePath = Path.Combine("wwwroot", "images");
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromForm] IFormFile req)
+    public async Task<IActionResult> Post([FromForm] IFormFile imageRequest)
     {
-        if (!req.ContentType.StartsWith("image/") && !req.ContentType.StartsWith("video/"))
+        if (!imageRequest.ContentType.StartsWith("image/") && !imageRequest.ContentType.StartsWith("video/"))
             return BadRequest("Image is not present");
 
         var newName = Guid.NewGuid().ToString();
-        if (req.ContentType.StartsWith("image/"))
+        if (imageRequest.ContentType.StartsWith("image/"))
             newName += ".jpg";
         else
             newName += ".mp4";
@@ -25,7 +25,7 @@ public class ImageController : ControllerBase
 
         await using (var stream = new FileStream(path, FileMode.Create))
         {
-            await req.CopyToAsync(stream);
+            await imageRequest.CopyToAsync(stream);
         }
 
         return Ok(newName);
