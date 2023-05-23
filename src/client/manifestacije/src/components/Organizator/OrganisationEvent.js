@@ -11,6 +11,7 @@ import classesEvent from "./OrganisationEvent.module.css"
 import uploadImage from "../../multimedia/uploadImage.jpg"
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import {makeStyles} from '@material-ui/core/styles';
+import TextArea from "../UI/TextArea/TextArea";
 
 const useStyles = makeStyles({
     uploadIcon: {
@@ -30,7 +31,7 @@ const AddEventForm = () => {
     const [marker, setMarker] = useState(null);
     const [images, setImages] = useState([]);
     const [imageNames, setImageNames] = useState([]);
-    const [description, setDescription] = useState(null);
+    // const [description, setDescription] = useState(null);
 
     const shouldLog = useRef(true);
 
@@ -139,9 +140,18 @@ const AddEventForm = () => {
         resetFunction: resetAddressFunction,
     } = useInput((value) => value.trim() !== '');
 
+    const {
+        value: description,
+        isValid: descriptionIsValid,
+        hasError: descriptionInputHasError,
+        valueChangedHandler: descriptionChangedHandler,
+        inputBlurHandler: descriptionBlurHandler,
+        resetFunction: resetDescriptionFunction,
+    } = useInput((value) => value.trim() !== '');
 
     let formIsValid = false;
-    if (titleIsValid && dateStartIsValid) {
+    if (titleIsValid && dateStartIsValid && endingDateIsValid
+        && capacityIsValid && descriptionIsValid) {
         formIsValid = true;
     } else {
         formIsValid = false;
@@ -177,9 +187,9 @@ const AddEventForm = () => {
         setSponsorInputFields(['']);
     }
 
-    const handleDescriptionOnChange = (event) => {
-        setDescription(event.target.value);
-    }
+    // const handleDescriptionOnChange = (event) => {
+    //     setDescription(event.target.value);
+    // }
     // const reset
     const handleInputChange = (index, value) => {
         const updatedInputFields = [...sponsorInputFields];
@@ -188,6 +198,13 @@ const AddEventForm = () => {
     };
     const formSubmissionHandler = async (event) => {
         event.preventDefault();
+        if (!titleIsValid ||
+            !dateStartIsValid ||
+            !descriptionIsValid ||
+            !endingDateIsValid ||
+            !capacityIsValid ) {
+            return;
+        }
         await checkTokenAndRefresh();
 
 
@@ -204,9 +221,7 @@ const AddEventForm = () => {
         // console.log("guests " + guestsInputFields);
         // console.log("sponsors " + sponsorInputFields);
 
-        // if (!titleIsValid || !dateStartIsValid) {
-        //     return;
-        // }
+        
         let dateTimeMilliSeconds = new Date(dateStart);
         let convertedDateStart = dateTimeMilliSeconds.toISOString();
         let dateTimeMilliSecondsEnd = new Date(endingDate);
@@ -292,11 +307,27 @@ const AddEventForm = () => {
                             </label>
                         )}
                         <div className={classesEvent["desc-div"]}>
-                            <label>Description</label>
-                            <textarea
-                                onChange={handleDescriptionOnChange}
-                                className={classes2["description-area"]}
+                            {/*<label>Description</label>*/}
+                            {/*<textarea*/}
+                            {/*    onChange={handleDescriptionOnChange}*/}
+                            {/*    className={classes2["description-area"]}*/}
+                            {/*/>*/}
+                            <TextArea
+                                label={"Description"}
+                                id="description"
+                                value={description}
+                                onChange={descriptionChangedHandler}
+                                onBlur={descriptionBlurHandler}
+                                isNotValid={descriptionInputHasError}
+                                className={classes["input-form"]}
+                                isRequeired={true}
+                                firstLabelColor={'navajowhite'}
                             />
+                            {descriptionInputHasError && (
+                                <label className={classes2["error-text"]}>
+                                    Invalid Description!
+                                </label>
+                            )}
                         </div>
 
                         <div className={classesEvent["two-in-row"]}>
@@ -560,7 +591,7 @@ const AddEventForm = () => {
                         <Button
                             type={"submit"}
                             className={classes["login-button"]}
-                            // disabled={!formIsValid}
+                            disabled={!formIsValid}
                         >
                             Add an event
                         </Button>
