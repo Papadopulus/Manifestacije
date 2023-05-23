@@ -3,14 +3,46 @@ import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
 import {Link} from "react-router-dom";
 import useInput from "../../hooks/use-input";
-import {useState, useContext} from "react";
+import {useState, useContext, useEffect} from "react";
 import AuthContext from "../../store/AuthContext";
 import Introduction from "../Introduction/Introduction";
+import classesEvent from "../Organizator/OrganisationEvent.module.css";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 const RegisterInput = () => {
     const {register} = useContext(AuthContext);
     const [isOrganisator, setIsOrganisator] = useState(false);
-    const [description,setDescription] = useState(null);
+    const [description, setDescription] = useState(null);
+    const [images, setImages] = useState([]);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImageURL, setSelectedImageURL] = useState(null);
+
+    // useEffect(() => {
+    //     if (selectedImage) {
+    //         const imageUrl = URL.createObjectURL(selectedImage);
+    //         setSelectedImageURL(imageUrl);
+    //     }
+    //     return () => {
+    //         if (selectedImageURL) {
+    //             URL.revokeObjectURL(selectedImageURL);
+    //         }
+    //     };
+    // }, [selectedImage,selectedImageURL]);
+    useEffect(() => {
+        if (selectedImage) {
+            const imageUrl = URL.createObjectURL(selectedImage);
+            setSelectedImageURL(imageUrl);
+        }
+    }, [selectedImage]);
+
+    useEffect(() => {
+        return () => {
+            if (selectedImageURL) {
+                URL.revokeObjectURL(selectedImageURL);
+            }
+        };
+    }, [selectedImageURL]);
+
     const {
         value: enteredName,
         isValid: enteredNameIsValid,
@@ -75,7 +107,7 @@ const RegisterInput = () => {
         valueChangedHandler: FBChangeHandler,
         resetFunction: resetFBFunction,
     } = useInput((value) => value.trim() !== '');
-    
+
     //2
     const {
         value: twitterOrg,
@@ -115,11 +147,11 @@ const RegisterInput = () => {
     const handleCheckboxChange = (event) => {
         setIsOrganisator(event.target.checked);
     }
-    
+
     const handleDescriptionOnChange = (event) => {
         setDescription(event.target.value);
     }
-    
+
     let registrationNotValid = true;
     if (enteredNameIsValid &&
         enteredSurnameIsValid &&
@@ -136,7 +168,7 @@ const RegisterInput = () => {
     } else {
         registrationNotValid = true;
     }
-    
+
     const registerSubmitHandler = async (event) => {
         event.preventDefault();
         if (!enteredNameIsValid ||
@@ -147,8 +179,8 @@ const RegisterInput = () => {
             !enteredNameOrgIsValid) {
             return;
         }
-        
-        
+
+
         let payload = {
             firstName: enteredName,
             lastName: enteredSurname,
@@ -157,9 +189,9 @@ const RegisterInput = () => {
         }
         if (isOrganisator) {
             payload.organization = {
-                
+
                 name: enteredNameOrg,
-                description : description,
+                description: description,
                 logoUrl: logoUrl,
                 websiteUrl: websiteUrl,
                 facebookUrl: enteredFBOrg,
@@ -167,13 +199,13 @@ const RegisterInput = () => {
                 twitterUrl: twitterOrg,
                 youtubeUrl: youtubeOrg,
                 linkedInUrl: linkedinOrg,
-                
+
             };
-            
+
         }
-        
+
         await register(payload);
-        
+
         resetNameFunction();
         resetEmailFunction();
         resetSurnameFunction();
@@ -282,13 +314,15 @@ const RegisterInput = () => {
                             The passwords don't match!
                         </label>
                     )}
-                    
+
                     <div className={classes["choose-org"]}>
-                        
-                        <input  className={classes["org-check"]} type={"checkbox"} onChange={handleCheckboxChange}></input>
-                        <label id={"description-textarea"} className={classes["org-label"]}>Sign up as Organisator</label>
+
+                        <input className={classes["org-check"]} type={"checkbox"}
+                               onChange={handleCheckboxChange}></input>
+                        <label id={"description-textarea"} className={classes["org-label"]}>Sign up as
+                            Organisator</label>
                     </div>
-                    
+
                     {isOrganisator && (
                         <div>
                             <Input
@@ -301,7 +335,7 @@ const RegisterInput = () => {
                                 isNotValid={nameOrgError}
                                 isRequeired={true}
                             >
-                                
+
                             </Input>
                             {nameOrgError && (
                                 <label className={classes["error-text"]}>
@@ -311,7 +345,7 @@ const RegisterInput = () => {
 
                             <div className={classes["desc-div"]}>
                                 <label>Description</label>
-                                <textarea 
+                                <textarea
                                     onChange={handleDescriptionOnChange}
                                     className={classes["description-area"]}
                                 />
@@ -323,6 +357,58 @@ const RegisterInput = () => {
                                 value={logoUrl}
                                 onChange={logoUrlOrgChangeHandler}
                             ></Input>
+
+                            <div className={classes["upload-div"]}>
+
+                                <div className={`${classes["choose-file"]}`}>
+                                    <label className={classes["choose-file-label"]}>
+                                        {selectedImageURL ? (
+                                            <img src={selectedImageURL} className={classes["choose-file-image"]}/>
+                                        ) : null}
+                                        <span className={`${classes["choose-file-icon"]}`}>+</span>
+                                        <input
+                                            type="file"
+                                            onChange={async (event) => {
+                                                const files = Array.from(event.target.files);
+                                                if (files.length > 0) {
+                                                    setSelectedImage(files[0]);
+                                                    setImages(files);
+                                                    setSelectedImageURL(null);
+                                                }
+                                            }}
+                                        />
+                                    </label>
+                                </div>
+
+
+
+                                {/* maine */}
+                                {/*<div className={`${classes["choose-file"]}`}>*/}
+                                
+                                {/*    <label className={classes["choose-file-label"]}>*/}
+                                {/*            {selectedImageURL ? (*/}
+                                {/*                    <img src={selectedImageURL} className={classes["choose-file-image"]}/>*/}
+                                {/*            ) : (*/}
+                                {/*                <span className={classes["choose-file-icon"]}>+</span>*/}
+                                {/*            )}*/}
+                                {/*        <input*/}
+                                {/*            type="file"*/}
+                                {/*            onChange={async (event) => {*/}
+                                {/*                const files = Array.from(event.target.files);*/}
+                                
+                                {/*                if (files.length > 0) {*/}
+                                {/*                    setSelectedImage(files[0]);*/}
+                                {/*                    setImages(files);*/}
+                                {/*                    setSelectedImageURL(null);*/}
+                                {/*                }*/}
+                                {/*            }}*/}
+                                {/*        />*/}
+                                {/*    </label>*/}
+                                {/*</div>*/}
+                                
+                                
+                                
+                            </div>
 
                             <Input
                                 label={"Website URL"}
@@ -348,7 +434,7 @@ const RegisterInput = () => {
                                 value={instagramOrg}
                                 onChange={instagramOrgChangeHandler}
                             ></Input>
-                            
+
                             <Input
                                 label={"Twitter link"}
                                 type="text"
@@ -356,7 +442,7 @@ const RegisterInput = () => {
                                 value={twitterOrg}
                                 onChange={twitterChangeHandler}
                             ></Input>
-                            
+
                             <Input
                                 label={"YouTube link"}
                                 type="text"
@@ -372,8 +458,8 @@ const RegisterInput = () => {
                                 value={linkedinOrg}
                                 onChange={linkedinOrgChangeHandler}
                             ></Input>
-                            
-                            
+
+
                         </div>
                     )}
 

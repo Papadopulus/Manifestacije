@@ -147,3 +147,169 @@
     border-color: #333333;
     background: #cccccc;
 }
+/*.choose-file {*/
+/*    position: relative;*/
+/*    height: 140px;*/
+/*    width: 140px;*/
+/*    font-size: 20px;*/
+/*    padding: 0.35rem 0.35rem;*/
+/*    border-radius: 50%;*/
+/*    border-color: transparent;*/
+/*    font-family: 'Lexand-Medium';*/
+/*    background: #e6e6e6;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+/*.choose-file-image {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    object-fit: cover;*/
+/*    border-radius: 50%;*/
+/*    position: relative;*/
+/*}*/
+/*.choose-file-label{*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*}*/
+/*.choose-file-icon{*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    font-size: 80px;*/
+/*    font-family: none;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*}*/
+
+/*.choose-file input[type="file"] {*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    opacity: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    cursor: pointer;*/
+/*    border-radius: 50%;*/
+/*}*/
+/*.choose-file:hover{*/
+/*    background-color: dimgrey;*/
+/*    color: white;*/
+/*}*/
+
+/*.image-preview-container {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    flex-wrap: wrap;*/
+/*    justify-content: space-evenly;*/
+/*}*/
+
+/*.image-div {*/
+/*    width: 140px;*/
+/*    height: 140px;*/
+/*    border: 10px solid black;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+/*.img {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*}*/
+
+.upload-div {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*.upload-pictures {*/
+/*    color: #333333;*/
+/*    margin-bottom: 0.5rem;*/
+/*    margin-right: 0.5rem;*/
+/*    font-family: 'Lexand-Medium';*/
+/*    font-size: 20px;*/
+/*    margin-top: 30px;*/
+/*}*/
+
+
+.choose-file {
+    position: relative;
+    height: 140px;
+    width: 140px;
+    font-size: 20px;
+    padding: 0.35rem 0.35rem;
+    border-radius: 50%;
+    border-color: transparent;
+    font-family: 'Lexand-Medium';
+    background: #e6e6e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.choose-file:hover {
+    background-color: dimgrey;
+}
+
+.choose-file-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+}
+
+.choose-file-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.choose-file-icon {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    font-size: 80px;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    color: black;
+    border-radius: 50%;
+}
+
+.choose-file:hover .choose-file-icon {
+    background-color: rgba(105, 105, 105, 0.5);
+    color: white;
+    cursor: pointer;
+}
+
+.choose-file input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+
+

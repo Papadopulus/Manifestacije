@@ -202,7 +202,7 @@ const AddEventForm = () => {
             !dateStartIsValid ||
             !descriptionIsValid ||
             !endingDateIsValid ||
-            !capacityIsValid ) {
+            !capacityIsValid) {
             return;
         }
         await checkTokenAndRefresh();
@@ -221,7 +221,7 @@ const AddEventForm = () => {
         // console.log("guests " + guestsInputFields);
         // console.log("sponsors " + sponsorInputFields);
 
-        
+
         let dateTimeMilliSeconds = new Date(dateStart);
         let convertedDateStart = dateTimeMilliSeconds.toISOString();
         let dateTimeMilliSecondsEnd = new Date(endingDate);
@@ -543,7 +543,7 @@ const AddEventForm = () => {
                         </div>
                         <p className={classesEvent["upload-pictures"]}>Click here to upload pictures!</p>
                         <div className={classesEvent["upload-div"]}>
-                            
+
                             <div className={`${classesEvent["choose-file"]}`}>
 
                                 <label className={classesEvent["choose-file-label"]}>
@@ -588,13 +588,15 @@ const AddEventForm = () => {
                         </div>
 
 
-                        <Button
-                            type={"submit"}
-                            className={classes["login-button"]}
-                            disabled={!formIsValid}
-                        >
-                            Add an event
-                        </Button>
+                        <div className={classes["form-actions"]}>
+                            <Button
+                                type={"submit"}
+                                className={classes["login-button"]}
+                                disabled={!formIsValid}
+                            >
+                                Add an event
+                            </Button>
+                        </div>
 
 
                     </div>
