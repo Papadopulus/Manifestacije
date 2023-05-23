@@ -8,6 +8,7 @@ import AuthContext from "../../store/AuthContext";
 import Introduction from "../Introduction/Introduction";
 import classesEvent from "../Organizator/OrganisationEvent.module.css";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import axios from "axios";
 
 const RegisterInput = () => {
     const {register} = useContext(AuthContext);
@@ -180,6 +181,17 @@ const RegisterInput = () => {
             return;
         }
 
+        const formData = new FormData();
+        images.forEach((image) => {
+            formData.append("imageRequest", image);
+        })
+        const imgResponse = await axios.post('https://localhost:7085/Image/onlyfiles', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        console.log(imgResponse.data[0]);
+
 
         let payload = {
             firstName: enteredName,
@@ -192,7 +204,7 @@ const RegisterInput = () => {
 
                 name: enteredNameOrg,
                 description: description,
-                logoUrl: logoUrl,
+                logoUrl: imgResponse.data[0],
                 websiteUrl: websiteUrl,
                 facebookUrl: enteredFBOrg,
                 instagramUrl: instagramOrg,
@@ -203,7 +215,7 @@ const RegisterInput = () => {
             };
 
         }
-        console.log(images);
+        console.log(payload);
 
         await register(payload);
 
