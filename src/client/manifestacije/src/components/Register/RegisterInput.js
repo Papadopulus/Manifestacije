@@ -363,15 +363,16 @@ const RegisterInput = () => {
                                     className={classes["description-area"]}
                                 />
                             </div>
-                            <Input
-                                label={"Logo URL"}
-                                type="text"
-                                id="logoUrlOrg"
-                                value={logoUrl}
-                                onChange={logoUrlOrgChangeHandler}
-                            ></Input>
+                            {/*<Input*/}
+                            {/*    label={"Logo URL"}*/}
+                            {/*    type="text"*/}
+                            {/*    id="logoUrlOrg"*/}
+                            {/*    value={logoUrl}*/}
+                            {/*    onChange={logoUrlOrgChangeHandler}*/}
+                            {/*></Input>*/}
 
                             <div className={classes["upload-div"]}>
+                                <p className={classes["upload-logo"]}>Upload your logo here</p>
 
                                 <div className={`${classes["choose-file"]}`}>
                                     <label className={classes["choose-file-label"]}>

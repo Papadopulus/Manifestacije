@@ -218,12 +218,19 @@
 /*    width: 100%;*/
 /*    height: 100%;*/
 /*}*/
-
+.upload-logo{
+    color: #333333;
+    margin-bottom: 10px;
+    font-family: 'Lexand-Medium';
+    font-size: 20px;
+}
 .upload-div {
     margin-top: 20px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 /*.upload-pictures {*/

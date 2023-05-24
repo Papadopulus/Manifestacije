@@ -18,9 +18,17 @@
     background-color: navajowhite;
     color:black;
 }
-.forma-event button:first-of-type:hover{
+.forma-event button:first-of-type:hover,button:first-of-type:active{
     background-color: hotpink;
     color:black;
+}
+.forma-event button:first-of-type:disabled
+,button:first-of-type:disabled:hover
+,button:first-of-type:disabled:active{
+    background-color: #ccc;
+    color: grey;
+    border-color: #cccccc;
+    cursor: not-allowed;
 }
 .Input_control{
     color: red;

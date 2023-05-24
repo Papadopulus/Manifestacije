@@ -588,15 +588,13 @@ const AddEventForm = () => {
                         </div>
 
 
-                        <div className={classes["form-actions"]}>
-                            <Button
-                                type={"submit"}
-                                className={classes["login-button"]}
-                                disabled={!formIsValid}
-                            >
-                                Add an event
-                            </Button>
-                        </div>
+                        <Button
+                            type={"submit"}
+                            className={classes["login-button"]}
+                            disabled={!formIsValid}
+                        >
+                            Add an event
+                        </Button>
 
 
                     </div>
