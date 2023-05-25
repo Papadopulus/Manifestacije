@@ -8,7 +8,6 @@ import checkTokenAndRefresh from "../../shared/tokenCheck";
 import {useEffect, useRef, useState} from "react";
 import Map from "../../GoogleMaps/GPTMaps/GptMapsProba"
 import classesEvent from "./OrganisationEvent.module.css"
-import uploadImage from "../../multimedia/uploadImage.jpg"
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import {makeStyles} from '@material-ui/core/styles';
 import TextArea from "../UI/TextArea/TextArea";
@@ -30,30 +29,8 @@ const AddEventForm = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [marker, setMarker] = useState(null);
     const [images, setImages] = useState([]);
-    const [imageNames, setImageNames] = useState([]);
-    // const [description, setDescription] = useState(null);
 
     const shouldLog = useRef(true);
-
-    const [showMap, setShowMap] = useState(false);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setShowMap(window.innerWidth < 960);
-        };
-
-        // Add event listener for window resize
-        window.addEventListener('resize', handleResize);
-
-        // Initial check for the screen width
-        handleResize();
-
-        // Clean up the event listener on component unmount
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
     const getLocationsAndCategories = async () => {
         await checkTokenAndRefresh();
         let header = {
@@ -148,14 +125,15 @@ const AddEventForm = () => {
         inputBlurHandler: descriptionBlurHandler,
         resetFunction: resetDescriptionFunction,
     } = useInput((value) => value.trim() !== '');
-
+    
     let formIsValid = false;
     if (titleIsValid && dateStartIsValid && endingDateIsValid
-        && capacityIsValid && descriptionIsValid) {
+        && capacityIsValid && descriptionIsValid && addressIsValid && marker) {
         formIsValid = true;
     } else {
         formIsValid = false;
     }
+    
     const handleAddCompetitorInput = () => {
         setCompetitorsFields([...competitorsFields, '']);
     };
@@ -177,6 +155,12 @@ const AddEventForm = () => {
     const handleAddSponsor = () => {
         setSponsorInputFields([...sponsorInputFields, '']);
     }
+    const resetMarkerFunction = () => {
+        setMarker(null);
+    }
+    const resetImagesFunction = () => {
+        setImages([]);
+    }
     const resetGuestList = () => {
         setGuestsInputFields(['']);
     }
@@ -186,11 +170,7 @@ const AddEventForm = () => {
     const resetSponsorList = () => {
         setSponsorInputFields(['']);
     }
-
-    // const handleDescriptionOnChange = (event) => {
-    //     setDescription(event.target.value);
-    // }
-    // const reset
+    
     const handleInputChange = (index, value) => {
         const updatedInputFields = [...sponsorInputFields];
         updatedInputFields[index] = value;
@@ -202,7 +182,8 @@ const AddEventForm = () => {
             !dateStartIsValid ||
             !descriptionIsValid ||
             !endingDateIsValid ||
-            !capacityIsValid) {
+            !capacityIsValid || 
+            !addressIsValid) {
             return;
         }
         await checkTokenAndRefresh();
@@ -217,11 +198,7 @@ const AddEventForm = () => {
         while (competitorsFields[competitorsFields.length - 1] === '') {
             competitorsFields.pop();
         }
-
-        // console.log("guests " + guestsInputFields);
-        // console.log("sponsors " + sponsorInputFields);
-
-
+        
         let dateTimeMilliSeconds = new Date(dateStart);
         let convertedDateStart = dateTimeMilliSeconds.toISOString();
         let dateTimeMilliSecondsEnd = new Date(endingDate);
@@ -236,8 +213,6 @@ const AddEventForm = () => {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        // setImageNames(imgResponse.data);
-        // console.log(imageNames);
         let payload = {
             title: title,
             description: description,
@@ -307,11 +282,7 @@ const AddEventForm = () => {
                             </label>
                         )}
                         <div className={classesEvent["desc-div"]}>
-                            {/*<label>Description</label>*/}
-                            {/*<textarea*/}
-                            {/*    onChange={handleDescriptionOnChange}*/}
-                            {/*    className={classes2["description-area"]}*/}
-                            {/*/>*/}
+                            
                             <TextArea
                                 label={"Description"}
                                 id="description"

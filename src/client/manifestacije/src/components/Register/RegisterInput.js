@@ -6,8 +6,6 @@ import useInput from "../../hooks/use-input";
 import {useState, useContext, useEffect} from "react";
 import AuthContext from "../../store/AuthContext";
 import Introduction from "../Introduction/Introduction";
-import classesEvent from "../Organizator/OrganisationEvent.module.css";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import axios from "axios";
 
 const RegisterInput = () => {
@@ -17,18 +15,7 @@ const RegisterInput = () => {
     const [images, setImages] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedImageURL, setSelectedImageURL] = useState(null);
-
-    // useEffect(() => {
-    //     if (selectedImage) {
-    //         const imageUrl = URL.createObjectURL(selectedImage);
-    //         setSelectedImageURL(imageUrl);
-    //     }
-    //     return () => {
-    //         if (selectedImageURL) {
-    //             URL.revokeObjectURL(selectedImageURL);
-    //         }
-    //     };
-    // }, [selectedImage,selectedImageURL]);
+    
     useEffect(() => {
         if (selectedImage) {
             const imageUrl = URL.createObjectURL(selectedImage);
@@ -139,12 +126,15 @@ const RegisterInput = () => {
         valueChangedHandler: websiteUrlOrgChangeHandler,
         resetFunction: resetWebsiteUrlFunction,
     } = useInput((value) => value.trim() !== '');
-    //7
-    const {
-        value: logoUrl,
-        valueChangedHandler: logoUrlOrgChangeHandler,
-        resetFunction: resetLogoUrlFunction,
-    } = useInput((value) => value.trim() !== '');
+    
+    const resetDescriptionFunction = () => {
+        setDescription('');
+    }
+    const resetImageField = () => {
+        setSelectedImage(null);
+        setImages([]);
+        setSelectedImageURL(null);
+    };
     const handleCheckboxChange = (event) => {
         setIsOrganisator(event.target.checked);
     }
@@ -190,9 +180,7 @@ const RegisterInput = () => {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        console.log(imgResponse.data[0]);
-
-
+        
         let payload = {
             firstName: enteredName,
             lastName: enteredSurname,
@@ -215,7 +203,6 @@ const RegisterInput = () => {
             };
 
         }
-        console.log(payload);
 
         await register(payload);
 
@@ -224,12 +211,14 @@ const RegisterInput = () => {
         resetSurnameFunction();
         resetConfirmPasswordFunction();
         resetPasswordFunction();
+        
         resetNameOrgFunction();
-        resetFBFunction();
-        resetTwitterFunction();
-        resetInstagramFunction();
+        resetDescriptionFunction();
+        resetImageField();
         resetWebsiteUrlFunction();
-        resetLogoUrlFunction();
+        resetFBFunction();
+        resetInstagramFunction();
+        resetTwitterFunction();
         resetLinkedinFunction();
         resetYoutubeFunction();
     }
@@ -363,13 +352,6 @@ const RegisterInput = () => {
                                     className={classes["description-area"]}
                                 />
                             </div>
-                            {/*<Input*/}
-                            {/*    label={"Logo URL"}*/}
-                            {/*    type="text"*/}
-                            {/*    id="logoUrlOrg"*/}
-                            {/*    value={logoUrl}*/}
-                            {/*    onChange={logoUrlOrgChangeHandler}*/}
-                            {/*></Input>*/}
 
                             <div className={classes["upload-div"]}>
                                 <p className={classes["upload-logo"]}>Upload your logo here</p>
@@ -393,35 +375,6 @@ const RegisterInput = () => {
                                         />
                                     </label>
                                 </div>
-
-
-
-                                {/* maine */}
-                                {/*<div className={`${classes["choose-file"]}`}>*/}
-                                
-                                {/*    <label className={classes["choose-file-label"]}>*/}
-                                {/*            {selectedImageURL ? (*/}
-                                {/*                    <img src={selectedImageURL} className={classes["choose-file-image"]}/>*/}
-                                {/*            ) : (*/}
-                                {/*                <span className={classes["choose-file-icon"]}>+</span>*/}
-                                {/*            )}*/}
-                                {/*        <input*/}
-                                {/*            type="file"*/}
-                                {/*            onChange={async (event) => {*/}
-                                {/*                const files = Array.from(event.target.files);*/}
-                                
-                                {/*                if (files.length > 0) {*/}
-                                {/*                    setSelectedImage(files[0]);*/}
-                                {/*                    setImages(files);*/}
-                                {/*                    setSelectedImageURL(null);*/}
-                                {/*                }*/}
-                                {/*            }}*/}
-                                {/*        />*/}
-                                {/*    </label>*/}
-                                {/*</div>*/}
-                                
-                                
-                                
                             </div>
 
                             <Input
