@@ -108,6 +108,7 @@ const UsersList = () => {
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
+                        <th>Role</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -118,6 +119,7 @@ const UsersList = () => {
                             <td>{user.firstName}</td>
                             <td>{user.lastName}</td>
                             <td>{user.email}</td>
+                            <td>{user.roles[0]}</td>
                             <td>
                                 <button onClick={() => confirmDelete(user)}>Delete User</button>
                             </td>
