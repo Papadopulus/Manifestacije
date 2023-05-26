@@ -1,4 +1,22 @@
-﻿.image {
+﻿.loaderHandler{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.loader{
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.image {
     max-width: 100%;
     width: 37vw;
     height: auto;
@@ -10,7 +28,7 @@
      display: flex;
      flex-direction: column;
      align-items: center;
-     margin: 320px 200px 70px 200px;
+     margin: 320px 200px 30px 200px;
     border-radius: 15px;
     background-color: #89729b;
     padding-left: 200px;
@@ -27,16 +45,75 @@
     font-size: 50px;
     margin-bottom: 5px;
 }
-.date{
-    margin-bottom: 30px;
+.date,.location,.exactLocation,.category,.org,.guest,.comp,.capacity{
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+
 }
-.date i{
-    margin-right: 5px;
+.date i {
+    margin-right: 20px;
+    font-size: 40px;
+    color: white;
+}
+.location i{
+    margin-right: 25px;
+    font-size: 40px;
+    color: white;
+}
+.exactLocation i{
+    margin-right: 20px;
+    font-size: 30px;
+    color: white;
+}
+.category i{
+    margin-right: 28px;
+    font-size: 30px;
+    color: white;
+}
+.org i{
+    margin-right: 26px;
+    font-size: 30px;
+    color: white;
+}
+.guest i{
+    margin-right: 20px;
+    font-size: 30px;
+    color: white;
+}
+.comp i{
+    margin-right: 20px;
+    font-size: 30px;
+    color: white;
+}
+.capacity i{
+    margin-right: 20px;
+    font-size: 30px;
+    color: white;
+}
+.guestList,.compList{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dateTitle,.locationTitle,.exactLocationTitle,.categoryTitle,.orgTitle,.guestTitle{
     
 }
-.description{
-    margin-bottom: 30px;
+.description,.ticket,.details{
+    border-radius: 15px;
+    background-color: #89729b;
+    padding: 30px 150px 30px 150px;
+    margin: 30px 200px 30px 200px;
 }
+.detailsWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+/*.leftDetails{
+    margin-right: 70px;
+}*/
 
 .descriptionTitle{
     font-family: Source Sans Pro;
@@ -54,4 +131,14 @@
 }
 .guest{
     margin-right: 30px;
+}
+.ticketLook{
+    border: solid black 1px;
+    background-color: darkorchid;
+    border-radius: 15px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
