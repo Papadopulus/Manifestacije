@@ -1,14 +1,31 @@
-﻿import React, { useState } from "react";
+﻿import React, {useEffect, useState} from "react";
 import classes from "./Event.module.css";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import "./Event.css";
+import axios from "axios";
 function Event({ event }) {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
   const [showSponsoredInfo, setShowSponsoredInfo] = useState(false);
   const [showFavoritesInfo, setShowFavoritesInfo] = useState(false);
+  const [images, setImages] = useState('');
 
+  const loadImage = async () => {
+    try {
+      const imageResponse = await axios.get(`https://localhost:7085/Image/${event.imageUrls[0]}`, { responseType: 'blob' });
+      const reader = new FileReader();
+      reader.onloadend = function() {
+        setImages(reader.result);
+      }
+      reader.readAsDataURL(imageResponse.data);
+    } catch (error) {
+      console.error('Error retrieving the image:', error);
+    }
+  };
+  useEffect( () => {
+            loadImage();
+        },[])
   function onClickEventHandler() {
     navigate("/events/" + event.id);
   }
@@ -60,7 +77,7 @@ function Event({ event }) {
           <div className={classes.favoritesInfo}>Add to favourites!</div>
         )}
       </div>
-      <img src={event.imageUrls} alt="" />
+      <img src={images} alt="" />
 
       <header>
         <h4>{event.title}</h4>
