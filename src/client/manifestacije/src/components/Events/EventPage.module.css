@@ -1,0 +1,57 @@
+﻿.image {
+    max-width: 100%;
+    width: 37vw;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: -270px;
+}
+.container {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     margin: 320px 200px 70px 200px;
+    border-radius: 15px;
+    background-color: #89729b;
+    padding-left: 200px;
+    padding-right: 200px;
+    padding-bottom: 30px;
+ }
+.header{
+    margin-top: 20px;
+    text-align: center;
+    
+}
+.title{
+    font-family: Source Sans Pro;
+    font-size: 50px;
+    margin-bottom: 5px;
+}
+.date{
+    margin-bottom: 30px;
+}
+.date i{
+    margin-right: 5px;
+    
+}
+.description{
+    margin-bottom: 30px;
+}
+
+.descriptionTitle{
+    font-family: Source Sans Pro;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.description p{
+    text-align: start;
+}
+.guesCompWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.guest{
+    margin-right: 30px;
+}

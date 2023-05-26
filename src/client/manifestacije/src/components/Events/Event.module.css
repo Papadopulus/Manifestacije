@@ -57,6 +57,61 @@
     height: 430px;
     transition: transform 0.3s ease;
     cursor: pointer;
+    position: relative;
+}
+.favoriteIcon {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 35px;
+    color: #5A5A5A;
+    cursor: pointer;
+    
+}
+.favoriteIcon:hover{
+    transform: scale(1.1);
+}
+.favorite {
+    color: #ffc107;
+    top:7px;
+    right: 16px;
+}
+.sponsoredIcon {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    font-size: 35px;
+    color: #85bb65;
+
+}
+.sponsoredIcon:hover{
+    transform: scale(1.1);
+}
+.sponsoredInfo {
+    position: absolute;
+    top: 55px;
+    left: -8px;
+    background-color: #fff;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    width: 100px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+.favoritesInfo {
+    position: absolute;
+    top: 55px;
+    left: -40px;
+    background-color: #fff;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
 }
 .listItem-wrap:hover {
     transform: scale(1.05);
