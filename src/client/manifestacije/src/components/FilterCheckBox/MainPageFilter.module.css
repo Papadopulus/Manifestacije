@@ -1,0 +1,49 @@
+﻿.search-filter{
+    border: 1px solid grey;
+    border-radius: 5px;
+    height: 20px;
+    width: 100%;
+    padding: 20px 23px 20px 30px;
+    outline: 0;
+    background-color: #f5f5f5;
+    margin-bottom: 20px;
+}
+
+.wrapper {
+    position: relative;
+    display: flex;
+    min-width: 100px;
+    
+}
+
+.home-filter-panel{
+    margin-bottom: 5px;
+    background: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.dropdown-options{
+    margin-top: 35px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.date-picker {
+    width: 100%;
+}
+.home-filter-button {
+    /*margin-left: 27%;*/
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.button-wrapper{
+    justify-content: center;
+    display: flex;
+}
+@media (max-width: 960px) {
+    .dropdown-options{
+        position: relative;
+        z-index: 99;
+    }
+}
+
