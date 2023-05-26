@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manifestacije.Api.Tests.Int
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manifestacije.Api.Tests.E2E", "tests\server\Manifestacije.Api.Tests.E2E\Manifestacije.Api.Tests.E2E.csproj", "{FCE51A09-83E7-4E6A-9631-BCF2E4388819}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manifestacije.ImageService", "src\server\Manifestacije.ImageService\Manifestacije.ImageService.csproj", "{840CB369-B3A2-48A0-839B-F581B6A694A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,7 @@ Global
 		{D3FD1AA9-8001-44BE-8F7F-BAD08F41A54C} = {D8132CED-A889-40F9-A2C1-A546D24A5213}
 		{D5CA9A12-C9A9-42BB-9329-E58F56B05911} = {D8132CED-A889-40F9-A2C1-A546D24A5213}
 		{FCE51A09-83E7-4E6A-9631-BCF2E4388819} = {D8132CED-A889-40F9-A2C1-A546D24A5213}
+		{840CB369-B3A2-48A0-839B-F581B6A694A1} = {AB93D017-4FAA-4DCF-8A0D-2E2E96475029}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E32658CF-8FD6-4AD3-82C4-D6B162CBAB44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -46,5 +49,9 @@ Global
 		{FCE51A09-83E7-4E6A-9631-BCF2E4388819}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCE51A09-83E7-4E6A-9631-BCF2E4388819}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCE51A09-83E7-4E6A-9631-BCF2E4388819}.Release|Any CPU.Build.0 = Release|Any CPU
+		{840CB369-B3A2-48A0-839B-F581B6A694A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{840CB369-B3A2-48A0-839B-F581B6A694A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{840CB369-B3A2-48A0-839B-F581B6A694A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{840CB369-B3A2-48A0-839B-F581B6A694A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

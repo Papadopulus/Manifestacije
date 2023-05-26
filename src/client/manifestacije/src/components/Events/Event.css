@@ -1,0 +1,15 @@
+﻿.fa-calendar-days,.fa-map-marked-alt,.fa-ticket,.fa-users {
+    font-size: 22px; /* Promijenite veličinu ikonice prema potrebi */
+}
+.fa-calendar-days{
+    color: #3333ff ;
+}
+.fa-map-marked-alt{
+    color: red;
+}
+.fa-ticket{
+    color: rgb(18, 176, 2);
+}
+.fa-users{
+    color: black;
+}

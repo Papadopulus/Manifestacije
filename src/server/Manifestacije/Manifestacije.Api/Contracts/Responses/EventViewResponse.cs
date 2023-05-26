@@ -26,4 +26,7 @@ public class EventViewResponse
     public required double Latitude { get; set; }
     public required double Longitude { get; set; }
     public required OrganizationPartial Organization { get; set; }
+    public uint Views { get; set; } = 0;
+    public uint Going { get; set; } = 0;
+    public uint Favourites { get; set; } = 0;
 }

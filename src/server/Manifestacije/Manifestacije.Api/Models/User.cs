@@ -10,7 +10,7 @@ public sealed class User : ModelBase
     public List<RefreshToken> RefreshTokens { get; set; } = new();
     public bool IsBlocked { get; set; } = false;
     public List<string> Roles { get; set; } = new();
-    public List<string> FavouriteEvents { get; set; } = new();
-    public List<string> GoingEvents { get; set; } = new();
+    public List<EventPartial> FavouriteEvents { get; set; } = new();
+    public List<EventPartial> GoingEvents { get; set; } = new();
     public OrganizationPartial? Organization { get; set; }
 }

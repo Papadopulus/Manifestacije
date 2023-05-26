@@ -12,7 +12,9 @@ public static class DbInitializer
         IPartnerRepository partnerRepository,
         ICategoryRepository categoryRepository)
     {
-        if (!(await userRepository.GetAllUsersAsync(new UserQueryFilter())).Any())
+        var tmp = (await userRepository.GetAllUsersAsync(new UserQueryFilter())).Any();   
+        
+        if (!tmp)
         {
             var organizationExists = await organizationRepository.GetOrganizationByNameAsync("Org");
             if (organizationExists is not null)

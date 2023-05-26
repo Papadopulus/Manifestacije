@@ -1,0 +1,13 @@
+﻿.fa-search{
+    position: absolute;
+    top: 12px;
+    left: 9px;
+    width: 14px;
+    
+}
+.main-wrapper {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
