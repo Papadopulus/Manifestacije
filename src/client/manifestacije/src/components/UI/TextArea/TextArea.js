@@ -1,6 +1,6 @@
-﻿import classes from "./Input.module.css";
+﻿import classes from "./TextArea.module.css";
 
-const Input = (props) => {
+const TextArea = (props) => {
     const labelStyle = {
         color: props.firstLabelColor ? props.firstLabelColor : 'initial',
     };
@@ -10,13 +10,13 @@ const Input = (props) => {
                 props.isNotValid === true ? classes.invalid : ""
             }`}
         >
-            <label htmlFor={props.id} style={labelStyle}> 
-                
+            <label htmlFor={props.id} style={labelStyle}>
+
                 {props.label} {props.isRequeired && (<sup className={classes["required"]}>*</sup>)}
             </label>
-            
-            <input
-                type={props.type}
+
+            <textarea
+                // type={props.type}
                 id={props.id}
                 value={props.value}
                 onChange={props.onChange}
@@ -26,4 +26,4 @@ const Input = (props) => {
     );
 };
 
-export default Input;
+export default TextArea;
