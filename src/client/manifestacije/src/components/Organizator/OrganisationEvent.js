@@ -236,22 +236,22 @@ const AddEventForm = () => {
             "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
         }
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/events`, payload, {headers: header});
-        
+        console.log(response);
 
         
-        resetTitleFunction();
-        resetDateStartFunction();
-        resetEndingDateFunction();
-        resetGuestList();
-        resetCompetitorList();
-        
-        resetCapacityFunction();
-        resetTicketPriceFunction();
-        resetSponsorList();
-        resetTicketUrlFunction();
-        resetAddressFunction();
-        resetMarkerFunction();
-        resetImagesFunction();
+        // resetTitleFunction();
+        // resetDateStartFunction();
+        // resetEndingDateFunction();
+        // resetGuestList();
+        // resetCompetitorList();
+        //
+        // resetCapacityFunction();
+        // resetTicketPriceFunction();
+        // resetSponsorList();
+        // resetTicketUrlFunction();
+        // resetAddressFunction();
+        // resetMarkerFunction();
+        // resetImagesFunction();
 
     };
 
