@@ -115,7 +115,7 @@
 .dateTitle,.locationTitle,.exactLocationTitle,.categoryTitle,.orgTitle,.guestTitle{
     
 }
-.description,.ticket,.details,.sponsor,.partners{
+.description,.ticket,.details,.sponsor,.partners,.mapDisplay{
     border-radius: 15px;
     background-color: #89729b;
     padding: 30px 150px 30px 150px;
@@ -161,4 +161,15 @@
 
 .mapDisplay{
     
+}
+
+.accPartnersLeft ,.tranPartnersRight{
+    cursor: pointer;
+}
+.accPartnersLeft:hover,.tranPartnersRight:hover{
+    transform: scale(1.1);
+}
+.sponsorPresent{
+    justify-content: center;
+    display: flex;
 }

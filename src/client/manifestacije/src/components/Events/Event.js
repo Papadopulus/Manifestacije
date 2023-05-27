@@ -36,7 +36,7 @@ function Event({ event }) {
   }
   return (
     <div className={classes["listItem-wrap"]} onClick={onClickEventHandler}>
-      {event.sponsored && (
+      
         <div
           className={classes.sponsoredIcon}
           onMouseEnter={() => setShowSponsoredInfo(true)}
@@ -56,7 +56,7 @@ function Event({ event }) {
             </div>
           )}
         </div>
-      )}
+      
       <div
         className={`${classes.favoriteIcon} ${
           isFavorite ? classes.favorite : ""

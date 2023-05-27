@@ -56,9 +56,17 @@ function EventPage() {
     );
   }
   function buyTicket() {
-    console.log(event.ticketUrl);
     window.location.replace(`${event.ticketUrl}`);
   }
+
+  function accHandler() {
+    window.location.replace(`${event.accommodationPartner.url}`);
+  }
+
+  function transHandler() {
+    window.location.replace(`${event.transportPartner.url}`);
+  }
+
   return (
     <>
       <div className={classes.container}>
@@ -187,7 +195,7 @@ function EventPage() {
           </div>
         </div>
       </div>
-      {event.sponsored && <div className={classes.sponsor}>
+      <div className={classes.sponsor}>
         <h1 className={classes.descriptionTitle}>Sponzori</h1>
         <div className={classes.sponsorPresent}>
           <div className={classes.sponsorPresentIcon}>
@@ -206,11 +214,11 @@ function EventPage() {
           </div>
         </div>
        
-      </div>}
+      </div>
       <div className={classes.partners}>
         <h1 className={classes.descriptionTitle}>Parnteri</h1>
       <div className={classes.partnersWrapper}>
-        <div className={classes.accPartnersLeft}>
+        <div className={classes.accPartnersLeft} onClick={accHandler} >
           <ul>
             <li className={classes.accPartners}>
               <div className={classes.accPartnersIcon}>
@@ -223,7 +231,7 @@ function EventPage() {
             </li>
           </ul>
         </div>
-        <div className={classes.tranPartnersRight}>
+        <div className={classes.tranPartnersRight} onClick={transHandler}>
           <ul>
             <li className={classes.tranPartners}>
               <div className={classes.tranPartnersIcon}>
@@ -237,16 +245,12 @@ function EventPage() {
           </ul>
         </div>
       </div>
-      
+      </div>
       <div className={classes.mapDisplay}>
         {marker.lat && marker.lng && <MapMarker markerLocation={marker} />}
       </div>
-      
-      <div className={classes.sponsor}>
-        <h1 className={classes.sponsorTitle}>Sponzor</h1>
-        {event.sponsors}
-      </div>
     </>
+      
   );
 }
 
