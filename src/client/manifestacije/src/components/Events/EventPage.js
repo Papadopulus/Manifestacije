@@ -9,7 +9,21 @@ function EventPage() {
   const { id } = useParams();
   const shouldLog = useRef(true);
   const [event, setEvent] = useState(null);
+  const [images,setImages] = useState('');
 
+  const loadImage = async (imageUrl) => {
+    try {
+      const imageResponse = await axios.get(`https://localhost:7085/Image/${imageUrl}`, { responseType: 'blob' });
+      const reader = new FileReader();
+      reader.onloadend = function() {
+        setImages(reader.result);
+      }
+      reader.readAsDataURL(imageResponse.data);
+    } catch (error) {
+      console.error('Error retrieving the image:', error);
+    }
+  };
+  
   useEffect(() => {
     if (shouldLog.current) {
       shouldLog.current = false;
@@ -17,15 +31,18 @@ function EventPage() {
         .get(`${process.env.REACT_APP_BASE_URL}/events/${id}`)
         .then((response) => {
           setEvent(response.data);
+          loadImage(response.data.imageUrls[0]);
         })
         .catch((err) => {
           console.log(err);
         });
+      
     }
     return () => {
       shouldLog.current = false;
     };
   }, []);
+  console.log(event);
 
   if (!event) {
     return (
@@ -42,7 +59,7 @@ function EventPage() {
     <>
       <div className={classes.container}>
         <div className={classes.imageGrid}>
-          <img src={event.imageUrls} alt="" className={classes.image} />
+          <img src={images} alt="" className={classes.image} />
         </div>
 
         <div className={classes.header}>
