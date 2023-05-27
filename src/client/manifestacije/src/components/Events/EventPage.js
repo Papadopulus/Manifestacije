@@ -4,23 +4,44 @@ import axios from "../../api/axios";
 import classes from "./EventPage.module.css";
 import { Button } from "../Navbar/NavButton";
 import { format } from "date-fns";
+import MapMarker from "../../GoogleMaps/GPTMaps/MapMarker"
 
 function EventPage() {
   const { id } = useParams();
   const shouldLog = useRef(true);
   const [event, setEvent] = useState(null);
+  const [images,setImages] = useState('');
+  const [marker,setMarker] = useState({ lat: null, lng: null }); // initialized marker state
 
+  const loadImage = async (imageUrl) => {
+    try {
+      const imageResponse = await axios.get(`https://localhost:7085/Image/${imageUrl}`, { responseType: 'blob' });
+      const reader = new FileReader();
+      reader.onloadend = function() {
+        setImages(reader.result);
+      }
+      reader.readAsDataURL(imageResponse.data);
+    } catch (error) {
+      console.error('Error retrieving the image:', error);
+    }
+  };
+  
   useEffect(() => {
     if (shouldLog.current) {
       shouldLog.current = false;
       axios
         .get(`${process.env.REACT_APP_BASE_URL}/events/${id}`)
         .then((response) => {
+          const { latitude, longitude } = response.data; // get latitude and longitude from response data
           setEvent(response.data);
+          loadImage(response.data.imageUrls[0]);
+          setMarker({ lat: latitude, lng: longitude }); // update marker state with latitude and longitude
+
         })
         .catch((err) => {
           console.log(err);
         });
+      
     }
     return () => {
       shouldLog.current = false;
@@ -42,7 +63,7 @@ function EventPage() {
     <>
       <div className={classes.container}>
         <div className={classes.imageGrid}>
-          <img src={event.imageUrls} alt="" className={classes.image} />
+          <img src={images} alt="" className={classes.image} />
         </div>
 
         <div className={classes.header}>
@@ -216,6 +237,14 @@ function EventPage() {
           </ul>
         </div>
       </div>
+      
+      <div className={classes.mapDisplay}>
+        {marker.lat && marker.lng && <MapMarker markerLocation={marker} />}
+      </div>
+      
+      <div className={classes.sponsor}>
+        <h1 className={classes.sponsorTitle}>Sponzor</h1>
+        {event.sponsors}
       </div>
     </>
   );

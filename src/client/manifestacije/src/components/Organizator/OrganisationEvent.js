@@ -231,7 +231,6 @@ const AddEventForm = () => {
             latitude: marker.lat,
             longitude: marker.lng,
         };
-        console.log(payload);
 
         let header = {
             "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
@@ -239,17 +238,20 @@ const AddEventForm = () => {
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/events`, payload, {headers: header});
         console.log(response);
 
-        // console.log(imgResponse.data);
-        // setImages(imgResponse.data);
+        
         // resetTitleFunction();
         // resetDateStartFunction();
         // resetEndingDateFunction();
         // resetGuestList();
         // resetCompetitorList();
-        // resetSponsorList();
+        //
         // resetCapacityFunction();
         // resetTicketPriceFunction();
+        // resetSponsorList();
         // resetTicketUrlFunction();
+        // resetAddressFunction();
+        // resetMarkerFunction();
+        // resetImagesFunction();
 
     };
 
