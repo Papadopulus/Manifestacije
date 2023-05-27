@@ -26,7 +26,7 @@ export default function Map({ markerLocation }) {
         <GoogleMap
             id="map"
             mapContainerStyle={mapContainerStyle}
-            zoom={8}
+            zoom={10}
             center={markerLocation}
             options={{
                 disableDefaultUI: true,
