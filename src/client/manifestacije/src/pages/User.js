@@ -5,7 +5,7 @@ import classes from "./User.module.css";
 import ChangeProfile from "../components/User/ChangeProfile";
 import Favorites from "../components/User/Favorites";
 import Going from "../components/User/Going";
-import PasswordReset from "../components/PasswordReset/PasswordReset";
+import ChangePassword from "../components/User/ChangePassword";
 import UsersList from "../components/Admin/UsersList";
 import CategoriesList from "../components/Admin/CategoriesList";
 import LocationList from "../components/Admin/LocationList";
@@ -34,7 +34,7 @@ const User = () => {
     } else if (activeLink === 'going') {
         activeComponent = <Going/>;
     } else if (activeLink === 'password') {
-        activeComponent = <PasswordReset/>
+        activeComponent = <ChangePassword/>
     }else if (activeLink === "allUsers"){
         activeComponent = <UsersList/>
     }else if (activeLink === "allCategories"){

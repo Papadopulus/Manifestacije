@@ -110,8 +110,8 @@ const UsersList = () => {
                 <table>
                     <thead>
                     <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Ime</th>
+                        <th>Prezime</th>
                         <th>Email</th>
                     </tr>
                     </thead>
@@ -126,7 +126,7 @@ const UsersList = () => {
 
                             <td>
                                 <IconButton onClick={() => confirmDelete(user)} >
-                                    <DeleteIcon sx={{ fontSize: 30 }}></DeleteIcon>
+                                    <DeleteIcon sx={{ fontSize: 31 }}></DeleteIcon>
                                 </IconButton>
                             </td>
                             <td>
