@@ -4,12 +4,14 @@ import axios from "../../api/axios";
 import classes from "./EventPage.module.css";
 import { Button } from "../Navbar/NavButton";
 import { format } from "date-fns";
+import MapMarker from "../../GoogleMaps/GPTMaps/MapMarker"
 
 function EventPage() {
   const { id } = useParams();
   const shouldLog = useRef(true);
   const [event, setEvent] = useState(null);
   const [images,setImages] = useState('');
+  const [marker,setMarker] = useState({ lat: null, lng: null }); // initialized marker state
 
   const loadImage = async (imageUrl) => {
     try {
@@ -30,8 +32,11 @@ function EventPage() {
       axios
         .get(`${process.env.REACT_APP_BASE_URL}/events/${id}`)
         .then((response) => {
+          const { latitude, longitude } = response.data; // get latitude and longitude from response data
           setEvent(response.data);
           loadImage(response.data.imageUrls[0]);
+          setMarker({ lat: latitude, lng: longitude }); // update marker state with latitude and longitude
+
         })
         .catch((err) => {
           console.log(err);
@@ -43,6 +48,7 @@ function EventPage() {
     };
   }, []);
   console.log(event);
+  console.log(marker);
 
   if (!event) {
     return (
@@ -185,6 +191,11 @@ function EventPage() {
           </div>
         </div>
       </div>
+      
+      <div className={classes.mapDisplay}>
+        {marker.lat && marker.lng && <MapMarker markerLocation={marker} />}
+      </div>
+      
       <div className={classes.sponsor}>
         <h1 className={classes.sponsorTitle}>Sponzor</h1>
         {event.sponsors}
