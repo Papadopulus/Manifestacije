@@ -1,22 +1,40 @@
-﻿import Event from "../Events/Event"
-import {useEffect, useState} from "react";
+﻿
+import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
+import checkTokenAndRefresh from "../../shared/tokenCheck";
+import EventHorizontal from "../Events/EventHorizontal/EventHorizontal";
+import Event from "../Events/Event";
+
 const Favorites = () => {
-    const [event,setEvent] = useState(null)
-    useEffect( () => {
-        getEvent();
-    },[])
+    const [event, setEvent] = useState(null)
+    const shouldLog = useRef(true);
+
+    
     const getEvent = async () => {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/events/64723bde4d48f02f28eae410`);
-        setEvent(response.data);
-        console.log(response.data);
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/events/647226b04d48f02f28eae3f7`);
+            setEvent(response.data);
+            console.log(response.data);
+            
+        } catch (e) {
+            console.log(e);
+        }
     }
+    useEffect(() =>{
+        if (shouldLog.current) {
+            shouldLog.current = false;
+            getEvent();
+        }
+        return () => {
+            shouldLog.current = false;
+        }
+    }, [])
+
     return (
-        <>
-            <div>
-                <Event event={event}></Event>
-            </div>
-        </>
+        <div>
+            {event &&<EventHorizontal event={event}/>}
+        </div>
+
     )
 }
 export default Favorites;

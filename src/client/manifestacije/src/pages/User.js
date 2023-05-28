@@ -26,7 +26,7 @@ const User = () => {
     let activeComponent;
 
     if (activeLink === 'profile') {
-        activeComponent = <ChangeProfile name={userData.firstName} surname={userData.lastName} id={userData.id}
+        activeComponent = userData && <ChangeProfile name={userData.firstName} surname={userData.lastName} id={userData.id}
                                          setUser={setUserData}></ChangeProfile>
 
     } else if (activeLink === 'favorites') {

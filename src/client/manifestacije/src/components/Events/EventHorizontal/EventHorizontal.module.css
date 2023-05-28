@@ -1,0 +1,17 @@
+﻿.mainContainer{
+    display: flex;
+}
+.imagePlace{
+    height: 100px;
+    width: 100px;
+    z-index: 10;
+}
+.imageHolder{
+    background-color: red;
+    height: 200px;
+    width: 200px;
+}
+.iconItems{
+    display: flex;
+    flex-direction: column;
+}

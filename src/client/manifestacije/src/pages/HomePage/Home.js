@@ -118,9 +118,6 @@ const Home = () => {
             </select>
           </div>
         </div>
-        {/*<div className={classes["main-events"]}>*/}
-        {/*  <EventList events={events}></EventList>*/}
-        {/*</div>*/}
         <InfiniteScroll next={()=>setPageSize(pageSize+15)} hasMore={true} dataLength={events.length} loader={<h4>Loading...</h4>}>
           <div className={classes["main-events"]}>
             <EventList events={events}></EventList>

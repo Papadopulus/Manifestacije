@@ -166,8 +166,13 @@ const RegisterInput = () => {
             !enteredSurnameIsValid ||
             !enteredEmailIsValid ||
             !enteredPasswordIsValid ||
-            !confirmPasswordIsValid ||
-            !enteredNameOrgIsValid) {
+            !confirmPasswordIsValid
+        ) {
+            if (isOrganisator){
+                if (!enteredNameOrgIsValid){
+                    return;
+                }
+            }
             return;
         }
 
