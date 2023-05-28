@@ -28,9 +28,9 @@ function MainPageFilter(props) {
   const [isMobileView, setIsMobileView] = useState(false);
   const shouldLog = useRef(true);
 
-  const [pageNumber,setPageNumber] = useState(1);
-  const itemsPerPage = 12;
-  
+  const [nextPage, setNextPage] = useState(null);
+
+
 
   const handleSelect = (pickedDate) => {
     SetStartDate(pickedDate.selection.startDate);
@@ -104,8 +104,7 @@ function MainPageFilter(props) {
           MinStartingDate: startDate.toISOString(),
           MaxEndingDate: endDate.toISOString(),
 
-          PageSize:itemsPerPage,
-          PageNumber: pageNumber,
+          PageSize: props.pageSize,
           
           Title: querySearch.length < 1 ? null : querySearch,
           Description: querySearch.length < 1 ? null : querySearch,
@@ -119,7 +118,6 @@ function MainPageFilter(props) {
       })
       .then((response) => {
         props.options(response.data);
-        // props.options(prev => [...prev,...response.data]);
       })
       .catch((err) => {
         console.log(err);
@@ -139,23 +137,8 @@ function MainPageFilter(props) {
     props.SortColumn,
     props.SortDirection,
     resetFilters,
+    props.pageSize,
   ]);
-  
-  useEffect( ()=> {
-    const handleScroll = (event) => {
-      const scrollHeight = event.target.documentElement.scrollHeight
-      const currentHeight = event.target.documentElement.scrollTop + window.innerHeight
-      if (currentHeight + 1 >= scrollHeight){
-        setPageNumber(prevPageNumber => prevPageNumber + 1);
-        // handleFilters();
-
-      }
-    }
-    window.addEventListener("scroll",handleScroll)
-    return () => window.removeEventListener("scroll",handleScroll)
-  },[pageNumber])
-  console.log(pageNumber + 'number of a page');
-  console.log(itemsPerPage + 'number of items');
   const changePrice = (event, value) => {
     SetSelectedPrice(value);
   };

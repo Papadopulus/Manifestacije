@@ -4,13 +4,17 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "../../api/axios";
 import EventList from "../../components/Events/EventList";
 import Event from "../../components/Events/Event";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Home = () => {
   const [events, SetEvents] = useState([]);
   const [selectedPriceOrder, SetSelectedPriceOrder] = useState("popular");
   const [columnName, SetColumnName] = useState("Views");
   const [directionSort, SetDirectionSort] = useState("desc");
-
+  
+  const [pageSize,setPageSize] = useState(15);
+  
+  
   // const [pageNumber,setPageNumber] = useState(1);
   // // const [itemsPerPage,setItemsPerPage] = useState(5);
   // const shouldLog = useRef(true);
@@ -92,6 +96,7 @@ const Home = () => {
       <div className={classes["left-container-home"]}>
         <MainPageFilter
           options={SetEvents}
+          pageSize={pageSize}
           SortColumn={columnName}
           SortDirection={directionSort}
         ></MainPageFilter>
@@ -113,10 +118,14 @@ const Home = () => {
             </select>
           </div>
         </div>
-
-        <div className={classes["main-events"]}>
-          <EventList events={events}></EventList>
-        </div>
+        {/*<div className={classes["main-events"]}>*/}
+        {/*  <EventList events={events}></EventList>*/}
+        {/*</div>*/}
+        <InfiniteScroll next={()=>setPageSize(pageSize+15)} hasMore={true} dataLength={events.length} loader={<h4>Loading...</h4>}>
+          <div className={classes["main-events"]}>
+            <EventList events={events}></EventList>
+          </div>
+        </InfiniteScroll>
       </div>
     </div>
   );
