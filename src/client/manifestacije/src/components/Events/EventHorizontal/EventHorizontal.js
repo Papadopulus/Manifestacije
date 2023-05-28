@@ -37,7 +37,9 @@ const EventHorizontal = ({event}) => {
                 {images ? (
                     <img className={classes.imagePlace} src={images} alt=""/>
                 ) : (
-                    <span>Loading image...</span>
+                    <div className={classes.spinner}>
+                        <div className={classes.spinnerCircle}></div>
+                    </div>
                 )}
             </div>
             
