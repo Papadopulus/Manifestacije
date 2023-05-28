@@ -199,8 +199,8 @@ public sealed class UserService : IUserService
         {
             throw new NotFoundException($"There is no event with the id of {eventId}");
         }
-        
-        if(user.FavouriteEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+
+        if (user.FavouriteEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
         {
             throw new InvalidInputException("You are already going to this event");
         }
@@ -230,8 +230,8 @@ public sealed class UserService : IUserService
         {
             throw new NotFoundException($"There is no event with the id of {eventId}");
         }
-        
-        if(user.GoingEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+
+        if (user.GoingEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
         {
             throw new InvalidInputException("You are already going to this event");
         }
@@ -261,8 +261,8 @@ public sealed class UserService : IUserService
         {
             throw new NotFoundException($"There is no event with the id of {eventId}");
         }
-        
-        if(!user.FavouriteEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+
+        if (!user.FavouriteEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
         {
             throw new InvalidInputException("You are already going to this event");
         }
@@ -293,7 +293,7 @@ public sealed class UserService : IUserService
             throw new NotFoundException($"There is no event with the id of {eventId}");
         }
 
-        if(!user.GoingEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+        if (!user.GoingEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
         {
             throw new InvalidInputException("You are already going to this event");
         }
@@ -306,5 +306,59 @@ public sealed class UserService : IUserService
         Task.WaitAll(new Task[] { updateEventTask, updateUserTask }, cancellationToken: ct);
 
         return true;
+    }
+
+    public async Task<List<EventViewResponse>> GetFavouriteEventsAsync(string userId,
+        CancellationToken ct)
+    {
+        var user = await _userRepository.GetUserByIdAsync(userId);
+        if (user is null)
+        {
+            throw new NotFoundException($"There is no user with the id of {userId}");
+        }
+
+        var eventIds = user.FavouriteEvents.Select(x => x.Id).ToList();
+
+        var events = new List<Event>();
+
+        foreach (var id in eventIds)
+        {
+            var eventFromDb = await _eventRepository.GetEventByIdAsync(id);
+            if (eventFromDb is null)
+            {
+                throw new NotFoundException($"There is no event with the id of {id}");
+            }
+
+            events.Add(eventFromDb);
+        }
+
+        return EventMapper.EventListToEventViewResponseList(events);
+    }
+
+    public async Task<List<EventViewResponse>> GetGoingEventsAsync(string userId,
+        CancellationToken ct)
+    {
+        var user = await _userRepository.GetUserByIdAsync(userId);
+        if (user is null)
+        {
+            throw new NotFoundException($"There is no user with the id of {userId}");
+        }
+
+        var eventIds = user.GoingEvents.Select(x => x.Id).ToList();
+
+        var events = new List<Event>();
+
+        foreach (var id in eventIds)
+        {
+            var eventFromDb = await _eventRepository.GetEventByIdAsync(id);
+            if (eventFromDb is null)
+            {
+                throw new NotFoundException($"There is no event with the id of {id}");
+            }
+
+            events.Add(eventFromDb);
+        }
+
+        return EventMapper.EventListToEventViewResponseList(events);
     }
 }

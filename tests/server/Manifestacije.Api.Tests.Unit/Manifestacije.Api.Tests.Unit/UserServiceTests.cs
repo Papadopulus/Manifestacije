@@ -8,6 +8,7 @@ public sealed class UserServiceTests
     private readonly UserService _sut;
     private readonly IUserRepository _userRepository = Substitute.For<IUserRepository>();
     private readonly IOrganizationService _organizationService = Substitute.For<IOrganizationService>();
+    private readonly IEventRepository _eventRepository = Substitute.For<IEventRepository>();
 
     public UserServiceTests()
     {
@@ -20,7 +21,7 @@ public sealed class UserServiceTests
             .AddInMemoryCollection(inMemorySettings)
             .Build();
 
-        _sut = new UserService(_userRepository, configuration, _mailService, _organizationService);
+        _sut = new UserService(_userRepository, configuration, _mailService, _organizationService, _eventRepository);
     }
 
     [Fact]
