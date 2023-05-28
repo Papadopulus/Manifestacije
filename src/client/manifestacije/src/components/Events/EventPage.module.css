@@ -28,7 +28,7 @@
      display: flex;
      flex-direction: column;
      align-items: center;
-     margin: 320px 200px 30px 200px;
+     margin: 320px 350px 30px 350px;
     border-radius: 15px;
     background-color: #89729b;
     padding-left: 200px;
@@ -119,7 +119,7 @@
     border-radius: 15px;
     background-color: #89729b;
     padding: 30px 150px 30px 150px;
-    margin: 30px 200px 30px 200px;
+    margin: 30px 350px 30px 350px;
 }
 .detailsWrapper,.partnersWrapper{
     display: flex;
