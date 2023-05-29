@@ -33,7 +33,6 @@ const EventHorizontal = ({event}) => {
 
         <div className={classes.mainContainer}>
             <div className={classes.imageHolder}>
-                <p>{event.title}</p>
                 {images ? (
                         <img className={classes.imagePlace} src={images} alt=""/>
                 ) : (
@@ -44,8 +43,16 @@ const EventHorizontal = ({event}) => {
             </div>
 
             <div className={classes.iconItems}>
+
+                <div className={classes["naslov"]}>
+                    <p>{event.title}</p>
+                </div>
+                
                 <div className={classes.divDesniUnutra}>
+
+                    
                     <div className={classes["icon-text"]}>
+                        
                         <div className={"jebo"}>
                             <i className="fa-solid fa-calendar-days"></i>
                         </div>
@@ -53,6 +60,7 @@ const EventHorizontal = ({event}) => {
                             {format(new Date(event.startingDate), "dd.MMM.yyyy") + "-" + format(new Date(event.endingDate), "dd.MMM.yyyy")}
                             {/*{event.location.name}*/}
                         </p>
+                        
                     </div>
 
                     <div className={classes["icon-text"]}>

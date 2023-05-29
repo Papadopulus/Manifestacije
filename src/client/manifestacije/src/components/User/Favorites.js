@@ -4,6 +4,7 @@ import axios from "axios";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
 import EventHorizontal from "../Events/EventHorizontal/EventHorizontal";
 import Event from "../Events/Event";
+import classes from "./Favorites.module.css"
 
 const Favorites = () => {
     const [event, setEvent] = useState(null)
@@ -31,7 +32,8 @@ const Favorites = () => {
     }, [])
 
     return (
-        <div>
+        // <div>
+        <div className={classes.allEvents}>
             {event &&<EventHorizontal event={event}/>}
         </div>
 
