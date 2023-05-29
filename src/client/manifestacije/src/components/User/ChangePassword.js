@@ -1,18 +1,13 @@
-import classes from "../Register/RegisterInput.module.css";
-import Button from "../UI/Button/Button";
-import Input from "../UI/Input/Input";
 import useInput from "../../hooks/use-input";
+import Input from "../UI/Input/Input";
+import classes from "../Login/LoginInput.module.css";
+import Button from "../UI/Button/Button";
+import axios from "axios";
+import checkTokenAndRefresh from "../../shared/tokenCheck";
+import "./ChangeProfile.css"
 import {useContext} from "react";
 import AuthContext from "../../store/AuthContext";
-
-
-
-/*Do ove forme se trenutno dolazi preko Forget password u loginu*/
-
-
-
-const PasswordReset = () => {
-    const {reset} = useContext(AuthContext);
+const ChangePassword = (props) =>{
 
     const {
         value: enteredPassword,
@@ -44,7 +39,12 @@ const PasswordReset = () => {
         const payload = {
             password: enteredPassword
         }
-        await reset(payload);
+        await checkTokenAndRefresh();
+        let header = {
+            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
+        }
+        const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/users/${props.id}`,payload,{headers:header});
+        props.setUser(response.data);
         resetConfirmPasswordFunction();
         resetPasswordFunction();
     }
@@ -52,8 +52,7 @@ const PasswordReset = () => {
         <form className={classes["reset-form"]} onSubmit={resetSubmitHandler}>
             <div className={classes["right-reset-container"]}>
                 <div className={classes["reset-handler"]}>
-                    <div className={classes["icon"]}></div>
-                    <h1 className={classes["main-sign"]}>Unesite novu lozinku</h1>
+                    <p className={"main-text"}>Izmeni lozinku</p>
 
                     <Input
                         label={"Lozinka"}
@@ -69,7 +68,6 @@ const PasswordReset = () => {
                             Lozinka nije validna!
                         </label>
                     )}
-
                     <Input
                         label={"Potvrdite lozinku"}
                         type="password"
@@ -87,7 +85,7 @@ const PasswordReset = () => {
                     <div className={classes["reset-button-div"]}>
                         <Button
                             type={"submit"}
-                            className={classes["reset-button"]}
+                            className={classes["login-button"]}
                             disabled={resetNotValid}>
                             Izmeni lozinku</Button>
                     </div>
@@ -95,5 +93,6 @@ const PasswordReset = () => {
             </div>
         </form>
     );
-};
-export default PasswordReset;
+}
+export default ChangePassword;
+
