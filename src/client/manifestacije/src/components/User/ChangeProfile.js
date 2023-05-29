@@ -54,9 +54,9 @@ const ChangeProfile = (props) => {
     return (
         <>
             <form onSubmit={formSubmissionHandler}>
-                <p className={"main-text"}>Change your profile</p>
+                <p className={"main-text"}>Izmeni profil</p>
                 <Input
-                    label={"Update Name"}
+                    label={"Novo ime"}
                     type="text"
                     id="name"
                     value={enteredName}
@@ -71,7 +71,7 @@ const ChangeProfile = (props) => {
                     </label>
                 )}
                 <Input
-                    label={"Update Surname"}
+                    label={"Novo prezime"}
                     type="text"
                     id="surname"
                     value ={enteredSurname}

@@ -93,7 +93,7 @@ public sealed class UserEndpoints : IEndpoints
 
         await userService.AddEventToFavouritesAsync(userId, eventId, ct);
         
-        return Results.Ok();
+        return Results.Ok("Event added to favourites");
     }
     
     internal static async Task<IResult> AddEventToGoing(
@@ -108,7 +108,7 @@ public sealed class UserEndpoints : IEndpoints
 
         await userService.AddEventToGoingAsync(userId, eventId, ct);
         
-        return Results.Ok();
+        return Results.Ok("Event added to going");
     }
     
     internal static async Task<IResult> RemoveEventFromFavourites(
@@ -123,7 +123,7 @@ public sealed class UserEndpoints : IEndpoints
 
         await userService.RemoveEventFromFavouritesAsync(userId, eventId, ct);
 
-        return Results.Ok();
+        return Results.Ok("Event removed from favourites");
     }
     
     internal static async Task<IResult> RemoveEventFromGoing(
@@ -138,7 +138,7 @@ public sealed class UserEndpoints : IEndpoints
 
         await userService.RemoveEventFromGoingAsync(userId, eventId, ct);
         
-        return Results.Ok();
+        return Results.Ok("Event removed from going");
     }
     
     internal static async Task<IResult> SendPasswordReset(

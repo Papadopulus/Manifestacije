@@ -4,6 +4,11 @@ import axios from "axios";
 import UserDeleteBox from "../DialogBoxes/UserDeleteBox";
 import EditNameBox from "../DialogBoxes/EditNameBox";
 import ViewBox from "../DialogBoxes/ViewBox";
+import "./Admin.css";
+import {IconButton} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import PersonIcon from "@mui/icons-material/Person";
 
 const CategoriesList = () => {
     const [allCategories, setAllCategories] = useState([]);
@@ -106,13 +111,19 @@ const CategoriesList = () => {
                         <tr key={category.id}>
                             <td>{category.name}</td>
                             <td>
-                                <button onClick={() => confirmDelete(category)}>Delete category</button>
+                                <IconButton onClick={() => confirmDelete(category)} >
+                                    <DeleteIcon sx={{ fontSize: 31 }}></DeleteIcon>
+                                </IconButton>
                             </td>
                             <td>
-                                <button onClick={() => confirmEdit(category)}>Edit Category</button>
+                                <IconButton onClick={() => confirmEdit(category)}>
+                                    <EditIcon sx={{ fontSize: 30 }}></EditIcon>
+                                </IconButton>
                             </td>
                             <td>
-                                <button onClick={() => confirmView(category)}>Details of Category</button>
+                                <IconButton onClick={() => confirmView(category)}>
+                                    <PersonIcon sx={{ fontSize: 32 }}></PersonIcon>
+                                </IconButton>
                             </td>
                         </tr>
                     ))}

@@ -1,7 +1,9 @@
 ﻿.container{
-    margin-left: 130px;
+    /*margin-left: 130px;
     margin-right: 130px;
     margin-top: 70px;
+    margin-bottom: 150px;*/
+    margin:70px 130px 150px;
     background-color: #8B749D;
     font-family: 'Lexend-Medium';
     display: flex;
@@ -64,8 +66,9 @@
     justify-content: center;
 }
 .container-form{
-    margin:40px;
-    /*position: relative;*/
+    margin-top: 10vh;
+    margin-left: 7vw;
+    margin-right: 7vw;
 }
 .container-upper{
     /*width: 100%;
@@ -73,15 +76,18 @@
     display: flex;
     justify-content: center;
 }
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1200px) {
     .container{
-        margin: 20px;
+        margin: 20px 20px 100px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         width: 90%;
     }
-
-
+    .container-form{
+        margin-left: 15vw;
+        margin-right: 15vw;
+        margin-bottom: 50px;
+    }
 }
 
