@@ -1,32 +1,82 @@
-﻿.mainContainer {
+﻿.fa-calendar-days
+,.fa-map-marked-alt
+,.fa-ticket
+,.fa-users 
+,.fa-location-dot{
+    font-size: 25px;
+    color: black;/* Promijenite veličinu ikonice prema potrebi */
+}
+.jebo{
+    width: 40px;
+    height: 40px;
+}
+.mainContainer {
     display: flex;
+    height: 200px;
+    background-color: white;
+    border-radius: 20px;
 }
 
 .imagePlace {
-    height: 100px;
-    width: 300px;
+    height: 110px;
+    width: 200px;
     margin-top: 20px;
+    object-fit: cover;
+    border-radius: 20px;
 }
 
 .imageHolder {
     background-color: red;
+    opacity: 0.5;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.imageHolder p{
+    font-size: 25px;
 }
 
 .iconItems {
     display: flex;
     flex-direction: column;
+    background-color: pink;
+    opacity: 0.5;
+    
+    width: 100%;
+    justify-content: center;
+    align-items: end;
 }
-
+.icon-text{
+    display: flex;
+}
+.icon-text i {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    color: black;
+    justify-content: center;
+    align-items: center;
+}
+.icon-text p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.divDesniUnutra{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    background-color: yellow;
+}
 .spinner {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px;
-    width: 300px;
+    height: 110px;
+    width: 200px;
 }
 
 /* Circle animation */

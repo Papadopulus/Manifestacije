@@ -30,55 +30,47 @@ const EventHorizontal = ({event}) => {
         }
     }, [])
     return (
-        
+
         <div className={classes.mainContainer}>
             <div className={classes.imageHolder}>
                 <p>{event.title}</p>
                 {images ? (
-                    <img className={classes.imagePlace} src={images} alt=""/>
+                        <img className={classes.imagePlace} src={images} alt=""/>
                 ) : (
                     <div className={classes.spinner}>
                         <div className={classes.spinnerCircle}></div>
                     </div>
                 )}
             </div>
-            
+
             <div className={classes.iconItems}>
+                <div className={classes.divDesniUnutra}>
+                    <div className={classes["icon-text"]}>
+                        <div className={"jebo"}>
+                            <i className="fa-solid fa-calendar-days"></i>
+                        </div>
+                        <p>
+                            {format(new Date(event.startingDate), "dd.MMM.yyyy") + "-" + format(new Date(event.endingDate), "dd.MMM.yyyy")}
+                            {/*{event.location.name}*/}
+                        </p>
+                    </div>
 
-                <div>
-                    <i className="fa-solid fa-calendar-days"></i>
-                    <span>Datum</span>
-                </div>
+                    <div className={classes["icon-text"]}>
+                        <i className="fa-solid fa-location-dot"></i>
+                        <p>
+                            {event.location.name}
+                        </p>
+                    </div>
 
-                <div>
-                    <div className={classes["footer-data"]}>
-                        {format(new Date(event.startingDate), "dd.MMM.yyyy")} -
-                        {format(new Date(event.endingDate), "dd.MMM.yyyy")}
+                    <div className={classes["icon-text"]}>
+                        <i className="fa fa-ticket"></i>
+                        <p>
+                            {event.ticketPrice} RSD
+                        </p>
                     </div>
                 </div>
-
-                <div>
-                    <i className="fa fa-ticket" aria-hidden="true"></i>
-                    <span>Ulaznica</span>
-                </div>
-
-                <div>
-                    <div className={classes["footer-data"]}>
-                        {event.ticketPrice} rsd
-                    </div>
-                </div>
-
-                <div>
-                    <i className="fa-solid fa-location-dot"></i>
-                    <span>Lokacija</span>
-                </div>
-
-                <div>
-                    <div className={classes["footer-data"]}>{event.location.name}</div>
-                </div>
-                
             </div>
-            
+
         </div>
     )
 }
