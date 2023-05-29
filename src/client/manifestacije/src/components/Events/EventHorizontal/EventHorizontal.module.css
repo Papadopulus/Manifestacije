@@ -77,6 +77,9 @@
     align-items: center;
     height: 110px;
     width: 200px;
+    background-color: grey;
+    border-radius: 20px;
+    margin-top: 20px;
 }
 
 /* Circle animation */
