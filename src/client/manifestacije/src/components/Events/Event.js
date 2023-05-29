@@ -61,35 +61,28 @@ function Event({ event }) {
     if (!user) {
       setNotLoggedIn(true);
     } else {
-      /*try {*/
-      if (isFavorite) {
-        /* let header = {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("tokens")).token
-            }`,
-          };
-          const deleteFavourites = await axios.delete(
-            `https://localhost:7237/users/${user.Id}/events/${event.id}/favorites`,
+      let header = {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("tokens")).token
+        }`,
+      };
+      try {
+        if (isFavorite) {
+          await axios.delete(
+            `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
             { headers: header }
           );
-          console.log(deleteFavourites);
         } else {
-          let header = {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("tokens")).token
-            }`,
-          };
-          const postFavourites = await axios.post(
-            `https://localhost:7237/users/${user.Id}/events/${event.id}/favorites`,
+          await axios.post(
+            `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
+            null,
             { headers: header }
           );
-          console.log(postFavourites);
         }
-        setIsFavorite((prevIsFavorite) => !prevIsFavorite);
       } catch (error) {
         console.error("Error performing favorite action:", error);
-      }*/
       }
+
       setIsFavorite((prevIsFavorite) => !prevIsFavorite);
     }
   };

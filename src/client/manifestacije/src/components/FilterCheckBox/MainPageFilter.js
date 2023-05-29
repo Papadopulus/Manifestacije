@@ -21,7 +21,7 @@ function MainPageFilter(props) {
   const [locations, SetLocations] = useState([]);
   const [organizations, SetOrganizations] = useState([]);
   const [selectedPrice, SetSelectedPrice] = useState([0, 10000]);
-  const [startDate, SetStartDate] = useState(new Date());
+  const [startDate, SetStartDate] = useState(new Date(2023, 1, 1));
   const [endDate, SetEndDate] = useState(new Date(2025, 1, 1));
   const [querySearch, SetQuerySearch] = useState("");
   const [resetFilters, SetResetFilters] = useState(false);
