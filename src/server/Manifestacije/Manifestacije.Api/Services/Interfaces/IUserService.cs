@@ -17,4 +17,6 @@ public interface IUserService
     Task<bool> RemoveEventFromFavouritesAsync(string userId, string eventId, CancellationToken ct);
     Task<bool> AddEventToGoingAsync(string userId, string eventId, CancellationToken ct);
     Task<bool> RemoveEventFromGoingAsync(string userId, string eventId, CancellationToken ct);
+    Task<List<EventViewResponse>> GetFavouriteEventsAsync(string userId, CancellationToken ct);
+    Task<List<EventViewResponse>> GetGoingEventsAsync(string userId, CancellationToken ct);
 }
