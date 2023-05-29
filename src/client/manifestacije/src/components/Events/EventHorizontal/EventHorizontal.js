@@ -6,6 +6,9 @@ import {format} from "date-fns";
 const EventHorizontal = ({event}) => {
 
     const [images, setImages] = useState(null);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [showFavoritesInfo, setShowFavoritesInfo] = useState(false);
+    
     const shouldLog = useRef(true);
     const loadImage = async () => {
         try {
@@ -20,6 +23,12 @@ const EventHorizontal = ({event}) => {
         }
     };
 
+    function toggleFavorite() {
+        setIsFavorite((prevIsFavorite) => !prevIsFavorite);
+
+        console.log(event.title);
+    }
+
     useEffect(() => {
         if (shouldLog.current) {
             shouldLog.current = false;
@@ -32,6 +41,28 @@ const EventHorizontal = ({event}) => {
     return (
 
         <div className={classes.mainContainer}>
+
+            <div
+                className={`${classes.favoriteIcon} ${
+                    isFavorite ? classes.favorite : ""
+                }`}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite();
+                }}
+                onMouseEnter={() => setShowFavoritesInfo(true)}
+                onMouseLeave={() => setShowFavoritesInfo(false)}
+            >
+                {isFavorite ? (
+                    <i className="fa-solid fa-star"></i>
+                ) : (
+                    <i className="fa-regular fa-star"></i>
+                )}
+                {showFavoritesInfo && (
+                    <div className={classes.favoritesInfo}>Remove from favorites!</div>
+                )}
+            </div>
+            
             <div className={classes.imageHolder}>
                 {images ? (
                         <img className={classes.imagePlace} src={images} alt=""/>
