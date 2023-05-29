@@ -28,9 +28,8 @@ function MainPageFilter(props) {
   const [isMobileView, setIsMobileView] = useState(false);
   const shouldLog = useRef(true);
 
-  const [pageNumber,setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
   const itemsPerPage = 12;
-  
 
   const handleSelect = (pickedDate) => {
     SetStartDate(pickedDate.selection.startDate);
@@ -76,7 +75,7 @@ function MainPageFilter(props) {
       shouldLog.current = false;
     };
   }, []);
-  
+
   function handleFilters(filters, category) {
     const newFilters = { ...Filters };
     newFilters[category] = filters;
@@ -104,9 +103,9 @@ function MainPageFilter(props) {
           MinStartingDate: startDate.toISOString(),
           MaxEndingDate: endDate.toISOString(),
 
-          PageSize:itemsPerPage,
+          PageSize: itemsPerPage,
           PageNumber: pageNumber,
-          
+
           Title: querySearch.length < 1 ? null : querySearch,
           Description: querySearch.length < 1 ? null : querySearch,
           Street: querySearch.length < 1 ? null : querySearch,
@@ -126,7 +125,7 @@ function MainPageFilter(props) {
       });
     setFilters(newFilters);
   }
-  
+
   useEffect(() => {
     SetResetFilters(false);
 
@@ -140,22 +139,21 @@ function MainPageFilter(props) {
     props.SortDirection,
     resetFilters,
   ]);
-  
-  useEffect( ()=> {
-    const handleScroll = (event) => {
-      const scrollHeight = event.target.documentElement.scrollHeight
-      const currentHeight = event.target.documentElement.scrollTop + window.innerHeight
-      if (currentHeight + 1 >= scrollHeight){
-        setPageNumber(prevPageNumber => prevPageNumber + 1);
-        // handleFilters();
 
+  useEffect(() => {
+    const handleScroll = (event) => {
+      const scrollHeight = event.target.documentElement.scrollHeight;
+      const currentHeight =
+        event.target.documentElement.scrollTop + window.innerHeight;
+      if (currentHeight + 1 >= scrollHeight) {
+        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        // handleFilters();
       }
-    }
-    window.addEventListener("scroll",handleScroll)
-    return () => window.removeEventListener("scroll",handleScroll)
-  },[pageNumber])
-  console.log(pageNumber + 'number of a page');
-  console.log(itemsPerPage + 'number of items');
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [pageNumber]);
+
   const changePrice = (event, value) => {
     SetSelectedPrice(value);
   };
