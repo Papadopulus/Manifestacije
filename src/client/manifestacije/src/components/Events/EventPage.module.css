@@ -28,7 +28,7 @@
      display: flex;
      flex-direction: column;
      align-items: center;
-     margin: 320px 200px 30px 200px;
+     margin: 320px 350px 30px 350px;
     border-radius: 15px;
     background-color: #89729b;
     padding-left: 200px;
@@ -45,12 +45,27 @@
     font-size: 50px;
     margin-bottom: 5px;
 }
-.date,.location,.exactLocation,.category,.org,.guest,.comp,.capacity{
+.date,.location,.exactLocation,.category,.org,.guest,.comp,.capacity,.sponsorPresent,.accPartners,.tranPartners{
     margin-bottom: 10px;
     display: flex;
     flex-direction: row;
     margin-top: 10px;
 
+}
+.tranPartners i{
+    margin-right: 20px;
+    font-size: 40px;
+    color: white;
+}
+.accPartners i{
+    margin-right: 20px;
+    font-size: 40px;
+    color: white;
+}
+.sponsorPresent i{
+    margin-right: 20px;
+    font-size: 40px;
+    color: white;
 }
 .date i {
     margin-right: 20px;
@@ -92,7 +107,7 @@
     font-size: 30px;
     color: white;
 }
-.guestList,.compList{
+.guestList,.compList,.sponsorList{
     display: flex;
     flex-wrap: wrap;
 }
@@ -100,13 +115,13 @@
 .dateTitle,.locationTitle,.exactLocationTitle,.categoryTitle,.orgTitle,.guestTitle{
     
 }
-.description,.ticket,.details{
+.description,.ticket,.details,.sponsor,.partners,.mapDisplay{
     border-radius: 15px;
     background-color: #89729b;
     padding: 30px 150px 30px 150px;
-    margin: 30px 200px 30px 200px;
+    margin: 30px 350px 30px 350px;
 }
-.detailsWrapper{
+.detailsWrapper,.partnersWrapper{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -141,4 +156,20 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+
+.mapDisplay{
+    
+}
+
+.accPartnersLeft ,.tranPartnersRight{
+    cursor: pointer;
+}
+.accPartnersLeft:hover,.tranPartnersRight:hover{
+    transform: scale(1.1);
+}
+.sponsorPresent{
+    justify-content: center;
+    display: flex;
 }
