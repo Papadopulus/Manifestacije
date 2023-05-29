@@ -6,7 +6,11 @@ import EditNameBox from "../DialogBoxes/EditNameBox";
 import ViewBox from "../DialogBoxes/ViewBox";
 import EditPartnerBox from "../DialogBoxes/EditPartnerBox";
 import ViewPartnerBox from "../DialogBoxes/ViewPartnerBox";
-
+import "./Admin.css";
+import {IconButton} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import PersonIcon from "@mui/icons-material/Person";
 const CategoriesList = () => {
     const [allPartners, setAllPartners] = useState([]);
 
@@ -108,13 +112,19 @@ const CategoriesList = () => {
                         <tr key={partner.id}>
                             <td>{partner.name}</td>
                             <td>
-                                <button onClick={() => confirmDelete(partner)}>Delete Partner</button>
+                                <IconButton onClick={() => confirmDelete(partner)} >
+                                    <DeleteIcon sx={{ fontSize: 31 }}></DeleteIcon>
+                                </IconButton>
                             </td>
                             <td>
-                                <button onClick={() => confirmEdit(partner)}>Edit Partner</button>
+                                <IconButton onClick={() => confirmEdit(partner)}>
+                                    <EditIcon sx={{ fontSize: 30 }}></EditIcon>
+                                </IconButton>
                             </td>
                             <td>
-                                <button onClick={() => confirmView(partner)}>Details of Partner</button>
+                                <IconButton onClick={() => confirmView(partner)}>
+                                    <PersonIcon sx={{ fontSize: 32 }}></PersonIcon>
+                                </IconButton>
                             </td>
                         </tr>
                     ))}
