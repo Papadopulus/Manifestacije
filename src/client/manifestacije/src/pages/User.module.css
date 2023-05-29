@@ -66,15 +66,18 @@
     justify-content: center;
 }
 .container-form{
-    margin-top: 10vh;
-    margin-left: 7vw;
-    margin-right: 7vw;
+    /*margin-top: 10vh;*/
+    /*margin-left: 7vw;*/
+    /*margin-right: 7vw;*/
+    margin-top:40px;
+    margin-right: 40px;
 }
 .container-upper{
     /*width: 100%;
     height: 100%;*/
     display: flex;
-    justify-content: center;
+    justify-content: start;
+    flex-flow: column;
 }
 @media only screen and (max-width: 1200px) {
     .container{
@@ -85,8 +88,9 @@
         width: 90%;
     }
     .container-form{
-        margin-left: 15vw;
-        margin-right: 15vw;
+        /*margin-left: 15vw;*/
+        /*margin-right: 15vw;*/
+        margin-left: 40px;
         margin-bottom: 50px;
     }
 }

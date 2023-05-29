@@ -26,8 +26,9 @@ const User = () => {
     let activeComponent;
 
     if (activeLink === 'profile') {
-        activeComponent = userData && <ChangeProfile name={userData.firstName} surname={userData.lastName} id={userData.id}
-                                         setUser={setUserData}></ChangeProfile>
+        activeComponent = userData &&
+            <ChangeProfile name={userData.firstName} surname={userData.lastName} id={userData.id}
+                           setUser={setUserData}></ChangeProfile>
 
     } else if (activeLink === 'favorites') {
         activeComponent = <Favorites/>;
@@ -35,15 +36,15 @@ const User = () => {
         activeComponent = <Going/>;
     } else if (activeLink === 'password') {
         activeComponent = <ChangePassword/>
-    }else if (activeLink === "allUsers"){
+    } else if (activeLink === "allUsers") {
         activeComponent = <UsersList/>
-    }else if (activeLink === "allCategories"){
+    } else if (activeLink === "allCategories") {
         activeComponent = <CategoriesList/>
-    }else if (activeLink === "allLocations"){
+    } else if (activeLink === "allLocations") {
         activeComponent = <LocationList/>
-    }else if (activeLink === "allOrg"){
+    } else if (activeLink === "allOrg") {
         activeComponent = <OrganisationsList/>
-    }else if (activeLink === "allPartners"){
+    } else if (activeLink === "allPartners") {
         activeComponent = <PartnersList/>
     }
 
@@ -99,77 +100,90 @@ const User = () => {
     return (
         <div className={classes["background-container"]}>
             <div className={classes["container"]}>
+
                 <div className={classes["container-upper"]}>
+
                     <div className={classes["container-left-nav"]}>
+
                         <div className={classes["container-name-surname"]}>
                             <label>{userData.firstName + " " + userData.lastName}</label>
                             <p className={classes["item-menu-email"]}>{userData.email}</p>
                         </div>
 
-                        <a
-                            className={`${classes['item-menu']} ${activeLink === 'profile' ? classes['active'] : ''}`}
-                            href="#"
-                            onClick={() => handleLinkClick('profile')}
-                        >
-                            Izmeni profil
-                        </a>
-                        <a
-                            className={`${classes['item-menu']} ${activeLink === 'password' ? classes['active'] : ''}`}
-                            href="#"
-                            onClick={() => handleLinkClick('password')}
-                        >
-                            Izmeni lozinku
-                        </a>
-                        {user.Roles==="Admin" && <a
-                            className={`${classes['item-menu']} ${activeLink === 'allUsers' ? classes['active'] : ''}`}
-                            href="#"
-                            onClick={() => handleLinkClick('allUsers')}
-                        >
-                            Korisnici
-                        </a>}
-                        {user.Roles==="Admin" && <a
-                            className={`${classes['item-menu']} ${activeLink === 'allCategories' ? classes['active'] : ''}`}
-                            href="#"
-                            onClick={() => handleLinkClick('allCategories')}
-                        >
-                            Kategorije
-                        </a>}
-                        {user.Roles==="Admin" && <a
-                            className={`${classes['item-menu']} ${activeLink === 'allLocations' ? classes['active'] : ''}`}
-                            href="#"
-                            onClick={() => handleLinkClick('allLocations')}
-                        >
-                           Lokacije
-                        </a>}
-                        {user.Roles==="Admin" && <a
-                            className={`${classes['item-menu']} ${activeLink === 'allOrg' ? classes['active'] : ''}`}
-                            href="#"
-                            onClick={() => handleLinkClick('allOrg')}
-                        >
-                            Organizacije
-                        </a>}
-                        {user.Roles==="Admin" && <a
-                            className={`${classes['item-menu-bottom']} ${activeLink === 'allPartners' ? classes['active'] : ''}`}
-                            href="#"
-                            onClick={() => handleLinkClick('allPartners')}
-                        >
-                            Partneri
-                        </a>}
-                        {user.Roles !== "Admin" && <a
-                            className={`${classes['item-menu']} ${activeLink === 'favorites' ? classes['active'] : ''}`}
-                            href="#"
-                            onClick={() => handleLinkClick('favorites')}
-                        >
-                            Omiljeno
-                        </a>}
-                        {user.Roles !== "Admin" && <a
-                            className={`${classes['item-menu-bottom']} ${activeLink === 'going' ? classes['active'] : ''}`}
-                            href="#"
-                            onClick={() => handleLinkClick('going')}
-                        >
-                            Idem
-                        </a>}
                         
+                            <a
+                                className={`${classes['item-menu']} ${activeLink === 'profile' ? classes['active'] : ''}`}
+                                href="#"
+                                onClick={() => handleLinkClick('profile')}
+                            >
+                                Izmeni profil
+                            </a>
+                            <a
+                                className={`${classes['item-menu']} ${activeLink === 'password' ? classes['active'] : ''}`}
+                                href="#"
+                                onClick={() => handleLinkClick('password')}
+                            >
+                                Izmeni lozinku
+                            </a>
+                            {user.Roles === "Admin" && <a
+                                className={`${classes['item-menu']} ${activeLink === 'allUsers' ? classes['active'] : ''}`}
+                                href="#"
+                                onClick={() => handleLinkClick('allUsers')}
+                            >
+                                Korisnici
+                            </a>}
+                            {user.Roles === "Admin" && <a
+                                className={`${classes['item-menu']} ${activeLink === 'allCategories' ? classes['active'] : ''}`}
+                                href="#"
+                                onClick={() => handleLinkClick('allCategories')}
+                            >
+                                Kategorije
+                            </a>}
+                            {user.Roles === "Admin" && <a
+                                className={`${classes['item-menu']} ${activeLink === 'allLocations' ? classes['active'] : ''}`}
+                                href="#"
+                                onClick={() => handleLinkClick('allLocations')}
+                            >
+                                Lokacije
+                            </a>}
+                            {user.Roles === "Admin" && <a
+                                className={`${classes['item-menu']} ${activeLink === 'allOrg' ? classes['active'] : ''}`}
+                                href="#"
+                                onClick={() => handleLinkClick('allOrg')}
+                            >
+                                Organizacije
+                            </a>}
+                            <a
+                                className={`${classes['item-menu']} ${activeLink === 'favorites' ? classes['active'] : ''}`}
+                                href="#"
+                                onClick={() => handleLinkClick('favorites')}
+                            >
+                                Omiljeno
+                            </a>
+                            {user.Roles === "Admin" && <a
+                                className={`${classes['item-menu-bottom']} ${activeLink === 'allPartners' ? classes['active'] : ''}`}
+                                href="#"
+                                onClick={() => handleLinkClick('allPartners')}
+                            >
+                                Partneri
+                            </a>}
+                            {/*{user.Roles !== "Admin" && <a*/}
+                            {/*    className={`${classes['item-menu']} ${activeLink === 'favorites' ? classes['active'] : ''}`}*/}
+                            {/*    href="#"*/}
+                            {/*    onClick={() => handleLinkClick('favorites')}*/}
+                            {/*>*/}
+                            {/*    Omiljeno*/}
+                            {/*</a>}*/}
+
+                            {user.Roles !== "Admin" && <a
+                                className={`${classes['item-menu-bottom']} ${activeLink === 'going' ? classes['active'] : ''}`}
+                                href="#"
+                                onClick={() => handleLinkClick('going')}
+                            >
+                                Idem
+                            </a>}
+                        
+
                     </div>
                 </div>
                 <div className={classes["container-right"]}>
