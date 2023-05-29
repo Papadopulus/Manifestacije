@@ -8,7 +8,6 @@ import "./ChangeProfile.css"
 import {useContext} from "react";
 import AuthContext from "../../store/AuthContext";
 const ChangePassword = (props) =>{
-    const {reset} = useContext(AuthContext);
 
     const {
         value: enteredPassword,
@@ -40,7 +39,12 @@ const ChangePassword = (props) =>{
         const payload = {
             password: enteredPassword
         }
-        await reset(payload);
+        await checkTokenAndRefresh();
+        let header = {
+            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
+        }
+        const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/users/${props.id}`,payload,{headers:header});
+        props.setUser(response.data);
         resetConfirmPasswordFunction();
         resetPasswordFunction();
     }
