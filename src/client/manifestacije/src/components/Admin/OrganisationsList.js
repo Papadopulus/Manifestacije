@@ -7,6 +7,10 @@ import ViewBox from "../DialogBoxes/ViewBox";
 import EditOrgBox from "../DialogBoxes/EditOrgBox";
 import ViewBoxOrg from "../DialogBoxes/ViewBoxOrg";
 import "./Admin.css";
+import {IconButton} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import PersonIcon from "@mui/icons-material/Person";
 const CategoriesList = () => {
     const [allOrganisations, setAllOrganisations] = useState([]);
 
@@ -108,13 +112,19 @@ const CategoriesList = () => {
                         <tr key={org.id}>
                             <td>{org.name}</td>
                             <td>
-                                <button onClick={() => confirmDelete(org)}>Delete Organisation</button>
+                                <IconButton onClick={() => confirmDelete(org)} >
+                                    <DeleteIcon sx={{ fontSize: 31 }}></DeleteIcon>
+                                </IconButton>
                             </td>
                             <td>
-                                <button onClick={() => confirmEdit(org)}>Edit Organisation</button>
+                                <IconButton onClick={() => confirmEdit(org)}>
+                                    <EditIcon sx={{ fontSize: 30 }}></EditIcon>
+                                </IconButton>
                             </td>
                             <td>
-                                <button onClick={() => confirmView(org)}>Details of Organisation</button>
+                                <IconButton onClick={() => confirmView(org)}>
+                                    <PersonIcon sx={{ fontSize: 32 }}></PersonIcon>
+                                </IconButton>
                             </td>
                         </tr>
                     ))}

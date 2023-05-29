@@ -5,6 +5,10 @@ import UserDeleteBox from "../DialogBoxes/UserDeleteBox";
 import EditNameBox from "../DialogBoxes/EditNameBox";
 import ViewBox from "../DialogBoxes/ViewBox";
 import "./Admin.css";
+import {IconButton} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import PersonIcon from "@mui/icons-material/Person";
 const CategoriesList = () => {
     const [allLocations, setAllLocations] = useState([]);
 
@@ -106,13 +110,19 @@ const CategoriesList = () => {
                         <tr key={location.id}>
                             <td>{location.name}</td>
                             <td>
-                                <button onClick={() => confirmDelete(location)}>Delete Location</button>
+                                <IconButton onClick={() => confirmDelete(location)} >
+                                    <DeleteIcon sx={{ fontSize: 31 }}></DeleteIcon>
+                                </IconButton>
                             </td>
                             <td>
-                                <button onClick={() => confirmEdit(location)}>Edit Location</button>
+                                <IconButton onClick={() => confirmEdit(location)}>
+                                    <EditIcon sx={{ fontSize: 30 }}></EditIcon>
+                                </IconButton>
                             </td>
                             <td>
-                                <button onClick={() => confirmView(location)}>Details of Location</button>
+                                <IconButton onClick={() => confirmView(location)}>
+                                    <PersonIcon sx={{ fontSize: 32 }}></PersonIcon>
+                                </IconButton>
                             </td>
                         </tr>
                     ))}
