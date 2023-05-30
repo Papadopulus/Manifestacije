@@ -1,8 +1,9 @@
 ﻿import MainPageFilter from "../../components/FilterCheckBox/MainPageFilter";
 import classes from "./Home.module.css";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "../../api/axios";
 import EventList from "../../components/Events/EventList";
+import Event from "../../components/Events/Event";
 
 const Home = () => {
   const [events, SetEvents] = useState([]);
@@ -10,24 +11,59 @@ const Home = () => {
   const [columnName, SetColumnName] = useState("Views");
   const [directionSort, SetDirectionSort] = useState("desc");
 
-  const shouldLog = useRef(true);
-  useEffect(() => {
-    if (shouldLog.current) {
-      shouldLog.current = false;
-      axios
-        .get(`${process.env.REACT_APP_BASE_URL}/events`)
-        .then((response) => {
-          SetEvents(response.data);
-          console.log(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-    return () => {
-      shouldLog.current = false;
-    };
-  }, []);
+  // const [pageNumber,setPageNumber] = useState(1);
+  // // const [itemsPerPage,setItemsPerPage] = useState(5);
+  // const shouldLog = useRef(true);
+  
+  // const getEventsAsync = async () => {
+  //   const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/events`,{
+  //     params:{
+  //       PageSize:itemsPerPage,
+  //       PageNumber:pageNumber
+  //     }
+  //   });
+  //   SetEvents(pre => [...pre,...response.data]);
+  // }
+  // // useEffect(() => {
+  // //   if (shouldLog.current) {
+  // //     shouldLog.current = false;
+  // //     // axios
+  // //     //   .get(`${process.env.REACT_APP_BASE_URL}/events`,{
+  // //     //     params:{
+  // //     //       PageSize:itemsPerPage,
+  // //     //       PageNumber:pageNumber
+  // //     //     }
+  // //     //   })
+  // //     //   .then((response) => {
+  // //     //     // SetEvents(response.data);
+  // //     //     SetEvents(pre => [...pre,...response.data]);
+  // //     //     console.log(response.data);
+  // //     //    
+  // //     //   })
+  // //     //   .catch((err) => {
+  // //     //     console.log(err);
+  // //     //   });
+  // //     getEventsAsync();
+  // //   }
+  // //   return () => {
+  // //     shouldLog.current = false;
+  // //   };
+  // // }, [pageNumber]);
+  //
+  // useEffect( () => {
+  //   const handleScroll = (event) => {
+  //     const scrollHeight = event.target.documentElement.scrollHeight
+  //     const currentHeight = event.target.documentElement.scrollTop + window.innerHeight
+  //     if (currentHeight + 1 >= scrollHeight){
+  //       setPageNumber(pageNumber + 1);
+  //       getEventsAsync();
+  //     }
+  //   }
+  //   window.addEventListener("scroll",handleScroll)
+  //   return () => window.removeEventListener("scroll",handleScroll)
+  // },[pageNumber])
+  // console.log(itemsPerPage + " items per page");
+  // console.log(pageNumber + " page number")
 
   const sorting = (e) => {
     if (e === "popularLowest") {
@@ -80,11 +116,6 @@ const Home = () => {
 
         <div className={classes["main-events"]}>
           <EventList events={events}></EventList>
-          {/*{events.map((event) => (
-            <div key={event.id}>
-              <p>{event.title}</p>
-            </div>
-          ))}*/}
         </div>
       </div>
     </div>
