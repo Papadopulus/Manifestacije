@@ -12,6 +12,7 @@ public sealed class UserService : IUserService
     private readonly IEventRepository _eventRepository;
     private readonly string _secret;
     private readonly IUserRepository _userRepository;
+    private readonly IConfiguration _configuration;
 
     public UserService(IUserRepository userRepository,
         IConfiguration configuration,
@@ -20,6 +21,7 @@ public sealed class UserService : IUserService
         IEventRepository eventRepository)
     {
         _userRepository = userRepository;
+        _configuration = configuration;
         _secret = configuration["Authorization:Secret"]!;
         _mailService = mailService;
         _organizationService = organizationService;
@@ -152,10 +154,11 @@ public sealed class UserService : IUserService
         }
 
         var (_, token) = user.GenerateTokens(_secret);
+        var body = _configuration["Frontend:Reset"] + token;
         user.RefreshTokens.Add(new RefreshToken
             { Token = token, ExpireDate = DateTime.UtcNow.AddDays(1), IsPasswordReset = true });
         await _userRepository.UpdateUserAsync(user);
-        await _mailService.SendEmailAsync(email, "Password reset", token);
+        await _mailService.SendEmailAsync(email, "Password reset", body);
         return true;
     }
 
