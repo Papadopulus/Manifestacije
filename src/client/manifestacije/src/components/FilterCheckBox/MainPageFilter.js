@@ -203,7 +203,7 @@ function MainPageFilter(props) {
           className={classes["home-filter-panel"]}
         >
           <Panel
-            header={"Price Range"}
+            header={"Filters"}
             key="1"
             className={classes["home-filter-panel-name"]}
           >
