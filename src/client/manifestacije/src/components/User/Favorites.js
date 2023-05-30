@@ -60,9 +60,93 @@
 // };
 //
 // export default Favorites;
-import React, {useEffect, useRef, useState} from "react";
+
+
+
+// import React, {useEffect, useRef, useState} from "react";
+// import axios from "axios";
+// import EventHorizontal from "../Events/EventHorizontal/EventHorizontal";
+// import classes from "./Favorites.module.css";
+// import InfiniteScroll from "react-infinite-scroll-component";
+// import Event from "../Events/Event";
+//
+// const Favorites = () => {
+//     const [events, setEvents] = useState([]);
+//     const [pageNumber, setPageNumber] = useState(1);
+//     const [hasMore, setHasMore] = useState(true);
+//     const shouldFetchEvents = useRef(true);
+//
+//     const getAllEvents = async () => {
+//         try {
+//             const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/events`, {
+//                 params: {
+//                     PageSize: 6,
+//                     PageNumber: pageNumber,
+//                     SortColumn: "Title",
+//                 },
+//             });
+//
+//             if (response.data.length === 0) {
+//                 setHasMore(false);
+//             }
+//
+//             setEvents((prev) => [...prev, ...response.data]);
+//             setPageNumber((prevState) => prevState + 1);
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     };
+//
+//     useEffect(() => {
+//         if (shouldFetchEvents.current) {
+//             getAllEvents();
+//             shouldFetchEvents.current = false;
+//         }
+//     }, []);
+//     const styleS = {
+//         overflow:"unset",
+//     }
+//     return (
+//         <>
+//             {/*{events.map((event) => (*/}
+//             {/*    <Event key={event.id} event={event}/>*/}
+//             {/*))}*/}
+//             {events.length > 0 ? (
+//                 <InfiniteScroll
+//                     style={styleS}
+//                     next={getAllEvents}
+//                     hasMore={hasMore}
+//                     dataLength={events.length}
+//                     loader=
+//                         {
+//                         <div className={classes.spinner}>
+//                             <div className={classes.spinnerCircle}></div>
+//                         </div>
+//                 }
+//                     endMessage={<h4 className={classes.noData}>No more data</h4>}
+//                 >
+//                     <div className={classes.allEvents}>
+//                         {events.map((event) => (
+//                             <EventHorizontal key={event.id} event={event}/>
+//                         ))}
+//                     </div>
+//                 </InfiniteScroll>
+//             ) : (
+//                 <div className={classes.spinner}>
+//                     <div className={classes.spinnerCircle}></div>
+//                 </div>
+//             )
+//             }
+//         </>
+//     );
+// };
+//
+// export default Favorites;
+
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import EventHorizontal from "../Events/EventHorizontal/EventHorizontal";
+import Event from "../Events/Event";
 import classes from "./Favorites.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -70,6 +154,7 @@ const Favorites = () => {
     const [events, setEvents] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 750);
     const shouldFetchEvents = useRef(true);
 
     const getAllEvents = async () => {
@@ -98,10 +183,22 @@ const Favorites = () => {
             getAllEvents();
             shouldFetchEvents.current = false;
         }
+
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 750);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
     }, []);
+
     const styleS = {
-        overflow:"unset",
-    }
+        overflow: "unset",
+    };
+
     return (
         <>
             {events.length > 0 ? (
@@ -110,17 +207,22 @@ const Favorites = () => {
                     next={getAllEvents}
                     hasMore={hasMore}
                     dataLength={events.length}
-                    loader=
-                        {
+                    loader={
                         <div className={classes.spinner}>
                             <div className={classes.spinnerCircle}></div>
                         </div>
-                }
+                    }
                     endMessage={<h4 className={classes.noData}>No more data</h4>}
                 >
                     <div className={classes.allEvents}>
                         {events.map((event) => (
-                            <EventHorizontal key={event.id} event={event}/>
+                            <React.Fragment key={event.id}>
+                                {isMobile ? (
+                                    <Event key={event.id} event={event} />
+                                ) : (
+                                    <EventHorizontal key={event.id} event={event} />
+                                )}
+                            </React.Fragment>
                         ))}
                     </div>
                 </InfiniteScroll>
@@ -128,8 +230,7 @@ const Favorites = () => {
                 <div className={classes.spinner}>
                     <div className={classes.spinnerCircle}></div>
                 </div>
-            )
-            }
+            )}
         </>
     );
 };

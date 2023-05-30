@@ -37,3 +37,9 @@
     font-size: 25px;
     color: navajowhite;
 }
+
+@media only screen and (max-width: 750px) {
+   .noData{
+       margin-top: 20px;
+   }
+}
