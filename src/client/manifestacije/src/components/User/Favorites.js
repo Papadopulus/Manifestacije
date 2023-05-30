@@ -60,7 +60,7 @@
 // };
 //
 // export default Favorites;
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import EventHorizontal from "../Events/EventHorizontal/EventHorizontal";
 import classes from "./Favorites.module.css";
@@ -99,20 +99,28 @@ const Favorites = () => {
             shouldFetchEvents.current = false;
         }
     }, []);
-
+    const styleS = {
+        overflow:"unset",
+    }
     return (
         <>
             {events.length > 0 ? (
                 <InfiniteScroll
+                    style={styleS}
                     next={getAllEvents}
                     hasMore={hasMore}
                     dataLength={events.length}
-                    loader={<h4>Loading...</h4>}
-                    endMessage={<h4>No more data</h4>}
+                    loader=
+                        {
+                        <div className={classes.spinner}>
+                            <div className={classes.spinnerCircle}></div>
+                        </div>
+                }
+                    endMessage={<h4 className={classes.noData}>No more data</h4>}
                 >
                     <div className={classes.allEvents}>
                         {events.map((event) => (
-                            <EventHorizontal key={event.id} event={event} />
+                            <EventHorizontal key={event.id} event={event}/>
                         ))}
                     </div>
                 </InfiniteScroll>

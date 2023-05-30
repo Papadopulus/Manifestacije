@@ -9,7 +9,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
     width: 100%;
     border-radius: 20px;
 }
@@ -32,4 +31,9 @@
     to {
         transform: rotate(360deg);
     }
+}
+.noData{
+    text-align: center;
+    font-size: 25px;
+    color: navajowhite;
 }
