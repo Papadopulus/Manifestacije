@@ -154,7 +154,7 @@ public sealed class UserService : IUserService
         }
 
         var (_, token) = user.GenerateTokens(_secret);
-        var body = _configuration["Frontend:Reset"] + token;
+        var body = _configuration["Frontend:Reset"] + Uri.EscapeDataString(token);
         user.RefreshTokens.Add(new RefreshToken
             { Token = token, ExpireDate = DateTime.UtcNow.AddDays(1), IsPasswordReset = true });
         await _userRepository.UpdateUserAsync(user);
