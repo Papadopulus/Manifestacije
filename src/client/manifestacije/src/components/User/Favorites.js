@@ -102,7 +102,7 @@ const Favorites = () => {
 
     return (
         <>
-            {events.length > 0 && (
+            {events.length > 0 ? (
                 <InfiniteScroll
                     next={getAllEvents}
                     hasMore={hasMore}
@@ -116,6 +116,10 @@ const Favorites = () => {
                         ))}
                     </div>
                 </InfiniteScroll>
+            ) : (
+                <div className={classes.spinner}>
+                    <div className={classes.spinnerCircle}></div>
+                </div>
             )
             }
         </>
