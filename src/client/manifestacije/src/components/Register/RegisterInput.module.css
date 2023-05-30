@@ -1,9 +1,9 @@
-.register-form, .reset-form{
+.register-form{
     display: flex;
     flex-wrap: wrap;
     min-height: 100vh;
 }
-.right-register-container, .right-reset-container {
+.right-register-container {
     width: 28%;
     min-height: 100vh;
     display: flex;
@@ -18,9 +18,6 @@
     display: flex;
     overflow-y: auto;
     background-color: grey;
-}
-.right-reset-container{
-    width: 100%;
 }
 .choose-org{
     color: #333333;
@@ -57,7 +54,7 @@
     }
 }
 
-.register-handler, .reset-handler{
+.register-handler{
     padding: 0 20px;
     margin: 0 auto;
     max-width: 485px;
@@ -98,7 +95,7 @@
     font-size: 18px;
     margin-top: 5px;
 }
-.register-button, .reset-button{
+.register-button{
     width: 100%;
 }
 .register-button-div .reset-button-div{

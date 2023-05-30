@@ -12,6 +12,7 @@ import AdminPanel from "./components/Admin/AdminPanel";
 import Home from "./pages/HomePage/Home";
 import AboutPage from "./pages/AboutPage/AboutPage";
 import EventPage from "./components/Events/EventPage";
+import EmailRequest from "./components/PasswordReset/EmailRequest";
 
 function App() {
   return (
@@ -61,9 +62,10 @@ function App() {
               }
             />
             /*treba da se izbrise,stavio sam samo zbog testiranja*/
-            <Route path="/reset" element={<PasswordReset />} />
+            <Route path="/reset/:token" element={<PasswordReset />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/events/:id" element={<EventPage />} />
+            <Route path="/resetRequest" element={<EmailRequest />} />
           </Routes>
         </AuthContextProvider>
       </BrowserRouter>
