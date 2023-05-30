@@ -20,7 +20,7 @@ public static class QueryExtensions
             return Builders<TType>.Sort.Descending("CreatedAtUtc");
         }
 
-        return filter.SortDirection != "desc"
+        return filter.SortDirection is not "desc"
             ? Builders<TType>.Sort.Ascending(filter.SortColumn)
             : Builders<TType>.Sort.Descending(filter.SortColumn);
     }
