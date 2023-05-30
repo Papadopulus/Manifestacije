@@ -86,7 +86,11 @@ function Event({ event }) {
           <div className={classes.favoritesInfo}>Add to favourites!</div>
         )}
       </div>
-      <img src={images} alt="" />
+      {images ? (
+          <img src={images} alt="" loading={"lazy"}/>
+      ) : (
+          <div className={classes.skeleton}/>
+      )}
 
       <header>
         <h4>{event.title}</h4>

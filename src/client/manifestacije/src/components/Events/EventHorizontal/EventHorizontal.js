@@ -2,7 +2,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import classes from "./EventHorizontal.module.css"
 import {format} from "date-fns";
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 const EventHorizontal = ({event}) => {
 
     const [images, setImages] = useState(null);
@@ -65,11 +65,12 @@ const EventHorizontal = ({event}) => {
             
             <div className={classes.imageHolder}>
                 {images ? (
-                        <img className={classes.imagePlace} src={images} alt=""/>
+                    <img className={classes.imagePlace}  src={images} alt=""/>
                 ) : (
-                    <div className={classes.spinner}>
-                        <div className={classes.spinnerCircle}></div>
-                    </div>
+                    // <div className={classes.spinner}>
+                    //     <div className={classes.spinnerCircle}></div>
+                    // </div>
+                    <div className={classes.skeleton}/>
                 )}
             </div>
 
