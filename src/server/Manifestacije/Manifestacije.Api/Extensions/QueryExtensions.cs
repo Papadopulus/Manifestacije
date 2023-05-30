@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using Manifestacije.Api.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Manifestacije.Api.Extensions;
@@ -89,7 +90,7 @@ public static class QueryExtensions
             }
 
             FilterDefinition<TType>? filterMinMax = null;
-            
+
             var isDateTimeMin = DateTime.TryParse(valueMin?.ToString(), out var dateMin);
             var isDateTimeMax = DateTime.TryParse(valueMin?.ToString(), out var dateMax);
 
@@ -102,7 +103,6 @@ public static class QueryExtensions
 
             if (valueMax is not null)
             {
-                
                 filterMinMax = filterMinMax is null
                     ? Builders<TType>.Filter.Lte(name, isDateTimeMax ? dateMax : valueMax)
                     : Builders<TType>.Filter.Lte(name, isDateTimeMax ? dateMax : valueMax) & filterMinMax;
@@ -158,17 +158,17 @@ public static class QueryExtensions
             {
                 continue;
             }
-                
-            var filterProp = Builders<TType>.Filter.ElemMatch(GetPropertySelector<TType, IEnumerable<string>>(name), 
-                Builders<string>.Filter.Regex(x => x.ToString(), $"/{value}/i"));
             
-            if (intersectionColumns.Contains(name))
+            var filterProp = 
+                Builders<TType>.Filter.AnyStringIn(name, new BsonRegularExpression($"/{value}/i"));
+            
+            if (intersectionColumns.Contains(prop.Name))
             {
                 filterIntersection = filterIntersection is null ? filterProp : filterIntersection & filterProp;
                 continue;
             }
 
-            if (unionColumns.Contains(name))
+            if (unionColumns.Contains(prop.Name))
             {
                 filterUnion = filterUnion is null ? filterProp : filterUnion | filterProp;
             }
@@ -229,7 +229,7 @@ public static class QueryExtensions
 
         return filter;
     }
-    
+
     public static Expression<Func<T, R>> GetPropertySelector<T, R>(string propertyName)
     {
         var arg = Expression.Parameter(typeof(T), "x");

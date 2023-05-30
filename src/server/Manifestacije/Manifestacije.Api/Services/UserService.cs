@@ -203,7 +203,7 @@ public sealed class UserService : IUserService
             throw new NotFoundException($"There is no event with the id of {eventId}");
         }
 
-        if (user.FavouriteEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+        if (user.FavouriteEvents.Any(x => x.Id == eventId))
         {
             throw new InvalidInputException("You are already going to this event");
         }
@@ -234,12 +234,13 @@ public sealed class UserService : IUserService
             throw new NotFoundException($"There is no event with the id of {eventId}");
         }
 
-        if (!user.FavouriteEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+        if (user.FavouriteEvents.All(x => x.Id != eventFromDb.Id))
         {
             throw new InvalidInputException("You dont have this event to favourites");
         }
 
-        user.FavouriteEvents.Remove(EventMapper.EventToEventPartial(eventFromDb));
+        var eventPartial = user.FavouriteEvents.FirstOrDefault(x => x.Id == eventFromDb.Id);
+        user.FavouriteEvents.Remove(eventPartial!);
         eventFromDb.Favourites--;
         var updateEventTask = _eventRepository.UpdateEventAsync(eventFromDb);
         var updateUserTask = _userRepository.UpdateUserAsync(user);
@@ -265,7 +266,7 @@ public sealed class UserService : IUserService
             throw new NotFoundException($"There is no event with the id of {eventId}");
         }
 
-        if (user.GoingEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+        if (user.GoingEvents.Any(x => x.Id == eventId))
         {
             throw new InvalidInputException("You are already going to this event");
         }
@@ -296,12 +297,13 @@ public sealed class UserService : IUserService
             throw new NotFoundException($"There is no event with the id of {eventId}");
         }
 
-        if (!user.GoingEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+        if (user.GoingEvents.All(x => x.Id != eventId))
         {
             throw new InvalidInputException("You are already not going to this event");
         }
 
-        user.GoingEvents.Remove(EventMapper.EventToEventPartial(eventFromDb));
+        var eventPartial = user.GoingEvents.FirstOrDefault(x => x.Id == eventId);
+        user.GoingEvents.Remove(eventPartial!);
         eventFromDb.Going--;
         var updateEventTask = _eventRepository.UpdateEventAsync(eventFromDb);
         var updateUserTask = _userRepository.UpdateUserAsync(user);
