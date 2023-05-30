@@ -9,7 +9,7 @@ function PriceSlider({ value, changePrice }) {
         onChange={changePrice}
         valueLabelDisplay="on"
         min={0}
-        max={10000}
+        max={9999}
         classes={{
           thumb: classes["price-thumb"],
           rail: classes["price-rail"],

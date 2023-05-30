@@ -141,9 +141,9 @@ function Event({ event }) {
           onMouseLeave={() => setShowFavoritesInfo(false)}
         >
           {isFavorite ? (
-            <i className="fa-solid fa-star"></i>
+              <i className="fa-solid fa-bookmark fa-xs"></i>
           ) : (
-            <i className="fa-solid fa-star"></i>
+              <i className="fa-regular fa-bookmark fa-2xs"></i>
           )}
           {showFavoritesInfo && (
             <div className={classes.favoritesInfo}>Add to favourites!</div>

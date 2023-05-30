@@ -99,17 +99,17 @@ const Home = () => {
       <div className={classes["right-container-home"]}>
         <div className={classes["sort-selection"]}>
           <div className={classes["sort-wrapper"]}>
-            <h5 className={classes["sort-title"]}>Sortiraj prema:</h5>
+            <h5 className={classes["sort-title"]}>Sortiraj:</h5>
             <select
               value={selectedPriceOrder}
               onChange={(e) => sorting(e.target.value)}
             >
-              <option value={"popularLowest"}>Popularnosti rastuce</option>
-              <option value={"popularHighest"}>Popularnosti opadajuce</option>
-              <option value={"dateLowest"}>Datumu najblizem</option>
-              <option value={"dateHighest"}>Datumu najdaljem</option>
-              <option value="priceLowest">Ceni rastuce</option>
-              <option value="priceHighest">Ceni opadajuce</option>
+              <option value={"popularLowest"}>Popularnost rastuća</option>
+              <option value={"popularHighest"}>Popularnost opadajuć</option>
+              <option value={"dateLowest"}>Datum najbliži</option>
+              <option value={"dateHighest"}>Datum najdalji</option>
+              <option value="priceLowest">Cena rastuća</option>
+              <option value="priceHighest">Cena opadajuća</option>
             </select>
           </div>
         </div>

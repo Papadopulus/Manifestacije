@@ -1,7 +1,7 @@
 ﻿.listItem-wrap img {
     width: 100%;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
     height: 200px;
     object-fit: cover;
     transition: transform 0.3s ease;
@@ -29,7 +29,7 @@
     align-items: center;
     font-size: larger;
     background-color: #89729b;
-    border-radius: 10px;
+    border-radius: 30px;
     
 }
 
@@ -52,7 +52,7 @@
 }
 .listItem-wrap{
     background-color: white;
-    border-radius: 10px;
+    border-radius: 30px;
     font-size: larger;
     height: 430px;
     transition: transform 0.3s ease;
@@ -66,13 +66,16 @@
     font-size: 35px;
     color: #5A5A5A;
     cursor: pointer;
+    /*display: flex;
+    /*justify-content: center;
+    align-items: center;*/
     
 }
 .favoriteIcon:hover{
     transform: scale(1.1);
 }
 .favorite {
-    color: #ffc107;
+    color: #1d1d1f;
     top:7px;
     right: 16px;
 }
