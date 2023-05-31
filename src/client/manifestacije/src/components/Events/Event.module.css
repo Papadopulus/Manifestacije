@@ -158,3 +158,22 @@
     font-weight: bold;
     font-size: larger;
 }
+
+.skeleton {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 200px;
+    width: 100%;
+    opacity: .7;
+    animation: skeleton-loading 0.8s linear infinite alternate;
+}
+@keyframes skeleton-loading {
+    0% {
+        background-color: hsl(200, 20%, 70%);
+    }
+
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
+}
+

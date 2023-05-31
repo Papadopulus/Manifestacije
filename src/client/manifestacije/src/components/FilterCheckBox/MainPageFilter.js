@@ -125,7 +125,7 @@ function MainPageFilter(props) {
       });
     setFilters(newFilters);
   }
-
+  
   useEffect(() => {
     SetResetFilters(false);
 
@@ -138,6 +138,7 @@ function MainPageFilter(props) {
     props.SortColumn,
     props.SortDirection,
     resetFilters,
+    props.pageSize,
   ]);
 
   useEffect(() => {

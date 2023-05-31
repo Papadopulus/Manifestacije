@@ -1,4 +1,4 @@
-﻿import React, { useContext, useEffect, useState } from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import classes from "./Event.module.css";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ function Event({ event }) {
   const [notLoggedIn, setNotLoggedIn] = useState(false);
   const { user } = useContext(AuthContext);
 
+  const shouldLog = useRef(true);
   const loadImage = async () => {
     try {
       const imageResponse = await axios.get(
@@ -48,12 +49,18 @@ function Event({ event }) {
       console.error("Error retrieving the user's favourite events:", error);
     }
   };
-  useEffect(() => {
-    loadImage();
-    if (user) {
-      loadFavourites();
+  useEffect( () => {
+    if (shouldLog.current) {
+      shouldLog.current = false;
+      loadImage();
+      if (user) {
+        loadFavourites();
+      }
     }
-  }, []);
+    return () => {
+      shouldLog.current = false;
+    }
+        },[])
   function onClickEventHandler() {
     navigate("/events/" + event.id);
   }
@@ -149,7 +156,11 @@ function Event({ event }) {
             <div className={classes.favoritesInfo}>Add to favourites!</div>
           )}
         </div>
-        <img src={images} alt="" />
+        {images ? (
+            <img src={images} alt="" loading={"lazy"}/>
+        ) : (
+            <div className={classes.skeleton}/>
+        )}
 
         <header>
           <h4>{event.title}</h4>
