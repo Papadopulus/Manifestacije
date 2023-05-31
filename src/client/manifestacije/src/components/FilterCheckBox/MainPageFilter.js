@@ -26,6 +26,7 @@ function MainPageFilter(props) {
   const [querySearch, SetQuerySearch] = useState("");
   const [resetFilters, SetResetFilters] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
+  
   const shouldLog = useRef(true);
 
   const [pageNumber, setPageNumber] = useState(1);
@@ -75,16 +76,15 @@ function MainPageFilter(props) {
       shouldLog.current = false;
     };
   }, []);
-
-  function handleFilters(filters, category) {
+  
+  async function handleFilters(filters, category)  {
     const newFilters = { ...Filters };
     newFilters[category] = filters;
 
     const minPrice = selectedPrice[0];
     const maxPrice = selectedPrice[1];
 
-    axios
-      .get(`${process.env.REACT_APP_BASE_URL}/events`, {
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/events`, {
         params: {
           CategoryId:
             newFilters["categories"].length < 1
@@ -119,6 +119,8 @@ function MainPageFilter(props) {
       .then((response) => {
         props.options(response.data);
         // props.options(prev => [...prev,...response.data]);
+        // setEvents((prev) => [...prev, ...response.data]);
+        // setPageNumber((prevState) => prevState + 1);
       })
       .catch((err) => {
         console.log(err);
@@ -138,23 +140,8 @@ function MainPageFilter(props) {
     props.SortColumn,
     props.SortDirection,
     resetFilters,
-    props.pageSize,
   ]);
-
-  useEffect(() => {
-    const handleScroll = (event) => {
-      const scrollHeight = event.target.documentElement.scrollHeight;
-      const currentHeight =
-        event.target.documentElement.scrollTop + window.innerHeight;
-      if (currentHeight + 1 >= scrollHeight) {
-        setPageNumber((prevPageNumber) => prevPageNumber + 1);
-        // handleFilters();
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [pageNumber]);
-
+  
   const changePrice = (event, value) => {
     SetSelectedPrice(value);
   };
