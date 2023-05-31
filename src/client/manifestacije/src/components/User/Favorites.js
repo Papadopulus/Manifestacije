@@ -42,7 +42,7 @@
 //             shouldLog.current = false;
 //         }
 //     }, []);
-//    
+//
 //     return (
 //         <InfiniteScroll next={getAllEvents}
 //                         hasMore={hasMore}
@@ -60,8 +60,6 @@
 // };
 //
 // export default Favorites;
-
-
 
 // import React, {useEffect, useRef, useState} from "react";
 // import axios from "axios";
@@ -143,7 +141,7 @@
 //
 // export default Favorites;
 
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import EventHorizontal from "../Events/EventHorizontal/EventHorizontal";
 import Event from "../Events/Event";
@@ -153,107 +151,107 @@ import AuthContext from "../../store/AuthContext";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
 
 const Favorites = () => {
-    const [events, setEvents] = useState([]);
-    const [pageNumber, setPageNumber] = useState(1);
-    const [hasMore, setHasMore] = useState(true);
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 750);
-    const shouldFetchEvents = useRef(true);
+  const [events, setEvents] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 750);
+  const shouldFetchEvents = useRef(true);
 
-    const { user } = useContext(AuthContext);
-    const getAllFavorites = async () => {
-        let header = {
-            Authorization: `Bearer ${
-                JSON.parse(localStorage.getItem("tokens")).token
-            }`,
-        };
-        try {
-            const response = await axios.get(
-                `https://localhost:7237/users/${user.Id}/favourites`,
-                { headers: header }
-            );
-            setEvents(response.data);
-            /*console.log(hasFavouritesResponse.data);*/
-        } catch (error) {
-            console.error("Error retrieving the user's favourite events:", error);
-        }
+  const { user } = useContext(AuthContext);
+  const getAllFavorites = async () => {
+    let header = {
+      Authorization: `Bearer ${
+        JSON.parse(localStorage.getItem("tokens")).token
+      }`,
     };
-    // const getAllEvents = async () => {
-    //     try {
-    //         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/events`, {
-    //             params: {
-    //                 PageSize: 6,
-    //                 PageNumber: pageNumber,
-    //                 SortColumn: "Title",
-    //             },
-    //         });
-    //
-    //         if (response.data.length === 0) {
-    //             setHasMore(false);
-    //         }
-    //
-    //         setEvents((prev) => [...prev, ...response.data]);
-    //         setPageNumber((prevState) => prevState + 1);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
+    try {
+      const response = await axios.get(
+        `https://localhost:7237/users/${user.Id}/favourites`,
+        { headers: header }
+      );
+      setEvents(response.data);
+      /*console.log(hasFavouritesResponse.data);*/
+    } catch (error) {
+      console.error("Error retrieving the user's favourite events:", error);
+    }
+  };
+  // const getAllEvents = async () => {
+  //     try {
+  //         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/events`, {
+  //             params: {
+  //                 PageSize: 6,
+  //                 PageNumber: pageNumber,
+  //                 SortColumn: "Title",
+  //             },
+  //         });
+  //
+  //         if (response.data.length === 0) {
+  //             setHasMore(false);
+  //         }
+  //
+  //         setEvents((prev) => [...prev, ...response.data]);
+  //         setPageNumber((prevState) => prevState + 1);
+  //     } catch (error) {
+  //         console.log(error);
+  //     }
+  // };
 
-    useEffect(() => {
-        if (shouldFetchEvents.current) {
-            checkTokenAndRefresh();
-            getAllFavorites();
-            shouldFetchEvents.current = false;
-        }
+  useEffect(() => {
+    if (shouldFetchEvents.current) {
+      checkTokenAndRefresh();
+      getAllFavorites();
+      shouldFetchEvents.current = false;
+    }
 
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 750);
-        };
-
-        window.addEventListener("resize", handleResize);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
-
-    const styleS = {
-        overflow: "unset",
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 750);
     };
 
-    return (
-        <>
-            {events.length > 0 ? (
-                // <InfiniteScroll
-                //     style={styleS}
-                //     next={getAllEvents}
-                //     hasMore={hasMore}
-                //     dataLength={events.length}
-                //     loader={
-                //         <div className={classes.spinner}>
-                //             <div className={classes.spinnerCircle}></div>
-                //         </div>
-                //     }
-                //     endMessage={<h4 className={classes.noData}>No more data</h4>}
-                // >
-                    <div className={classes.allEvents}>
-                        {events.map((event) => (
-                            <React.Fragment key={event.id}>
-                                {isMobile ? (
-                                    <Event key={event.id} event={event} />
-                                ) : (
-                                    <EventHorizontal key={event.id} event={event} />
-                                )}
-                            </React.Fragment>
-                        ))}
-                    </div>
-                // </InfiniteScroll>
-            ) : (
-                <div className={classes.spinner}>
-                    <div className={classes.spinnerCircle}></div>
-                </div>
-            )}
-        </>
-    );
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const styleS = {
+    overflow: "unset",
+  };
+
+  return (
+    <>
+      {events.length > 0 ? (
+        // <InfiniteScroll
+        //     style={styleS}
+        //     next={getAllEvents}
+        //     hasMore={hasMore}
+        //     dataLength={events.length}
+        //     loader={
+        //         <div className={classes.spinner}>
+        //             <div className={classes.spinnerCircle}></div>
+        //         </div>
+        //     }
+        //     endMessage={<h4 className={classes.noData}>No more data</h4>}
+        // >
+        <div className={classes.allEvents}>
+          {events.map((event) => (
+            <React.Fragment key={event.id}>
+              {isMobile ? (
+                <Event key={event.id} event={event} />
+              ) : (
+                <EventHorizontal key={event.id} event={event} user={user} />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      ) : (
+        // </InfiniteScroll>
+        <div className={classes.spinner}>
+          <div className={classes.spinnerCircle}></div>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default Favorites;
