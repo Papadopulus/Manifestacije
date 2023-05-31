@@ -6,7 +6,7 @@ import "./Event.css";
 import axios from "axios";
 import AuthContext from "../../store/AuthContext";
 import NotLoggedIn from "./NotLoggedIn";
-function Event({ event }) {
+function Event({ event ,setEvents}) {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
   const [showSponsoredInfo, setShowSponsoredInfo] = useState(false);
@@ -78,6 +78,9 @@ function Event({ event }) {
           await axios.delete(
             `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
             { headers: header }
+          );
+          setEvents((prevEvents) =>
+              prevEvents.filter((favEvent) => favEvent.id !== event.id)
           );
         } else {
           await axios.post(

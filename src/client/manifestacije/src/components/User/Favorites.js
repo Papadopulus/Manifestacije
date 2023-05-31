@@ -159,6 +159,7 @@ const Favorites = () => {
 
   const { user } = useContext(AuthContext);
   const getAllFavorites = async () => {
+    checkTokenAndRefresh();
     let header = {
       Authorization: `Bearer ${
         JSON.parse(localStorage.getItem("tokens")).token
@@ -198,7 +199,6 @@ const Favorites = () => {
 
   useEffect(() => {
     if (shouldFetchEvents.current) {
-      checkTokenAndRefresh();
       getAllFavorites();
       shouldFetchEvents.current = false;
     }
@@ -237,15 +237,16 @@ const Favorites = () => {
           {events.map((event) => (
             <React.Fragment key={event.id}>
               {isMobile ? (
-                <Event key={event.id} event={event} />
+                <Event key={event.id} event={event} setEvents={setEvents}/>
               ) : (
-                <EventHorizontal key={event.id} event={event} user={user} />
+                <EventHorizontal key={event.id} event={event} user={user} setEvents={setEvents}/>
               )}
             </React.Fragment>
           ))}
         </div>
+          // </InfiniteScroll>
+          
       ) : (
-        // </InfiniteScroll>
         <div className={classes.spinner}>
           <div className={classes.spinnerCircle}></div>
         </div>

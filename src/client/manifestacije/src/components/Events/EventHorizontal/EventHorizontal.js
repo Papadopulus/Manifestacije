@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import classes from "./EventHorizontal.module.css";
 import { format } from "date-fns";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-const EventHorizontal = ({ event, user }) => {
+const EventHorizontal = ({ event, user ,setEvents}) => {
   const [images, setImages] = useState(null);
   const [showFavoritesInfo, setShowFavoritesInfo] = useState(false);
 
@@ -34,6 +34,9 @@ const EventHorizontal = ({ event, user }) => {
       await axios.delete(
         `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
         { headers: header }
+      );
+      setEvents((prevEvents) =>
+          prevEvents.filter((favEvent) => favEvent.id !== event.id)
       );
     } catch (error) {
       console.error("Error performing favorite action:", error);
