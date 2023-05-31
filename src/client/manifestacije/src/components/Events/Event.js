@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import classes from "./Event.module.css";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
