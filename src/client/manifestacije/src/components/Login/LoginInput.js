@@ -29,7 +29,9 @@ const LoginInput = () => {
     valueChangedHandler: emailChangedHandler,
     inputBlurHandler: emailBlurHandler,
     resetFunction: resetEmailNameFunction,
-  } = useInput((value) => value.includes("@"));
+  } = useInput((value) =>
+    /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
+  );
 
   let formIsValid = false;
   if (enteredNameIsValid && enteredEmailIsValid) {
