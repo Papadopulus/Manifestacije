@@ -47,8 +47,6 @@ function EventPage() {
       shouldLog.current = false;
     };
   }, []);
-  console.log(event);
-  console.log(marker);
 
   if (!event) {
     return (
@@ -58,9 +56,17 @@ function EventPage() {
     );
   }
   function buyTicket() {
-    console.log(event.ticketUrl);
     window.location.replace(`${event.ticketUrl}`);
   }
+
+  function accHandler() {
+    window.location.replace(`${event.accommodationPartner.url}`);
+  }
+
+  function transHandler() {
+    window.location.replace(`${event.transportPartner.url}`);
+  }
+
   return (
     <>
       <div className={classes.container}>
@@ -151,13 +157,12 @@ function EventPage() {
                 <div className={classes.guestTitle}>
                   <p>GOSTI</p>
                   <div className={classes.guestList}>
-                    {event.guests.map((guest, index) => {
-                      if (index === event.guests.length - 1) {
-                        return <p key={index}>{guest}</p>;
-                      } else {
-                        return <p key={index}>{guest},</p>;
-                      }
-                    })}
+                    {event.guests.map((guest, index) => (
+                      <span key={guest}>
+                  {guest}
+                        {index !== event.guests.length - 1 && <span> , </span>}
+                </span>
+                    ))}
                   </div>
                 </div>
               </li>
@@ -168,13 +173,12 @@ function EventPage() {
                 <div className={classes.compTitle}>
                   <p>TAKMICARI</p>
                   <div className={classes.compList}>
-                    {event.competitors.map((competitor, index) => {
-                      if (index === event.guests.length - 1) {
-                        return <p key={index}>{competitor}</p>;
-                      } else {
-                        return <p key={index}>{competitor}, </p>;
-                      }
-                    })}
+                    {event.competitors.map((competitor, index) => (
+                      <span key={competitor}>
+                  {competitor}
+                        {index !== event.competitors.length - 1 && <span> , </span>}
+                </span>
+                    ))}
                   </div>
                 </div>
               </li>
@@ -191,16 +195,62 @@ function EventPage() {
           </div>
         </div>
       </div>
-      
+      <div className={classes.sponsor}>
+        <h1 className={classes.descriptionTitle}>Sponzori</h1>
+        <div className={classes.sponsorPresent}>
+          <div className={classes.sponsorPresentIcon}>
+            <i className="fa-solid fa-hand-holding-dollar"></i>
+          </div>
+          <div className={classes.sponsorPresentTitle}>
+          <p>Ova manifestacija je sponzorisana od strane:  </p>
+          <div className={classes.sponsorList}>
+            {event.sponsors.map((sponsor, index) => (
+              <span key={sponsor}>
+                  {sponsor}
+                {index !== event.sponsors.length - 1 && <span> , </span>}
+                </span>
+            ))}
+          </div>
+          </div>
+        </div>
+       
+      </div>
+      <div className={classes.partners}>
+        <h1 className={classes.descriptionTitle}>Parnteri</h1>
+      <div className={classes.partnersWrapper}>
+        <div className={classes.accPartnersLeft} onClick={accHandler} >
+          <ul>
+            <li className={classes.accPartners}>
+              <div className={classes.accPartnersIcon}>
+                <i className="fa-solid fa-bed"></i>
+              </div>
+              <div className={classes.accPartnersTitle}>
+                <p>SMESTAJ</p>
+                {event.accommodationPartner.name}
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div className={classes.tranPartnersRight} onClick={transHandler}>
+          <ul>
+            <li className={classes.tranPartners}>
+              <div className={classes.tranPartnersIcon}>
+                <i className="fa-solid fa-van-shuttle"></i>
+              </div>
+              <div className={classes.tranPartnersTitle}>
+                <p>TRANSPORT</p>
+                {event.transportPartner.name}
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      </div>
       <div className={classes.mapDisplay}>
         {marker.lat && marker.lng && <MapMarker markerLocation={marker} />}
       </div>
-      
-      <div className={classes.sponsor}>
-        <h1 className={classes.sponsorTitle}>Sponzor</h1>
-        {event.sponsors}
-      </div>
     </>
+      
   );
 }
 

@@ -12,6 +12,7 @@ public sealed class UserService : IUserService
     private readonly IEventRepository _eventRepository;
     private readonly string _secret;
     private readonly IUserRepository _userRepository;
+    private readonly IConfiguration _configuration;
 
     public UserService(IUserRepository userRepository,
         IConfiguration configuration,
@@ -20,6 +21,7 @@ public sealed class UserService : IUserService
         IEventRepository eventRepository)
     {
         _userRepository = userRepository;
+        _configuration = configuration;
         _secret = configuration["Authorization:Secret"]!;
         _mailService = mailService;
         _organizationService = organizationService;
@@ -152,10 +154,11 @@ public sealed class UserService : IUserService
         }
 
         var (_, token) = user.GenerateTokens(_secret);
+        var body = _configuration["Frontend:Reset"] + Uri.EscapeDataString(token);
         user.RefreshTokens.Add(new RefreshToken
             { Token = token, ExpireDate = DateTime.UtcNow.AddDays(1), IsPasswordReset = true });
         await _userRepository.UpdateUserAsync(user);
-        await _mailService.SendEmailAsync(email, "Password reset", token);
+        await _mailService.SendEmailAsync(email, "Password reset", body);
         return true;
     }
 
@@ -200,7 +203,7 @@ public sealed class UserService : IUserService
             throw new NotFoundException($"There is no event with the id of {eventId}");
         }
 
-        if (user.FavouriteEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+        if (user.FavouriteEvents.Any(x => x.Id == eventId))
         {
             throw new InvalidInputException("You are already going to this event");
         }
@@ -231,12 +234,13 @@ public sealed class UserService : IUserService
             throw new NotFoundException($"There is no event with the id of {eventId}");
         }
 
-        if (!user.FavouriteEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+        if (user.FavouriteEvents.All(x => x.Id != eventFromDb.Id))
         {
             throw new InvalidInputException("You dont have this event to favourites");
         }
 
-        user.FavouriteEvents.Remove(EventMapper.EventToEventPartial(eventFromDb));
+        var eventPartial = user.FavouriteEvents.FirstOrDefault(x => x.Id == eventFromDb.Id);
+        user.FavouriteEvents.Remove(eventPartial!);
         eventFromDb.Favourites--;
         var updateEventTask = _eventRepository.UpdateEventAsync(eventFromDb);
         var updateUserTask = _userRepository.UpdateUserAsync(user);
@@ -262,7 +266,7 @@ public sealed class UserService : IUserService
             throw new NotFoundException($"There is no event with the id of {eventId}");
         }
 
-        if (user.GoingEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+        if (user.GoingEvents.Any(x => x.Id == eventId))
         {
             throw new InvalidInputException("You are already going to this event");
         }
@@ -293,12 +297,13 @@ public sealed class UserService : IUserService
             throw new NotFoundException($"There is no event with the id of {eventId}");
         }
 
-        if (!user.GoingEvents.Contains(EventMapper.EventToEventPartial(eventFromDb)))
+        if (user.GoingEvents.All(x => x.Id != eventId))
         {
             throw new InvalidInputException("You are already not going to this event");
         }
 
-        user.GoingEvents.Remove(EventMapper.EventToEventPartial(eventFromDb));
+        var eventPartial = user.GoingEvents.FirstOrDefault(x => x.Id == eventId);
+        user.GoingEvents.Remove(eventPartial!);
         eventFromDb.Going--;
         var updateEventTask = _eventRepository.UpdateEventAsync(eventFromDb);
         var updateUserTask = _userRepository.UpdateUserAsync(user);

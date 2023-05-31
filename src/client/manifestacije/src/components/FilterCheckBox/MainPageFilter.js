@@ -21,16 +21,15 @@ function MainPageFilter(props) {
   const [locations, SetLocations] = useState([]);
   const [organizations, SetOrganizations] = useState([]);
   const [selectedPrice, SetSelectedPrice] = useState([0, 10000]);
-  const [startDate, SetStartDate] = useState(new Date());
+  const [startDate, SetStartDate] = useState(new Date(2023, 1, 1));
   const [endDate, SetEndDate] = useState(new Date(2025, 1, 1));
   const [querySearch, SetQuerySearch] = useState("");
   const [resetFilters, SetResetFilters] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
   const shouldLog = useRef(true);
 
-  const [nextPage, setNextPage] = useState(null);
-
-
+  const [pageNumber, setPageNumber] = useState(1);
+  const itemsPerPage = 12;
 
   const handleSelect = (pickedDate) => {
     SetStartDate(pickedDate.selection.startDate);
@@ -76,7 +75,7 @@ function MainPageFilter(props) {
       shouldLog.current = false;
     };
   }, []);
-  
+
   function handleFilters(filters, category) {
     const newFilters = { ...Filters };
     newFilters[category] = filters;
@@ -104,8 +103,9 @@ function MainPageFilter(props) {
           MinStartingDate: startDate.toISOString(),
           MaxEndingDate: endDate.toISOString(),
 
-          PageSize: props.pageSize,
-          
+          PageSize: itemsPerPage,
+          PageNumber: pageNumber,
+
           Title: querySearch.length < 1 ? null : querySearch,
           Description: querySearch.length < 1 ? null : querySearch,
           Street: querySearch.length < 1 ? null : querySearch,
@@ -118,6 +118,7 @@ function MainPageFilter(props) {
       })
       .then((response) => {
         props.options(response.data);
+        // props.options(prev => [...prev,...response.data]);
       })
       .catch((err) => {
         console.log(err);
@@ -139,6 +140,21 @@ function MainPageFilter(props) {
     resetFilters,
     props.pageSize,
   ]);
+
+  useEffect(() => {
+    const handleScroll = (event) => {
+      const scrollHeight = event.target.documentElement.scrollHeight;
+      const currentHeight =
+        event.target.documentElement.scrollTop + window.innerHeight;
+      if (currentHeight + 1 >= scrollHeight) {
+        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        // handleFilters();
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [pageNumber]);
+
   const changePrice = (event, value) => {
     SetSelectedPrice(value);
   };

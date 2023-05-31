@@ -12,6 +12,7 @@
     "@mui/material": "^5.13.2",
     "@reach/combobox": "^0.18.0",
     "@react-google-maps/api": "^2.18.1",
+
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -62,6 +63,12 @@
     ]
   },
   "devDependencies": {
-    "prettier": "^2.8.6"
+    "@types/google.maps": "^3.53.1",
+    "prettier": "2.8.8",
+    "@material-ui/icons": "^4.11.3",
+    "@reach/combobox": "^0.18.0",
+    "@react-google-maps/api": "^2.18.1",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.2"
   }
 }
