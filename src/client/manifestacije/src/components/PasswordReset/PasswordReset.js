@@ -5,11 +5,13 @@ import useInput from "../../hooks/use-input";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Introduction from "../Introduction/Introduction";
+import { useContext } from "react";
+import AuthContext from "../../store/AuthContext";
 const PasswordReset = () => {
   const { token } = useParams();
   const decodedToken = decodeURIComponent(token);
   const navigate = useNavigate();
-
+  const { logout } = useContext(AuthContext);
   const {
     value: enteredPassword,
     isValid: enteredPasswordIsValid,
@@ -46,6 +48,7 @@ const PasswordReset = () => {
     }
     resetConfirmPasswordFunction();
     resetPasswordFunction();
+    logout();
     navigate("/login");
   };
   return (

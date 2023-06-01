@@ -1,0 +1,7 @@
+﻿:where(.css-dev-only-do-not-override-htwhyh).ant-collapse .ant-collapse-content>.ant-collapse-content-box{
+    display: flex;
+    flex-direction: column;
+}
+:where(.css-dev-only-do-not-override-htwhyh).ant-collapse>.ant-collapse-item {
+     border-bottom: 0px;
+}

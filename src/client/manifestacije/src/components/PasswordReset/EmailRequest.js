@@ -48,7 +48,7 @@ function EmailRequest() {
           <h1>Reset Password</h1>
           <p className={classes["have-account"]}>
             Please enter your email address and we will send you a link to reset
-            your password!
+            your password on your e-mail!
           </p>
           <Input
             label={"E-mail"}
