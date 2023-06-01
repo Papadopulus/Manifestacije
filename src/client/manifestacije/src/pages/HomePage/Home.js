@@ -1,9 +1,7 @@
 ﻿import MainPageFilter from "../../components/FilterCheckBox/MainPageFilter";
 import classes from "./Home.module.css";
-import React, { useEffect, useRef, useState } from "react";
-import axios from "../../api/axios";
+import React, { useState } from "react";
 import EventList from "../../components/Events/EventList";
-import Event from "../../components/Events/Event";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const Home = () => {
@@ -11,14 +9,13 @@ const Home = () => {
   const [selectedPriceOrder, SetSelectedPriceOrder] = useState("popular");
   const [columnName, SetColumnName] = useState("Views");
   const [directionSort, SetDirectionSort] = useState("desc");
-  
-  const [pageSize,setPageSize] = useState(15);
-  
-  
+
+  const [pageSize, setPageSize] = useState(15);
+
   // const [pageNumber,setPageNumber] = useState(1);
   // // const [itemsPerPage,setItemsPerPage] = useState(5);
   // const shouldLog = useRef(true);
-  
+
   // const getEventsAsync = async () => {
   //   const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/events`,{
   //     params:{
@@ -42,7 +39,7 @@ const Home = () => {
   // //     //     // SetEvents(response.data);
   // //     //     SetEvents(pre => [...pre,...response.data]);
   // //     //     console.log(response.data);
-  // //     //    
+  // //     //
   // //     //   })
   // //     //   .catch((err) => {
   // //     //     console.log(err);
@@ -118,7 +115,12 @@ const Home = () => {
             </select>
           </div>
         </div>
-        <InfiniteScroll next={()=>setPageSize(pageSize+15)} hasMore={true} dataLength={events.length} loader={<h4>Loading...</h4>}>
+        <InfiniteScroll
+          next={() => setPageSize(pageSize + 15)}
+          hasMore={true}
+          dataLength={events.length}
+          loader={<h4>Loading...</h4>}
+        >
           <div className={classes["main-events"]}>
             <EventList events={events}></EventList>
           </div>
