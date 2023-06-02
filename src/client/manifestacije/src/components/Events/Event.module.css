@@ -1,17 +1,18 @@
 ﻿.listItem-wrap img {
     width: 100%;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
     height: 200px;
     object-fit: cover;
     transition: transform 0.3s ease;
     cursor: pointer;
 }
 .listItem-wrap h4 {
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     font-family: 'Lexend-Regular';
     font-size: larger;
     cursor: pointer;
+    font-family: 'Lexend-Medium';
 }
 @font-face {
     font-family: 'Lexend-Medium';
@@ -25,11 +26,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 0.5rem 25px 1rem 25px;
-    align-items: center;
-    font-size: larger;
-    background-color: #89729b;
-    border-radius: 10px;
+    margin: 20px 25px 0px 34px;
+    align-items:revert;
+    font-size: 25px;
+    /*background-color: #89729b;*/
+    border-radius: 30px;
     
 }
 
@@ -51,38 +52,42 @@
     font-weight: 600;
 }
 .listItem-wrap{
-    background-color: white;
-    border-radius: 10px;
+    background-color: #f5f5f7;
+    border-radius: 30px;
     font-size: larger;
-    height: 430px;
+    height: 355px;
     transition: transform 0.3s ease;
     cursor: pointer;
     position: relative;
+    max-width:450px;
 }
 .favoriteIcon {
     position: absolute;
-    top: 7px;
-    right: 16px;
+    top: 290px;
+    right: 25px;
     font-size: 35px;
     color: #5A5A5A;
     cursor: pointer;
+    /*display: flex;
+    /*justify-content: center;
+    align-items: center;*/
     
 }
 .favoriteIcon:hover{
     transform: scale(1.1);
 }
 .favorite {
-    color: #ffc107;
-    top:7px;
-    right: 16px;
+    color: #6242a9;
+    position: absolute;
+    top: 290px;
+    right: 25px;
 }
 .sponsoredIcon {
     position: absolute;
     top: 5px;
     left: 20px;
     font-size: 35px;
-    color: #85bb65;
-
+    color:#e6e6e6;
 }
 .sponsoredIcon:hover{
     transform: scale(1.1);
@@ -91,7 +96,7 @@
     position: absolute;
     top: 55px;
     left: -8px;
-    background-color: #fff;
+    background-color: #f5f5f7;
     color: black;
     padding: 5px 10px;
     border-radius: 5px;
@@ -105,7 +110,7 @@
     position: absolute;
     top: 55px;
     left: -40px;
-    background-color: #fff;
+    background-color: #f5f5f7;
     color: black;
     padding: 5px 10px;
     border-radius: 5px;
@@ -137,11 +142,11 @@
     margin-bottom: 0.5rem;
 }
 .footer-data {
-    background-color: #89729b;
-    padding: 5px 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    border-radius: 10px;
+    /*background-color: #89729b;*/
+    font-family: "Lexand-Medium";
+    font-size: 17px;
+    color: #5A5A5A;
+    margin: 5px 10px 0px;
 }
 .footer-left div ,.footer-right div{
      display: flex;
@@ -157,4 +162,37 @@
 .footer-left span ,.footer-right span{
     font-weight: bold;
     font-size: larger;
+}
+.footer-calendar{
+    height: 83px;
+    width: 83px;
+    background-color: #F7F7F5;
+    border-radius: 20px;
+    position: absolute;
+    bottom: 125px;
+    /*left: 255px;*/
+    right: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /*border-radius: 20px;
+    background: linear-gradient(225deg, #d5cfdc, #fef6ff);
+    box-shadow:  -6px 6px 12px #ebe4f2,
+    6px -6px 12px #efe8f6;*/
+}
+@font-face{
+    font-family: "Lexand-Bold";
+    src:url("../../fonts/Lexend-Bold.ttf");
+}
+.calendar-day{
+    font-size: 30px;
+    font-family: "Lexand-Bold";
+    color: #6242a9;
+}
+.calendar-month{
+    font-size: 20px;
+    font-family: "Lexand-Medium";
+
 }
