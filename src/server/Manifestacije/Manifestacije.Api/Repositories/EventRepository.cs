@@ -54,6 +54,19 @@ public class EventRepository : IEventRepository
             .ToListAsync();
     }
 
+    public async Task<List<Event>> GetEventsAsync(List<string> ids, EventQueryFilter eventQueryFilter)
+    {
+        var filter = eventQueryFilter.Filter<Event, EventQueryFilter>();
+        var sort = QueryExtensions.Sort<Event>(eventQueryFilter);
+        filter &= Builders<Event>.Filter.In(x => x.Id, ids);
+
+        return await _eventsCollection
+            .Find(filter)
+            .Sort(sort)
+            .Paginate(eventQueryFilter)
+            .ToListAsync();
+    }
+
     public async Task<bool> DeleteEventAsync(string id)
     {
         var filter = Builders<Event>.Filter.Eq("Id", id);

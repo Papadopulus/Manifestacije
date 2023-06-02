@@ -314,6 +314,7 @@ public sealed class UserService : IUserService
     }
 
     public async Task<List<EventViewResponse>> GetFavouriteEventsAsync(string userId,
+        EventQueryFilter queryFilter,
         CancellationToken ct)
     {
         var user = await _userRepository.GetUserByIdAsync(userId);
@@ -324,23 +325,13 @@ public sealed class UserService : IUserService
 
         var eventIds = user.FavouriteEvents.Select(x => x.Id).ToList();
 
-        var events = new List<Event>();
-
-        foreach (var id in eventIds)
-        {
-            var eventFromDb = await _eventRepository.GetEventByIdAsync(id);
-            if (eventFromDb is null)
-            {
-                throw new NotFoundException($"There is no event with the id of {id}");
-            }
-
-            events.Add(eventFromDb);
-        }
+        var events = await _eventRepository.GetEventsAsync(eventIds, queryFilter);
 
         return EventMapper.EventListToEventViewResponseList(events);
     }
 
     public async Task<List<EventViewResponse>> GetGoingEventsAsync(string userId,
+        EventQueryFilter queryFilter,
         CancellationToken ct)
     {
         var user = await _userRepository.GetUserByIdAsync(userId);
@@ -351,19 +342,8 @@ public sealed class UserService : IUserService
 
         var eventIds = user.GoingEvents.Select(x => x.Id).ToList();
 
-        var events = new List<Event>();
-
-        foreach (var id in eventIds)
-        {
-            var eventFromDb = await _eventRepository.GetEventByIdAsync(id);
-            if (eventFromDb is null)
-            {
-                throw new NotFoundException($"There is no event with the id of {id}");
-            }
-
-            events.Add(eventFromDb);
-        }
-
+        var events = await _eventRepository.GetEventsAsync(eventIds, queryFilter);
+        
         return EventMapper.EventListToEventViewResponseList(events);
     }
 }

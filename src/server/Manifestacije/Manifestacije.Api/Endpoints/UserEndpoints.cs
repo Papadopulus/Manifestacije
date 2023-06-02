@@ -26,12 +26,12 @@ public sealed class UserEndpoints : IEndpoints
             .RequireAuthorization(RolesEnum.User.ToString());
         app.MapDelete(BaseRoute + "/{id}", DeleteUser)
             .RequireAuthorization(RolesEnum.Admin.ToString());
-        
+
         app.MapGet(BaseRoute + "/{userId}" + "/favourites", GetFavouriteEventsForUser)
             .RequireAuthorization(RolesEnum.User.ToString());
         app.MapGet(BaseRoute + "/{userId}" + "/going", GetGoingEventsForUser)
             .RequireAuthorization(RolesEnum.User.ToString());
-        
+
         app.MapPost(BaseRoute + "/{userId}" + EventRoute + "/{eventId}" + "/favourites", AddEventToFavourites)
             .RequireAuthorization(RolesEnum.User.ToString());
         app.MapPost(BaseRoute + "/{userId}" + EventRoute + "/{eventId}" + "/going", AddEventToGoing)
@@ -41,7 +41,7 @@ public sealed class UserEndpoints : IEndpoints
             .RequireAuthorization(RolesEnum.User.ToString());
         app.MapDelete(BaseRoute + "/{userId}" + EventRoute + "/{eventId}" + "/going", RemoveEventFromGoing)
             .RequireAuthorization(RolesEnum.User.ToString());
-        
+
         app.MapPost(AuthRoute, AuthenticateUser)
             .AllowAnonymous();
         app.MapPost(AuthRoute + RefreshRoute, RefreshUserToken)
@@ -56,31 +56,33 @@ public sealed class UserEndpoints : IEndpoints
     internal static async Task<IResult> GetFavouriteEventsForUser(
         string userId,
         IUserService userService,
+        [AsParameters] EventQueryFilter queryFilter,
         HttpContext ctx,
         CancellationToken ct)
     {
         if (userId != ctx.User.GetUserId())
             return Results.Forbid();
-        
-        var events = await userService.GetFavouriteEventsAsync(userId, ct);
+
+        var events = await userService.GetFavouriteEventsAsync(userId, queryFilter, ct);
 
         return Results.Ok(events);
     }
-    
+
     internal static async Task<IResult> GetGoingEventsForUser(
         string userId,
         IUserService userService,
+        [AsParameters] EventQueryFilter queryFilter,
         HttpContext ctx,
         CancellationToken ct)
     {
         if (userId != ctx.User.GetUserId())
             return Results.Forbid();
-        
-        var events = await userService.GetGoingEventsAsync(userId, ct);
+
+        var events = await userService.GetGoingEventsAsync(userId, queryFilter, ct);
 
         return Results.Ok(events);
     }
-    
+
     internal static async Task<IResult> AddEventToFavourites(
         string userId,
         string eventId,
@@ -92,10 +94,10 @@ public sealed class UserEndpoints : IEndpoints
             return Results.Forbid();
 
         await userService.AddEventToFavouritesAsync(userId, eventId, ct);
-        
+
         return Results.Ok("Event added to favourites");
     }
-    
+
     internal static async Task<IResult> AddEventToGoing(
         string userId,
         string eventId,
@@ -107,10 +109,10 @@ public sealed class UserEndpoints : IEndpoints
             return Results.Forbid();
 
         await userService.AddEventToGoingAsync(userId, eventId, ct);
-        
+
         return Results.Ok("Event added to going");
     }
-    
+
     internal static async Task<IResult> RemoveEventFromFavourites(
         string userId,
         string eventId,
@@ -125,7 +127,7 @@ public sealed class UserEndpoints : IEndpoints
 
         return Results.Ok("Event removed from favourites");
     }
-    
+
     internal static async Task<IResult> RemoveEventFromGoing(
         string userId,
         string eventId,
@@ -137,10 +139,10 @@ public sealed class UserEndpoints : IEndpoints
             return Results.Forbid();
 
         await userService.RemoveEventFromGoingAsync(userId, eventId, ct);
-        
+
         return Results.Ok("Event removed from going");
     }
-    
+
     internal static async Task<IResult> SendPasswordReset(
         string email,
         IUserService userService)
