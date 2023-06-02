@@ -53,13 +53,16 @@ public sealed class MailService : IMailService
 
     private MimeMessage CreateMessage(IEnumerable<string> to,
         string subject,
-        string body)
+        string url)
     {
+        var body = File.ReadAllText(Path.Combine("wwwroot", "reset-password.html"));
+        body = body.Replace("{{action_url}}", url);
+        
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(_displayName, _from));
         message.To.AddRange(to.Select(x => new MailboxAddress(x, x)));
         message.Subject = subject;
-        message.Body = new TextPart(TextFormat.Html) { Text = $"<h2 style='color:red;'>{body}</h2>" };
+        message.Body = new TextPart(TextFormat.Html) { Text = body };
 
         return message;
     }
