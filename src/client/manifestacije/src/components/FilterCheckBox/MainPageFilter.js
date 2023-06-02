@@ -134,10 +134,10 @@ function MainPageFilter(props) {
   useEffect(() => {
     SetResetFilters(false);
 
-    if (shouldFetch.current){
+    // if (shouldFetch.current){
       handleFilters();
-      shouldFetch.current = false;
-    }
+    //   shouldFetch.current = false;
+    // }
   }, [
     selectedPrice,
     startDate,

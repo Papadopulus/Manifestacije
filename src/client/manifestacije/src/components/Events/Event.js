@@ -9,8 +9,8 @@ import NotLoggedIn from "./NotLoggedIn";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-function Event({ event }) {
 import checkTokenAndRefresh from "../../shared/tokenCheck";
+
 function Event({ event ,setEvents}) {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
@@ -147,7 +147,11 @@ function Event({ event ,setEvents}) {
           )}
         </div>
 
-        <img src={images} alt="" />
+        { images ? (
+            <img src={images} alt="" />
+        ) : (
+            <div className={classes.skeleton} />
+        )}
         <div className={classes["footer-calendar"]}>
           <div className={classes["calendar-day"]}>
             {format(new Date(event.startingDate), "dd")}
