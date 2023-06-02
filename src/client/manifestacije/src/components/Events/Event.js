@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import classes from "./Event.module.css";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +6,9 @@ import "./Event.css";
 import axios from "axios";
 import AuthContext from "../../store/AuthContext";
 import NotLoggedIn from "./NotLoggedIn";
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 function Event({ event }) {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
@@ -52,7 +52,7 @@ function Event({ event }) {
       console.error("Error retrieving the user's favourite events:", error);
     }
   };
-  useEffect( () => {
+  useEffect(() => {
     if (shouldLog.current) {
       shouldLog.current = false;
       loadImage();
@@ -62,8 +62,8 @@ function Event({ event }) {
     }
     return () => {
       shouldLog.current = false;
-    }
-        },[])
+    };
+  }, []);
   function onClickEventHandler() {
     navigate("/events/" + event.id);
   }
@@ -128,7 +128,7 @@ function Event({ event }) {
           <InfoOutlinedIcon />
           {showSponsoredInfo && (
             <div className={classes.sponsoredInfo}>
-              Manifestaciju sponzorisao {" "}
+              Manifestaciju sponzorisao{" "}
               {event.sponsors.map((sponsor, index) => (
                 <span key={sponsor}>
                   {sponsor}
@@ -150,9 +150,9 @@ function Event({ event }) {
           </div>
         </div>
         {images ? (
-            <img src={images} alt="" loading={"lazy"}/>
+          <img src={images} alt="" loading={"lazy"} />
         ) : (
-            <div className={classes.skeleton}/>
+          <div className={classes.skeleton} />
         )}
 
         <header>
@@ -190,25 +190,27 @@ function Event({ event }) {
           <div className={classes["footer-right"]}>
             {
               <div
-                  className={`${classes.favoriteIcon} ${
-                      isFavorite ? classes.favorite : ""
-                  }`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleFavorite();
-                  }}
-                  onMouseEnter={() => setShowFavoritesInfo(true)}
-                  onMouseLeave={() => setShowFavoritesInfo(false)}
+                className={`${classes.favoriteIcon} ${
+                  isFavorite ? classes.favorite : ""
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFavorite();
+                }}
+                onMouseEnter={() => setShowFavoritesInfo(true)}
+                onMouseLeave={() => setShowFavoritesInfo(false)}
               >
                 {isFavorite ? (
-                    <FavoriteOutlinedIcon sx={{ fontSize: 40 }} />
+                  <FavoriteOutlinedIcon sx={{ fontSize: 40 }} />
                 ) : (
-                    <FavoriteBorderOutlinedIcon sx={{ fontSize: 40 }} />
+                  <FavoriteBorderOutlinedIcon sx={{ fontSize: 40 }} />
                 )}
                 {showFavoritesInfo && (
-                    <div className={classes.favoritesInfo}>Add to favourites!</div>
+                  <div className={classes.favoritesInfo}>
+                    Add to favourites!
+                  </div>
                 )}
-              </div>/*<div>
+              </div> /*<div>
               <i className="fa fa-ticket" aria-hidden="true"></i>
               <span>Ulaznica</span>
             </div>
@@ -216,7 +218,8 @@ function Event({ event }) {
               <div className={classes["footer-data"]}>
                 {event.ticketPrice} rsd
               </div>
-            </div>*/}
+            </div>*/
+            }
             {/*<div>
               <i className="fa fa-users" aria-hidden="true"></i>
               <span>Kapacitet</span>
