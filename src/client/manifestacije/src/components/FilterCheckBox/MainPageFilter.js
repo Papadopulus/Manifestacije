@@ -9,6 +9,7 @@ import { DateRange } from "react-date-range"; // theme css file
 import "./MainPageFilter.css";
 import { Collapse } from "antd";
 import { Button } from "../Navbar/NavButton";
+import checkTokenAndRefresh from "../../shared/tokenCheck";
 const { Panel } = Collapse;
 
 function MainPageFilter(props) {
@@ -28,6 +29,7 @@ function MainPageFilter(props) {
   const [isMobileView, setIsMobileView] = useState(false);
   
   const shouldLog = useRef(true);
+  const shouldFetch = useRef(true);
 
   const [pageNumber, setPageNumber] = useState(1);
   const itemsPerPage = 12;
@@ -84,6 +86,7 @@ function MainPageFilter(props) {
     const minPrice = selectedPrice[0];
     const maxPrice = selectedPrice[1];
 
+    await checkTokenAndRefresh()
     await axios.get(`${process.env.REACT_APP_BASE_URL}/events`, {
         params: {
           CategoryId:
@@ -131,7 +134,10 @@ function MainPageFilter(props) {
   useEffect(() => {
     SetResetFilters(false);
 
-    handleFilters();
+    if (shouldFetch.current){
+      handleFilters();
+      shouldFetch.current = false;
+    }
   }, [
     selectedPrice,
     startDate,

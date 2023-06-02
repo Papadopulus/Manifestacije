@@ -6,6 +6,7 @@ import "./Event.css";
 import axios from "axios";
 import AuthContext from "../../store/AuthContext";
 import NotLoggedIn from "./NotLoggedIn";
+import checkTokenAndRefresh from "../../shared/tokenCheck";
 function Event({ event ,setEvents}) {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
@@ -33,6 +34,7 @@ function Event({ event ,setEvents}) {
     }
   };
   const loadFavourites = async () => {
+    await checkTokenAndRefresh();
     let header = {
       Authorization: `Bearer ${
         JSON.parse(localStorage.getItem("tokens")).token
@@ -65,13 +67,12 @@ function Event({ event ,setEvents}) {
     navigate("/events/" + event.id);
   }
   const toggleFavorite = async () => {
+    await checkTokenAndRefresh();
     if (!user) {
       setNotLoggedIn(true);
     } else {
       let header = {
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("tokens")).token
-        }`,
+        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`,
       };
       try {
         if (isFavorite) {
@@ -79,9 +80,11 @@ function Event({ event ,setEvents}) {
             `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
             { headers: header }
           );
-          setEvents((prevEvents) =>
-              prevEvents.filter((favEvent) => favEvent.id !== event.id)
-          );
+          if (setEvents){
+            setEvents((prevEvents) =>
+                prevEvents.filter((favEvent) => favEvent.id !== event.id)
+            );
+          }
         } else {
           await axios.post(
             `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
