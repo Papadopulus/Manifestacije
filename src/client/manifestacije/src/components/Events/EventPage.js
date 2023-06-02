@@ -82,7 +82,8 @@ function EventPage() {
             {format(new Date(event.endingDate), "dd.MMM.yyyy")}
           </div>*/}
         </div>
-      </div>
+
+      <div className={classes["bottom-container"]}>
       <div className={classes.description}>
         <h1 className={classes.descriptionTitle}>O manifestaciji</h1>
         <p>{event.description}</p>
@@ -248,6 +249,8 @@ function EventPage() {
       </div>
       <div className={classes.mapDisplay}>
         {marker.lat && marker.lng && <MapMarker markerLocation={marker} />}
+      </div>
+      </div>
       </div>
     </>
       

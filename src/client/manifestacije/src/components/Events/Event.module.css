@@ -59,6 +59,7 @@
     transition: transform 0.3s ease;
     cursor: pointer;
     position: relative;
+    max-width:450px;
 }
 .favoriteIcon {
     position: absolute;
@@ -176,6 +177,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    /*border-radius: 20px;
+    background: linear-gradient(225deg, #d5cfdc, #fef6ff);
+    box-shadow:  -6px 6px 12px #ebe4f2,
+    6px -6px 12px #efe8f6;*/
 }
 @font-face{
     font-family: "Lexand-Bold";
