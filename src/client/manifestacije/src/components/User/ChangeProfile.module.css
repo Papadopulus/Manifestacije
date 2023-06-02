@@ -5,6 +5,14 @@
     margin: 30px 30px 30px 0px;
     color:#e6e6e6;
 }
-.input-form, .login-button{
+.input-form{
     width: 80px;
+}
+.error-text {
+    color: #CC2929;
+    font-family: 'Lexand-Medium';
+    font-size: 18px;
+}
+.login-button {
+    width: 100%;
 }

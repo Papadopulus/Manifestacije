@@ -29,7 +29,7 @@ function MainPageFilter(props) {
   const shouldLog = useRef(true);
 
   const [pageNumber, setPageNumber] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 80;
 
   const handleSelect = (pickedDate) => {
     SetStartDate(pickedDate.selection.startDate);
@@ -164,7 +164,7 @@ function MainPageFilter(props) {
 
   function resetFiltersHandler() {
     SetSelectedPrice([0, 10000]);
-    SetStartDate(new Date());
+    SetStartDate(new Date(2023, 1, 1));
     SetEndDate(new Date(2025, 1, 1));
     SetQuerySearch("");
     setFilters({ categories: [], locations: [], organizations: [] });
