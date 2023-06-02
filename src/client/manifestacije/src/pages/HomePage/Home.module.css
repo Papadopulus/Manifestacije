@@ -45,13 +45,15 @@
     border: none;
     background-color: transparent;
     outline: none;
-    font-size: medium;
+    font-size: 20px;
 }
 .sort-title{
     margin-right: 5px;
     margin-left: 5px;
-    font-size: medium;
+    font-size: 20px;
     background-color: white;
+    font-family:"Lexand-Medium";
+    color:#1d1d1f;
 }
 .main-events{
     margin: 20px;
