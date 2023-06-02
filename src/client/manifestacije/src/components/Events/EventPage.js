@@ -5,6 +5,7 @@ import classes from "./EventPage.module.css";
 import { Button } from "../Navbar/NavButton";
 import { format } from "date-fns";
 import MapMarker from "../../GoogleMaps/GPTMaps/MapMarker"
+ import Countdown from "./Countdown"
 
 function EventPage() {
   const { id } = useParams();
@@ -66,7 +67,7 @@ function EventPage() {
   function transHandler() {
     window.location.replace(`${event.transportPartner.url}`);
   }
-
+  //console.log(event.startingDate);
   return (
     <>
       <div className={classes.container}>
@@ -92,7 +93,8 @@ function EventPage() {
         <h1 className={classes.descriptionTitle}>Ulaznice</h1>
         <div className={classes.ticketLook}>
           <p>Cena ulaznice</p>
-          <p>{event.ticketPrice}</p>
+          <Countdown targetDate={event.startingDate}/>
+          <p>{event.ticketPrice} rsd</p>
           <Button onClick={buyTicket}>Kupi ulaznicu</Button>
         </div>
       </div>
@@ -196,26 +198,7 @@ function EventPage() {
           </div>
         </div>
       </div>
-      <div className={classes.sponsor}>
-        <h1 className={classes.descriptionTitle}>Sponzori</h1>
-        <div className={classes.sponsorPresent}>
-          <div className={classes.sponsorPresentIcon}>
-            <i className="fa-solid fa-hand-holding-dollar"></i>
-          </div>
-          <div className={classes.sponsorPresentTitle}>
-          <p>Ova manifestacija je sponzorisana od strane:  </p>
-          <div className={classes.sponsorList}>
-            {event.sponsors.map((sponsor, index) => (
-              <span key={sponsor}>
-                  {sponsor}
-                {index !== event.sponsors.length - 1 && <span> , </span>}
-                </span>
-            ))}
-          </div>
-          </div>
-        </div>
-       
-      </div>
+
       <div className={classes.partners}>
         <h1 className={classes.descriptionTitle}>Parnteri</h1>
       <div className={classes.partnersWrapper}>
@@ -250,7 +233,28 @@ function EventPage() {
       <div className={classes.mapDisplay}>
         {marker.lat && marker.lng && <MapMarker markerLocation={marker} />}
       </div>
+        <div className={classes.sponsor}>
+          <h1 className={classes.descriptionTitle}>$ponzori</h1>
+          <div className={classes.sponsorPresent}>
+            <div className={classes.sponsorPresentIcon}>
+              {/*<i className="fa-solid fa-hand-holding-dollar"></i>*/}
+            </div>
+            <div className={classes.sponsorPresentTitle}>
+              {/*<p>Ova manifestacija je sponzorisana od strane: </p>*/}
+              <div className={classes.sponsorList}>
+                {event.sponsors.map((sponsor, index) => (
+                    <span key={sponsor}>
+                  {sponsor}
+                      {index !== event.sponsors.length - 1 && <span> ·&nbsp;</span>}
+                </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
+
       </div>
     </>
       

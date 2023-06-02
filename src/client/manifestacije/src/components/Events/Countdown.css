@@ -1,0 +1,22 @@
+.countdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #282c34;
+    color: white;
+    font-size: 2em;
+    height: 10vh;
+}
+
+.countdown > div {
+    margin: 0 15px;
+}
+
+.countdown > div:before {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 60px;
+    margin-bottom: 10px;
+    background: white;
+}

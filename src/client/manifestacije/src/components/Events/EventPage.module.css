@@ -167,14 +167,20 @@
     margin-right: 30px;
 }
 .ticketLook{
-    border: solid black 1px;
+    /*border: solid black 1px;
     background-color: darkorchid;
-    border-radius: 15px;
+    border-radius: 15px;*/
     padding: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    font-family:"Lexand-Medium";
+
+    border-radius: 23px;
+    background: #7c73ab;
+    box-shadow: inset 8px 8px 21px #5e5782,
+    inset -8px -8px 21px #9a8fd4;
 }
 
 
@@ -191,4 +197,10 @@
 .sponsorPresent{
     justify-content: center;
     display: flex;
+}
+.sponsor{
+    margin-bottom: 70px;
+}
+.sponsorList{
+    font-size: 22px;
 }
