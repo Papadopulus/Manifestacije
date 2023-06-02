@@ -6,6 +6,10 @@ import "./Event.css";
 import axios from "axios";
 import AuthContext from "../../store/AuthContext";
 import NotLoggedIn from "./NotLoggedIn";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
+function Event({ event }) {
 import checkTokenAndRefresh from "../../shared/tokenCheck";
 function Event({ event ,setEvents}) {
   const navigate = useNavigate();
@@ -127,10 +131,11 @@ function Event({ event ,setEvents}) {
           onMouseEnter={() => setShowSponsoredInfo(true)}
           onMouseLeave={() => setShowSponsoredInfo(false)}
         >
-          <i className="fa-solid fa-hand-holding-dollar"></i>
+          {/*<i className="fa-regular fa-square-info fa-2xs"></i>*/}
+          <InfoOutlinedIcon />
           {showSponsoredInfo && (
             <div className={classes.sponsoredInfo}>
-              This event is sponsored by{" "}
+              Manifestaciju sponzorisao{" "}
               {event.sponsors.map((sponsor, index) => (
                 <span key={sponsor}>
                   {sponsor}
@@ -142,31 +147,15 @@ function Event({ event ,setEvents}) {
           )}
         </div>
 
-        <div
-          className={`${classes.favoriteIcon} ${
-            isFavorite ? classes.favorite : ""
-          }`}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleFavorite();
-          }}
-          onMouseEnter={() => setShowFavoritesInfo(true)}
-          onMouseLeave={() => setShowFavoritesInfo(false)}
-        >
-          {isFavorite ? (
-            <i className="fa-solid fa-star"></i>
-          ) : (
-            <i className="fa-solid fa-star"></i>
-          )}
-          {showFavoritesInfo && (
-            <div className={classes.favoritesInfo}>Add to favourites!</div>
-          )}
+        <img src={images} alt="" />
+        <div className={classes["footer-calendar"]}>
+          <div className={classes["calendar-day"]}>
+            {format(new Date(event.startingDate), "dd")}
+          </div>
+          <div className={classes["calendar-month"]}>
+            {format(new Date(event.startingDate), "MMM")}
+          </div>
         </div>
-        {images ? (
-            <img src={images} alt="" loading={"lazy"}/>
-        ) : (
-            <div className={classes.skeleton}/>
-        )}
 
         <header>
           <h4>{event.title}</h4>
@@ -174,7 +163,7 @@ function Event({ event ,setEvents}) {
 
         <footer className={classes["footer"]}>
           <div className={classes["footer-left"]}>
-            <div>
+            {/*<div>
               <i className="fa-solid fa-calendar-days"></i>
               <span>Datum</span>
             </div>
@@ -183,19 +172,47 @@ function Event({ event ,setEvents}) {
                 {format(new Date(event.startingDate), "dd.MMM.yyyy")} -
                 {format(new Date(event.endingDate), "dd.MMM.yyyy")}
               </div>
-            </div>
-            <div>
+            </div>*/}
+            {/*<div>
               <i className="fas fa-map-marked-alt"></i>
               <span>Lokacija</span>
-            </div>
+            </div>*/}
             <div>
               <div className={classes["footer-data"]}>
                 {event.location.name}
               </div>
             </div>
-          </div>
-          <div className={classes["footer-right"]}>
             <div>
+              <div className={classes["footer-data"]}>
+                {event.ticketPrice} rsd
+              </div>
+            </div>
+          </div>
+
+          <div className={classes["footer-right"]}>
+            {
+              <div
+                className={`${classes.favoriteIcon} ${
+                  isFavorite ? classes.favorite : ""
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFavorite();
+                }}
+                onMouseEnter={() => setShowFavoritesInfo(true)}
+                onMouseLeave={() => setShowFavoritesInfo(false)}
+              >
+                {isFavorite ? (
+                  <FavoriteOutlinedIcon sx={{ fontSize: 40 }} />
+                ) : (
+                  <FavoriteBorderOutlinedIcon sx={{ fontSize: 40 }} />
+                )}
+                {showFavoritesInfo && (
+                  <div className={classes.favoritesInfo}>
+                    Add to favourites!
+                  </div>
+                )}
+              </div> /*<div>
               <i className="fa fa-ticket" aria-hidden="true"></i>
               <span>Ulaznica</span>
             </div>
@@ -203,14 +220,15 @@ function Event({ event ,setEvents}) {
               <div className={classes["footer-data"]}>
                 {event.ticketPrice} rsd
               </div>
-            </div>
-            <div>
+            </div>*/
+            }
+            {/*<div>
               <i className="fa fa-users" aria-hidden="true"></i>
               <span>Kapacitet</span>
-            </div>
-            <div>
+            </div>*/}
+            {/*<div>
               <div className={classes["footer-data"]}>{event.capacity}</div>
-            </div>
+            </div>*/}
           </div>
         </footer>
       </div>

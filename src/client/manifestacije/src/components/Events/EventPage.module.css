@@ -17,39 +17,53 @@
     100% { transform: rotate(360deg); }
 }
 .image {
-    max-width: 100%;
-    width: 37vw;
-    height: auto;
+    width: 100vw;
+    height: 600px;
+    max-width: 1200px;
     object-fit: cover;
-    border-radius: 10px;
-    margin-top: -270px;
+    /*border-radius: 10px;*/
+    /*margin-top: -270px;*/
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
 }
 .container {
      display: flex;
      flex-direction: column;
      align-items: center;
-     margin: 320px 350px 30px 350px;
-    border-radius: 15px;
-    background-color: #89729b;
-    padding-left: 200px;
+    text-align: left;
+     /*margin: 320px 350px 30px 350px;*/
+    /*border-radius: 15px;
+    background-color: #89729b;*/
+    /*padding-left: 200px;
     padding-right: 200px;
-    padding-bottom: 30px;
+    padding-bottom: 30px;*/
  }
+.bottom-container{
+    width: 100vw;
+    height: 100%;
+    max-width: 1200px;
+    /*object-fit: cover;*/
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    background-color: #131312;
+}
 .header{
-    margin-top: 20px;
-    text-align: center;
-    
+
 }
 .title{
-    font-family: Source Sans Pro;
+    font-family: "Lexand-Medium";
     font-size: 50px;
-    margin-bottom: 5px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    color:#F7F7F5;
+
 }
 .date,.location,.exactLocation,.category,.org,.guest,.comp,.capacity,.sponsorPresent,.accPartners,.tranPartners{
     margin-bottom: 10px;
     display: flex;
     flex-direction: row;
     margin-top: 10px;
+    font-family: "Lexand-Medium";
 
 }
 .tranPartners i{
@@ -113,13 +127,16 @@
 }
 
 .dateTitle,.locationTitle,.exactLocationTitle,.categoryTitle,.orgTitle,.guestTitle{
-    
+    font-family: "Lexand-Medium";
+    color:#F7F7F5;
 }
 .description,.ticket,.details,.sponsor,.partners,.mapDisplay{
-    border-radius: 15px;
+    /*border-radius: 15px;
     background-color: #89729b;
-    padding: 30px 150px 30px 150px;
-    margin: 30px 350px 30px 350px;
+
+    margin: 30px 350px 30px 350px;*/
+    padding: 30px;
+    color: #F7F7F5;
 }
 .detailsWrapper,.partnersWrapper{
     display: flex;
@@ -131,13 +148,15 @@
 }*/
 
 .descriptionTitle{
-    font-family: Source Sans Pro;
-    font-size: 24px;
+    font-family: "Lexand-Medium";
+    font-size: 30px;
     margin-bottom: 5px;
 }
 
 .description p{
     text-align: start;
+    font-family: "Lexand-Regular";
+    font-size: 20px;
 }
 .guesCompWrapper{
     display: flex;

@@ -32,7 +32,7 @@ function MainPageFilter(props) {
   const shouldFetch = useRef(true);
 
   const [pageNumber, setPageNumber] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 80;
 
   const handleSelect = (pickedDate) => {
     SetStartDate(pickedDate.selection.startDate);
@@ -130,7 +130,7 @@ function MainPageFilter(props) {
       });
     setFilters(newFilters);
   }
-  
+
   useEffect(() => {
     SetResetFilters(false);
 
@@ -158,7 +158,7 @@ function MainPageFilter(props) {
 
   function resetFiltersHandler() {
     SetSelectedPrice([0, 10000]);
-    SetStartDate(new Date());
+    SetStartDate(new Date(2023, 1, 1));
     SetEndDate(new Date(2025, 1, 1));
     SetQuerySearch("");
     setFilters({ categories: [], locations: [], organizations: [] });
@@ -186,7 +186,7 @@ function MainPageFilter(props) {
         <i className={"fa fa-search"} aria-hidden="true"></i>
         <input
           className={classes["search-filter"]}
-          placeholder={"Pretrazi manifestaciju"}
+          placeholder={" Pretraga"}
           type={"text"}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -197,13 +197,13 @@ function MainPageFilter(props) {
           className={classes["home-filter-panel"]}
         >
           <Panel
-            header={"Filters"}
+            header={"Filteri"}
             key="1"
             className={classes["home-filter-panel-name"]}
           >
             <div className={classes["dropdown-options"]}>
               <CheckBox
-                name={"Categories"}
+                name={"Kategorije"}
                 list={categories}
                 handleFilters={(filters) =>
                   handleFilters(filters, "categories")
@@ -211,13 +211,13 @@ function MainPageFilter(props) {
                 resetFilters={resetFilters}
               ></CheckBox>
               <CheckBox
-                name={"Locations"}
+                name={"Loakcije"}
                 list={locations}
                 handleFilters={(filters) => handleFilters(filters, "locations")}
                 resetFilters={resetFilters}
               ></CheckBox>
               <CheckBox
-                name={"Organizations"}
+                name={"Organizacije"}
                 list={organizations}
                 handleFilters={(filters) =>
                   handleFilters(filters, "organizations")
@@ -230,7 +230,7 @@ function MainPageFilter(props) {
                 className={classes["home-filter-panel"]}
               >
                 <Panel
-                  header={"Price Range"}
+                  header={"Cena ulaznice"}
                   key="1"
                   className={classes["home-filter-panel-name"]}
                 >
@@ -265,7 +265,7 @@ function MainPageFilter(props) {
                   onClick={resetFiltersHandler}
                   className={classes["home-filter-button"]}
                 >
-                  Clean Filters
+                  Obriši filtere
                 </Button>
               </div>
             </div>
@@ -274,19 +274,19 @@ function MainPageFilter(props) {
       ) : (
         <div className={classes["filters-wrapper"]}>
           <CheckBox
-            name={"Categories"}
+            name={"Kategorije"}
             list={categories}
             handleFilters={(filters) => handleFilters(filters, "categories")}
             resetFilters={resetFilters}
           ></CheckBox>
           <CheckBox
-            name={"Locations"}
+            name={"Lokacije"}
             list={locations}
             handleFilters={(filters) => handleFilters(filters, "locations")}
             resetFilters={resetFilters}
           ></CheckBox>
           <CheckBox
-            name={"Organizations"}
+            name={"Organizacije"}
             list={organizations}
             handleFilters={(filters) => handleFilters(filters, "organizations")}
             resetFilters={resetFilters}
@@ -297,7 +297,7 @@ function MainPageFilter(props) {
             className={classes["home-filter-panel"]}
           >
             <Panel
-              header={"Price Range"}
+              header={"Cena ulaznice"}
               key="1"
               className={classes["home-filter-panel-name"]}
             >
@@ -314,7 +314,7 @@ function MainPageFilter(props) {
             className={classes["home-filter-panel"]}
           >
             <Panel
-              header={"Date Range"}
+              header={"Datum"}
               key="1"
               className={classes["home-filter-panel-name"]}
             >
@@ -332,7 +332,7 @@ function MainPageFilter(props) {
               onClick={resetFiltersHandler}
               className={classes["home-filter-button"]}
             >
-              Clean Filters
+              Obriši filtere
             </Button>
           </div>
         </div>
