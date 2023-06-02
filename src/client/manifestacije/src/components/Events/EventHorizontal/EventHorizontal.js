@@ -3,7 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import classes from "./EventHorizontal.module.css";
 import { format } from "date-fns";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-const EventHorizontal = ({ event, user }) => {
+import checkTokenAndRefresh from "../../../shared/tokenCheck";
+const EventHorizontal = ({ event, user ,setEvents}) => {
   const [images, setImages] = useState(null);
   const [showFavoritesInfo, setShowFavoritesInfo] = useState(false);
 
@@ -25,6 +26,7 @@ const EventHorizontal = ({ event, user }) => {
   };
 
   const toggleFavorite = async () => {
+    await checkTokenAndRefresh();
     let header = {
       Authorization: `Bearer ${
         JSON.parse(localStorage.getItem("tokens")).token
@@ -35,6 +37,11 @@ const EventHorizontal = ({ event, user }) => {
         `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
         { headers: header }
       );
+      if(setEvents) {
+        setEvents((prevEvents) =>
+            prevEvents.filter((favEvent) => favEvent.id !== event.id)
+        );
+      }
     } catch (error) {
       console.error("Error performing favorite action:", error);
     }

@@ -9,6 +9,7 @@ import { DateRange } from "react-date-range"; // theme css file
 import "./MainPageFilter.css";
 import { Collapse } from "antd";
 import { Button } from "../Navbar/NavButton";
+import checkTokenAndRefresh from "../../shared/tokenCheck";
 const { Panel } = Collapse;
 
 function MainPageFilter(props) {
@@ -26,7 +27,9 @@ function MainPageFilter(props) {
   const [querySearch, SetQuerySearch] = useState("");
   const [resetFilters, SetResetFilters] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
+  
   const shouldLog = useRef(true);
+  const shouldFetch = useRef(true);
 
   const [pageNumber, setPageNumber] = useState(1);
   const itemsPerPage = 80;
@@ -75,16 +78,16 @@ function MainPageFilter(props) {
       shouldLog.current = false;
     };
   }, []);
-
-  function handleFilters(filters, category) {
+  
+  async function handleFilters(filters, category)  {
     const newFilters = { ...Filters };
     newFilters[category] = filters;
 
     const minPrice = selectedPrice[0];
     const maxPrice = selectedPrice[1];
 
-    axios
-      .get(`${process.env.REACT_APP_BASE_URL}/events`, {
+    await checkTokenAndRefresh()
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/events`, {
         params: {
           CategoryId:
             newFilters["categories"].length < 1
@@ -119,6 +122,8 @@ function MainPageFilter(props) {
       .then((response) => {
         props.options(response.data);
         // props.options(prev => [...prev,...response.data]);
+        // setEvents((prev) => [...prev, ...response.data]);
+        // setPageNumber((prevState) => prevState + 1);
       })
       .catch((err) => {
         console.log(err);
@@ -129,7 +134,10 @@ function MainPageFilter(props) {
   useEffect(() => {
     SetResetFilters(false);
 
-    handleFilters();
+    // if (shouldFetch.current){
+      handleFilters();
+    //   shouldFetch.current = false;
+    // }
   }, [
     selectedPrice,
     startDate,
@@ -139,21 +147,7 @@ function MainPageFilter(props) {
     props.SortDirection,
     resetFilters,
   ]);
-
-  useEffect(() => {
-    const handleScroll = (event) => {
-      const scrollHeight = event.target.documentElement.scrollHeight;
-      const currentHeight =
-        event.target.documentElement.scrollTop + window.innerHeight;
-      if (currentHeight + 1 >= scrollHeight) {
-        setPageNumber((prevPageNumber) => prevPageNumber + 1);
-        // handleFilters();
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [pageNumber]);
-
+  
   const changePrice = (event, value) => {
     SetSelectedPrice(value);
   };

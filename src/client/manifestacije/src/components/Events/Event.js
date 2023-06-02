@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect, useState } from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import classes from "./Event.module.css";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,9 @@ import NotLoggedIn from "./NotLoggedIn";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-function Event({ event }) {
+import checkTokenAndRefresh from "../../shared/tokenCheck";
+
+function Event({ event ,setEvents}) {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
   const [showSponsoredInfo, setShowSponsoredInfo] = useState(false);
@@ -19,6 +21,7 @@ function Event({ event }) {
   const [notLoggedIn, setNotLoggedIn] = useState(false);
   const { user } = useContext(AuthContext);
 
+  const shouldLog = useRef(true);
   const loadImage = async () => {
     try {
       const imageResponse = await axios.get(
@@ -35,6 +38,7 @@ function Event({ event }) {
     }
   };
   const loadFavourites = async () => {
+    await checkTokenAndRefresh();
     let header = {
       Authorization: `Bearer ${
         JSON.parse(localStorage.getItem("tokens")).token
@@ -51,23 +55,28 @@ function Event({ event }) {
       console.error("Error retrieving the user's favourite events:", error);
     }
   };
-  useEffect(() => {
-    loadImage();
-    if (user) {
-      loadFavourites();
+  useEffect( () => {
+    if (shouldLog.current) {
+      shouldLog.current = false;
+      loadImage();
+      if (user) {
+        loadFavourites();
+      }
     }
-  }, []);
+    return () => {
+      shouldLog.current = false;
+    }
+        },[])
   function onClickEventHandler() {
     navigate("/events/" + event.id);
   }
   const toggleFavorite = async () => {
+    await checkTokenAndRefresh();
     if (!user) {
       setNotLoggedIn(true);
     } else {
       let header = {
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("tokens")).token
-        }`,
+        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`,
       };
       try {
         if (isFavorite) {
@@ -75,6 +84,11 @@ function Event({ event }) {
             `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
             { headers: header }
           );
+          if (setEvents){
+            setEvents((prevEvents) =>
+                prevEvents.filter((favEvent) => favEvent.id !== event.id)
+            );
+          }
         } else {
           await axios.post(
             `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
@@ -133,7 +147,11 @@ function Event({ event }) {
           )}
         </div>
 
-        <img src={images} alt="" />
+        { images ? (
+            <img src={images} alt="" />
+        ) : (
+            <div className={classes.skeleton} />
+        )}
         <div className={classes["footer-calendar"]}>
           <div className={classes["calendar-day"]}>
             {format(new Date(event.startingDate), "dd")}
