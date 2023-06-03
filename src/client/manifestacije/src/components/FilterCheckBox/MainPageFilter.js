@@ -133,10 +133,14 @@ function MainPageFilter(props) {
 
   useEffect(() => {
     SetResetFilters(false);
-
     // if (shouldFetch.current){
+    //   console.log("im rendered again");
       handleFilters();
     //   shouldFetch.current = false;
+    // }
+    // return () => {
+    //   shouldFetch.current = false;
+    //   console.log("izgubio sam se ")
     // }
   }, [
     selectedPrice,
