@@ -18,12 +18,12 @@
     font-size: 50px;
 }
 .forma-event button:first-of-type{
-    background-color: #1f1f1d;
-    color:black;
+    background-color: #333333;
+    color: #ffffff;
 }
 .forma-event button:first-of-type:hover,button:first-of-type:active{
     background-color: #3d2f7e;
-    color:black;
+    color:navajowhite;
 }
 .forma-event button:first-of-type:disabled
 ,button:first-of-type:disabled:hover
