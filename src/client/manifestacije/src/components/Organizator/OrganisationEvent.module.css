@@ -6,20 +6,23 @@
 }
 
 .forma-event {
-    background-color: #2d0c4d;
+    background-color: #f5f5f7;
     width: 80%;
     display: flex;
     border-radius: 20px;
+
 }
 .forma-event p{
-    color: navajowhite;
+    color: #333333;
+    font-family: Outfit-Bold;
+    font-size: 50px;
 }
 .forma-event button:first-of-type{
-    background-color: navajowhite;
+    background-color: #1f1f1d;
     color:black;
 }
 .forma-event button:first-of-type:hover,button:first-of-type:active{
-    background-color: hotpink;
+    background-color: #3d2f7e;
     color:black;
 }
 .forma-event button:first-of-type:disabled
@@ -53,48 +56,6 @@
     flex-wrap: wrap;
 }
 
-/*.description-area {*/
-/*    resize: none;*/
-/*    width: 100%;*/
-/*    height: 200px;*/
-/*    font-size: 20px;*/
-/*    border-radius: 20px;*/
-/*}*/
-
-/*.desc-div {*/
-/*    margin: 0.3rem 0;*/
-/*    align-items: stretch;*/
-/*    flex-direction: column;*/
-/*}*/
-/*.desc-div textarea{*/
-/*    margin-top: 8px;*/
-/*}*/
-
-/*.desc-div label {*/
-/*    flex: 1;*/
-/*    color: navajowhite;*/
-/*    margin-right: 0.5rem;*/
-/*    font-family: 'Lexand-Medium';*/
-/*    font-size: 20px;*/
-/*}*/
-
-/*.desc-div textarea {*/
-/*    flex: 3;*/
-/*    font-size: 20px;*/
-/*    padding: 0.35rem 0.35rem;*/
-/*    border-radius: 20px;*/
-/*    border-color: transparent;*/
-/*    width: 100%;*/
-/*    height: 200px;*/
-/*    font-family: 'Lexand-Medium';*/
-/*    background: #e6e6e6;*/
-/*}*/
-
-/*.desc-div textarea:focus {*/
-/*    border-color: #333333;*/
-/*    background: #cccccc;*/
-/*}*/
-
 .adr-and-map{
     display: flex;
     justify-content: space-between;
@@ -114,7 +75,7 @@
     align-items: center;
 }
 .map-form p:first-of-type{
-    color: navajowhite;
+    color: #1f1f1d;
     margin-bottom: 0.5rem;
     margin-right: 0.5rem;
     font-family: 'Lexand-Medium';
@@ -129,16 +90,16 @@
     height: 43px;
     border-radius: 50%;
     border: none;
-    background-color: navajowhite;
-    color: purple;
+    background-color: #1f1f1d;
+    color:white;
     font-size: 30px;
     font-family: --webkit-body;
     font-weight: 800;
     cursor: pointer;
+    margin: 0px 10px;
 }
-
-.plus-button:hover {
-    background-color: hotpink;
+.plus{
+    color:white;
 }
 
 .button-add {
@@ -198,9 +159,9 @@
 }
 
 .image-div {
-    width: 140px;
+    width: 180px;
     height: 140px;
-    border: 10px solid black;
+    border: 5px solid black;
     justify-content: center;
     align-items: center;
     /*margin-top: 10px;*/
@@ -282,7 +243,7 @@
         min-height: 300px;
         width: 100%;
         margin-top: 25px;
-        border-radius: 20px;
+        border-radius: 30px;
     }
 
     .map-form p {

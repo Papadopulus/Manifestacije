@@ -12,6 +12,7 @@ const Countdown = ({ targetDate }) => {
                 dana: Math.floor(difference / (1000 * 60 * 60 * 24)),
                 sati: Math.floor((difference / (1000 * 60 * 60)) % 24),
                 minuta: Math.floor((difference / 1000 / 60) % 60),
+                sekundi: Math.floor((difference / 1000) % 60),
             };
         }
 
