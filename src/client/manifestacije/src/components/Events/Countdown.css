@@ -2,21 +2,32 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #282c34;
+    background-color: #32273b;
     color: white;
     font-size: 2em;
     height: 10vh;
+    font-family: "Lexand-Medium";
+    border-top-left-radius: 50px ;
+    border-top-right-radius: 50px ;
+    padding: 20px;
 }
 
 .countdown > div {
     margin: 0 15px;
 }
 
-.countdown > div:before {
+/*.countdown > div:before {
     content: '';
     display: block;
     height: 1px;
     width: 60px;
     margin-bottom: 10px;
     background: white;
+}*/
+@media screen and (max-width: 600px) {
+    .countdown {
+        flex-direction: row;
+        text-align: unset;
+        border-radius: 0px;
+    }
 }
