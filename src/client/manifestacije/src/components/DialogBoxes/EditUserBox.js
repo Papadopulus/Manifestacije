@@ -1,9 +1,11 @@
-﻿import React from "react";
+﻿import React, {useState} from "react";
 import classes from "./CustomBox.module.css";
 import useInput from "../../hooks/use-input";
 import Input from "../UI/Input/Input";
-const EditUserBox = ({ message, onConfirm ,onCancel }) => {
+const EditUserBox = ({ message, onConfirm ,onCancel,name ,surname}) => {
 
+    // const [currentNameChange, setCurrentNameChange] = useState(name);
+    // console.log(name);
     const {
         value: nameChange,
         isValid:enteredNameIsValid,
@@ -11,7 +13,7 @@ const EditUserBox = ({ message, onConfirm ,onCancel }) => {
         valueChangedHandler: nameChangeChangeHandler,
         inputBlurHandler: NameBlurHandler,
         resetFunction: resetNameChangeFunction,
-    } = useInput((value) => value.trim() !== '');
+    } = useInput((value) => value.trim() !== '',name);
 
     const {
         value: surnameChange,
@@ -20,7 +22,7 @@ const EditUserBox = ({ message, onConfirm ,onCancel }) => {
         valueChangedHandler: surnameChangeChangeHandler,
         inputBlurHandler:surnameBlurHandler,
         resetFunction: resetSurnameChangeFunction,
-    } = useInput((value) => value.trim() !== '');
+    } = useInput((value) => value.trim() !== '',surname);
     
     let payload = {
         firstName: nameChange,

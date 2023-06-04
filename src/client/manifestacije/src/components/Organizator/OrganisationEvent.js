@@ -178,6 +178,8 @@ const AddEventForm = () => {
     };
     const formSubmissionHandler = async (event) => {
         event.preventDefault();
+        await checkTokenAndRefresh();
+        
         if (!titleIsValid ||
             !dateStartIsValid ||
             !descriptionIsValid ||
@@ -186,9 +188,7 @@ const AddEventForm = () => {
             !addressIsValid) {
             return;
         }
-        await checkTokenAndRefresh();
-
-
+        
         while (sponsorInputFields[sponsorInputFields.length - 1] === '') {
             sponsorInputFields.pop();
         }

@@ -95,6 +95,8 @@ const UsersList = () => {
                     message={`Confirm edits for the User ${editUser.firstName} ${editUser.lastName} ?`}
                     onConfirm={handleEditUser}
                     onCancel={handleCancelEditUser}
+                    name={editUser.firstName}
+                    surname={editUser.lastName}
                 />
             )}
             {viewUser && (

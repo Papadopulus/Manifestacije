@@ -2,7 +2,7 @@
 import classes from "./CustomBox.module.css";
 import useInput from "../../hooks/use-input";
 import Input from "../UI/Input/Input";
-const EditNameBox = ({ message, onConfirm ,onCancel }) => {
+const EditNameBox = ({ message, onConfirm ,onCancel ,name}) => {
 
     const {
         value: nameCat,
@@ -11,7 +11,7 @@ const EditNameBox = ({ message, onConfirm ,onCancel }) => {
         valueChangedHandler: nameChangeChangeHandler,
         inputBlurHandler: NameBlurHandler,
         resetFunction: resetNameChangeFunction,
-    } = useInput((value) => value.trim() !== '');
+    } = useInput((value) => value.trim() !== '',name);
 
     let payload = {
         name: nameCat,
