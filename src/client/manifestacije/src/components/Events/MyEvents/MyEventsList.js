@@ -1,13 +1,15 @@
 ﻿import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import checkTokenAndRefresh from "../../../shared/tokenCheck";
-import classes from "../EventHorizontal/EventHorizontal.module.css";
+import classes from "./MyEventsList.module.css";
 import { format } from "date-fns";
+import EditIcon from "@mui/icons-material/Edit";
+import { IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-function MyEventsList({ event, user, setEvents }) {
+function MyEventsList({ event }) {
   const [images, setImages] = useState(null);
-  const [showFavoritesInfo, setShowFavoritesInfo] = useState(false);
-
+  const navigate = useNavigate();
   const shouldLog = useRef(true);
   const loadImage = async () => {
     try {
@@ -24,27 +26,12 @@ function MyEventsList({ event, user, setEvents }) {
       console.error("Error retrieving the image:", error);
     }
   };
-
-  const toggleFavorite = async () => {
+  function onClickEventHandler() {
+    navigate("/events/" + event.id);
+  }
+  const handleEdit = async (event) => {
     await checkTokenAndRefresh();
-    let header = {
-      Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("tokens")).token
-      }`,
-    };
-    try {
-      await axios.delete(
-        `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
-        { headers: header }
-      );
-      if (setEvents) {
-        setEvents((prevEvents) =>
-          prevEvents.filter((favEvent) => favEvent.id !== event.id)
-        );
-      }
-    } catch (error) {
-      console.error("Error performing favorite action:", error);
-    }
+    console.log(event.title);
   };
 
   useEffect(() => {
@@ -57,21 +44,16 @@ function MyEventsList({ event, user, setEvents }) {
     };
   }, []);
   return (
-    <div className={classes.mainContainer}>
+    <div className={classes.mainContainer} onClick={onClickEventHandler}>
       <div
         className={classes.favoriteIcon}
         onClick={(e) => {
           e.stopPropagation();
-          toggleFavorite();
         }}
-        onMouseEnter={() => setShowFavoritesInfo(true)}
-        onMouseLeave={() => setShowFavoritesInfo(false)}
       >
-        <i className="fa-solid fa-star"></i>
-
-        {showFavoritesInfo && (
-          <div className={classes.favoritesInfo}>Remove from favorites!</div>
-        )}
+        <IconButton onClick={() => handleEdit(event)}>
+          <EditIcon sx={{ fontSize: 30 }}></EditIcon>
+        </IconButton>
       </div>
 
       <div className={classes.imageHolder}>

@@ -20,7 +20,7 @@ function MyEvents() {
         `${process.env.REACT_APP_BASE_URL}/events`,
         {
           params: {
-            OrganizationId: user.Id,
+            OrganizationId: user.OrganizationId,
             PageSize: 6,
             PageNumber: pageNumber,
             SortColumn: "Title",
@@ -77,7 +77,14 @@ function MyEvents() {
             {events.map((event) => (
               <React.Fragment key={event.id}>
                 {isMobile ? (
-                  <Event key={event.id} event={event} setEvents={setEvents} />
+                  <div className={classes.eventWrapper}>
+                    <Event
+                      key={event.id}
+                      event={event}
+                      setEvents={setEvents}
+                      organization={true}
+                    />
+                  </div>
                 ) : (
                   <MyEventsList
                     key={event.id}

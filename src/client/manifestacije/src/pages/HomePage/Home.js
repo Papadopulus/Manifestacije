@@ -19,7 +19,7 @@ const { Panel } = Collapse;
 const Home = () => {
   const [events, SetEvents] = useState([]);
   const [selectedPriceOrder, SetSelectedPriceOrder] = useState("popular");
-  const [columnName, SetColumnName] = useState("Views");
+  const [columnName, SetColumnName] = useState("Title");
   const [directionSort, SetDirectionSort] = useState("desc");
   const [currentPrice, setCurrentPrice] = useState([0, 9999]);
 

@@ -10,8 +10,10 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
+import EditIcon from "@mui/icons-material/Edit";
+import { IconButton } from "@mui/material";
 
-function Event({ event, setEvents }) {
+function Event({ event, setEvents, organization }) {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
   const [showSponsoredInfo, setShowSponsoredInfo] = useState(false);
@@ -124,6 +126,10 @@ function Event({ event, setEvents }) {
     }
   }, [user, event.id, hasFavourites]);
 
+  function handleEdit(event) {
+    console.log(event.title);
+  }
+
   return (
     <>
       {notLoggedIn && <NotLoggedIn cancel={setNotLoggedIn}></NotLoggedIn>}
@@ -148,7 +154,18 @@ function Event({ event, setEvents }) {
             </div>
           )}
         </div>
-
+        <div className={classes.editIcon}>
+          {organization && (
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEdit(event);
+              }}
+            >
+              <EditIcon sx={{ fontSize: 30 }}></EditIcon>
+            </IconButton>
+          )}
+        </div>
         {images ? (
           <img src={images} alt="" />
         ) : (

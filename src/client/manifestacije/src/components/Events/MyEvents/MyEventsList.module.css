@@ -38,8 +38,8 @@
 }
 
 .imageHolder {
-    background-color: red;
-    opacity: 0.5;
+    /*background-color: red;
+    opacity: 0.5;*/
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -53,8 +53,8 @@
 .iconItems {
     display: flex;
     flex-direction: column;
-    background-color: pink;
-    opacity: 0.5;
+    /*background-color: pink;
+    opacity: 0.5;*/
     width: 100%;
     justify-content: space-evenly;
     align-items: flex-start;
@@ -87,7 +87,7 @@
     display: flex;
     flex-direction: column;
     width: 80%;
-    background-color: yellow;
+    /*background-color: yellow;*/
 }
 .spinner {
     display: flex;
