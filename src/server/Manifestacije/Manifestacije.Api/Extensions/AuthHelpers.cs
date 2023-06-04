@@ -23,7 +23,7 @@ public static class AuthHelpers
 
     public static (string, string) GenerateTokens(this User user, string secret)
     {
-        return (GenerateJwtToken(user, DateTime.Now.AddMinutes(1), secret), GenerateRefreshToken());
+        return (GenerateJwtToken(user, DateTime.Now.AddMinutes(20), secret), GenerateRefreshToken());
     }
 
     private static string GenerateJwtToken(User user,
@@ -35,8 +35,11 @@ public static class AuthHelpers
         var claims = new List<Claim>
         {
             new("Id", user.Id)
-            // new("Organization", user.OrganizationId)
         };
+        if (user.Organization?.Id is not null)
+        {
+            claims.Add(new ("OrganizationId", user.Organization.Id));
+        }
         claims.AddRange(user.Roles.Select(role => new Claim("Roles", role)));
         var token = new JwtSecurityToken(
             claims: claims,

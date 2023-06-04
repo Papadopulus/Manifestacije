@@ -5,6 +5,7 @@ import classes from "./EventPage.module.css";
 import { Button } from "../Navbar/NavButton";
 import { format } from "date-fns";
 import MapMarker from "../../GoogleMaps/GPTMaps/MapMarker"
+ import Countdown from "./Countdown"
 
 function EventPage() {
   const { id } = useParams();
@@ -66,7 +67,7 @@ function EventPage() {
   function transHandler() {
     window.location.replace(`${event.transportPartner.url}`);
   }
-
+  //console.log(event.startingDate);
   return (
     <>
       <div className={classes.container}>
@@ -76,24 +77,21 @@ function EventPage() {
 
         <div className={classes.header}>
           <h1 className={classes.title}>{event.title}</h1>
-          {/*<div className={classes.date}>
-            <i className="fa-solid fa-calendar-days"></i>
-            {format(new Date(event.startingDate), "dd.MMM.yyyy")} -
-            {format(new Date(event.endingDate), "dd.MMM.yyyy")}
-          </div>*/}
         </div>
 
       <div className={classes["bottom-container"]}>
+        <Countdown targetDate={event.startingDate}/>
       <div className={classes.description}>
         <h1 className={classes.descriptionTitle}>O manifestaciji</h1>
         <p>{event.description}</p>
       </div>
       <div className={classes.ticket}>
-        <h1 className={classes.descriptionTitle}>Ulaznice</h1>
+
         <div className={classes.ticketLook}>
-          <p>Cena ulaznice</p>
-          <p>{event.ticketPrice}</p>
-          <Button onClick={buyTicket}>Kupi ulaznicu</Button>
+          <h1 className={classes.descriptionTitle}>Cena ulaznice&nbsp; · &nbsp;{event.ticketPrice}&nbsp;rsd</h1>
+
+          {/*<p> Cena ulaznice:&nbsp;{event.ticketPrice} rsd</p>*/}
+          <Button onClick={buyTicket} className={classes["ticketButton"]}>Kupi ulaznicu</Button>
         </div>
       </div>
       <div className={classes.details}>
@@ -107,8 +105,8 @@ function EventPage() {
                 </div>
                 <div className={classes.dateTitle}>
                   <p>DATUM</p>
-                  {format(new Date(event.startingDate), "dd.MMM.yyyy")} -
-                  {format(new Date(event.endingDate), "dd.MMM.yyyy")}
+                  {format(new Date(event.startingDate), "dd·MMM·yyyy")}  -&nbsp;
+                  {format(new Date(event.endingDate), "dd·MMM·yyyy")}
                 </div>
               </li>
               <li className={classes.location}>
@@ -161,7 +159,7 @@ function EventPage() {
                     {event.guests.map((guest, index) => (
                       <span key={guest}>
                   {guest}
-                        {index !== event.guests.length - 1 && <span> , </span>}
+                        {index !== event.guests.length - 1 && <span>  ·&nbsp; </span>}
                 </span>
                     ))}
                   </div>
@@ -172,12 +170,12 @@ function EventPage() {
                   <i className="fa-solid fa-ranking-star"></i>
                 </div>
                 <div className={classes.compTitle}>
-                  <p>TAKMICARI</p>
+                  <p>TAKMIČARI</p>
                   <div className={classes.compList}>
                     {event.competitors.map((competitor, index) => (
                       <span key={competitor}>
                   {competitor}
-                        {index !== event.competitors.length - 1 && <span> , </span>}
+                        {index !== event.competitors.length - 1 && <span>  ·&nbsp; </span>}
                 </span>
                     ))}
                   </div>
@@ -196,26 +194,7 @@ function EventPage() {
           </div>
         </div>
       </div>
-      <div className={classes.sponsor}>
-        <h1 className={classes.descriptionTitle}>Sponzori</h1>
-        <div className={classes.sponsorPresent}>
-          <div className={classes.sponsorPresentIcon}>
-            <i className="fa-solid fa-hand-holding-dollar"></i>
-          </div>
-          <div className={classes.sponsorPresentTitle}>
-          <p>Ova manifestacija je sponzorisana od strane:  </p>
-          <div className={classes.sponsorList}>
-            {event.sponsors.map((sponsor, index) => (
-              <span key={sponsor}>
-                  {sponsor}
-                {index !== event.sponsors.length - 1 && <span> , </span>}
-                </span>
-            ))}
-          </div>
-          </div>
-        </div>
-       
-      </div>
+
       <div className={classes.partners}>
         <h1 className={classes.descriptionTitle}>Parnteri</h1>
       <div className={classes.partnersWrapper}>
@@ -250,7 +229,28 @@ function EventPage() {
       <div className={classes.mapDisplay}>
         {marker.lat && marker.lng && <MapMarker markerLocation={marker} />}
       </div>
+        <div className={classes.sponsor}>
+          <h1 className={classes.descriptionTitle}>Sponzori</h1>
+          <div className={classes.sponsorPresent}>
+            <div className={classes.sponsorPresentIcon}>
+              {/*<i className="fa-solid fa-hand-holding-dollar"></i>*/}
+            </div>
+            <div className={classes.sponsorPresentTitle}>
+              {/*<p>Ova manifestacija je sponzorisana od strane: </p>*/}
+              <div className={classes.sponsorList}>
+                {event.sponsors.map((sponsor, index) => (
+                    <span key={sponsor}>
+                  {sponsor}
+                      {index !== event.sponsors.length - 1 && <span> ·&nbsp;</span>}
+                </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
+
       </div>
     </>
       
