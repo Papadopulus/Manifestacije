@@ -108,7 +108,7 @@ const UsersList = () => {
                 />
 
             )}
-            <div>
+            <div className={"tableContainer"}>
                 <table>
                     <thead>
                     <tr>
