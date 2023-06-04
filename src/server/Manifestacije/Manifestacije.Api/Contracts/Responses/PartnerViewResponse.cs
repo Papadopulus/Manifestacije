@@ -10,4 +10,6 @@ public class PartnerViewResponse
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
     public DateTime? DeletedAtUtc { get; set; }
     public bool IsDeleted { get; set; } = false;
+    public bool IsAccommodation { get; set; } = false;
+    public bool IsTransport { get; set; } = false;
 }
