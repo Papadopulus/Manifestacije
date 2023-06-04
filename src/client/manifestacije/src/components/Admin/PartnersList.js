@@ -77,6 +77,7 @@ const CategoriesList = () => {
         setAllPartners(updatedPartnerList);
         setPartnerEdit(null);
     }
+    console.log(partnerEdit);
     return (
         <>
             {partnerDelete && (
@@ -91,6 +92,8 @@ const CategoriesList = () => {
                     message={"Are your sure u want to edit this partner?"}
                     onConfirm={handleEditPartner}
                     onCancel={cancelHandleEdit}
+                    partName={partnerEdit.name}
+                    phoneNumber={partnerEdit.phoneNumber}
                 />
             )}
             {partnerView && (

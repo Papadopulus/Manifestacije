@@ -17,23 +17,25 @@ const CategoriesList = () => {
     const [organisationDelete, setOrganisationDelete] = useState(null);
     const [organisationEdit, setOrganisationEdit] = useState(null);
     const [organisationView, setOrganisationView] = useState(null);
+    const [imagesOrg,setImagesOrg] = useState([]);
+    
     const shouldLog = useRef(true);
 
 
-    const confirmView = async (category) => {
-        setOrganisationView(category);
+    const confirmView = async (organisation) => {
+        setOrganisationView(organisation);
     }
     const cancelHandleView = () => {
         setOrganisationView(null);
     }
-    const confirmEdit = async (category) => {
-        setOrganisationEdit(category);
+    const confirmEdit = async (organisation) => {
+        setOrganisationEdit(organisation);
     }
     const cancelHandleEdit = () => {
         setOrganisationEdit(null);
     }
-    const confirmDelete = async (category) => {
-        setOrganisationDelete(category);
+    const confirmDelete = async (organisation) => {
+        setOrganisationDelete(organisation);
     }
     const cancelHandleDelete = () => {
         setOrganisationDelete(null);
@@ -66,17 +68,7 @@ const CategoriesList = () => {
         getAllOrganisations();
         setOrganisationDelete(null);
     }
-    const handleEditOrganisation = async (payload) => {
-        await checkTokenAndRefresh();
-        let header = {
-            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
-        }
-        const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/organizations/${organisationEdit.id}`, payload, {headers: header})
-        const updatedOrganisation = response.data;
-        const updatedOranisationsList = allOrganisations.map(org => org.id === updatedOrganisation.id ? updatedOrganisation : org);
-        setAllOrganisations(updatedOranisationsList);
-        setOrganisationEdit(null);
-    }
+    
     return (
         <>
             {organisationDelete && (
@@ -89,8 +81,20 @@ const CategoriesList = () => {
             {organisationEdit && (
                 <EditOrgBox
                     message={"Are your sure u want to edit this Organisation?"}
-                    onConfirm={handleEditOrganisation}
+                    // onConfirm={handleEditOrganisation}
                     onCancel={cancelHandleEdit}
+                    desc={organisationEdit.description}
+                    logo={organisationEdit.logoUrl}
+                    website={organisationEdit.websiteUrl}
+                    facebook={organisationEdit.facebookUrl}
+                    instagram={organisationEdit.instagramUrl}
+                    twiter={organisationEdit.twitterUrl}
+                    youtube={organisationEdit.youtubeUrl}
+                    linkedin={organisationEdit.linkedInUrl}
+                    organisationEdit={organisationEdit}
+                    allOrganisations={allOrganisations}
+                    setAllOrganisations={setAllOrganisations}
+                    setOrganisationEdit={setOrganisationEdit}
                 />
             )}
             {organisationView && (
