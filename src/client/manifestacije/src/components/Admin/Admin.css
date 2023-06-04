@@ -1,3 +1,133 @@
+/*!*@font-face {*!*/
+/*!*    src: url("../../fonts/Lexend-Regular.ttf");*!*/
+/*!*    font-family: "Lexand-Regular";*!*/
+/*!*}*!*/
+/*!*table {*!*/
+/*!*    border-collapse: collapse;*!*/
+/*!*    width: 100%;*!*/
+/*!*    font-size: 16px;*!*/
+/*!*    font-family: "Lexand-Regular";*!*/
+/*!*    color: #1d1d1f;*!*/
+/*!*    border-color: transparent;*!*/
+/*!*    !*box-shadow:-20px 0px 20px rgba(0,0,0,0.3);*!*!*/
+/*!*    !*border-radius: 30px;*!*!*/
+/*!*}*!*/
+
+/*!*th, td {*!*/
+/*!*    text-align: left;*!*/
+/*!*    padding: 8px;*!*/
+/*!*    !*border: 1px solid #ddd;*!*!*/
+/*!*}*!*/
+
+/*!*th {*!*/
+/*!*    text-align: left;*!*/
+/*!*    !*border-radius: 30px;*!*!*/
+/*!*    background-color: #8B749D;*!*/
+/*!*}*!*/
+
+/*!*tr:nth-child(odd) {*!*/
+/*!*    background-color: #f2f2f2;*!*/
+/*!*    border-radius: 30px;*!*/
+/*!*}*!*/
+/*!*!*.admin-button{*!*/
+/*!*    color:black;*!*/
+/*!*}*!*!*/
+/*!*tr td:nth-last-child(-n+3) {*!*/
+/*!*    text-align: center;*!*/
+/*!*    width: 1vw;*!*/
+/*!*}*!*/
+/*!*tr td:nth-last-child(-n+1) {*!*/
+/*!*    text-align: left;*!*/
+/*!*    padding-left: 0px;*!*/
+/*!*}*!*/
+/*!*!*@media screen and (max-width: 700px) {*!*!*/
+/*!*!*    table, thead, tbody, th, td, tr {*!*!*/
+/*!*!*        display: block;*!*!*/
+/*!*!*    }*!*!*/
+
+/*!*!*    !* Sakrivanje zaglavlja tabele *!*!*!*/
+/*!*!*    thead tr {*!*!*/
+/*!*!*        position: absolute;*!*!*/
+/*!*!*        top: -9999px;*!*!*/
+/*!*!*        left: -9999px;*!*!*/
+/*!*!*    }*!*!*/
+
+/*!*!*    td {*!*!*/
+/*!*!*        !* Postavljanje ćelija da budu kao redovi *!*!*!*/
+/*!*!*        position: relative;*!*!*/
+/*!*!*        padding-left: 50%;*!*!*/
+/*!*!*    }*!*!*/
+
+/*!*!*    td:before {*!*!*/
+/*!*!*        !* Ubacivanje naziva kolone pre svake ćelije *!*!*!*/
+/*!*!*        position: absolute;*!*!*/
+/*!*!*        top: 6px;*!*!*/
+/*!*!*        left: 6px;*!*!*/
+/*!*!*        width: 45%;*!*!*/
+/*!*!*        padding-right: 10px;*!*!*/
+/*!*!*        white-space: nowrap;*!*!*/
+/*!*!*    }*!*!*/
+
+/*!*!*    !* Definicija naziva kolone za svaku ćeliju *!*!*!*/
+/*!*!*    td:nth-of-type(1):before { content: "Ime"; }*!*!*/
+/*!*!*    td:nth-of-type(2):before { content: "Prezime"; }*!*!*/
+/*!*!*    td:nth-of-type(3):before { content: "Email"; }*!*!*/
+/*!*!*    !* Dodajte više prema potrebi *!*!*!*/
+
+/*!*!*    tr td:nth-last-child(-n+1) {*!*!*/
+/*!*!*        !*align-items: center;*!*!*!*/
+/*!*!*        padding-left: 26vw;*!*!*/
+/*!*!*    }*!*!*/
+/*!*!*    tr{*!*!*/
+/*!*!*        padding:10px;*!*!*/
+/*!*!*    }*!*!*/
+/*!*!*    tr:nth-child(odd) {*!*!*/
+/*!*!*        background-color: transparent;*!*!*/
+/*!*!*    }*!*!*/
+/*!*!*}*!*!*/
+/*!*@media (max-width: 600px) {*!*/
+/*!*    table {*!*/
+/*!*        display: block;*!*/
+/*!*        overflow-x: auto;*!*/
+/*!*        white-space: nowrap;*!*/
+/*!*    }*!*/
+
+/*!*    th, td {*!*/
+/*!*        display: table-cell;*!*/
+/*!*        vertical-align: top;*!*/
+/*!*        border-bottom: none;*!*/
+/*!*    }*!*/
+
+/*!*    thead, tbody, tr, th, td {*!*/
+/*!*        display: block;*!*/
+/*!*    }*!*/
+
+/*!*    tr {*!*/
+/*!*        border: 1px solid #ddd;*!*/
+/*!*    }*!*/
+
+/*!*    th {*!*/
+/*!*        text-align: center;*!*/
+/*!*        background-color: #f2f2f2;*!*/
+/*!*    }*!*/
+
+/*!*    .icons-container {*!*/
+/*!*        text-align: center;*!*/
+/*!*    }*!*/
+
+/*!*    .icons-container button {*!*/
+/*!*        margin: 5px;*!*/
+/*!*    }*!*/
+/*!*}*!*/
+
+
+
+
+
+
+
+
+
 /*@font-face {*/
 /*    src: url("../../fonts/Lexend-Regular.ttf");*/
 /*    font-family: "Lexand-Regular";*/
@@ -9,29 +139,23 @@
 /*    font-family: "Lexand-Regular";*/
 /*    color: #1d1d1f;*/
 /*    border-color: transparent;*/
-/*    !*box-shadow:-20px 0px 20px rgba(0,0,0,0.3);*!*/
-/*    !*border-radius: 30px;*!*/
 /*}*/
 
 /*th, td {*/
 /*    text-align: left;*/
 /*    padding: 8px;*/
-/*    !*border: 1px solid #ddd;*!*/
 /*}*/
 
 /*th {*/
 /*    text-align: left;*/
-/*    !*border-radius: 30px;*!*/
 /*    background-color: #8B749D;*/
 /*}*/
 
 /*tr:nth-child(odd) {*/
-/*    background-color: #f2f2f2;*/
+/*    background-color: white;*/
 /*    border-radius: 30px;*/
 /*}*/
-/*!*.admin-button{*/
-/*    color:black;*/
-/*}*!*/
+
 /*tr td:nth-last-child(-n+3) {*/
 /*    text-align: center;*/
 /*    width: 1vw;*/
@@ -40,98 +164,63 @@
 /*    text-align: left;*/
 /*    padding-left: 0px;*/
 /*}*/
-/*!*@media screen and (max-width: 700px) {*!*/
-/*!*    table, thead, tbody, th, td, tr {*!*/
-/*!*        display: block;*!*/
-/*!*    }*!*/
-
-/*!*    !* Sakrivanje zaglavlja tabele *!*!*/
-/*!*    thead tr {*!*/
-/*!*        position: absolute;*!*/
-/*!*        top: -9999px;*!*/
-/*!*        left: -9999px;*!*/
-/*!*    }*!*/
-
-/*!*    td {*!*/
-/*!*        !* Postavljanje ćelija da budu kao redovi *!*!*/
-/*!*        position: relative;*!*/
-/*!*        padding-left: 50%;*!*/
-/*!*    }*!*/
-
-/*!*    td:before {*!*/
-/*!*        !* Ubacivanje naziva kolone pre svake ćelije *!*!*/
-/*!*        position: absolute;*!*/
-/*!*        top: 6px;*!*/
-/*!*        left: 6px;*!*/
-/*!*        width: 45%;*!*/
-/*!*        padding-right: 10px;*!*/
-/*!*        white-space: nowrap;*!*/
-/*!*    }*!*/
-
-/*!*    !* Definicija naziva kolone za svaku ćeliju *!*!*/
-/*!*    td:nth-of-type(1):before { content: "Ime"; }*!*/
-/*!*    td:nth-of-type(2):before { content: "Prezime"; }*!*/
-/*!*    td:nth-of-type(3):before { content: "Email"; }*!*/
-/*!*    !* Dodajte više prema potrebi *!*!*/
-
-/*!*    tr td:nth-last-child(-n+1) {*!*/
-/*!*        !*align-items: center;*!*!*/
-/*!*        padding-left: 26vw;*!*/
-/*!*    }*!*/
-/*!*    tr{*!*/
-/*!*        padding:10px;*!*/
-/*!*    }*!*/
-/*!*    tr:nth-child(odd) {*!*/
-/*!*        background-color: transparent;*!*/
-/*!*    }*!*/
-/*!*}*!*/
-/*@media (max-width: 600px) {*/
-/*    table {*/
-/*        display: block;*/
-/*        overflow-x: auto;*/
-/*        white-space: nowrap;*/
-/*    }*/
-
-/*    th, td {*/
-/*        display: table-cell;*/
-/*        vertical-align: top;*/
-/*        border-bottom: none;*/
-/*    }*/
-
-/*    thead, tbody, tr, th, td {*/
-/*        display: block;*/
-/*    }*/
-
-/*    tr {*/
-/*        border: 1px solid #ddd;*/
-/*    }*/
-
-/*    th {*/
-/*        text-align: center;*/
-/*        background-color: #f2f2f2;*/
-/*    }*/
-
-/*    .icons-container {*/
-/*        text-align: center;*/
-/*    }*/
-
-/*    .icons-container button {*/
-/*        margin: 5px;*/
-/*    }*/
+/*.tableContainer{*/
+/*    !*padding-left: 40px;*!*/
+/*    !*padding-right: 40px;*!*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
 /*}*/
 
-
-
-
-
-
-
+/*@media (max-width: 600px) {*/
+/*    table, thead, tbody, th, td, tr {*/
+/*        display: block;*/
+/*    }*/
+/*    thead tr {*/
+/*        position: absolute;*/
+/*        top: -9999px;*/
+/*        left: -9999px;*/
+/*    }*/
+/*    tr{*/
+/*        margin-bottom:10px;*/
+/*        border: 1px solid #ddd;*/
+/*        border-radius: 30px;*/
+/*        padding:8px;*/
+/*    }*/
+/*    td {*/
+/*        border: none;*/
+/*        position: relative;*/
+/*        padding-left: 50%;*/
+/*        !* Text overflow properties added *!*/
+/*        white-space: nowrap;*/
+/*        overflow: hidden;*/
+/*        text-overflow: ellipsis;*/
+/*    }*/
+/*    td:before {*/
+/*        position: absolute;*/
+/*        top: 6px;*/
+/*        left: 6px;*/
+/*        width: 45%;*/
+/*        padding-right: 10px;*/
+/*        white-space: nowrap;*/
+/*    }*/
+/*    td:nth-of-type(1):before { content: "Ime: "; }*/
+/*    td:nth-of-type(2):before { content: "Prezime: "; }*/
+/*    td:nth-of-type(3):before { content: "Email: "; }*/
+/*    tr td:nth-last-child(-n+3) {*/
+/*        display: inline-block;*/
+/*        text-align: center;*/
+/*        width: 33.33%;*/
+/*        padding-left: 0px;*/
+/*    }*/
+/*}*/
 
 
 @font-face {
     src: url("../../fonts/Lexend-Regular.ttf");
     font-family: "Lexand-Regular";
 }
+
 table {
     border-collapse: collapse;
     width: 100%;
@@ -139,6 +228,7 @@ table {
     font-family: "Lexand-Regular";
     color: #1d1d1f;
     border-color: transparent;
+    margin-bottom: 20px;
 }
 
 th, td {
@@ -160,41 +250,39 @@ tr td:nth-last-child(-n+3) {
     text-align: center;
     width: 1vw;
 }
+
 tr td:nth-last-child(-n+1) {
     text-align: left;
     padding-left: 0px;
-}
-.tableContainer{
-    padding-left: 40px;
-    padding-right: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 @media (max-width: 600px) {
     table, thead, tbody, th, td, tr {
         display: block;
     }
+
     thead tr {
         position: absolute;
         top: -9999px;
         left: -9999px;
     }
-    tr{
+
+    tr {
         margin-bottom:10px;
         border: 1px solid #ddd;
         border-radius: 30px;
+        padding:8px;
     }
+
     td {
         border: none;
         position: relative;
         padding-left: 50%;
-        /* Text overflow properties added */
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
     td:before {
         position: absolute;
         top: 6px;
@@ -203,9 +291,19 @@ tr td:nth-last-child(-n+1) {
         padding-right: 10px;
         white-space: nowrap;
     }
-    td:nth-of-type(1):before { content: "Ime: "; }
-    td:nth-of-type(2):before { content: "Prezime: "; }
-    td:nth-of-type(3):before { content: "Email: "; }
+
+    /* Labels for user table */
+    /*td:nth-of-type(1):before { content: "Ime: "; }*/
+    /*td:nth-of-type(2):before { content: "Prezime: "; }*/
+    /*td:nth-of-type(3):before { content: "Email: "; }*/
+    .usersTable td:nth-of-type(1):before { content: "Ime: "; }
+    .usersTable td:nth-of-type(2):before { content: "Prezime: "; }
+    .usersTable td:nth-of-type(3):before { content: "Email: "; }
+
+    /* Label for categories table */
+    /*td:nth-of-type(1):before { content: "Name: "; }*/
+    .onlyNameTable td:nth-of-type(1):before { content: "Name: "; }
+    
     tr td:nth-last-child(-n+3) {
         display: inline-block;
         text-align: center;
@@ -213,6 +311,7 @@ tr td:nth-last-child(-n+1) {
         padding-left: 0px;
     }
 }
+
 
 
 

@@ -108,8 +108,8 @@ const UsersList = () => {
                 />
 
             )}
-            <div className={"tableContainer"}>
-                <table>
+            {/*<div className={"tableContainer"}>*/}
+                <table className={"usersTable"}>
                     <thead>
                     <tr>
                         <th>Ime</th>
@@ -147,7 +147,7 @@ const UsersList = () => {
                     ))}
                     </tbody>
                 </table>
-            </div>
+            {/*</div>*/}
 
         </>
     )

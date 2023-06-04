@@ -100,8 +100,8 @@ const CategoriesList = () => {
                     wholeData={categoryView}
                 />
             )}
-            <div>
-                <table>
+            {/*<div>*/}
+                <table className={"onlyNameTable"}>
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -130,7 +130,7 @@ const CategoriesList = () => {
                     ))}
                     </tbody>
                 </table>
-            </div>
+            {/*</div>*/}
         </>
     )
 }
