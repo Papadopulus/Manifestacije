@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import classes from "./Event.module.css";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
 
-function Event({ event ,setEvents}) {
+function Event({ event, setEvents }) {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
   const [showSponsoredInfo, setShowSponsoredInfo] = useState(false);
@@ -55,7 +55,7 @@ function Event({ event ,setEvents}) {
       console.error("Error retrieving the user's favourite events:", error);
     }
   };
-  useEffect( () => {
+  useEffect(() => {
     if (shouldLog.current) {
       shouldLog.current = false;
       loadImage();
@@ -65,18 +65,20 @@ function Event({ event ,setEvents}) {
     }
     return () => {
       shouldLog.current = false;
-    }
-        },[])
+    };
+  }, []);
   function onClickEventHandler() {
     navigate("/events/" + event.id);
   }
   const toggleFavorite = async () => {
-    await checkTokenAndRefresh();
     if (!user) {
       setNotLoggedIn(true);
     } else {
+      await checkTokenAndRefresh();
       let header = {
-        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`,
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("tokens")).token
+        }`,
       };
       try {
         if (isFavorite) {
@@ -84,9 +86,9 @@ function Event({ event ,setEvents}) {
             `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
             { headers: header }
           );
-          if (setEvents){
+          if (setEvents) {
             setEvents((prevEvents) =>
-                prevEvents.filter((favEvent) => favEvent.id !== event.id)
+              prevEvents.filter((favEvent) => favEvent.id !== event.id)
             );
           }
         } else {
@@ -147,10 +149,10 @@ function Event({ event ,setEvents}) {
           )}
         </div>
 
-        { images ? (
-            <img src={images} alt="" />
+        {images ? (
+          <img src={images} alt="" />
         ) : (
-            <div className={classes.skeleton} />
+          <div className={classes.skeleton} />
         )}
         <div className={classes["footer-calendar"]}>
           <div className={classes["calendar-day"]}>

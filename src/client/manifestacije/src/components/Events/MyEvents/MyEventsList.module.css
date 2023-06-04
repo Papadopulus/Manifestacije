@@ -1,0 +1,167 @@
+﻿.fa-calendar-days
+,.fa-map-marked-alt
+,.fa-ticket
+,.fa-users
+,.fa-location-dot{
+    font-size: 25px;
+    color: black;/* Promijenite veličinu ikonice prema potrebi */
+}
+.jebo{
+    width: 40px;
+    height: 40px;
+}
+.mainContainer {
+    position: relative;
+    display: flex;
+    height: 180px;
+    background-color: white;
+    border-radius: 20px;
+    width: 90%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+    border: 1px solid #e6e9f1;
+    margin-bottom: 20px;
+}
+.mainContainer:hover{
+    transform: scale(1.02);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.imagePlace {
+    /*height: 110px;*/
+    /*width: 200px;*/
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.imageHolder {
+    background-color: red;
+    opacity: 0.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin:10px;
+    width: 40%;
+}
+.imageHolder p{
+    font-size: 25px;
+}
+
+.iconItems {
+    display: flex;
+    flex-direction: column;
+    background-color: pink;
+    opacity: 0.5;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+.icon-text{
+    display: flex;
+}
+.icon-text i {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    color: black;
+    justify-content: center;
+    align-items: center;
+}
+.icon-text p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.naslov{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+
+}
+.divDesniUnutra{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    background-color: yellow;
+}
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: grey;
+    border-radius: 20px;
+}
+
+/* Circle animation */
+.spinnerCircle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 5px solid #ccc;
+    border-top-color: #888;
+    animation: spinnerAnimation 0.8s infinite linear;
+}
+
+/* Animation keyframes */
+@keyframes spinnerAnimation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+.favorite {
+    color: #ffc107 !important;
+    top:7px;
+    right: 16px;
+}
+.favoriteIcon {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 35px;
+    color: #ffc107;
+    cursor: pointer;
+    z-index: 10;
+
+}
+.favoriteIcon:hover{
+    transform: scale(1.1);
+}
+.favoritesInfo {
+    position: absolute;
+    top: 55px;
+    left: -40px;
+    background-color: #fff;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+.skeleton {
+    height: 100%;
+    width: 100%;
+    opacity: .7;
+    border-radius: 20px;
+    animation: skeleton-loading 0.8s linear infinite alternate;
+}
+@keyframes skeleton-loading {
+    0% {
+        background-color: hsl(200, 20%, 70%);
+    }
+
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
+}
+
