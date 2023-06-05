@@ -89,8 +89,8 @@ const EditPartnerBox = ({message, onConfirm, onCancel ,partName,phoneNumber}) =>
                 </div>
 
                 <div className={classes["buttons"]}>
-                    <button onClick={() => onConfirm(payload)}>Yes</button>
-                    <button onClick={onCancel}>No</button>
+                    <button className={`${classes.btn} ${classes["button-confirm"]}`} onClick={() => onConfirm(payload)}>Yes</button>
+                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>No</button>
                 </div>
             </div>
         </>

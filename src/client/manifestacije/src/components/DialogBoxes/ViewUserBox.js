@@ -17,7 +17,7 @@ const ViewUserBox = ({ message, onCancel,wholeUser }) => {
                 <p> Joined: {formattedDate}</p>     
                 <p> Role: {wholeUser.roles[0]}</p>
                 <div className={classes["buttons"]}>
-                    <button onClick={onCancel}>Cancel</button>
+                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>Cancel</button>
                 </div>
             </div>
         </>

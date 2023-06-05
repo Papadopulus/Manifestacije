@@ -21,7 +21,7 @@ const ViewBoxOrg = ({ message, onCancel,wholeData }) => {
                 <p> LinkedIn :{wholeData.linkedInUrl}</p>
                 <p> Added on: {formattedDate}</p>
                 <div className={classes["buttons"]}>
-                    <button onClick={onCancel}>Cancel</button>
+                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>Cancel</button>
                 </div>
             </div>
         </>

@@ -6,7 +6,7 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.3);
-    z-index: 999;
+    z-index: 50;
 }
 
 .custom-dialog-box {
@@ -14,12 +14,14 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1000;
+    z-index: 51;
     background-color: white;
     padding: 16px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     /*position: relative;*/
+    max-height: 70%;
+    overflow-y: scroll;
 }
 
 .custom-dialog-box p {
@@ -30,7 +32,9 @@
     display: flex;
     justify-content: flex-end;
 }
-
+.buttons{
+    margin-top: 20px;
+}
 .custom-dialog-box button {
     margin-left: 16px;
 }
@@ -44,10 +48,6 @@
     font-family: 'Lexand-Medium';
     font-size: 18px;
 }
-
-
-
-
 .upload-logo{
     color: #333333;
     margin-bottom: 10px;
@@ -140,3 +140,57 @@
 }
 
 
+
+.btn {
+    padding: 8px 20px;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    /*background-color: #3333ff;*/
+    /*margin-left: 20px;*/
+    /*margin-right: 20px;*/
+    white-space: nowrap;
+    font-family: "Lexand-Medium";
+}
+
+.btn:hover {
+    padding: 6px 18px;
+    /*transition: all 0.3s ease-out;*/
+    /*background-color: transparent;*/
+    /*background: ;*/
+    background-color: #7a8294;
+    color: #fff;
+    border-radius: 4px;
+    border: 2px solid #3333ff;
+}
+.button-confirm{
+    padding: 8px 28px;
+    background-color: green;
+}
+.button-confirm:hover{
+    padding: 6px 26px;
+}
+.button-confirm:active{
+    background-color: #7a8294 !important;
+    color: white !important;
+}
+.button-confirm{
+    font-family: 'Lexend-Medium';
+    font-size: 20px;
+}
+
+
+.button-discard{
+    padding: 8px 28px;
+    background-color: #ed2121;
+}
+.button-discard:hover{
+    padding: 6px 26px;
+}
+.button-discard{
+    font-family: 'Lexend-Medium';
+    font-size: 20px;
+}

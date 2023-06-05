@@ -8,8 +8,8 @@ const CustomDialogBox = ({ message, onConfirm, onCancel }) => {
             <div className={classes["custom-dialog-box"]}>
                 <p>{message}</p>
                 <div className={classes["buttons"]}>
-                    <button onClick={onConfirm}>Yes</button>
-                    <button onClick={onCancel}>No</button>
+                    <button className={`${classes.btn} ${classes["button-confirm"]}`} onClick={onConfirm}>Obrisi</button>
+                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>Ponisti</button>
                 </div>
             </div>
         </>

@@ -234,6 +234,10 @@ table {
 th, td {
     text-align: left;
     padding: 8px;
+
+    white-space: nowrap;  /* Added */
+    overflow: hidden;    /* Added */
+    text-overflow: ellipsis;  /* Added */
 }
 
 th {
