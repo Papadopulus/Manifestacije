@@ -4,21 +4,21 @@ namespace Manifestacije.Api.Extensions;
 
 public static class ClaimsPrincipalExtension
 {
-    internal static string GetUserId(this ClaimsPrincipal user)
+    internal static string? GetUserId(this ClaimsPrincipal user)
     {
         var userId = user.Claims.FirstOrDefault(c => c.Type == "Id");
-        return userId == null ? "" : userId.Value;
+        return userId?.Value;
     }
 
-    internal static string GetOrganizationId(this ClaimsPrincipal user)
+    internal static string? GetOrganizationId(this ClaimsPrincipal user)
     {
         var organizationId = user.Claims.FirstOrDefault(c => c.Type == "OrganizationId");
-        return organizationId == null ? "" : organizationId.Value;
+        return organizationId?.Value;
     }
 
-    internal static string GetRole(this ClaimsPrincipal user)
+    internal static string? GetRole(this ClaimsPrincipal user)
     {
         var userRole = user.Claims.FirstOrDefault(c => c.Type == "Roles");
-        return userRole == null ? string.Empty : userRole.Value;
+        return userRole?.Value;
     }
 }

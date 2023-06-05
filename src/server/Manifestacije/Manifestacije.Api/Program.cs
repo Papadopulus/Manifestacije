@@ -62,6 +62,10 @@ builder.Services.AddSingleton<IOrganizationRepository, OrganizationRepository>()
 builder.Services.AddSingleton<IEventRepository, EventRepository>();
 builder.Services.AddSingleton<IReviewRepository, ReviewRepository>();
 
+// Current user
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+
 // Services
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IOrganizationService, OrganizationService>();
