@@ -1,6 +1,5 @@
 ﻿import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import checkTokenAndRefresh from "../../../shared/tokenCheck";
 import classes from "./MyEventsList.module.css";
 import { format } from "date-fns";
 import EditIcon from "@mui/icons-material/Edit";
@@ -29,9 +28,8 @@ function MyEventsList({ event }) {
   function onClickEventHandler() {
     navigate("/events/" + event.id);
   }
-  const handleEdit = async (event) => {
-    await checkTokenAndRefresh();
-    console.log(event.title);
+  const handleEdit = () => {
+    navigate("/editEvents/" + event.id);
   };
 
   useEffect(() => {
@@ -51,7 +49,12 @@ function MyEventsList({ event }) {
           e.stopPropagation();
         }}
       >
-        <IconButton onClick={() => handleEdit(event)}>
+        <IconButton
+          onClick={(e) => {
+            e.stopPropagation();
+            handleEdit();
+          }}
+        >
           <EditIcon sx={{ fontSize: 30 }}></EditIcon>
         </IconButton>
       </div>

@@ -127,7 +127,7 @@ function Event({ event, setEvents, organization }) {
   }, [user, event.id, hasFavourites]);
 
   function handleEdit(event) {
-    console.log(event.title);
+    navigate("/editEvents/" + event.id);
   }
 
   return (
