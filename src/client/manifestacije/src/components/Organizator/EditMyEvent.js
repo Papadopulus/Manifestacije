@@ -281,7 +281,7 @@ function EditMyEvent() {
     );
     console.log(response);
 
-    resetTitleFunction();
+    /*resetTitleFunction();
     resetDateStartFunction();
     resetEndingDateFunction();
     resetGuestList();
@@ -293,7 +293,7 @@ function EditMyEvent() {
     resetTicketUrlFunction();
     resetAddressFunction();
     resetMarkerFunction();
-    resetImagesFunction();
+    resetImagesFunction();*/
   };
 
   const classes = useStyles();
