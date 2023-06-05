@@ -22,6 +22,7 @@ public class EventViewResponse
     public required LocationPartial Location { get; set; }
     public required PartnerPartial TransportPartner { get; set; }
     public required PartnerPartial AccommodationPartner { get; set; }
+    public required CategoryPartial Category { get; set; }
     public required string Street { get; set; }
     public required double Latitude { get; set; }
     public required double Longitude { get; set; }
