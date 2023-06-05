@@ -40,6 +40,11 @@ public sealed class ExceptionMiddleware
             context.Response.StatusCode = 400;
             await context.Response.WriteAsJsonAsync(exception.Message);
         }
+        catch (ForbidException exception)
+        {
+            context.Response.StatusCode = 403;
+            await context.Response.WriteAsJsonAsync(exception.Message);
+        }
         catch (DatabaseException exception)
         {
             _logger.LogError(exception.Message, exception.InnerException, exception.StackTrace);

@@ -69,9 +69,14 @@ public class EventService : IEventService
         var organizationId = (await _userRepository.GetUserByIdAsync(userId))?.Organization?.Id ??
                              throw new NotFoundException($"There is no user with the id of: {userId}");
 
-        if (eventToUpdate is null || eventToUpdate.Organization.Id != organizationId)
+        if (eventToUpdate is null)
         {
             return null;
+        }
+        
+        if (eventToUpdate.Organization.Id != organizationId)
+        {
+            throw new ForbidException("You are not allowed to update this event");
         }
 
         eventToUpdate.Title = eventUpdateRequest.Title;
