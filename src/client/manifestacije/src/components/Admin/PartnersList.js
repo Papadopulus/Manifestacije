@@ -94,6 +94,8 @@ const CategoriesList = () => {
                     onCancel={cancelHandleEdit}
                     partName={partnerEdit.name}
                     phoneNumber={partnerEdit.phoneNumber}
+                    Accomodation={partnerEdit.isAccommodation}
+                    Transport={partnerEdit.isTransport}
                 />
             )}
             {partnerView && (

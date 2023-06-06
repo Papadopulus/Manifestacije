@@ -21,7 +21,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     /*position: relative;*/
     max-height: 70%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .custom-dialog-box p {
@@ -42,7 +42,20 @@
     display: flex;
     flex-direction: column;    
 }
+.check-div label{
+    margin-right: 10px;
+    font-size: 20px;
+}
 
+.checkBoxDiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.checkBoxDiv input{
+    height: 20px;
+    width: 20px;
+}
 .error-text {
     color: #CC2929;
     font-family: 'Lexand-Medium';
