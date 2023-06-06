@@ -20,13 +20,20 @@ const User = () => {
   const [userData, setUserData] = useState([]);
   const [activeLink, setActiveLInk] = useState("profile");
   const [isMobileView, setIsMobileView] = useState(false);
+
+  const [selectedOption, setSelectedOption] = useState("Select an option");
+  const [activePanel, setActivePanel] = useState([]);
+  
   const { user } = useContext(AuthContext);
 
   const shouldLog = useRef(true);
 
-  const handleLinkClick = (link) => {
+  const handleLinkClick = (e ,link ) => {
     setActiveLInk(link);
+    setSelectedOption(e.target.innerText);
+    setActivePanel([])
   };
+
 
   let activeComponent;
 
@@ -141,11 +148,13 @@ const User = () => {
               </div>
               {isMobileView ? (
                 <Collapse
-                  defaultActiveKey={["0"]}
+                    activeKey={activePanel}
+                  // defaultActiveKey={["0"]}
+                    onChange={setActivePanel}
                   className={classes["home-filter-panel"]}
                 >
                   <Panel
-                    header={"More options"}
+                    header={selectedOption}
                     key="1"
                     className={classes["home-filter-panel-name"]}
                   >
@@ -154,7 +163,7 @@ const User = () => {
                         activeLink === "profile" ? classes["active"] : ""
                       }`}
                       href="#"
-                      onClick={() => handleLinkClick("profile")}
+                      onClick={(e) => handleLinkClick(e,"profile")}
                     >
                       Izmeni profil
                     </a>
@@ -163,7 +172,7 @@ const User = () => {
                         activeLink === "password" ? classes["active"] : ""
                       }`}
                       href="#"
-                      onClick={() => handleLinkClick("password")}
+                      onClick={(e) => handleLinkClick(e,"password")}
                     >
                       Izmeni lozinku
                     </a>
@@ -173,7 +182,7 @@ const User = () => {
                           activeLink === "myEvents" ? classes["active"] : ""
                         }`}
                         href="#"
-                        onClick={() => handleLinkClick("myEvents")}
+                        onClick={(e) => handleLinkClick(e,"myEvents")}
                       >
                         Moje manifestacije
                       </a>
@@ -184,7 +193,7 @@ const User = () => {
                           activeLink === "allUsers" ? classes["active"] : ""
                         }`}
                         href="#"
-                        onClick={() => handleLinkClick("allUsers")}
+                        onClick={(e) => handleLinkClick(e,"allUsers")}
                       >
                         Korisnici
                       </a>
@@ -197,7 +206,7 @@ const User = () => {
                             : ""
                         }`}
                         href="#"
-                        onClick={() => handleLinkClick("allCategories")}
+                        onClick={(e) => handleLinkClick(e,"allCategories")}
                       >
                         Kategorije
                       </a>
@@ -208,7 +217,7 @@ const User = () => {
                           activeLink === "allLocations" ? classes["active"] : ""
                         }`}
                         href="#"
-                        onClick={() => handleLinkClick("allLocations")}
+                        onClick={(e) => handleLinkClick(e,"allLocations")}
                       >
                         Lokacije
                       </a>
@@ -219,7 +228,7 @@ const User = () => {
                           activeLink === "allOrg" ? classes["active"] : ""
                         }`}
                         href="#"
-                        onClick={() => handleLinkClick("allOrg")}
+                        onClick={(e) => handleLinkClick(e,"allOrg")}
                       >
                         Organizacije
                       </a>
@@ -229,7 +238,7 @@ const User = () => {
                         activeLink === "favorites" ? classes["active"] : ""
                       }`}
                       href="#"
-                      onClick={() => handleLinkClick("favorites")}
+                      onClick={(e) => handleLinkClick(e,"favorites")}
                     >
                       Omiljeno
                     </a>
@@ -239,7 +248,7 @@ const User = () => {
                           activeLink === "allPartners" ? classes["active"] : ""
                         }`}
                         href="#"
-                        onClick={() => handleLinkClick("allPartners")}
+                        onClick={(e) => handleLinkClick(e,"allPartners")}
                       >
                         Partneri
                       </a>
@@ -257,7 +266,7 @@ const User = () => {
                           activeLink === "going" ? classes["active"] : ""
                         }`}
                         href="#"
-                        onClick={() => handleLinkClick("going")}
+                        onClick={(e) => handleLinkClick(e,"going")}
                       >
                         Idem
                       </a>
@@ -271,7 +280,7 @@ const User = () => {
                       activeLink === "profile" ? classes["active"] : ""
                     }`}
                     href="#"
-                    onClick={() => handleLinkClick("profile")}
+                    onClick={(e) => handleLinkClick(e,"profile")}
                   >
                     Izmeni profil
                   </a>
@@ -280,7 +289,7 @@ const User = () => {
                       activeLink === "password" ? classes["active"] : ""
                     }`}
                     href="#"
-                    onClick={() => handleLinkClick("password")}
+                    onClick={(e) => handleLinkClick(e,"password")}
                   >
                     Izmeni lozinku
                   </a>
@@ -290,7 +299,7 @@ const User = () => {
                         activeLink === "myEvents" ? classes["active"] : ""
                       }`}
                       href="#"
-                      onClick={() => handleLinkClick("myEvents")}
+                      onClick={(e) => handleLinkClick(e,"myEvents")}
                     >
                       Moje manifestacije
                     </a>
@@ -301,7 +310,7 @@ const User = () => {
                         activeLink === "allUsers" ? classes["active"] : ""
                       }`}
                       href="#"
-                      onClick={() => handleLinkClick("allUsers")}
+                      onClick={(e) => handleLinkClick(e,"allUsers")}
                     >
                       Korisnici
                     </a>
@@ -312,7 +321,7 @@ const User = () => {
                         activeLink === "allCategories" ? classes["active"] : ""
                       }`}
                       href="#"
-                      onClick={() => handleLinkClick("allCategories")}
+                      onClick={(e) => handleLinkClick(e,"allCategories")}
                     >
                       Kategorije
                     </a>
@@ -323,7 +332,7 @@ const User = () => {
                         activeLink === "allLocations" ? classes["active"] : ""
                       }`}
                       href="#"
-                      onClick={() => handleLinkClick("allLocations")}
+                      onClick={(e) => handleLinkClick(e,"allLocations")}
                     >
                       Lokacije
                     </a>
@@ -334,7 +343,7 @@ const User = () => {
                         activeLink === "allOrg" ? classes["active"] : ""
                       }`}
                       href="#"
-                      onClick={() => handleLinkClick("allOrg")}
+                      onClick={(e) => handleLinkClick(e,"allOrg")}
                     >
                       Organizacije
                     </a>
@@ -344,7 +353,7 @@ const User = () => {
                       activeLink === "favorites" ? classes["active"] : ""
                     }`}
                     href="#"
-                    onClick={() => handleLinkClick("favorites")}
+                    onClick={(e) => handleLinkClick(e,"favorites")}
                   >
                     Omiljeno
                   </a>
@@ -354,7 +363,7 @@ const User = () => {
                         activeLink === "allPartners" ? classes["active"] : ""
                       }`}
                       href="#"
-                      onClick={() => handleLinkClick("allPartners")}
+                      onClick={(e) => handleLinkClick(e,"allPartners")}
                     >
                       Partneri
                     </a>
@@ -373,7 +382,7 @@ const User = () => {
                         activeLink === "going" ? classes["active"] : ""
                       }`}
                       href="#"
-                      onClick={() => handleLinkClick("going")}
+                      onClick={(e) => handleLinkClick(e,"going")}
                     >
                       Idem
                     </a>
