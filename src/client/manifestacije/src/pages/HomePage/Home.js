@@ -14,6 +14,7 @@ import { Collapse } from "antd";
 import { Button } from "../../components/Navbar/NavButton";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
 import AuthContext from "../../store/AuthContext";
+import BackToTopButton from "../../components/UI/BackToTopButton/BackToTopButton";
 const { Panel } = Collapse;
 
 const Home = () => {
@@ -46,6 +47,7 @@ const Home = () => {
 
   const [pageNumber, setPageNumber] = useState(1);
   const [itemsPerPage, SetItemsPerPage] = useState(9);
+  
 
   const handleSelect = (pickedDate) => {
     shouldFetch.current = true;
@@ -205,6 +207,8 @@ const Home = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  
+  
 
   const sorting = (e) => {
     if (e === "popularLowest") {
@@ -228,8 +232,12 @@ const Home = () => {
     }
     SetSelectedPriceOrder(e);
   };
+  const styleS = {
+    overflow: "unset",
+  };
   return (
     <div className={classes["home-container"]}>
+      <BackToTopButton/>
       <div className={classes["left-container-home"]}>
         <div className={classes["wrapper"]}>
           <i className={"fa fa-search"} aria-hidden="true"></i>
@@ -468,7 +476,8 @@ const Home = () => {
           </div>
         </div>
         {events.length > 0 && (
-          <InfiniteScroll
+          <InfiniteScroll 
+              style={styleS}
             next={() => handleFilters(null, null, pageNumber)}
             hasMore={hasMore}
             dataLength={events.length}

@@ -1,0 +1,36 @@
+﻿.scrollTop{
+    position: fixed;
+    height: 80px;
+    width: 80px;
+    background-color: #4F25E5;
+    color: white;
+    border-radius: 50%;
+    z-index: 20;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: unset;
+    cursor: pointer;
+}
+.scrollTop:hover{
+    background-color: #9486ff;
+}
+.scrollTop:active{
+    background-color: #6555ff;
+}
+.scrollTop svg{
+    font-size: 50px;
+}
+@media screen and (max-width: 960px) {
+    .scrollTop{
+        bottom: 120px;
+        right: 30px;
+        height: 60px;
+        width: 60px;
+    }
+    .scrollTop svg{
+        font-size: 40px;
+    }
+}
