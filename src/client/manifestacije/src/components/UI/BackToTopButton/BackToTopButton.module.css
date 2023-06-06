@@ -20,6 +20,7 @@
 }
 .scrollTop:active{
     background-color: #6555ff;
+    border-radius: 50%;
 }
 .scrollTop svg{
     font-size: 50px;
