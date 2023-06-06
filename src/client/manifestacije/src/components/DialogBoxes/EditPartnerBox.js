@@ -3,7 +3,7 @@ import classes from "./CustomBox.module.css";
 import useInput from "../../hooks/use-input";
 import Input from "../UI/Input/Input";
 
-const EditPartnerBox = ({message, onConfirm, onCancel}) => {
+const EditPartnerBox = ({message, onConfirm, onCancel ,partName,phoneNumber}) => {
 
     const [isAccommodation,setIsAccommodation] = useState(false);
     const [isTransport,setIsTransport] = useState(false);
@@ -14,7 +14,7 @@ const EditPartnerBox = ({message, onConfirm, onCancel}) => {
         valueChangedHandler: nameChangeChangeHandler,
         inputBlurHandler: NameBlurHandler,
         resetFunction: resetNameChangeFunction,
-    } = useInput((value) => value.trim() !== '');
+    } = useInput((value) => value.trim() !== '',partName);
 
     const {
         value: phone,
@@ -23,7 +23,7 @@ const EditPartnerBox = ({message, onConfirm, onCancel}) => {
         valueChangedHandler: phoneChangeChangeHandler,
         inputBlurHandler: phoneBlurHandler,
         resetFunction: resetPhoneChangeFunction,
-    } = useInput((value) => value.trim() !== '');
+    } = useInput((value) => value.trim() !== '',phoneNumber);
 
     
     let payload = {

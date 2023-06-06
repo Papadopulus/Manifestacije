@@ -13,7 +13,7 @@ const ChangeProfile = (props) => {
     valueChangedHandler: nameChangedHandler,
     inputBlurHandler: nameBlurHandler,
     resetFunction: resetNameFunction,
-  } = useInput((value) => value.trim() !== "");
+  } = useInput((value) => value.trim() !== "",props.name);
 
   const {
     value: enteredSurname,
@@ -22,7 +22,7 @@ const ChangeProfile = (props) => {
     valueChangedHandler: surnameChangedHandler,
     inputBlurHandler: surnameBlurHandler,
     resetFunction: resetSurnameFunction,
-  } = useInput((value) => value.trim() !== "");
+  } = useInput((value) => value.trim() !== "",props.surname);
 
   let formIsValid = false;
   if (enteredNameIsValid && enteredSurnameIsValid) {

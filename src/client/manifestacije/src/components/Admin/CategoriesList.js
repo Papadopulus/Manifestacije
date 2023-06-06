@@ -90,6 +90,7 @@ const CategoriesList = () => {
                     message={"Are your sure u want to edit this category?"}
                     onConfirm={handleEditCategory}
                     onCancel={cancelHandleEdit}
+                    name={categoryEdit.name}
                 />
             )}
             {categoryView && (

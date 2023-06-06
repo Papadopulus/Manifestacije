@@ -13,6 +13,7 @@ import PartnersList from "../components/Admin/PartnersList";
 import ChangePasswordRequest from "../components/User/ChangePasswordRequest";
 import "./User.css";
 import { Collapse } from "antd";
+import MyEvents from "../components/User/MyEvents";
 const { Panel } = Collapse;
 
 const User = () => {
@@ -54,6 +55,8 @@ const User = () => {
     activeComponent = <OrganisationsList />;
   } else if (activeLink === "allPartners") {
     activeComponent = <PartnersList />;
+  } else if (activeLink === "myEvents") {
+    activeComponent = <MyEvents />;
   }
 
   useEffect(() => {
@@ -164,6 +167,17 @@ const User = () => {
                     >
                       Izmeni lozinku
                     </a>
+                    {user.Roles === "Organization" && (
+                      <a
+                        className={`${classes["item-menu"]} ${
+                          activeLink === "myEvents" ? classes["active"] : ""
+                        }`}
+                        href="#"
+                        onClick={() => handleLinkClick("myEvents")}
+                      >
+                        Moje manifestacije
+                      </a>
+                    )}
                     {user.Roles === "Admin" && (
                       <a
                         className={`${classes["item-menu"]} ${
@@ -270,6 +284,17 @@ const User = () => {
                   >
                     Izmeni lozinku
                   </a>
+                  {user.Roles === "Organization" && (
+                    <a
+                      className={`${classes["item-menu"]} ${
+                        activeLink === "myEvents" ? classes["active"] : ""
+                      }`}
+                      href="#"
+                      onClick={() => handleLinkClick("myEvents")}
+                    >
+                      Moje manifestacije
+                    </a>
+                  )}
                   {user.Roles === "Admin" && (
                     <a
                       className={`${classes["item-menu"]} ${

@@ -89,6 +89,7 @@ const CategoriesList = () => {
                     message={"Are your sure u want to edit this location?"}
                     onConfirm={handleEditLocation}
                     onCancel={cancelHandleEdit}
+                    name={locationEdit.name}
                 />
             )}
             {locationView && (
