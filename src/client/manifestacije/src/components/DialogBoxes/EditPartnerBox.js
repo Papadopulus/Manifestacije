@@ -3,10 +3,10 @@ import classes from "./CustomBox.module.css";
 import useInput from "../../hooks/use-input";
 import Input from "../UI/Input/Input";
 
-const EditPartnerBox = ({message, onConfirm, onCancel ,partName,phoneNumber}) => {
+const EditPartnerBox = ({message, onConfirm, onCancel ,partName,phoneNumber,Transport,Accomodation}) => {
 
-    const [isAccommodation,setIsAccommodation] = useState(false);
-    const [isTransport,setIsTransport] = useState(false);
+    const [isAccommodation,setIsAccommodation] = useState(Accomodation);
+    const [isTransport,setIsTransport] = useState(Transport);
     const {
         value: name,
         isValid: enteredNameIsValid,
@@ -67,7 +67,7 @@ const EditPartnerBox = ({message, onConfirm, onCancel ,partName,phoneNumber}) =>
                     </label>
                 )}
                 <div className={classes["check-div"]}>
-                    <div>
+                    <div className={classes.checkBoxDiv}>
                         <label>Set as Accomodation partner</label>
                         <input 
                             className={classes["accomodation-check"]} 
@@ -76,7 +76,7 @@ const EditPartnerBox = ({message, onConfirm, onCancel ,partName,phoneNumber}) =>
                             onChange={(event)=> setIsAccommodation(event.target.checked)}
                         />
                     </div>
-                    <div>
+                    <div className={classes.checkBoxDiv}>
                         <label>Set as Transport partner</label>
                         <input 
                             className={classes["transport-check"]} 
@@ -89,8 +89,8 @@ const EditPartnerBox = ({message, onConfirm, onCancel ,partName,phoneNumber}) =>
                 </div>
 
                 <div className={classes["buttons"]}>
-                    <button onClick={() => onConfirm(payload)}>Yes</button>
-                    <button onClick={onCancel}>No</button>
+                    <button className={`${classes.btn} ${classes["button-confirm"]}`} onClick={() => onConfirm(payload)}>Yes</button>
+                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>No</button>
                 </div>
             </div>
         </>

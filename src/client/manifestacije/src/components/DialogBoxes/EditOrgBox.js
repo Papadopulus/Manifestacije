@@ -96,11 +96,11 @@ const EditOrgBox = (props) => {
         resetFunction: resetWebsiteUrlFunction,
     } = useInput((value) => value.trim() !== '',props.website);
     //7
-    const {
-        value: logoUrl,
-        valueChangedHandler: logoUrlOrgChangeHandler,
-        resetFunction: resetLogoUrlFunction,
-    } = useInput((value) => value.trim() !== '',props.logo);
+    // const {
+    //     value: logoUrl,
+    //     valueChangedHandler: logoUrlOrgChangeHandler,
+    //     resetFunction: resetLogoUrlFunction,
+    // } = useInput((value) => value.trim() !== '',props.logo);
 
     
 
@@ -156,13 +156,13 @@ const EditOrgBox = (props) => {
                     onChange={descOrgChangeHandler}
                 ></TextArea>
                 
-                <Input
-                    label={"Logo URL"}
-                    type="text"
-                    id="logoUrlOrg"
-                    value={logoUrl}
-                    onChange={logoUrlOrgChangeHandler}
-                ></Input>
+                {/*<Input*/}
+                {/*    label={"Logo URL"}*/}
+                {/*    type="text"*/}
+                {/*    id="logoUrlOrg"*/}
+                {/*    value={logoUrl}*/}
+                {/*    onChange={logoUrlOrgChangeHandler}*/}
+                {/*></Input>*/}
 
                 <div className={classes["upload-div"]}>
                     <p className={classes["upload-logo"]}>Upload your logo here</p>
@@ -240,9 +240,8 @@ const EditOrgBox = (props) => {
                     onChange={linkedinOrgChangeHandler}
                 ></Input>
                 <div className={classes["buttons"]}>
-                    {/*<button onClick={() => props.onConfirm(payload)}>Yes</button>*/}
-                    <button onClick={handleEditOrganisation}>Yes</button>
-                    <button onClick={props.onCancel}>No</button>
+                    <button className={`${classes.btn} ${classes["button-confirm"]}`} onClick={handleEditOrganisation}>Yes</button>
+                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={props.onCancel}>No</button>
                 </div>
             </div>
         </>
