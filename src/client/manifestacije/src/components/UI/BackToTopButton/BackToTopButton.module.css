@@ -13,6 +13,7 @@
     align-items: center;
     border: unset;
     cursor: pointer;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .2);
 }
 .scrollTop:hover{
     background-color: #9486ff;
