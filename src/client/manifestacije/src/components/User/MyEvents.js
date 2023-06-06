@@ -4,7 +4,7 @@ import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import classes from "./MyEvents.module.css";
 import Event from "../Events/Event";
-import MyEventsList from "../Events/MyEvents/MyEventsList";
+import EventHorizontal from "../Events/EventHorizontal/EventHorizontal";
 
 function MyEvents() {
   const [events, setEvents] = useState([]);
@@ -86,11 +86,12 @@ function MyEvents() {
                     />
                   </div>
                 ) : (
-                  <MyEventsList
+                  <EventHorizontal
                     key={event.id}
                     event={event}
                     user={user}
                     setEvents={setEvents}
+                    edit={true}
                   />
                 )}
               </React.Fragment>
