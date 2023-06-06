@@ -1,6 +1,5 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
-using Manifestacije.Api.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -21,9 +20,11 @@ public static class QueryExtensions
             return Builders<TType>.Sort.Descending("CreatedAtUtc");
         }
 
-        return filter.SortDirection is not "desc"
+        var sort = filter.SortDirection is not "desc"
             ? Builders<TType>.Sort.Ascending(filter.SortColumn)
             : Builders<TType>.Sort.Descending(filter.SortColumn);
+        
+        return Builders<TType>.Sort.Combine(sort, Builders<TType>.Sort.Descending("CreatedAtUtc"));
     }
 
     public static FilterDefinition<TType> Filter<TType, TSource>(this TSource query)
