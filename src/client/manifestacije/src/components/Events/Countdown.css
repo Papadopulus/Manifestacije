@@ -1,33 +1,40 @@
 .countdown {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #32273b;
-    color: white;
-    font-size: 2em;
-    height: 10vh;
-    font-family: "Lexand-Medium";
-    border-top-left-radius: 50px ;
-    border-top-right-radius: 50px ;
+    background-color: #e7e7e7;
+    /*border: 2px solid black;*/
+    width:100%;
     padding: 20px;
+    /*margin: 70px 30px 0px;*/
+    text-align: center;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.countdown > div {
-    margin: 0 15px;
+.countdown div {
+    display: inline-block;
+    margin: 0 10px;
 }
 
-/*.countdown > div:before {
-    content: '';
+.countdown div span {
     display: block;
-    height: 1px;
-    width: 60px;
-    margin-bottom: 10px;
-    background: white;
-}*/
+    font-size: 3em;
+    font-family: Lexand-Bold;
+    color: #4f388c;
+}
+
+.countdown div span.label {
+    font-size: 0.9em;
+    font-weight: normal;
+    font-family: Lexand-Regular;
+    color:#1d1d1f;
+}
+
 @media screen and (max-width: 600px) {
     .countdown {
         flex-direction: row;
         text-align: unset;
-        border-radius: 0px;
+        margin: 10px;
     }
 }

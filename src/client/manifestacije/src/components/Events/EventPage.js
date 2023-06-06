@@ -76,12 +76,28 @@ function EventPage() {
           <img src={images} alt="" className={classes.image} />
         </div>
 
-        <div className={classes.header}>
-          <h1 className={classes.title}>{event.title}</h1>
-        </div>
-
         <div className={classes["bottom-container"]}>
-          <Countdown targetDate={event.startingDate} />
+          <div className={classes["title-countdown"]}>
+            <div className={classes["left-upper"]}>
+              <div className={classes.header}>
+                <h1 className={classes.title}>{event.title}</h1>
+              </div>
+              <div className={classes["date-location"]}>
+                <div className={classes["dt"]}>
+                {format(new Date(event.startingDate), "dd·MMM·yyyy")}{" "}
+                -&nbsp;
+                {format(new Date(event.endingDate), "dd·MMM·yyyy")}
+                </div>
+                <div>
+                  {event.location.name}
+                </div>
+              </div>
+            </div>
+            <div className={classes["countdown-right"]}>
+            <Countdown targetDate={event.startingDate} />
+            </div>
+          </div>
+
           <div className={classes.description}>
             <h1 className={classes.descriptionTitle}>O manifestaciji</h1>
             <p>{event.description}</p>
@@ -111,9 +127,9 @@ function EventPage() {
                     </div>
                     <div className={classes.dateTitle}>
                       <p>DATUM</p>
-                      {format(new Date(event.startingDate), "dd·MMM·yyyy")}{" "}
+                      {/*format(new Date(event.startingDate), "dd·MMM·yyyy")}{" "}
                       -&nbsp;
-                      {format(new Date(event.endingDate), "dd·MMM·yyyy")}
+                      {format(new Date(event.endingDate), "dd·MMM·yyyy")*/}
                     </div>
                   </li>
                   <li className={classes.location}>
