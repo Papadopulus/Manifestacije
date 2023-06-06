@@ -210,4 +210,11 @@
         background-color: hsl(200, 20%, 95%);
     }
 }
-
+.editIcon{
+    position: absolute;
+    top: 15px;
+    right: 20px;
+   
+    background-color: #e6e6e6;
+    border-radius: 50%;
+}

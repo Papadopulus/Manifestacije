@@ -2,11 +2,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import classes from "./EventHorizontal.module.css";
 import { format } from "date-fns";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import checkTokenAndRefresh from "../../../shared/tokenCheck";
-const EventHorizontal = ({ event, user ,setEvents}) => {
+import EditIcon from "@mui/icons-material/Edit";
+import { IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+const EventHorizontal = ({ event, user, setEvents, edit }) => {
   const [images, setImages] = useState(null);
   const [showFavoritesInfo, setShowFavoritesInfo] = useState(false);
+  const navigate = useNavigate();
 
   const shouldLog = useRef(true);
   const loadImage = async () => {
@@ -26,7 +28,6 @@ const EventHorizontal = ({ event, user ,setEvents}) => {
   };
 
   const toggleFavorite = async () => {
-    await checkTokenAndRefresh();
     let header = {
       Authorization: `Bearer ${
         JSON.parse(localStorage.getItem("tokens")).token
@@ -37,9 +38,9 @@ const EventHorizontal = ({ event, user ,setEvents}) => {
         `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
         { headers: header }
       );
-      if(setEvents) {
+      if (setEvents) {
         setEvents((prevEvents) =>
-            prevEvents.filter((favEvent) => favEvent.id !== event.id)
+          prevEvents.filter((favEvent) => favEvent.id !== event.id)
         );
       }
     } catch (error) {
@@ -56,8 +57,15 @@ const EventHorizontal = ({ event, user ,setEvents}) => {
       shouldLog.current = false;
     };
   }, []);
+  function onClickEventHandler() {
+    navigate("/events/" + event.id);
+  }
+  function handleEdit() {
+    navigate("/editEvents/" + event.id);
+  }
+
   return (
-    <div className={classes.mainContainer}>
+    <div className={classes.mainContainer} onClick={onClickEventHandler}>
       <div
         className={classes.favoriteIcon}
         onClick={(e) => {
@@ -67,9 +75,19 @@ const EventHorizontal = ({ event, user ,setEvents}) => {
         onMouseEnter={() => setShowFavoritesInfo(true)}
         onMouseLeave={() => setShowFavoritesInfo(false)}
       >
-        <i className="fa-solid fa-star"></i>
-
-        {showFavoritesInfo && (
+        {edit ? (
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              handleEdit();
+            }}
+          >
+            <EditIcon sx={{ fontSize: 30 }}></EditIcon>
+          </IconButton>
+        ) : (
+          <i className="fa-solid fa-star"></i>
+        )}
+        {showFavoritesInfo && !edit && (
           <div className={classes.favoritesInfo}>Remove from favorites!</div>
         )}
       </div>

@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef, useState } from "react";
+﻿import React, { useContext, useEffect, useRef, useState } from "react";
 import CheckBox from "./CheckBox";
 import axios from "../../api/axios";
 import PriceSlider from "./PriceSlider";
@@ -10,9 +10,12 @@ import "./MainPageFilter.css";
 import { Collapse } from "antd";
 import { Button } from "../Navbar/NavButton";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
+import AuthContext from "../../store/AuthContext";
+
 const { Panel } = Collapse;
 
 function MainPageFilter(props) {
+  const { user } = useContext(AuthContext);
   const [Filters, setFilters] = useState({
     categories: [],
     locations: [],
@@ -27,7 +30,7 @@ function MainPageFilter(props) {
   const [querySearch, SetQuerySearch] = useState("");
   const [resetFilters, SetResetFilters] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
-  
+
   const shouldLog = useRef(true);
   const shouldFetch = useRef(true);
 
@@ -45,103 +48,96 @@ function MainPageFilter(props) {
     endDate: endDate,
     key: "selection",
   };
-
+  const getFilters = async () => {
+    try {
+      const responseCategory = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/categories`
+      );
+      SetCategories(responseCategory.data);
+      const responseLocations = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/locations`
+      );
+      SetLocations(responseLocations.data);
+      const responseOrganizations = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/organizations`
+      );
+      SetOrganizations(responseOrganizations.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     if (shouldLog.current) {
       shouldLog.current = false;
-      axios
-        .get(`${process.env.REACT_APP_BASE_URL}/categories`)
-        .then((response) => {
-          SetCategories(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      axios
-        .get(`${process.env.REACT_APP_BASE_URL}/locations`)
-        .then((response) => {
-          SetLocations(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      axios
-        .get(`${process.env.REACT_APP_BASE_URL}/organizations`)
-        .then((response) => {
-          SetOrganizations(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      getFilters();
     }
     return () => {
       shouldLog.current = false;
     };
   }, []);
-  
-  async function handleFilters(filters, category)  {
+
+  async function handleFilters(filters, category) {
     const newFilters = { ...Filters };
     newFilters[category] = filters;
 
     const minPrice = selectedPrice[0];
     const maxPrice = selectedPrice[1];
+    if (user) {
+      await checkTokenAndRefresh();
+    }
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/events`,
+        {
+          params: {
+            CategoryId:
+              newFilters["categories"].length < 1
+                ? null
+                : newFilters["categories"].toString(),
+            LocationId:
+              newFilters["locations"].length < 1
+                ? null
+                : newFilters["locations"].toString(),
+            OrganizationId:
+              newFilters["organizations"].length < 1
+                ? null
+                : newFilters["organizations"].toString(),
+            MinTicketPrice: minPrice,
+            MaxTicketPrice: maxPrice,
+            MinStartingDate: startDate.toISOString(),
+            MaxEndingDate: endDate.toISOString(),
 
-    await checkTokenAndRefresh()
-    await axios.get(`${process.env.REACT_APP_BASE_URL}/events`, {
-        params: {
-          CategoryId:
-            newFilters["categories"].length < 1
-              ? null
-              : newFilters["categories"].toString(),
-          LocationId:
-            newFilters["locations"].length < 1
-              ? null
-              : newFilters["locations"].toString(),
-          OrganizationId:
-            newFilters["organizations"].length < 1
-              ? null
-              : newFilters["organizations"].toString(),
-          MinTicketPrice: minPrice,
-          MaxTicketPrice: maxPrice,
-          MinStartingDate: startDate.toISOString(),
-          MaxEndingDate: endDate.toISOString(),
+            PageSize: itemsPerPage,
+            PageNumber: pageNumber,
 
-          PageSize: itemsPerPage,
-          PageNumber: pageNumber,
+            Title: querySearch.length < 1 ? null : querySearch,
+            Description: querySearch.length < 1 ? null : querySearch,
+            Street: querySearch.length < 1 ? null : querySearch,
+            SortColumn: props.SortColumn,
+            SortDirection: props.SortDirection,
+            UnionColumns: "Title,Description,Street",
+            IntersectionColumns:
+              "MinEndingDate,CategoryId,LocationId,OrganizationId,MinTicketPrice,MaxTicketPrice,MinStartingDate,MaxEndingDate",
+          },
+        }
+      );
 
-          Title: querySearch.length < 1 ? null : querySearch,
-          Description: querySearch.length < 1 ? null : querySearch,
-          Street: querySearch.length < 1 ? null : querySearch,
-          SortColumn: props.SortColumn,
-          SortDirection: props.SortDirection,
-          UnionColumns: "Title,Description,Street",
-          IntersectionColumns:
-            "MinEndingDate,CategoryId,LocationId,OrganizationId,MinTicketPrice,MaxTicketPrice,MinStartingDate,MaxEndingDate",
-        },
-      })
-      .then((response) => {
-        props.options(response.data);
-        // props.options(prev => [...prev,...response.data]);
-        // setEvents((prev) => [...prev, ...response.data]);
-        // setPageNumber((prevState) => prevState + 1);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      props.events(response.data);
+    } catch (err) {
+      console.log(err);
+    }
     setFilters(newFilters);
   }
 
   useEffect(() => {
     SetResetFilters(false);
-    // if (shouldFetch.current){
-    //   console.log("im rendered again");
+
+    if (shouldFetch.current) {
+      //stavi PageNumber=1
+      // setEvents([])
       handleFilters();
-    //   shouldFetch.current = false;
-    // }
-    // return () => {
-    //   shouldFetch.current = false;
-    //   console.log("izgubio sam se ")
-    // }
+      shouldFetch.current = false;
+    }
   }, [
     selectedPrice,
     startDate,
@@ -151,7 +147,7 @@ function MainPageFilter(props) {
     props.SortDirection,
     resetFilters,
   ]);
-  
+
   const changePrice = (event, value) => {
     SetSelectedPrice(value);
   };
