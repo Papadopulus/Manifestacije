@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef, useState } from "react";
+﻿import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../../api/axios";
 import classes from "./EventPage.module.css";
@@ -6,7 +6,18 @@ import { Button } from "../Navbar/NavButton";
 import { format } from "date-fns";
 import MapMarker from "../../GoogleMaps/GPTMaps/MapMarker";
 import Countdown from "./Countdown";
-import Rating from '@mui/material/Rating';
+import Rating from "@mui/material/Rating";
+import NotLoggedIn from "./NotLoggedIn";
+import AuthContext from "../../store/AuthContext";
+import checkTokenAndRefresh from "../../shared/tokenCheck";
+import { styled } from "@mui/material/styles";
+import { IconContainerProps } from "@mui/material/Rating";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
+import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
+import PropTypes from "prop-types";
 
 function EventPage() {
   const { id } = useParams();
@@ -14,13 +25,78 @@ function EventPage() {
   const [event, setEvent] = useState(null);
   const [images, setImages] = useState("");
   const [marker, setMarker] = useState({ lat: null, lng: null }); // initialized marker state
-  const [rating, setRating] = useState(null);
+  const [ratingEvent, setRatingEvent] = useState(null);
+  const [ratingOrg, setRatingOrg] = useState(null);
   const [comment, setComment] = useState("");
+  const [notLoggedIn, setNotLoggedIn] = useState(false);
+  const { user } = useContext(AuthContext);
 
-  const handleSubmit = (e) => {
+  const StyledRating = styled(Rating)(({ theme }) => ({
+    "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
+      color: theme.palette.action.disabled,
+    },
+  }));
+  IconContainer.propTypes = {
+    value: PropTypes.number.isRequired,
+  };
+
+  const customIcons = {
+    1: {
+      icon: <SentimentVeryDissatisfiedIcon color="error" />,
+      label: "Very Dissatisfied",
+    },
+    2: {
+      icon: <SentimentDissatisfiedIcon color="error" />,
+      label: "Dissatisfied",
+    },
+    3: {
+      icon: <SentimentSatisfiedIcon color="warning" />,
+      label: "Neutral",
+    },
+    4: {
+      icon: <SentimentSatisfiedAltIcon color="success" />,
+      label: "Satisfied",
+    },
+    5: {
+      icon: <SentimentVerySatisfiedIcon color="success" />,
+      label: "Very Satisfied",
+    },
+  };
+  function IconContainer(props) {
+    const { value, ...other } = props;
+    return <span {...other}>{customIcons[value].icon}</span>;
+  }
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Ocena: ${rating}\nKomentar: ${comment}`);
-    // ovde možete poslati ocenu i komentar na server ili ih upotrebiti na neki drugi način
+    if (!user) {
+      setNotLoggedIn(true);
+    } else {
+      await checkTokenAndRefresh();
+      let header = {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("tokens")).token
+        }`,
+      };
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/reviews`,
+          {
+            eventId: event.id,
+            organizationRating: ratingOrg * 2,
+            eventRating: ratingEvent * 2,
+            comment: comment,
+          },
+          { headers: header }
+        );
+        console.log(response);
+      } catch (error) {
+        console.error("Error performing favorite action:", error);
+      }
+    }
+
+    setRatingEvent(null);
+    setRatingOrg(null);
+    setComment("");
   };
 
   const loadImage = async (imageUrl) => {
@@ -80,10 +156,10 @@ function EventPage() {
   //console.log(event.startingDate);
   return (
     <>
+      {notLoggedIn && <NotLoggedIn cancel={setNotLoggedIn}></NotLoggedIn>}
       <div className={classes.container}>
         <div className={classes.imageGrid}>
           <img src={images} alt="" className={classes.image} />
-
         </div>
 
         <div className={classes["bottom-container"]}>
@@ -94,17 +170,14 @@ function EventPage() {
               </div>
               <div className={classes["date-location"]}>
                 <div className={classes["dt"]}>
-                {format(new Date(event.startingDate), "dd·MMM·yyyy")}{" "}
-                -&nbsp;
-                {format(new Date(event.endingDate), "dd·MMM·yyyy")}
+                  {format(new Date(event.startingDate), "dd·MMM·yyyy")} -&nbsp;
+                  {format(new Date(event.endingDate), "dd·MMM·yyyy")}
                 </div>
-                <div>
-                  {event.location.name}
-                </div>
+                <div>{event.location.name}</div>
               </div>
             </div>
             <div className={classes["countdown-right"]}>
-            <Countdown targetDate={event.startingDate} />
+              <Countdown targetDate={event.startingDate} />
             </div>
           </div>
 
@@ -290,23 +363,47 @@ function EventPage() {
           <div className={classes.reviewSection}>
             <h1 className={classes.descriptionTitle}>Ostavi komentar</h1>
             <form onSubmit={handleSubmit}>
+              <p>Oceni manifestaciju:</p>
+              {/*<Rating
+                name="simple-controlled"
+                value={ratingEvent}
+                size="large"
+                precision={0.5}
+                onChange={(event, newValue) => {
+                  setRatingEvent(newValue);
+                }}
+              />*/}
+              <StyledRating
+                name="highlight-selected-only"
+                value={ratingEvent}
+                IconContainerComponent={IconContainer}
+                getLabelText={(value) => customIcons[value].label}
+                highlightSelectedOnly
+                onChange={(event, newValue) => {
+                  setRatingEvent(newValue);
+                }}
+              />
+              <p>Oceni organizatora:</p>
               <Rating
-                  name="simple-controlled"
-                  value={rating}
-                  size="large"
-                  precision={0.5}
-                  onChange={(event, newValue) => {
-                    setRating(newValue);
-                  }}
+                name="simple-controlled"
+                value={ratingOrg}
+                size="large"
+                precision={0.5}
+                onChange={(event, newValue) => {
+                  setRatingOrg(newValue);
+                }}
               />
 
               <textarea
-                  placeholder="Unesite svoj komentar ovde"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
+                placeholder="Unesite svoj komentar po zelji"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
               />
 
-              <Button onClick={handleSubmit} className={classes["ticketButton"]}>
+              <Button
+                onClick={handleSubmit}
+                className={classes["ticketButton"]}
+              >
                 Pošalji
               </Button>
             </form>

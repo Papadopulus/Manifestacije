@@ -303,7 +303,7 @@
         margin: 20px 5px;
     }
 }
-form {
+.reviewSection form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -316,7 +316,7 @@ form {
     width: 100%;
 }
 
-textarea {
+.reviewSection textarea {
     width: 90%;
     height: 150px;
     margin-top: 20px;
