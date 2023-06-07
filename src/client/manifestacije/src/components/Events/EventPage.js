@@ -11,17 +11,19 @@ import NotLoggedIn from "./NotLoggedIn";
 import AuthContext from "../../store/AuthContext";
 import checkTokenAndRefresh from "../../shared/tokenCheck";
 import { styled } from "@mui/material/styles";
-import { IconContainerProps } from "@mui/material/Rating";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
 import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import PropTypes from "prop-types";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 
 function EventPage() {
   const { id } = useParams();
   const shouldLog = useRef(true);
+  const shouldFav = useRef(true);
   const [event, setEvent] = useState(null);
   const [images, setImages] = useState("");
   const [marker, setMarker] = useState({ lat: null, lng: null }); // initialized marker state
@@ -29,6 +31,9 @@ function EventPage() {
   const [ratingOrg, setRatingOrg] = useState(null);
   const [comment, setComment] = useState("");
   const [notLoggedIn, setNotLoggedIn] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [showFavoritesInfo, setShowFavoritesInfo] = useState(false);
+  const [hasFavourites, setHasFavourites] = useState([]);
   const { user } = useContext(AuthContext);
 
   const StyledRating = styled(Rating)(({ theme }) => ({
@@ -66,6 +71,24 @@ function EventPage() {
     const { value, ...other } = props;
     return <span {...other}>{customIcons[value].icon}</span>;
   }
+  const loadFavourites = async () => {
+    await checkTokenAndRefresh();
+    let header = {
+      Authorization: `Bearer ${
+        JSON.parse(localStorage.getItem("tokens")).token
+      }`,
+    };
+    try {
+      const hasFavouritesResponse = await axios.get(
+        `https://localhost:7237/users/${user.Id}/favourites`,
+        { headers: header }
+      );
+      setHasFavourites(hasFavouritesResponse.data);
+      /*console.log(hasFavouritesResponse.data);*/
+    } catch (error) {
+      console.error("Error retrieving the user's favourite events:", error);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
@@ -114,6 +137,34 @@ function EventPage() {
       console.error("Error retrieving the image:", error);
     }
   };
+  useEffect(() => {
+    if (shouldFav.current) {
+      shouldFav.current = false;
+      loadFavourites();
+    }
+    return () => {
+      shouldFav.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    // Provera da li je trenutni događaj u favoritima korisnika
+    if (user) {
+      let checker = false;
+      /*console.log(event.title + event.id);*/
+      hasFavourites.map((favourite) => {
+        if (favourite.id === event.id) {
+          setIsFavorite(true);
+          checker = true;
+        } else {
+          setIsFavorite(false);
+        }
+      });
+      if (checker === true) {
+        setIsFavorite(true);
+      }
+    }
+  }, [user, id, hasFavourites]);
 
   useEffect(() => {
     if (shouldLog.current) {
@@ -153,12 +204,63 @@ function EventPage() {
   function transHandler() {
     window.location.replace(`${event.transportPartner.url}`);
   }
+
+  const toggleFavorite = async () => {
+    if (!user) {
+      setNotLoggedIn(true);
+    } else {
+      await checkTokenAndRefresh();
+      let header = {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("tokens")).token
+        }`,
+      };
+      try {
+        if (isFavorite) {
+          await axios.delete(
+            `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
+            { headers: header }
+          );
+        } else {
+          await axios.post(
+            `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
+            null,
+            { headers: header }
+          );
+        }
+      } catch (error) {
+        console.error("Error performing favorite action:", error);
+      }
+
+      setIsFavorite((prevIsFavorite) => !prevIsFavorite);
+    }
+  };
   //console.log(event.startingDate);
   return (
     <>
       {notLoggedIn && <NotLoggedIn cancel={setNotLoggedIn}></NotLoggedIn>}
       <div className={classes.container}>
         <div className={classes.imageGrid}>
+          <div
+            className={`${classes.favoriteIcon} ${
+              isFavorite ? classes.favorite : ""
+            }`}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleFavorite();
+            }}
+            onMouseEnter={() => setShowFavoritesInfo(true)}
+            onMouseLeave={() => setShowFavoritesInfo(false)}
+          >
+            {isFavorite ? (
+              <FavoriteOutlinedIcon sx={{ fontSize: 55 }} />
+            ) : (
+              <FavoriteBorderOutlinedIcon sx={{ fontSize: 55 }} />
+            )}
+            {showFavoritesInfo && (
+              <div className={classes.favoritesInfo}>Dodaj u omiljeno!</div>
+            )}
+          </div>
           <img src={images} alt="" className={classes.image} />
         </div>
 
