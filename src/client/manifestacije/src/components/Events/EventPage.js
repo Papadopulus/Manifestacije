@@ -294,6 +294,7 @@ function EventPage() {
                   name="simple-controlled"
                   value={rating}
                   size="large"
+                  precision={0.5}
                   onChange={(event, newValue) => {
                     setRating(newValue);
                   }}
