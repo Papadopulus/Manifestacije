@@ -81,10 +81,10 @@ function EditMyEvent() {
     loadImages(responseEvent.data.imageUrls);
     
   };
-  console.log("ovo su slike koje su stigle za ovaj event")
-  console.log(events.imageUrls);
-  console.log("ovo su slike koje se mapiraju ");
-  console.log(images);
+  // console.log("ovo su slike koje su stigle za ovaj event")
+  // console.log(events.imageUrls);
+  // console.log("ovo su slike koje se mapiraju ");
+  // console.log(images);
   const loadImages = async (imageUrls) => {
     try {
         const images = await Promise.all(imageUrls.map(async (imageUrl) => {
@@ -111,7 +111,7 @@ function EditMyEvent() {
     if (selectedImage) {
       const imageUrl = URL.createObjectURL(selectedImage);
       setSelectedImageURL(imageUrl);
-      console.log(imageUrl);
+      // console.log(imageUrl);
     }
   }, [selectedImage]);
 
@@ -261,6 +261,14 @@ function EditMyEvent() {
     setSponsorInputFields(updatedInputFields);
   };
   // console.log(images);
+  const handleImageRemove = (urlToRemove, indexToRemove) => {
+    setCeoNizZaSlanje(ceoNizZaSlanje.filter(url => url !== urlToRemove));
+    setImages(prevImages => prevImages.filter((_, index) => index !== indexToRemove));
+  };
+  useEffect(() => {
+    console.log(ceoNizZaSlanje);
+    console.log(images);
+  }, [ceoNizZaSlanje, images]);
   const formSubmissionHandler = async (event) => {
     event.preventDefault();
     await checkTokenAndRefresh();
@@ -311,8 +319,9 @@ function EditMyEvent() {
       }
     );
    
-    console.log("nakon post za only files da se gurnu na srv");
+    // console.log("nakon post za only files da se gurnu na srv");
     // await setCeoNizZaSlanje(prevState => [...prevState,...imgResponse.data]);
+    console.log("this is what will be sent ");
     console.log([...ceoNizZaSlanje,...imgResponse.data]);
     setCeoNizZaSlanje(prevState => [...prevState,...imgResponse.data]);
     
@@ -341,12 +350,12 @@ function EditMyEvent() {
         JSON.parse(localStorage.getItem("tokens")).token
       }`,
     };
-    const response = await axios.put(
-      `${process.env.REACT_APP_BASE_URL}/events/${events.id}`,
-      payload,
-      { headers: header }
-    );
-    console.log(response);
+    // const response = await axios.put(
+    //   `${process.env.REACT_APP_BASE_URL}/events/${events.id}`,
+    //   payload,
+    //   { headers: header }
+    // );
+    // console.log(response);
 
     /*resetTitleFunction();
     resetDateStartFunction();
@@ -615,7 +624,10 @@ function EditMyEvent() {
               </div>
               <div className={classesEvent["image-preview-container"]}>
                 {images.map((image, index) => (
-                  <div className={classesEvent["image-div"]} key={index}>
+                  <div className={classesEvent["image-div"]} 
+                       key={index}
+                       // onClick={() => handleImageRemove(typeof image === "string" ? image : URL.createObjectURL(image), index)}
+                  >
                     {/*{image instanceof Blob || image instanceof File ? (*/}
                     {/*  <img*/}
                     {/*    className={classesEvent["img"]}*/}
