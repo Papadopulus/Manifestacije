@@ -44,6 +44,9 @@
         margin:10px;
         padding: 10px;
     }
+    .image{
+        height: 400px;
+    }
 }
 .dt{
     width: 300px;
@@ -79,6 +82,11 @@
     margin-top: 30px;
     color:#1f1f1d;
     padding:20px;
+}
+@media screen and (max-width: 500px){
+    .date-location {
+        margin-right: 0px;
+    }
 
 }
 .title-countdown{
@@ -111,7 +119,7 @@
 }
 .date i {
     margin-right: 20px;
-    font-size: 40px;
+    font-size: 35px;
     color: #1f1f1d;
 }
 .location i{
@@ -149,6 +157,16 @@
     font-size: 30px;
     color: #1f1f1d;
 }
+@media screen and (max-width: 460px) {
+    .tranPartners i, .accPartners i, .location i{
+        font-size:30px;
+    }
+    .exactLocation i,.category i,.org i,.date i,.guest i,.comp i,.capacity i{
+        font-size: 30px;
+    }
+}
+
+
 .guestList,.compList,.sponsorList{
     display: flex;
     flex-wrap: wrap;
@@ -162,7 +180,7 @@
     font-family: "Lexand-Medium";
     color: #696868;
 }
-.description,.ticket,.sponsor,.partners,.mapDisplay{
+.description,.ticket,.sponsor,.partners,.mapDisplay, .reviewSection{
     padding: 30px;
     color: #1f1f1d;
 }
@@ -185,12 +203,18 @@
     }
 }
 
-.descriptionTitle{
+.descriptionTitle, .priceTitle {
     font-family: "Outfit-Medium";
     letter-spacing: 2px;
     font-size: 34px;
     margin-bottom: 5px;
 }
+@media screen and (max-width: 600px) {
+    .priceTitle{
+        font-size: 25px;
+    }
+}
+
 @font-face {
     src: url("../../fonts/Outfit-Black.ttf");
     font-family: "Outfit-Black";
@@ -199,7 +223,7 @@
     text-align: start;
     font-family: "Lexend-Regular";
     font-size: 20px;
-    color: #a6a6a6;
+    color: #696868;
 }
 .guesCompWrapper{
     display: flex;
@@ -220,8 +244,8 @@
     background-color: #e0e0e0;
     flex-wrap: wrap;
     border-radius: 30px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
-
 
 .mapDisplay{
     
@@ -234,7 +258,7 @@
 }
 .accPartnersLeft:hover,.tranPartnersRight:hover{
     transform: scale(1.1);
-    background-color: #32273b;
+    background-color: #736396;
 }
 @media screen and (max-width: 600px) {
     .accPartnersLeft ,.tranPartnersRight{
@@ -246,13 +270,13 @@
     display: flex;
 }
 .sponsor{
-    margin-bottom: 70px;
+    margin-bottom: 40px;
 }
 .sponsorList{
     font-size: 22px;
 }
 .ticketButton{
-    background-color: #4f388c;
+    background-color: #4d3e77;
     height: 50px;
     width: 400px;
     font-size: 25px;
@@ -260,13 +284,14 @@
     border-radius: 30px;
 }
 .ticketButton:hover{
-    background-color: #3d2f7e;
+    background-color: #736396;
     border-radius: 30px;
     border: transparent;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 500px) {
     .ticketButton{
-        width: 200px;
+        width: 300px;
+        margin: 20px 0px;
     }
 }
 
@@ -278,4 +303,29 @@
         margin: 20px 5px;
     }
 }
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*max-width: 500px;*/
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+
+textarea {
+    width: 90%;
+    height: 150px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-family: Lexand-Regular;
+}
+
 

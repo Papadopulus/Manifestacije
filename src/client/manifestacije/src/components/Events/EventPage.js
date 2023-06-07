@@ -6,6 +6,7 @@ import { Button } from "../Navbar/NavButton";
 import { format } from "date-fns";
 import MapMarker from "../../GoogleMaps/GPTMaps/MapMarker";
 import Countdown from "./Countdown";
+import Rating from '@mui/material/Rating';
 
 function EventPage() {
   const { id } = useParams();
@@ -13,6 +14,14 @@ function EventPage() {
   const [event, setEvent] = useState(null);
   const [images, setImages] = useState("");
   const [marker, setMarker] = useState({ lat: null, lng: null }); // initialized marker state
+  const [rating, setRating] = useState(null);
+  const [comment, setComment] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(`Ocena: ${rating}\nKomentar: ${comment}`);
+    // ovde možete poslati ocenu i komentar na server ili ih upotrebiti na neki drugi način
+  };
 
   const loadImage = async (imageUrl) => {
     try {
@@ -74,6 +83,7 @@ function EventPage() {
       <div className={classes.container}>
         <div className={classes.imageGrid}>
           <img src={images} alt="" className={classes.image} />
+
         </div>
 
         <div className={classes["bottom-container"]}>
@@ -104,7 +114,7 @@ function EventPage() {
           </div>
           <div className={classes.ticket}>
             <div className={classes.ticketLook}>
-              <h1 className={classes.descriptionTitle}>
+              <h1 className={classes.priceTitle}>
                 Cena ulaznice&nbsp; · &nbsp;{event.ticketPrice}&nbsp;rsd
               </h1>
 
@@ -127,9 +137,9 @@ function EventPage() {
                     </div>
                     <div className={classes.dateTitle}>
                       <p>DATUM</p>
-                      {/*format(new Date(event.startingDate), "dd·MMM·yyyy")}{" "}
+                      {format(new Date(event.startingDate), "dd·MMM·yyyy")}{" "}
                       -&nbsp;
-                      {format(new Date(event.endingDate), "dd·MMM·yyyy")*/}
+                      {format(new Date(event.endingDate), "dd·MMM·yyyy")}
                     </div>
                   </li>
                   <li className={classes.location}>
@@ -276,6 +286,30 @@ function EventPage() {
                 </div>
               </div>
             </div>
+          </div>
+          <div className={classes.reviewSection}>
+            <h1 className={classes.descriptionTitle}>Ostavi komentar</h1>
+            <form onSubmit={handleSubmit}>
+              <Rating
+                  name="simple-controlled"
+                  value={rating}
+                  size="large"
+                  precision={0.5}
+                  onChange={(event, newValue) => {
+                    setRating(newValue);
+                  }}
+              />
+
+              <textarea
+                  placeholder="Unesite svoj komentar ovde"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+              />
+
+              <Button onClick={handleSubmit} className={classes["ticketButton"]}>
+                Pošalji
+              </Button>
+            </form>
           </div>
         </div>
       </div>
