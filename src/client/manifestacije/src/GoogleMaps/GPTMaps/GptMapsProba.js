@@ -1,5 +1,5 @@
 ﻿import React, { useState, useRef } from 'react';
-import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import {GoogleMap, useLoadScript, Marker, InfoWindow, MarkerF} from '@react-google-maps/api';
 import {RadioButtonUncheckedSharp} from "@material-ui/icons";
 
 const libraries = ['places'];
@@ -21,14 +21,16 @@ export default function Map( props ) {
     });
 
     const [marker, setMarker] = useState(null);
+    // const [marker2,setMarker2] = useState(props.markerE);
     const [selected, setSelected] = useState(null);
 
+    // console.log("here is marker 2" + marker2.lat);
     const onMapClick = (e) => {
-        setMarker({
-            lat: e.latLng.lat(),
-            lng: e.latLng.lng(),
-            time: new Date(),
-        });
+        // setMarker({
+        //     lat: e.latLng.lat(),
+        //     lng: e.latLng.lng(),
+        //     time: new Date(),
+        // });
         props.setMarker(
             {
                 lat: e.latLng.lat(),
@@ -52,19 +54,28 @@ export default function Map( props ) {
             <GoogleMap
                 id="map"
                 mapContainerStyle={mapContainerStyle}
-                zoom={8}
-                center={center}
+                zoom={props.marker ? 10 : 8}
+                center={props.marker ? props.marker : center}
                 options={{ disableDefaultUI: true }}
                 onClick={onMapClick}
                 onLoad={onMapLoad}
             >
-                {marker && (
-                    <Marker
-                        key={`${marker.lat}-${marker.lng}`}
-                        position={{ lat: marker.lat, lng: marker.lng }}
-                        onClick={() => {
-                            setSelected(marker);
-                        }}
+                {/*{marker && (*/}
+                {/*    <Marker*/}
+                {/*        key={`${marker.lat}-${marker.lng}`}*/}
+                {/*        position={{ lat: marker.lat, lng: marker.lng }}*/}
+                {/*        onClick={() => {*/}
+                {/*            setSelected(marker);*/}
+                {/*        }}*/}
+                {/*    />*/}
+                {/*)}*/}
+                {props.marker && (
+                    <MarkerF
+                        key={`${props.marker.lat}-${props.marker.lng}`}
+                        position={{ lat: props.marker.lat, lng: props.marker.lng }}
+                        // onClick={() => {
+                        //     setSelected(marker);
+                        // }}
                     />
                 )}
             </GoogleMap>

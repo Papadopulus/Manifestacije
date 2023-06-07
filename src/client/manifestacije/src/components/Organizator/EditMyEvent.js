@@ -27,6 +27,10 @@ function EditMyEvent() {
   const [images, setImages] = useState([]);
   const [events, setEvents] = useState([]);
 
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageURL, setSelectedImageURL] = useState(null);
+
+
   const shouldLog = useRef(true);
   const getEvent = async () => {
     const responseEvent = await axios.get(
@@ -72,6 +76,40 @@ function EditMyEvent() {
       lng: responseEvent.data.longitude,
     });
   };
+  console.log(events.imageUrls);
+  console.log("ovo su slike koje se mapiraju ");
+  console.log(images);
+  const loadImage = async () => {
+    try {
+      const imageResponse = await axios.get(
+          `https://localhost:7085/Image/`,
+          { responseType: "blob" }
+      );
+      const reader = new FileReader();
+      reader.onloadend = function () {
+        setSelectedImageURL(reader.result);
+      };
+      reader.readAsDataURL(imageResponse.data);
+    } catch (error) {
+      console.error("Error retrieving the image:", error);
+    }
+  };
+  useEffect(() => {
+    if (selectedImage) {
+      const imageUrl = URL.createObjectURL(selectedImage);
+      setSelectedImageURL(imageUrl);
+      console.log(imageUrl);
+    }
+  }, [selectedImage]);
+
+  useEffect(() => {
+    return () => {
+      if (selectedImageURL) {
+        URL.revokeObjectURL(selectedImageURL);
+      }
+    };
+  }, [selectedImageURL]);
+  // console.log(marker);
   useEffect(() => {
     if (shouldLog.current) {
       shouldLog.current = false;
@@ -209,6 +247,7 @@ function EditMyEvent() {
     updatedInputFields[index] = value;
     setSponsorInputFields(updatedInputFields);
   };
+  // console.log(images);
   const formSubmissionHandler = async (event) => {
     event.preventDefault();
     await checkTokenAndRefresh();
@@ -252,6 +291,7 @@ function EditMyEvent() {
         },
       }
     );
+    // console.log(imgResponse);
     let payload = {
       title: title,
       description: description,
@@ -268,18 +308,19 @@ function EditMyEvent() {
       latitude: marker.lat,
       longitude: marker.lng,
     };
+    console.log(payload);
 
     let header = {
       Authorization: `Bearer ${
         JSON.parse(localStorage.getItem("tokens")).token
       }`,
     };
-    const response = await axios.put(
-      `${process.env.REACT_APP_BASE_URL}/events/${events.id}`,
-      payload,
-      { headers: header }
-    );
-    console.log(response);
+    // const response = await axios.put(
+    //   `${process.env.REACT_APP_BASE_URL}/events/${events.id}`,
+    //   payload,
+    //   { headers: header }
+    // );
+    // console.log(response);
 
     /*resetTitleFunction();
     resetDateStartFunction();
@@ -306,7 +347,7 @@ function EditMyEvent() {
           onSubmit={formSubmissionHandler}
         >
           <div className={classesEvent["right-side-form"]}>
-            <p className={"main-text"}>Dodaj manifestaciju!</p>
+            <p className={"main-text"}>Izmeni manifestaciju!</p>
             <Input
               label={"Naslov"}
               type="text"
@@ -524,7 +565,7 @@ function EditMyEvent() {
 
               <div className={classesEvent["map-form"]}>
                 <p>Označite manifestaciju na mapi!</p>
-                <Map setMarker={setMarker} />
+                {marker && <Map marker={marker} setMarker={setMarker}/>}
               </div>
             </div>
             <p className={classesEvent["upload-pictures"]}>Dodaj fotografiju</p>

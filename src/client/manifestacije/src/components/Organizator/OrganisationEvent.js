@@ -231,7 +231,7 @@ const AddEventForm = () => {
             latitude: marker.lat,
             longitude: marker.lng,
         };
-
+        console.log(payload);
         let header = {
             "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
         }
@@ -510,7 +510,7 @@ const AddEventForm = () => {
 
                             <div className={classesEvent["map-form"]}>
                                 <p>Označite manifestaciju na mapi!</p>
-                                <Map setMarker={setMarker}/>
+                                <Map marker={marker} setMarker={setMarker}/>
                             </div>
 
                         </div>

@@ -193,6 +193,7 @@ const RegisterInput = () => {
         },
       }
     );
+    
 
     let payload = {
       firstName: enteredName,
