@@ -23,6 +23,13 @@ const EditUserBox = ({ message, onConfirm ,onCancel,name ,surname}) => {
         inputBlurHandler:surnameBlurHandler,
         resetFunction: resetSurnameChangeFunction,
     } = useInput((value) => value.trim() !== '',surname);
+
+    let formIsValid = false;
+    if (enteredSurnameIsValid && enteredNameIsValid) {
+        formIsValid = true;
+    } else {
+        formIsValid = false;
+    }
     
     let payload = {
         firstName: nameChange,
@@ -63,7 +70,17 @@ const EditUserBox = ({ message, onConfirm ,onCancel,name ,surname}) => {
                     </label>
                 )}
                 <div className={classes["buttons"]}>
-                    <button className={`${classes.btn} ${classes["button-confirm"]}`} onClick={() => onConfirm(payload)}>Yes</button>
+                    <button className={`${classes.btn} ${classes["button-confirm"]}`}
+                            onClick={() => {
+                                if (!enteredNameIsValid || !enteredSurnameIsValid)
+                                {
+                                    return;
+                                }
+                        onConfirm(payload)
+                    }} disabled={!formIsValid}>
+                        Yes
+                    </button>
+                    
                     <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>No</button>
                 </div>
             </div>

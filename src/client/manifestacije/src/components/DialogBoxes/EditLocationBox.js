@@ -8,6 +8,8 @@ import axios from "axios";
 const EditLocationBox = ({message, onConfirm, onCancel, name}) => {
     
     const shouldLog = useRef(true);
+    const shouldShowAccom = useRef(true);
+    const shouldShow= useRef(true);
     
     const [allPartners, setAllPartners] = useState([]);
     const [selectedAccomodation, setSelectedAccomodation] = useState('');
@@ -23,12 +25,20 @@ const EditLocationBox = ({message, onConfirm, onCancel, name}) => {
         resetFunction: resetNameChangeFunction,
     } = useInput((value) => value.trim() !== '', name);
 
-    let payload = {
-        name: nameCat,
-        accommodationPartnerId: selectedAccomodation,
-        transportPartnerId: selectedTransport
+    let formIsValid = false;
+    if (enteredNameIsValid) {
+        formIsValid = true;
+    } else {
+        formIsValid = false;
     }
 
+    let payload = {
+        name: nameCat,
+        accommodationPartnerId: selectedAccomodation=== "" ? null : selectedAccomodation,
+        transportPartnerId: selectedTransport === "" ? null : selectedTransport
+    }
+
+    // console.log(selectedAccomodation)
     const getAllPartners = async () => {
         await checkTokenAndRefresh();
         let header = {
@@ -70,9 +80,12 @@ const EditLocationBox = ({message, onConfirm, onCancel, name}) => {
                 <div className={classes.dvaSelekta}>
                     <select
                         value={selectedAccomodation}
-                        onChange={(event) => setSelectedAccomodation(event.target.value)}
+                        onChange={(event) => {
+                            shouldShowAccom.current = false;
+                            setSelectedAccomodation(event.target.value)
+                        }}
                         className={classes["selections"]}>
-                        <option value="">Partner smestaja</option>
+                        {shouldShowAccom.current && <option value="">Partner smestaja</option>}
                         {allPartners.map((partner) => (
                             <option key={partner.id} value={partner.id}>
                                 {partner.name}
@@ -81,9 +94,12 @@ const EditLocationBox = ({message, onConfirm, onCancel, name}) => {
                     </select>
                     <select
                         value={selectedTransport}
-                        onChange={(event) => setSelectedTransport(event.target.value)}
+                        onChange={(event) => {
+                            shouldShow.current = false;
+                            setSelectedTransport(event.target.value)
+                        }}
                         className={classes["selections"]}>
-                        <option value="">Partner transporta</option>
+                        {shouldShow.current && <option value="">Partner transporta</option>}
                         {allPartners.map((partner) => (
                             <option key={partner.id} value={partner.id}>
                                 {partner.name}
@@ -93,7 +109,12 @@ const EditLocationBox = ({message, onConfirm, onCancel, name}) => {
                 </div>
                 <div className={classes["buttons"]}>
                     <button className={`${classes.btn} ${classes["button-confirm"]}`}
-                            onClick={() => onConfirm(payload)}>Yes
+                            onClick={() => {
+                                if (!enteredNameIsValid){
+                                    return;
+                                }
+                                onConfirm(payload)
+                            }} disabled={!formIsValid}>Yes
                     </button>
                     <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>No</button>
                 </div>

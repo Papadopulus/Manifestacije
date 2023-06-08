@@ -42,7 +42,23 @@ const EditPartnerBox = ({message, onConfirm, onCancel, partName, phoneNumber, Tr
         resetFunction: resetUrlFunction,
     } = useInput((value) => value.trim() !== '');
 
-
+    let formIsValid = false;
+    if (enteredNameIsValid && enteredPhoneIsValid) {
+        if (fromAdd){
+            if (enteredEmailIsValid && enteredUrlIsValid) {
+                formIsValid = true;
+            }
+            else {
+                formIsValid = false;
+            }
+        }
+        else {
+            formIsValid = true;
+        }
+    } else {
+        formIsValid = false;
+    }
+    
     let payload = {
         name: name,
         phoneNumber: phone,
@@ -149,7 +165,20 @@ const EditPartnerBox = ({message, onConfirm, onCancel, partName, phoneNumber, Tr
 
                 <div className={classes["buttons"]}>
                     <button className={`${classes.btn} ${classes["button-confirm"]}`}
-                            onClick={() => onConfirm(payload)}>Yes
+                            onClick={() => {
+                                if (
+                                    !enteredNameIsValid ||
+                                    !enteredPhoneIsValid
+                                ) {
+                                    if (fromAdd) {
+                                        if (!enteredEmailIsValid || !enteredUrlIsValid) {
+                                            return;
+                                        }
+                                    }
+                                    return;
+                                }
+                                onConfirm(payload)
+                            }} disabled={!formIsValid}>Yes
                     </button>
                     <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>No</button>
                 </div>

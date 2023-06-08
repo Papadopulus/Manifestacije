@@ -194,7 +194,14 @@
     font-family: 'Lexend-Medium';
     font-size: 20px;
 }
-
+.button-confirm:disabled,
+.button-confirm:disabled:hover,
+.button-confirm:disabled:active {
+    background-color: #ccc;
+    color: grey;
+    border-color: #cccccc;
+    cursor: not-allowed;
+}
 
 .button-discard{
     padding: 8px 28px;

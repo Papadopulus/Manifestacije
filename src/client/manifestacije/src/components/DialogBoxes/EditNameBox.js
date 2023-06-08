@@ -13,6 +13,13 @@ const EditNameBox = ({ message, onConfirm ,onCancel ,name}) => {
         resetFunction: resetNameChangeFunction,
     } = useInput((value) => value.trim() !== '',name);
 
+    let formIsValid = false;
+    if (enteredNameIsValid) {
+
+        formIsValid = true;
+    } else {
+        formIsValid = false;
+    }
     let payload = {
         name: nameCat,
     }
@@ -37,7 +44,16 @@ const EditNameBox = ({ message, onConfirm ,onCancel ,name}) => {
                     </label>
                 )}
                 <div className={classes["buttons"]}>
-                    <button className={`${classes.btn} ${classes["button-confirm"]}`} onClick={() => onConfirm(payload)}>Yes</button>
+                    <button className={`${classes.btn} ${classes["button-confirm"]}`} 
+                            onClick={() => {
+                                if (!enteredNameIsValid)
+                                {
+                                    return;
+                                }
+                        onConfirm(payload)
+                    }} disabled={!formIsValid}>
+                        Yes
+                    </button>
                     <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>No</button>
                 </div>
             </div>
