@@ -20,6 +20,12 @@ import PropTypes from "prop-types";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ReadMore from "./ReadMore";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import LanguageIcon from "@mui/icons-material/Language";
 
 function EventPage() {
   const { id } = useParams();
@@ -29,12 +35,15 @@ function EventPage() {
   const [images, setImages] = useState("");
   const [marker, setMarker] = useState({ lat: null, lng: null }); // initialized marker state
   const [ratingEvent, setRatingEvent] = useState(null);
+  const [eventLoaded, setEventLoaded] = useState(false);
   const [ratingOrg, setRatingOrg] = useState(null);
   const [comment, setComment] = useState("");
   const [notLoggedIn, setNotLoggedIn] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showFavoritesInfo, setShowFavoritesInfo] = useState(false);
   const [hasFavourites, setHasFavourites] = useState([]);
+  const [organizator, setOrganizator] = useState([]);
+  const [orgLogo, setOrgLogo] = useState("");
   const { user } = useContext(AuthContext);
 
   const StyledRating = styled(Rating)(({ theme }) => ({
@@ -90,6 +99,17 @@ function EventPage() {
       console.error("Error retrieving the user's favourite events:", error);
     }
   };
+  const loadOrganizator = async () => {
+    try {
+      const orgResponse = await axios.get(
+        `https://localhost:7237/organizations/${event.organization.id}`
+      );
+      setOrganizator(orgResponse.data);
+      loadOrgLogo(orgResponse.data.logoUrl);
+    } catch (error) {
+      console.error("Error retrieving the organizator's data:", error);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
@@ -138,6 +158,42 @@ function EventPage() {
       console.error("Error retrieving the image:", error);
     }
   };
+  const loadOrgLogo = async (imageUrl) => {
+    try {
+      const imageResponse = await axios.get(
+        `https://localhost:7085/Image/${imageUrl}`,
+        { responseType: "blob" }
+      );
+      const reader = new FileReader();
+      reader.onloadend = function () {
+        setOrgLogo(reader.result);
+      };
+      reader.readAsDataURL(imageResponse.data);
+    } catch (error) {
+      console.error("Error retrieving the image:", error);
+    }
+  };
+  useEffect(() => {
+    if (shouldLog.current) {
+      shouldLog.current = false;
+      axios
+        .get(`${process.env.REACT_APP_BASE_URL}/events/${id}`)
+        .then((response) => {
+          const { latitude, longitude } = response.data; // get latitude and longitude from response data
+          setEvent(response.data);
+          loadImage(response.data.imageUrls[0]);
+          setMarker({ lat: latitude, lng: longitude }); // update marker state with latitude and longitude
+          setEventLoaded(true); // Označava da je event učitan
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    return () => {
+      shouldLog.current = false;
+    };
+  }, []);
+
   useEffect(() => {
     if (shouldFav.current) {
       shouldFav.current = false;
@@ -147,6 +203,11 @@ function EventPage() {
       shouldFav.current = false;
     };
   }, []);
+  useEffect(() => {
+    if (eventLoaded) {
+      loadOrganizator();
+    }
+  }, [eventLoaded]);
 
   useEffect(() => {
     // Provera da li je trenutni događaj u favoritima korisnika
@@ -167,26 +228,6 @@ function EventPage() {
     }
   }, [user, id, hasFavourites]);
 
-  useEffect(() => {
-    if (shouldLog.current) {
-      shouldLog.current = false;
-      axios
-        .get(`${process.env.REACT_APP_BASE_URL}/events/${id}`)
-        .then((response) => {
-          const { latitude, longitude } = response.data; // get latitude and longitude from response data
-          setEvent(response.data);
-          loadImage(response.data.imageUrls[0]);
-          setMarker({ lat: latitude, lng: longitude }); // update marker state with latitude and longitude
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-    return () => {
-      shouldLog.current = false;
-    };
-  }, []);
-
   if (!event) {
     return (
       <div className={classes.loaderHandler}>
@@ -195,15 +236,15 @@ function EventPage() {
     );
   }
   function buyTicket() {
-    window.location.replace(`${event.ticketUrl}`);
+    window.open(`${event.ticketUrl}`);
   }
 
   function accHandler() {
-    window.location.replace(`${event.accommodationPartner.url}`);
+    window.open(`${event.accommodationPartner.url}`);
   }
 
   function transHandler() {
-    window.location.replace(`${event.transportPartner.url}`);
+    window.open(`${event.transportPartner.url}`);
   }
 
   const toggleFavorite = async () => {
@@ -467,34 +508,34 @@ function EventPage() {
             <h1 className={classes.descriptionTitle}>Ostavi komentar</h1>
             <form onSubmit={handleSubmit}>
               <div className={classes["upper-form"]}>
-              <div className={classes["stars-div"]}>
-                <p className={classes["comInf"]}>Oceni manifestaciju:</p>
-                <StyledRating
-                  name="highlight-selected-only"
-                  value={ratingEvent}
-                  size="large"
-                  className={classes["smily-div"]}
-                  IconContainerComponent={IconContainer}
-                  getLabelText={(value) => customIcons[value].label}
-                  highlightSelectedOnly
-                  onChange={(event, newValue) => {
-                    setRatingEvent(newValue);
-                  }}
-                />
-              </div>
-              <div className={classes["stars-div"]}>
-                <p className={classes["comInf"]}>Oceni organizatora:</p>
-                <Rating
-                  name="simple-controlled"
-                  className={classes["star-div"]}
-                  value={ratingOrg}
-                  size="large"
-                  precision={0.5}
-                  onChange={(event, newValue) => {
-                    setRatingOrg(newValue);
-                  }}
-                />
-              </div>
+                <div className={classes["stars-div"]}>
+                  <p className={classes["comInf"]}>Oceni manifestaciju:</p>
+                  <StyledRating
+                    name="highlight-selected-only"
+                    value={ratingEvent}
+                    size="large"
+                    className={classes["smily-div"]}
+                    IconContainerComponent={IconContainer}
+                    getLabelText={(value) => customIcons[value].label}
+                    highlightSelectedOnly
+                    onChange={(event, newValue) => {
+                      setRatingEvent(newValue);
+                    }}
+                  />
+                </div>
+                <div className={classes["stars-div"]}>
+                  <p className={classes["comInf"]}>Oceni organizatora:</p>
+                  <Rating
+                    name="simple-controlled"
+                    className={classes["star-div"]}
+                    value={ratingOrg}
+                    size="large"
+                    precision={0.5}
+                    onChange={(event, newValue) => {
+                      setRatingOrg(newValue);
+                    }}
+                  />
+                </div>
               </div>
               <textarea
                 placeholder="Dodaj komentar..."
@@ -509,6 +550,70 @@ function EventPage() {
                 Pošalji
               </Button>
             </form>
+          </div>
+        </div>
+        <div className={classes.orgDiv}>
+          <div className={classes.orgIcon}>
+            <img src={orgLogo} alt="Organizer Logo" />
+          </div>
+          <div className={classes.orgInfo}>
+            <h2>{event.organization.name}</h2>
+            <div className={classes.orgLinks}>
+              {organizator.websiteUrl && (
+                <a
+                  href={organizator.websiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <LanguageIcon fontSize="large" sx={{ color: "#000000" }} />
+                </a>
+              )}
+              {organizator.facebookUrl && (
+                <a
+                  href={organizator.facebookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FacebookIcon color="primary" fontSize="large" />
+                </a>
+              )}
+              {organizator.instagramUrl && (
+                <a
+                  href={organizator.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <InstagramIcon fontSize="large" sx={{ color: "#E1306C" }} />
+                </a>
+              )}
+              {organizator.twitterUrl && (
+                <a
+                  href={organizator.twitterUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <TwitterIcon fontSize="large" sx={{ color: "#1DA1F2" }} />
+                </a>
+              )}
+              {organizator.youtubeUrl && (
+                <a
+                  href={organizator.youtubeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <YouTubeIcon fontSize="large" sx={{ color: "#FF0000" }} />
+                </a>
+              )}
+              {organizator.linkedInUrl && (
+                <a
+                  href={organizator.linkedInUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <LinkedInIcon fontSize="large" color="primary" />
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -18,7 +18,7 @@
     100% { transform: rotate(360deg); }
 }
 .image {
-    width: 100vw;
+    width: 100%;
     height: 600px;
     max-width: 1200px;
     object-fit: cover;
@@ -53,7 +53,7 @@
     margin-bottom:10px ;
 }
 .bottom-container{
-    width: 100vw;
+    width: 100%;
     height: 100%;
     max-width: 1200px;
     border-top-left-radius: 50px;
@@ -364,6 +364,8 @@
 }
 .imageGrid{
     position: relative;
+    max-width: 1200px;
+    width: 100%;
 }
 .comInf{
     font-family: Lexand-Regular;
@@ -392,10 +394,48 @@
     }
 }
 .smily-div{
-    padding-left:25px;
+    margin-left:25px;
     width:200px
 }
 .star-div{
-    padding-left:10px;
+    margin-left:10px;
     width:200px
+}
+.orgDiv{
+    background-color: #f5f5f7;
+    width: 100%;
+    height: 150px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+@media screen and (max-width: 960px){
+    .orgDiv{
+        margin-bottom: 130px;
+    }
+}
+.orgIcon{
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    overflow: hidden;
+    
+}
+.orgIcon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.orgInfo{
+    font-family: "Outfit-Medium";
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    margin-left: 15px;
+}
+.orgLinks{
+    margin-top: 10px;
 }
