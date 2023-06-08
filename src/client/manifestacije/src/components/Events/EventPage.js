@@ -19,6 +19,7 @@ import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfi
 import PropTypes from "prop-types";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import ReadMore from "./ReadMore";
 
 function EventPage() {
   const { id } = useParams();
@@ -253,9 +254,9 @@ function EventPage() {
             onMouseLeave={() => setShowFavoritesInfo(false)}
           >
             {isFavorite ? (
-              <FavoriteOutlinedIcon sx={{ fontSize: 55 }} />
+              <FavoriteOutlinedIcon sx={{ fontSize: 40 }} />
             ) : (
-              <FavoriteBorderOutlinedIcon sx={{ fontSize: 55 }} />
+              <FavoriteBorderOutlinedIcon sx={{ fontSize: 40 }} />
             )}
             {showFavoritesInfo && (
               <div className={classes.favoritesInfo}>Dodaj u omiljeno!</div>
@@ -285,7 +286,7 @@ function EventPage() {
 
           <div className={classes.description}>
             <h1 className={classes.descriptionTitle}>O manifestaciji</h1>
-            <p>{event.description}</p>
+            <ReadMore text={event.description} />
           </div>
           <div className={classes.ticket}>
             <div className={classes.ticketLook}>
@@ -465,39 +466,38 @@ function EventPage() {
           <div className={classes.reviewSection}>
             <h1 className={classes.descriptionTitle}>Ostavi komentar</h1>
             <form onSubmit={handleSubmit}>
-              <p>Oceni manifestaciju:</p>
-              {/*<Rating
-                name="simple-controlled"
-                value={ratingEvent}
-                size="large"
-                precision={0.5}
-                onChange={(event, newValue) => {
-                  setRatingEvent(newValue);
-                }}
-              />*/}
-              <StyledRating
-                name="highlight-selected-only"
-                value={ratingEvent}
-                IconContainerComponent={IconContainer}
-                getLabelText={(value) => customIcons[value].label}
-                highlightSelectedOnly
-                onChange={(event, newValue) => {
-                  setRatingEvent(newValue);
-                }}
-              />
-              <p>Oceni organizatora:</p>
-              <Rating
-                name="simple-controlled"
-                value={ratingOrg}
-                size="large"
-                precision={0.5}
-                onChange={(event, newValue) => {
-                  setRatingOrg(newValue);
-                }}
-              />
-
+              <div className={classes["upper-form"]}>
+              <div className={classes["stars-div"]}>
+                <p className={classes["comInf"]}>Oceni manifestaciju:</p>
+                <StyledRating
+                  name="highlight-selected-only"
+                  value={ratingEvent}
+                  size="large"
+                  className={classes["smily-div"]}
+                  IconContainerComponent={IconContainer}
+                  getLabelText={(value) => customIcons[value].label}
+                  highlightSelectedOnly
+                  onChange={(event, newValue) => {
+                    setRatingEvent(newValue);
+                  }}
+                />
+              </div>
+              <div className={classes["stars-div"]}>
+                <p className={classes["comInf"]}>Oceni organizatora:</p>
+                <Rating
+                  name="simple-controlled"
+                  className={classes["star-div"]}
+                  value={ratingOrg}
+                  size="large"
+                  precision={0.5}
+                  onChange={(event, newValue) => {
+                    setRatingOrg(newValue);
+                  }}
+                />
+              </div>
+              </div>
               <textarea
-                placeholder="Unesite svoj komentar po zelji"
+                placeholder="Dodaj komentar..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
