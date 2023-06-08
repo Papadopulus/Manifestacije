@@ -207,3 +207,20 @@
     font-family: 'Lexend-Medium';
     font-size: 20px;
 }
+
+.selections {
+    font-size: 20px;
+    padding: 0.35rem 0.35rem;
+    border-radius: 20px;
+    border-color: transparent;
+    height: 43px;
+    font-family: 'Lexand-Medium';
+    background: #e6e6e6;
+    margin-top: 25px;
+    /*width: 40%;*/
+}
+.dvaSelekta{
+    display: flex;
+    flex-direction: column;
+}
+

@@ -11,29 +11,37 @@ import {IconButton} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonIcon from "@mui/icons-material/Person";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 const CategoriesList = () => {
     const [allPartners, setAllPartners] = useState([]);
 
     const [partnerDelete, setPartnerDelete] = useState(null);
     const [partnerEdit, setPartnerEdit] = useState(null);
     const [partnerView, setPartnerView] = useState(null);
+    const[partnerAdd,setPartnerAdd] = useState(null);
     const shouldLog = useRef(true);
 
 
-    const confirmView = async (category) => {
-        setPartnerView(category);
+    const confirmAdd = async (partner) => {
+        setPartnerAdd(partner);
+    }
+    const cancelAdd = () => {
+        setPartnerAdd(null);
+    }
+    const confirmView = async (partner) => {
+        setPartnerView(partner);
     }
     const cancelHandleView = () => {
         setPartnerView(null);
     }
-    const confirmEdit = async (category) => {
-        setPartnerEdit(category);
+    const confirmEdit = async (partner) => {
+        setPartnerEdit(partner);
     }
     const cancelHandleEdit = () => {
         setPartnerEdit(null);
     }
-    const confirmDelete = async (category) => {
-        setPartnerDelete(category);
+    const confirmDelete = async (partner) => {
+        setPartnerDelete(partner);
     }
     const cancelHandleDelete = () => {
         setPartnerDelete(null);
@@ -57,6 +65,15 @@ const CategoriesList = () => {
         }
     }, [])
 
+    const handleAddPartner = async (payload) => {
+        await checkTokenAndRefresh();
+        let header = {
+            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
+        }
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/partners`, payload, {headers: header})
+        setAllPartners(prevState => [...prevState,response.data]);
+        setPartnerEdit(null);
+    }
     const handleDeletePartner = async () => {
         await checkTokenAndRefresh();
         let header = {
@@ -105,7 +122,20 @@ const CategoriesList = () => {
                     wholeData={partnerView}
                 />
             )}
+            {partnerAdd && (
+                <EditPartnerBox
+                    message={"Da li zelite da dodate partnera?"}
+                    onConfirm={handleAddPartner}
+                    onCancel={cancelAdd}
+                    fromAdd={true}
+                />
+            )}
             {/*<div>*/}
+            <div>
+                <IconButton onClick={() => confirmAdd(1)}>
+                    <AddCircleOutlineIcon sx={{ fontSize: 31 }}></AddCircleOutlineIcon>
+                </IconButton>
+            </div>
                 <table className={"onlyNameTable"}>
                     <thead>
                     <tr>

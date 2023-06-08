@@ -9,6 +9,7 @@ import {IconButton} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonIcon from "@mui/icons-material/Person";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const CategoriesList = () => {
     const [allCategories, setAllCategories] = useState([]);
@@ -16,9 +17,16 @@ const CategoriesList = () => {
     const [categoryDelete, setCategoryDelete] = useState(null);
     const [categoryEdit, setCategoryEdit] = useState(null);
     const [categoryView, setCategoryView] = useState(null);
+    const [categoryAdd,setCategoryAdd] = useState(null);
     const shouldLog = useRef(true);
 
 
+    const confirmAdd = async (category) => {
+        setCategoryAdd(category);
+    }
+    const cancelHandleAdd = () => {
+        setCategoryAdd(null);
+    }
     const confirmView = async (category) => {
         setCategoryView(category);
     }
@@ -56,6 +64,16 @@ const CategoriesList = () => {
         }
     }, [])
 
+    const handleAddCategory = async (payload) => {
+        await checkTokenAndRefresh();
+        let header = {
+            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
+        }
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/categories`,payload, {headers: header})
+        console.log(response.data);
+        setAllCategories(prevState => [...prevState,response.data])
+        setCategoryAdd(null);
+    }
     const handleDeleteCategory = async () => {
         await checkTokenAndRefresh();
         let header = {
@@ -100,7 +118,19 @@ const CategoriesList = () => {
                     wholeData={categoryView}
                 />
             )}
+            {categoryAdd && (
+                <EditNameBox
+                    message={"Are your sure u want to add this category?"}
+                    onCancel={cancelHandleAdd}
+                    onConfirm={handleAddCategory}
+                />   
+            )}
             {/*<div>*/}
+            <div>
+                <IconButton onClick={() => confirmAdd(1)}>
+                    <AddCircleOutlineIcon sx={{ fontSize: 31 }}></AddCircleOutlineIcon>
+                </IconButton>
+            </div>
                 <table className={"onlyNameTable"}>
                     <thead>
                     <tr>

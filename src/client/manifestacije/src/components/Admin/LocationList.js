@@ -9,29 +9,38 @@ import {IconButton} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonIcon from "@mui/icons-material/Person";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import EditLocationBox from "../DialogBoxes/EditLocationBox";
 const CategoriesList = () => {
     const [allLocations, setAllLocations] = useState([]);
 
     const [locationDelete, setLocationDelete] = useState(null);
     const [locationEdit, setLocationEdit] = useState(null);
     const [locationView, setLocationView] = useState(null);
+    const [locationAdd,setLocationAdd] = useState(null);
     const shouldLog = useRef(true);
 
 
-    const confirmView = async (category) => {
-        setLocationView(category);
+    const confirmAdd = async (location) => {
+        setLocationAdd(location);
+    }
+    const cancelAdd = () => {
+        setLocationAdd(null);
+    }
+    const confirmView = async (location) => {
+        setLocationView(location);
     }
     const cancelHandleView = () => {
         setLocationView(null);
     }
-    const confirmEdit = async (category) => {
-        setLocationEdit(category);
+    const confirmEdit = async (location) => {
+        setLocationEdit(location);
     }
     const cancelHandleEdit = () => {
         setLocationEdit(null);
     }
-    const confirmDelete = async (category) => {
-        setLocationDelete(category);
+    const confirmDelete = async (location) => {
+        setLocationDelete(location);
     }
     const cancelHandleDelete = () => {
         setLocationDelete(null);
@@ -54,6 +63,16 @@ const CategoriesList = () => {
             shouldLog.current = false;
         }
     }, [])
+    const handleAddLocation = async (payload) => {
+        await checkTokenAndRefresh();
+        let header = {
+            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
+        }
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/locations`,payload, {headers: header})
+        console.log(response.data);
+        setAllLocations(prevState => [...prevState,response.data])
+        setLocationAdd(null);
+    }
 
     const handleDeleteLocation = async () => {
         await checkTokenAndRefresh();
@@ -75,6 +94,7 @@ const CategoriesList = () => {
         setAllLocations(updatedLocationsList);
         setLocationEdit(null);
     }
+    console.log(locationEdit)
     return (
         <>
             {locationDelete && (
@@ -85,7 +105,7 @@ const CategoriesList = () => {
                 />
             )}
             {locationEdit && (
-                <EditNameBox
+                <EditLocationBox
                     message={"Are your sure u want to edit this location?"}
                     onConfirm={handleEditLocation}
                     onCancel={cancelHandleEdit}
@@ -99,7 +119,19 @@ const CategoriesList = () => {
                     wholeData={locationView}
                 />
             )}
+            {locationAdd && (
+                <EditLocationBox
+                    message={"Da li zelite da dodate lokaciju?"}
+                    onCancel={cancelAdd}
+                    onConfirm={handleAddLocation}
+                />
+            )}
             {/*<div>*/}
+            <div>
+                <IconButton onClick={() => confirmAdd(1)}>
+                    <AddCircleOutlineIcon sx={{ fontSize: 31 }}></AddCircleOutlineIcon>
+                </IconButton>
+            </div>
                 <table className={"onlyNameTable"}>
                     <thead>
                     <tr>

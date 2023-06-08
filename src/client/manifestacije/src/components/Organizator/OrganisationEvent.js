@@ -41,7 +41,6 @@ const AddEventForm = () => {
 
         setAllLocations(responseLocations.data);
         setAllCategories(responseCategories.data);
-
     }
 
     useEffect(() => {
