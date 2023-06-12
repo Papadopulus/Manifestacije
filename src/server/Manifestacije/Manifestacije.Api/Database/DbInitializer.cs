@@ -12,9 +12,9 @@ public static class DbInitializer
         IPartnerRepository partnerRepository,
         ICategoryRepository categoryRepository)
     {
-        var tmp = (await userRepository.GetAllUsersAsync(new UserQueryFilter())).Any();   
-        
-        if (!tmp)
+        var userCount = (await userRepository.GetAllUsersAsync(new UserQueryFilter())).Any();
+
+        if (!userCount)
         {
             var organizationExists = await organizationRepository.GetOrganizationByNameAsync("Org");
             if (organizationExists is not null)
@@ -66,11 +66,7 @@ public static class DbInitializer
                 LastName = "User",
                 Email = "user@test.rs",
                 Roles = new List<string> { "User" },
-                RefreshTokens = new List<RefreshToken>
-                {
-                    new() { ExpireDate = DateTime.UtcNow.AddDays(-1), Token = "eaeaea" },
-                    new() { ExpireDate = DateTime.UtcNow.AddMinutes(1), Token = "eaeaea2" }
-                },
+                RefreshTokens = new List<RefreshToken>(),
                 PasswordHash = "null",
                 PasswordSalt = "null"
             };
@@ -78,6 +74,7 @@ public static class DbInitializer
             await userRepository.CreateUserAsync(user);
         }
 
+#if DEBUG
         if (!(await partnerRepository.GetAllPartnersAsync(new PartnerQueryFilter())).Any())
         {
             var partner = new Partner
@@ -126,5 +123,6 @@ public static class DbInitializer
             };
             await categoryRepository.CreateCategoryAsync(category);
         }
+#endif
     }
 }

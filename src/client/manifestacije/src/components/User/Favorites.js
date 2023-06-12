@@ -14,25 +14,25 @@ const Favorites = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 750);
   const shouldFetchEvents = useRef(true);
 
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const getAllFavorites = async () => {
     await checkTokenAndRefresh();
     let header = {
       Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("tokens")).token
+        JSON.parse(localStorage.getItem("tokens")).token
       }`,
     };
     try {
       const response = await axios.get(
-          `https://localhost:7237/users/${user.Id}/favourites`,
-          {
-            headers: header,
-            params: {
-              PageSize: 6,
-              PageNumber: pageNumber,
-              SortColumn: "Title",
-            }
-          }
+        `https://localhost:7237/users/${user.Id}/favourites`,
+        {
+          headers: header,
+          params: {
+            PageSize: 6,
+            PageNumber: pageNumber,
+            SortColumn: "Title",
+          },
+        }
       );
       // setEvents(response.data);
       /*console.log(hasFavouritesResponse.data);*/
@@ -68,39 +68,45 @@ const Favorites = () => {
   };
 
   return (
-      <>
-        {events.length > 0 ? (
-            <InfiniteScroll
-                style={styleS}
-                next={getAllFavorites}
-                hasMore={hasMore}
-                dataLength={events.length}
-                loader={
-                  <div className={classes.spinner}>
-                    <div className={classes.spinnerCircle}></div>
-                  </div>
-                }
-                endMessage={<h4 className={classes.noData}>No more data</h4>}
-            >
-              <div className={classes.allEvents}>
-                {events.map((event) => (
-                    <React.Fragment key={event.id}>
-                      {isMobile ? (
-                          <Event key={event.id} event={event} setEvents={setEvents}/>
-                      ) : (
-                          <EventHorizontal key={event.id} event={event} user={user} setEvents={setEvents}/>
-                      )}
-                    </React.Fragment>
-                ))}
-              </div>
-            </InfiniteScroll>
-
-        ) : (
+    <>
+      {events.length > 0 ? (
+        <InfiniteScroll
+          style={styleS}
+          next={getAllFavorites}
+          hasMore={hasMore}
+          dataLength={events.length}
+          loader={
             <div className={classes.spinner}>
               <div className={classes.spinnerCircle}></div>
             </div>
-        )}
-      </>
+          }
+          endMessage={<h4 className={classes.noData}>No more data</h4>}
+        >
+          <div className={classes.allEvents}>
+            {events.map((event) => (
+              <React.Fragment key={event.id}>
+                {isMobile ? (
+                  <div className={classes.eventWrapper}>
+                    <Event key={event.id} event={event} setEvents={setEvents} />
+                  </div>
+                ) : (
+                  <EventHorizontal
+                    key={event.id}
+                    event={event}
+                    user={user}
+                    setEvents={setEvents}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </InfiniteScroll>
+      ) : (
+        <div className={classes.spinner}>
+          <div className={classes.spinnerCircle}></div>
+        </div>
+      )}
+    </>
   );
 };
 

@@ -232,7 +232,7 @@ function Event({ event, setEvents, organization }) {
                 )}
                 {showFavoritesInfo && (
                   <div className={classes.favoritesInfo}>
-                    Add to favourites!
+                    Dodaj u omiljeno!
                   </div>
                 )}
               </div> /*<div>

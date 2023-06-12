@@ -84,6 +84,8 @@
     text-decoration: none;
     padding: 0.5rem 1rem;
     display: flex;
+    /*min-width: 111px;*/
+    justify-content: center;
 }
 
 .nav-links-outside:hover, .nav-links:hover {

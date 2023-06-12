@@ -65,9 +65,9 @@ function Navbar() {
       <p className={"navbar-par"}>Profile</p>
     </>
   ) : (
-    "Profile"
+    "Profil"
   );
-  const organisationIcon = "Events";
+  const organisationIcon = "Dodaj";
   const logoutIcon = isMobile ? (
     <>
       <i className="fa-solid fa-right-from-bracket"></i>
@@ -95,21 +95,13 @@ function Navbar() {
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
           >
-            {/*<Link*/}
-            {/*  to="/services"*/}
-            {/*  className="nav-links"*/}
-            {/*  onClick={closeMobileMenu}*/}
-            {/*>*/}
-            {/*  Padanje <i className="fas fa-caret-down" />*/}
-
-            {/*</Link>*/}
             {isMobile && (
               <Link
                 to="/organisation/event"
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
-                Events <i className="fas fa-caret-down" />
+                Dodaj <i className="fas fa-caret-down" />
               </Link>
             )}
             {dropdown && <Dropdown />}

@@ -16,11 +16,11 @@
     transform: translate(-50%, -50%);
     z-index: 1000;
     background-color: white;
-    padding: 16px;
+    padding: 8px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    width: 80vh;
-    height: 10vh;
+    width: 60%;
+    height: 15%;
     /*position: relative;*/
 }
 
@@ -32,6 +32,10 @@
 .custom-dialog-box .buttons {
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 10px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
 }
 
 .custom-dialog-box button {
@@ -50,4 +54,18 @@
     margin-right: 20px;
     white-space: nowrap;
     font-family: "Lexand-Medium";
+}
+@media screen and (max-width: 960px){
+    .custom-dialog-box {
+       
+        height: 20%;
+        width: 77%;
+    }
+}
+@media screen and (max-width: 630px){
+    .custom-dialog-box {
+
+        height: 34%;
+        width: 77%;
+    }
 }
