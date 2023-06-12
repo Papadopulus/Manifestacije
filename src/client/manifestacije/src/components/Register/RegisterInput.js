@@ -244,14 +244,14 @@ const RegisterInput = () => {
           <h1 className={classes["main-sign"]}>Sign up</h1>
 
           <p className={classes["already-have-account"]}>
-            Already have an account?{" "}
+            Već imate nalog?{" "}
             <Link to="/login" className={classes["register-links"]}>
               Login
             </Link>
           </p>
 
           <Input
-            label={"Name"}
+            label={"Ime"}
             type="text"
             id="registerName"
             value={enteredName}
@@ -265,7 +265,7 @@ const RegisterInput = () => {
           )}
 
           <Input
-            label={"Surname"}
+            label={"Prezime"}
             type="text"
             id="registerSurname"
             value={enteredSurname}
@@ -295,7 +295,7 @@ const RegisterInput = () => {
           )}
 
           <Input
-            label={"Password"}
+            label={"Lozinka"}
             type="password"
             id="registerPassword"
             value={enteredPassword}
@@ -311,7 +311,7 @@ const RegisterInput = () => {
           )}
 
           <Input
-            label={"Confirm password"}
+            label={"Potvrdi lozinku"}
             type="password"
             id="confirmPassword"
             value={confirmPassword}
@@ -322,7 +322,7 @@ const RegisterInput = () => {
           ></Input>
           {confirmPasswordError && (
             <label className={classes["error-text"]}>
-              The passwords don't match!
+              Lozinke se ne poklapaju!
             </label>
           )}
 
@@ -333,14 +333,14 @@ const RegisterInput = () => {
               onChange={handleCheckboxChange}
             ></input>
             <label id={"description-textarea"} className={classes["org-label"]}>
-              Sign up as Organisator
+              Prijavi se kao organizator
             </label>
           </div>
 
           {isOrganisator && (
             <div>
               <Input
-                label={"Organisation name"}
+                label={"Ime organizacije"}
                 type="text"
                 id="registerNameOrg"
                 value={enteredNameOrg}
@@ -351,12 +351,12 @@ const RegisterInput = () => {
               ></Input>
               {nameOrgError && (
                 <label className={classes["error-text"]}>
-                  Name of the Organisation is required!
+                  Potrebno je ime organizacije!
                 </label>
               )}
 
               <div className={classes["desc-div"]}>
-                <label>Description</label>
+                <label>Opis</label>
                 <textarea
                   onChange={handleDescriptionOnChange}
                   className={classes["description-area"]}
@@ -364,7 +364,7 @@ const RegisterInput = () => {
               </div>
 
               <div className={classes["upload-div"]}>
-                <p className={classes["upload-logo"]}>Upload your logo here</p>
+                <p className={classes["upload-logo"]}>Postavite logo</p>
 
                 <div className={`${classes["choose-file"]}`}>
                   <label className={classes["choose-file-label"]}>
@@ -446,7 +446,7 @@ const RegisterInput = () => {
               className={classes["register-button"]}
               disabled={registrationNotValid}
             >
-              Create an account
+              Napravi nalog
             </Button>
           </div>
         </div>
