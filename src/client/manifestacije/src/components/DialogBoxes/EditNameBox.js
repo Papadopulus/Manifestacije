@@ -2,8 +2,9 @@
 import classes from "./CustomBox.module.css";
 import useInput from "../../hooks/use-input";
 import Input from "../UI/Input/Input";
-const EditNameBox = ({ message, onConfirm ,onCancel ,name}) => {
+const EditNameBox = ({ message, onConfirm ,onCancel ,name,fromAdd}) => {
 
+    
     const {
         value: nameCat,
         isValid:enteredNameIsValid,
@@ -30,7 +31,7 @@ const EditNameBox = ({ message, onConfirm ,onCancel ,name}) => {
             <div className={classes["custom-dialog-box"]}>
                 <p>{message}</p>
                 <Input
-                    label={"Change name"}
+                    label={fromAdd ?  "Ime" : "Promeni ime"}
                     type="text"
                     id="nameChangeCat"
                     value={nameCat}
@@ -40,7 +41,7 @@ const EditNameBox = ({ message, onConfirm ,onCancel ,name}) => {
                 ></Input>
                 {NameError && (
                     <label className={classes["error-text"]}>
-                        must enter a name!
+                        Niste uneli ime!
                     </label>
                 )}
                 <div className={classes["buttons"]}>
@@ -52,9 +53,9 @@ const EditNameBox = ({ message, onConfirm ,onCancel ,name}) => {
                                 }
                         onConfirm(payload)
                     }} disabled={!formIsValid}>
-                        Yes
+                        Prihvati
                     </button>
-                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>No</button>
+                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>Odbaci</button>
                 </div>
             </div>
         </>

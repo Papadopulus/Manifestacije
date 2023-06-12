@@ -186,7 +186,7 @@ const RegisterInput = () => {
       formData.append("imageRequest", image);
     });
     const imgResponse = await axios.post(
-      "https://localhost:7085/Image/onlyfiles",
+      `${process.env.REACT_APP_IMAGE_URL}/Image/onlyfiles`,
       formData,
       {
         headers: {

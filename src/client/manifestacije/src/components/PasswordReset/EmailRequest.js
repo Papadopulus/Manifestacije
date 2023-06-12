@@ -32,7 +32,7 @@ function EmailRequest() {
     }
     resetEmailNameFunction();
     try {
-      await axios.get(`https://localhost:7237/reset-password/${enteredEmail}`);
+      await axios.get(`${process.env.REACT_APP_BASE_URL}/reset-password/${enteredEmail}`);
     } catch (error) {
       console.error("Error retrieving the e-mail:", error);
     }

@@ -74,7 +74,7 @@ const EditLocationBox = ({message, onConfirm, onCancel, name}) => {
                 ></Input>
                 {NameError && (
                     <label className={classes["error-text"]}>
-                        must enter a name!
+                        Unesite ime!
                     </label>
                 )}
                 <div className={classes.dvaSelekta}>
@@ -114,9 +114,9 @@ const EditLocationBox = ({message, onConfirm, onCancel, name}) => {
                                     return;
                                 }
                                 onConfirm(payload)
-                            }} disabled={!formIsValid}>Yes
+                            }} disabled={!formIsValid}>Prihvati
                     </button>
-                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>No</button>
+                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>Odbaci</button>
                 </div>
             </div>
         </>

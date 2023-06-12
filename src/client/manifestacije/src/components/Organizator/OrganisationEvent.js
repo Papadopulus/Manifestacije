@@ -222,7 +222,7 @@ const AddEventForm = () => {
         images.forEach((image) => {
             formData.append("imageRequest", image);
         })
-        const imgResponse = await axios.post('https://localhost:7085/Image/onlyfiles', formData, {
+        const imgResponse = await axios.post(`${process.env.REACT_APP_IMAGE_URL}/Image/onlyfiles`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

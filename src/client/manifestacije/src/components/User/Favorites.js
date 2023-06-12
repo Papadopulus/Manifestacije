@@ -24,7 +24,7 @@ const Favorites = () => {
     };
     try {
       const response = await axios.get(
-        `https://localhost:7237/users/${user.Id}/favourites`,
+        `${process.env.REACT_APP_BASE_URL}/users/${user.Id}/favourites`,
         {
           headers: header,
           params: {
@@ -80,7 +80,7 @@ const Favorites = () => {
               <div className={classes.spinnerCircle}></div>
             </div>
           }
-          endMessage={<h4 className={classes.noData}>No more data</h4>}
+          endMessage={<h4 className={classes.noData}>Nema vise podataka</h4>}
         >
           <div className={classes.allEvents}>
             {events.map((event) => (

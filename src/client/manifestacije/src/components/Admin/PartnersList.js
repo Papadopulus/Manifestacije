@@ -12,6 +12,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonIcon from "@mui/icons-material/Person";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import {Button} from "../Navbar/NavButton"
 const CategoriesList = () => {
     const [allPartners, setAllPartners] = useState([]);
 
@@ -66,6 +67,7 @@ const CategoriesList = () => {
     }, [])
 
     const handleAddPartner = async (payload) => {
+        console.log(payload);
         await checkTokenAndRefresh();
         let header = {
             "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
@@ -99,14 +101,14 @@ const CategoriesList = () => {
         <>
             {partnerDelete && (
                 <UserDeleteBox
-                    message={"Are you sure you want to delete this partner?"}
+                    message={"Da li ste sigurni da zalite da obrisete partnera?"}
                     onConfirm={handleDeletePartner}
                     onCancel={cancelHandleDelete}
                 />
             )}
             {partnerEdit && (
                 <EditPartnerBox
-                    message={"Are your sure u want to edit this partner?"}
+                    message={"Da li ste sigurni da zelite da izmenite partnera?"}
                     onConfirm={handleEditPartner}
                     onCancel={cancelHandleEdit}
                     partName={partnerEdit.name}
@@ -117,7 +119,7 @@ const CategoriesList = () => {
             )}
             {partnerView && (
                 <ViewPartnerBox
-                    message={"Partner information"}
+                    message={"Informacije o pertneru"}
                     onCancel={cancelHandleView}
                     wholeData={partnerView}
                 />
@@ -131,15 +133,18 @@ const CategoriesList = () => {
                 />
             )}
             {/*<div>*/}
-            <div>
-                <IconButton onClick={() => confirmAdd(1)}>
-                    <AddCircleOutlineIcon sx={{ fontSize: 31 }}></AddCircleOutlineIcon>
-                </IconButton>
+            <div className={"addItemDiv"}>
+                {/*<IconButton onClick={() => confirmAdd(1)}>*/}
+                {/*    <AddCircleOutlineIcon sx={{ fontSize: 31 }}></AddCircleOutlineIcon>*/}
+                {/*</IconButton>*/}
+                <button className={"addAnItem"} onClick={() => confirmAdd(1)}>
+                    Dodaj partnera
+                </button>
             </div>
                 <table className={"onlyNameTable"}>
                     <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Ime</th>
                     </tr>
                     </thead>
                     <tbody>

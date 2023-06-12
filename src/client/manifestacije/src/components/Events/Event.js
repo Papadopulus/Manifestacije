@@ -27,7 +27,7 @@ function Event({ event, setEvents, organization }) {
   const loadImage = async () => {
     try {
       const imageResponse = await axios.get(
-        `https://localhost:7085/Image/${event.imageUrls[0]}`,
+        `${process.env.REACT_APP_IMAGE_URL}/Image/${event.imageUrls[0]}`,
         { responseType: "blob" }
       );
       const reader = new FileReader();
@@ -48,7 +48,7 @@ function Event({ event, setEvents, organization }) {
     };
     try {
       const hasFavouritesResponse = await axios.get(
-        `https://localhost:7237/users/${user.Id}/favourites`,
+        `${process.env.REACT_APP_BASE_URL}/users/${user.Id}/favourites`,
         { headers: header }
       );
       setHasFavourites(hasFavouritesResponse.data);
@@ -85,7 +85,7 @@ function Event({ event, setEvents, organization }) {
       try {
         if (isFavorite) {
           await axios.delete(
-            `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
+            `${process.env.REACT_APP_BASE_URL}/users/${user.Id}/events/${event.id}/favourites`,
             { headers: header }
           );
           if (setEvents) {
@@ -95,7 +95,7 @@ function Event({ event, setEvents, organization }) {
           }
         } else {
           await axios.post(
-            `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
+            `${process.env.REACT_APP_BASE_URL}/users/${user.Id}/events/${event.id}/favourites`,
             null,
             { headers: header }
           );
