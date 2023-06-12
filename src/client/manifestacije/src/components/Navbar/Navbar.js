@@ -56,7 +56,7 @@ function Navbar() {
       <p className={"navbar-par"}>About</p>
     </>
   ) : (
-    "About"
+    "O nama"
   );
 
   const profileIcon = isMobile ? (
@@ -86,7 +86,7 @@ function Navbar() {
         <div className="menu-icon" onClick={handleClick}>
           <>
             <i className={click ? "fas fa-times" : "fas fa-bars"} />
-            <p className={"navbar-par"}>More</p>
+            <p className={"navbar-par"}>Još</p>
           </>
         </div>
         <ul className={click ? "nav-menu active" : "nav-menu"}>
