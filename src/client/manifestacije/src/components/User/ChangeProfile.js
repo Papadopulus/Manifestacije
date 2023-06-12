@@ -69,7 +69,7 @@ const ChangeProfile = (props) => {
             className={classes["input-form"]}
         ></Input>
         {nameInputHasError && (
-          <label className={classes["error-text"]}>Invalid name!</label>
+          <label className={classes["error-text"]}>Nevalidno ime!</label>
         )}
         <Input
           label={"Novo prezime"}
@@ -82,14 +82,14 @@ const ChangeProfile = (props) => {
           className={classes["input-form"]}
         ></Input>
         {surnameInputHasError && (
-          <label className={classes["error-text"]}>Invalid surname!</label>
+          <label className={classes["error-text"]}>Nevalidno prezime!</label>
         )}
         <Button
           type={"submit"}
           className={classes["login-button"]}
           disabled={!formIsValid}
         >
-          Update
+          Izmeni
         </Button>
       </form>
     </>

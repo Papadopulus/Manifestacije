@@ -47,8 +47,8 @@ function EmailRequest() {
         <div className={classes["reset-handler"]}>
           <h1>Reset Password</h1>
           <p className={classes["have-account"]}>
-            Please enter your email address and we will send you a link to reset
-            your password on your e-mail!
+            Molimo vas unesite vasu e-mail adresu, a mi cemo vam poslati link
+            za resetovanje lozinke u vase e-mail sanduce!
           </p>
           <Input
             label={"E-mail"}
@@ -61,7 +61,7 @@ function EmailRequest() {
           ></Input>
           {emailInputError && (
             <label className={classes["error-text"]}>
-              Invalid email address!
+              Nevalidna e-mail adresa!
             </label>
           )}
 
@@ -71,7 +71,7 @@ function EmailRequest() {
               className={classes["reset-button"]}
               disabled={!formIsValid}
             >
-              Send Reset Code
+              Posaljite kod za reset
             </Button>
           </div>
         </div>

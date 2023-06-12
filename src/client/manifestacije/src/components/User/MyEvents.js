@@ -71,7 +71,7 @@ function MyEvents() {
               <div className={classes.spinnerCircle}></div>
             </div>
           }
-          endMessage={<h4 className={classes.noData}>No more data</h4>}
+          endMessage={<h4 className={classes.noData}>Nema vise podataka</h4>}
         >
           <div className={classes.Events}>
             {events.map((event) => (
