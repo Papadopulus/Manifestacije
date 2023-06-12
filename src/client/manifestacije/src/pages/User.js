@@ -21,7 +21,7 @@ const User = () => {
   const [activeLink, setActiveLInk] = useState("profile");
   const [isMobileView, setIsMobileView] = useState(false);
 
-  const [selectedOption, setSelectedOption] = useState("Select an option");
+  const [selectedOption, setSelectedOption] = useState("Izaberite opciju");
   const [activePanel, setActivePanel] = useState([]);
   
   const { user } = useContext(AuthContext);
