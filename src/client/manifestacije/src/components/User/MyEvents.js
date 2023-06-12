@@ -24,6 +24,7 @@ function MyEvents() {
             PageSize: 6,
             PageNumber: pageNumber,
             SortColumn: "Title",
+            IntersectionColumns: "OrganizationId",
           },
         }
       );
@@ -36,7 +37,6 @@ function MyEvents() {
       console.error("Error retrieving the user's favourite events:", error);
     }
   };
-
   useEffect(() => {
     if (shouldFetchEvents.current) {
       getEvents();

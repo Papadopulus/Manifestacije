@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import EditIcon from "@mui/icons-material/Edit";
 import { IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 const EventHorizontal = ({ event, user, setEvents, edit }) => {
   const [images, setImages] = useState(null);
   const [showFavoritesInfo, setShowFavoritesInfo] = useState(false);
@@ -85,7 +86,7 @@ const EventHorizontal = ({ event, user, setEvents, edit }) => {
             <EditIcon sx={{ fontSize: 30 }}></EditIcon>
           </IconButton>
         ) : (
-          <i className="fa-solid fa-star"></i>
+          <FavoriteOutlinedIcon sx={{ fontSize: 40 }} />
         )}
         {showFavoritesInfo && !edit && (
           <div className={classes.favoritesInfo}>Remove from favorites!</div>

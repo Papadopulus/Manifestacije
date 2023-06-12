@@ -4,6 +4,7 @@ import axios from "../../api/axios";
 import classes from "./EventPage.module.css";
 import { Button } from "../Navbar/NavButton";
 import { format } from "date-fns";
+import Gallery from "./Gallery/Gallery";
 import MapMarker from "../../GoogleMaps/GPTMaps/MapMarker";
 import Countdown from "./Countdown";
 import Rating from "@mui/material/Rating";
@@ -82,7 +83,6 @@ function EventPage() {
     return <span {...other}>{customIcons[value].icon}</span>;
   }
   const loadFavourites = async () => {
-    await checkTokenAndRefresh();
     let header = {
       Authorization: `Bearer ${
         JSON.parse(localStorage.getItem("tokens")).token
@@ -278,6 +278,7 @@ function EventPage() {
     }
   };
   //console.log(event.startingDate);
+  console.log(images);
   return (
     <>
       {notLoggedIn && <NotLoggedIn cancel={setNotLoggedIn}></NotLoggedIn>}
@@ -448,7 +449,7 @@ function EventPage() {
               </div>
             </div>
           </div>
-
+          <Gallery galleryImages={images}></Gallery>
           <div className={classes.partners}>
             <h1 className={classes.descriptionTitle}>Parnteri</h1>
             <div className={classes.partnersWrapper}>
@@ -553,7 +554,7 @@ function EventPage() {
           </div>
         </div>
         <div className={classes.orgDiv}>
-          <div className={classes.orgIcon}>
+          <div className={classes.orgIconLogo}>
             <img src={orgLogo} alt="Organizer Logo" />
           </div>
           <div className={classes.orgInfo}>
