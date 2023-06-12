@@ -11,6 +11,7 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Button from "../UI/Button/Button";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import DialogBoxHandle from "./DialogBoxHandle";
 
 const useStyles = makeStyles({
   uploadIcon: {
@@ -31,6 +32,10 @@ function EditMyEvent() {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageURL, setSelectedImageURL] = useState(null);
+
+  const [messageForBox,setMessageForBox] = useState(null);
+  const [showDialog,setShowDialog] = useState(null);
+  
 
 
   const shouldLog = useRef(true);
@@ -254,6 +259,9 @@ function EditMyEvent() {
   const resetSponsorList = () => {
     setSponsorInputFields([""]);
   };
+  const cancelDialogHandle = () => {
+    setShowDialog(null);
+  }
 
   const handleInputChange = (index, value) => {
     const updatedInputFields = [...sponsorInputFields];
@@ -350,12 +358,24 @@ function EditMyEvent() {
         JSON.parse(localStorage.getItem("tokens")).token
       }`,
     };
-    // const response = await axios.put(
-    //   `${process.env.REACT_APP_BASE_URL}/events/${events.id}`,
-    //   payload,
-    //   { headers: header }
-    // );
-    // console.log(response);
+    try {
+      const response = await axios.put(
+          `${process.env.REACT_APP_BASE_URL}/events/${events.id}`,
+          payload,
+          { headers: header }
+      );
+      if (response.status === 200) { 
+        setMessageForBox("Uspesno ste izmenili manifestaciju!");
+      }
+      console.log(response);
+    }
+    catch (e){
+      setMessageForBox("Podaci koje ste uneli nisu validni!")
+    }
+    finally {
+      setShowDialog(true);
+    }
+    
 
     /*resetTitleFunction();
     resetDateStartFunction();
@@ -377,6 +397,11 @@ function EditMyEvent() {
   return (
     <>
       <div className={classesEvent["div-container"]}>
+        {showDialog && (
+            <DialogBoxHandle onCancel={cancelDialogHandle}>
+              <p>{messageForBox}</p>
+            </DialogBoxHandle>
+        )}
         <form
           className={classesEvent["forma-event"]}
           onSubmit={formSubmissionHandler}

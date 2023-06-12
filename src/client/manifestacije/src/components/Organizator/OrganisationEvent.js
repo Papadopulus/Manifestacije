@@ -11,6 +11,7 @@ import classesEvent from "./OrganisationEvent.module.css"
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import {makeStyles} from '@material-ui/core/styles';
 import TextArea from "../UI/TextArea/TextArea";
+import DialogBoxHandle from "./DialogBoxHandle";
 
 const useStyles = makeStyles({
     uploadIcon: {
@@ -29,6 +30,9 @@ const AddEventForm = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [marker, setMarker] = useState(null);
     const [images, setImages] = useState([]);
+    const [messageForBox,setMessageForBox] = useState(null);
+    
+    const [showDialog,setShowDialog] = useState(null);
 
     const shouldLog = useRef(true);
     const getLocationsAndCategories = async () => {
@@ -127,7 +131,7 @@ const AddEventForm = () => {
     
     let formIsValid = false;
     if (titleIsValid && dateStartIsValid && endingDateIsValid
-        && capacityIsValid && descriptionIsValid && addressIsValid && marker) {
+        && capacityIsValid && descriptionIsValid && addressIsValid && marker && images.length !== 0) {
         formIsValid = true;
     } else {
         formIsValid = false;
@@ -169,12 +173,22 @@ const AddEventForm = () => {
     const resetSponsorList = () => {
         setSponsorInputFields(['']);
     }
+    const onCancelBoxHandle = () => {
+        setShowDialog(null);
+    }
+    const resetLocationHandle=  () => {
+        setSelectedLocation('');
+    }
+    const resetCategoryHandle =  () => {
+        setSelectedCategory('');
+    }
     
     const handleInputChange = (index, value) => {
         const updatedInputFields = [...sponsorInputFields];
         updatedInputFields[index] = value;
         setSponsorInputFields(updatedInputFields);
     };
+    
     const formSubmissionHandler = async (event) => {
         event.preventDefault();
         await checkTokenAndRefresh();
@@ -184,7 +198,8 @@ const AddEventForm = () => {
             !descriptionIsValid ||
             !endingDateIsValid ||
             !capacityIsValid || 
-            !addressIsValid) {
+            !addressIsValid || 
+            images.length === 0) {
             return;
         }
         
@@ -234,23 +249,43 @@ const AddEventForm = () => {
         let header = {
             "Authorization": `Bearer ${JSON.parse(localStorage.getItem("tokens")).token}`
         }
-        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/events`, payload, {headers: header});
-        console.log(response);
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/events`, payload, {headers: header});
+            // console.log(response.response.status)
+            console.log(response);
+            if (response.status === 201){
+                setMessageForBox("Uspesno ste dodali manifestaciju!")
+                resetTitleFunction();
+                resetDescriptionFunction();
+                resetDateStartFunction();
+                resetEndingDateFunction();
+                resetGuestList();
+                resetCompetitorList();
+
+                resetCapacityFunction();
+                resetTicketPriceFunction();
+                resetSponsorList();
+                resetCategoryHandle();
+                resetLocationHandle();
+                resetTicketUrlFunction();
+                resetAddressFunction();
+                resetMarkerFunction();
+                resetImagesFunction();
+            }
+        }
+        catch (error)
+        {
+            console.log(error);
+            console.log(error.response.status);
+            setMessageForBox("Niste uneli dobre poadatke");
+        }
+        finally {
+            setShowDialog(true);
+        }
 
         
-        // resetTitleFunction();
-        // resetDateStartFunction();
-        // resetEndingDateFunction();
-        // resetGuestList();
-        // resetCompetitorList();
-        //
-        // resetCapacityFunction();
-        // resetTicketPriceFunction();
-        // resetSponsorList();
-        // resetTicketUrlFunction();
-        // resetAddressFunction();
-        // resetMarkerFunction();
-        // resetImagesFunction();
+        //status 201 vraca akoje dobar
+        
 
     };
 
@@ -259,6 +294,14 @@ const AddEventForm = () => {
     return (
         <>
             <div className={classesEvent["div-container"]}>
+
+                {showDialog && (
+                    <DialogBoxHandle
+                        onCancel={onCancelBoxHandle}
+                    >
+                        <p>{messageForBox}</p>
+                    </DialogBoxHandle>
+                )}
 
                 <form className={classesEvent["forma-event"]} onSubmit={formSubmissionHandler}>
 

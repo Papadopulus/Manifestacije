@@ -1,0 +1,234 @@
+﻿
+.custom-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 50;
+}
+
+.custom-dialog-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 51;
+    background-color: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    /*position: relative;*/
+    max-height: 70%;
+    overflow-y: auto;
+}
+
+.custom-dialog-box p {
+    margin: 0 0 16px;
+    font-size:35px;
+}
+
+.custom-dialog-box .buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+.buttons{
+    margin-top: 20px;
+}
+.custom-dialog-box button {
+    margin-left: 16px;
+}
+.check-div{
+    display: flex;
+    flex-direction: column;
+}
+.check-div label{
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.checkBoxDiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.checkBoxDiv input{
+    height: 20px;
+    width: 20px;
+}
+.error-text {
+    color: #CC2929;
+    font-family: 'Lexand-Medium';
+    font-size: 18px;
+}
+.upload-logo{
+    color: #333333;
+    margin-bottom: 10px;
+    font-family: 'Lexand-Medium';
+    font-size: 20px;
+}
+.upload-div {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/*.upload-pictures {*/
+/*    color: #333333;*/
+/*    margin-bottom: 0.5rem;*/
+/*    margin-right: 0.5rem;*/
+/*    font-family: 'Lexand-Medium';*/
+/*    font-size: 20px;*/
+/*    margin-top: 30px;*/
+/*}*/
+
+
+.choose-file {
+    position: relative;
+    height: 140px;
+    width: 140px;
+    font-size: 20px;
+    padding: 0.35rem 0.35rem;
+    border-radius: 50%;
+    border-color: transparent;
+    font-family: 'Lexand-Medium';
+    background: #e6e6e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.choose-file:hover {
+    background-color: dimgrey;
+}
+
+.choose-file-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+}
+
+.choose-file-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.choose-file-icon {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    font-size: 80px;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    color: black;
+    border-radius: 50%;
+}
+
+.choose-file:hover .choose-file-icon {
+    background-color: rgba(105, 105, 105, 0.5);
+    color: white;
+    cursor: pointer;
+}
+
+.choose-file input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+
+
+.btn {
+    padding: 8px 20px;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    /*background-color: #3333ff;*/
+    /*margin-left: 20px;*/
+    /*margin-right: 20px;*/
+    white-space: nowrap;
+    font-family: "Lexand-Medium";
+}
+
+.btn:hover {
+    padding: 6px 18px;
+    /*transition: all 0.3s ease-out;*/
+    /*background-color: transparent;*/
+    /*background: ;*/
+    background-color: #7a8294;
+    color: #fff;
+    border-radius: 4px;
+    border: 2px solid #3333ff;
+}
+.button-confirm{
+    padding: 8px 28px;
+    background-color: green;
+}
+.button-confirm:hover{
+    padding: 6px 26px;
+}
+.button-confirm:active{
+    background-color: #7a8294 !important;
+    color: white !important;
+}
+.button-confirm{
+    font-family: 'Lexend-Medium';
+    font-size: 20px;
+}
+.button-confirm:disabled,
+.button-confirm:disabled:hover,
+.button-confirm:disabled:active {
+    background-color: #ccc;
+    color: grey;
+    border-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.button-discard{
+    padding: 8px 28px;
+    background-color: #4a24d1;
+}
+.button-discard:hover{
+    padding: 6px 26px;
+}
+.button-discard{
+    font-family: 'Lexend-Medium';
+    font-size: 20px;
+}
+
+.selections {
+    font-size: 20px;
+    padding: 0.35rem 0.35rem;
+    border-radius: 20px;
+    border-color: transparent;
+    height: 43px;
+    font-family: 'Lexand-Medium';
+    background: #e6e6e6;
+    margin-top: 25px;
+    /*width: 40%;*/
+}
+.dvaSelekta{
+    display: flex;
+    flex-direction: column;
+}
+

@@ -38,14 +38,14 @@ const User = () => {
   let activeComponent;
 
   if (activeLink === "profile") {
-    activeComponent = userData && (
-      <ChangeProfile
-        name={userData.firstName}
-        surname={userData.lastName}
-        id={userData.id}
-        setUser={setUserData}
-      ></ChangeProfile>
-    );
+    activeComponent = userData &&
+        <ChangeProfile
+            name={userData.firstName}
+            surname={userData.lastName}
+            id={userData.id}
+            setUser={setUserData}
+        ></ChangeProfile>
+    
   } else if (activeLink === "favorites") {
     activeComponent = <Favorites />;
   } else if (activeLink === "going") {
@@ -233,8 +233,19 @@ const User = () => {
                         Organizacije
                       </a>
                     )}
+                    {user.Roles === "Admin" && (
+                        <a
+                            className={`${classes["item-menu"]} ${
+                                activeLink === "allPartners" ? classes["active"] : ""
+                            }`}
+                            href="#"
+                            onClick={(e) => handleLinkClick(e,"allPartners")}
+                        >
+                          Partneri
+                        </a>
+                    )}
                     <a
-                      className={`${classes["item-menu"]} ${
+                      className={`${classes["item-menu-bottom"]} ${
                         activeLink === "favorites" ? classes["active"] : ""
                       }`}
                       href="#"
@@ -242,17 +253,7 @@ const User = () => {
                     >
                       Omiljeno
                     </a>
-                    {user.Roles === "Admin" && (
-                      <a
-                        className={`${classes["item-menu-bottom"]} ${
-                          activeLink === "allPartners" ? classes["active"] : ""
-                        }`}
-                        href="#"
-                        onClick={(e) => handleLinkClick(e,"allPartners")}
-                      >
-                        Partneri
-                      </a>
-                    )}
+                    
                     {/*{user.Roles !== "Admin" && <a*/}
                     {/*    className={`${classes['item-menu']} ${activeLink === 'favorites' ? classes['active'] : ''}`}*/}
                     {/*    href="#"*/}
@@ -260,17 +261,17 @@ const User = () => {
                     {/*>*/}
                     {/*    Omiljeno*/}
                     {/*</a>}*/}
-                    {user.Roles !== "Admin" && (
-                      <a
-                        className={`${classes["item-menu-bottom"]} ${
-                          activeLink === "going" ? classes["active"] : ""
-                        }`}
-                        href="#"
-                        onClick={(e) => handleLinkClick(e,"going")}
-                      >
-                        Idem
-                      </a>
-                    )}{" "}
+                    {/*{user.Roles !== "Admin" && (*/}
+                    {/*  <a*/}
+                    {/*    className={`${classes["item-menu-bottom"]} ${*/}
+                    {/*      activeLink === "going" ? classes["active"] : ""*/}
+                    {/*    }`}*/}
+                    {/*    href="#"*/}
+                    {/*    onClick={(e) => handleLinkClick(e,"going")}*/}
+                    {/*  >*/}
+                    {/*    Idem*/}
+                    {/*  </a>*/}
+                    {/*)}{" "}*/}
                   </Panel>
                 </Collapse>
               ) : (
@@ -348,8 +349,19 @@ const User = () => {
                       Organizacije
                     </a>
                   )}
+                  {user.Roles === "Admin" && (
+                      <a
+                          className={`${classes["item-menu"]} ${
+                              activeLink === "allPartners" ? classes["active"] : ""
+                          }`}
+                          href="#"
+                          onClick={(e) => handleLinkClick(e,"allPartners")}
+                      >
+                        Partneri
+                      </a>
+                  )}
                   <a
-                    className={`${classes["item-menu"]} ${
+                    className={`${classes["item-menu-bottom"]} ${
                       activeLink === "favorites" ? classes["active"] : ""
                     }`}
                     href="#"
@@ -357,17 +369,6 @@ const User = () => {
                   >
                     Omiljeno
                   </a>
-                  {user.Roles === "Admin" && (
-                    <a
-                      className={`${classes["item-menu-bottom"]} ${
-                        activeLink === "allPartners" ? classes["active"] : ""
-                      }`}
-                      href="#"
-                      onClick={(e) => handleLinkClick(e,"allPartners")}
-                    >
-                      Partneri
-                    </a>
-                  )}
                   {/*{user.Roles !== "Admin" && <a*/}
                   {/*    className={`${classes['item-menu']} ${activeLink === 'favorites' ? classes['active'] : ''}`}*/}
                   {/*    href="#"*/}
@@ -376,17 +377,17 @@ const User = () => {
                   {/*    Omiljeno*/}
                   {/*</a>}*/}
 
-                  {user.Roles !== "Admin" && (
-                    <a
-                      className={`${classes["item-menu-bottom"]} ${
-                        activeLink === "going" ? classes["active"] : ""
-                      }`}
-                      href="#"
-                      onClick={(e) => handleLinkClick(e,"going")}
-                    >
-                      Idem
-                    </a>
-                  )}
+                  {/*{user.Roles !== "Admin" && (*/}
+                  {/*  <a*/}
+                  {/*    className={`${classes["item-menu-bottom"]} ${*/}
+                  {/*      activeLink === "going" ? classes["active"] : ""*/}
+                  {/*    }`}*/}
+                  {/*    href="#"*/}
+                  {/*    onClick={(e) => handleLinkClick(e,"going")}*/}
+                  {/*  >*/}
+                  {/*    Idem*/}
+                  {/*  </a>*/}
+                  {/*)}*/}
                 </>
               )}
             </div>
