@@ -1,4 +1,4 @@
-﻿import {useState} from "react";
+﻿import {useEffect, useState} from "react";
 
 const useInput = (validateValue ,initialValue='') => {
     // const [enteredValue, setEnteredValue] = useState('');
@@ -9,7 +9,9 @@ const useInput = (validateValue ,initialValue='') => {
     const valueIsValid = validateValue(enteredValue);
     const hasError = !valueIsValid && isTouched;
 
-
+    useEffect(() => {
+        setEnteredValue(initialValue); // Sync enteredValue with props.name
+    }, [initialValue]);
     const valueChangedHandler = event => {
         setEnteredValue(event.target.value);
     }
