@@ -17,12 +17,12 @@ function ChangePasswordRequest(props) {
     <form onSubmit={resetSubmitHandler}>
       <p className={classes["main-text"]}>Izmeni lozinku</p>
       <p className={classes["have-account"]}>
-          Molimo vas pritisnite na dugme i poslacemo vam link za resetovanje
-          vase lozinke na vasu e-mail adresu
+        Molim Vas pritisnite dugme i mi ćemo vam poslati link za resetovanje
+        lozinke na Vašu e-mail adresu!
       </p>
 
       <Button type={"submit"} className={classes["login-button"]}>
-        Posalji kod za reset
+        Pošalji kod za resetovanje lozinke
       </Button>
     </form>
   );

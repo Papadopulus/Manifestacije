@@ -59,17 +59,19 @@ const ChangeProfile = (props) => {
       <form onSubmit={formSubmissionHandler}>
         <p className={classes["main-text"]}>Izmeni profil</p>
         <Input
-            label={"Novo ime"}
-            type="text"
-            id="name"
-            value={enteredName}
-            onChange={nameChangedHandler}
-            onBlur={nameBlurHandler}
-            isNotValid={nameInputHasError}
-            className={classes["input-form"]}
+          label={"Novo ime"}
+          type="text"
+          id="name"
+          value={enteredName}
+          onChange={nameChangedHandler}
+          onBlur={nameBlurHandler}
+          isNotValid={nameInputHasError}
+          className={classes["input-form"]}
         ></Input>
         {nameInputHasError && (
-          <label className={classes["error-text"]}>Nevalidno ime!</label>
+          <label className={classes["error-text"]}>
+            Uneto ime nije validno!
+          </label>
         )}
         <Input
           label={"Novo prezime"}
@@ -82,7 +84,9 @@ const ChangeProfile = (props) => {
           className={classes["input-form"]}
         ></Input>
         {surnameInputHasError && (
-          <label className={classes["error-text"]}>Nevalidno prezime!</label>
+          <label className={classes["error-text"]}>
+            Uneto prezime nije validno!
+          </label>
         )}
         <Button
           type={"submit"}

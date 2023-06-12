@@ -303,93 +303,89 @@ const AddEventForm = () => {
                     </DialogBoxHandle>
                 )}
 
-                <form className={classesEvent["forma-event"]} onSubmit={formSubmissionHandler}>
+        <form
+          className={classesEvent["forma-event"]}
+          onSubmit={formSubmissionHandler}
+        >
+          <div className={classesEvent["right-side-form"]}>
+            <p className={"main-text"}>Dodaj manifestaciju!</p>
+            <Input
+              label={"Naslov"}
+              type="text"
+              id="titleEvent"
+              value={title}
+              onChange={titleChangedHandler}
+              onBlur={titleBlurHandler}
+              isNotValid={titleInputHasError}
+              className={classes["input-form"]}
+              isRequeired={true}
+              firstLabelColor={"#333333"}
+            ></Input>
+            {titleInputHasError && (
+              <label className={classes2["error-text"]}>
+                Uneto ime nije validno!
+              </label>
+            )}
+            <div className={classesEvent["desc-div"]}>
+              <TextArea
+                label={"Opis"}
+                id="description"
+                value={description}
+                onChange={descriptionChangedHandler}
+                onBlur={descriptionBlurHandler}
+                isNotValid={descriptionInputHasError}
+                className={classes["input-form"]}
+                isRequeired={true}
+                firstLabelColor={"#333333"}
+              />
+              {descriptionInputHasError && (
+                <label className={classes2["error-text"]}>
+                  Opis manifestacije nije validan!
+                </label>
+              )}
+            </div>
 
-                    <div className={classesEvent["right-side-form"]}>
+            <div className={classesEvent["two-in-row"]}>
+              <div className={classesEvent["column-in-row"]}>
+                <Input
+                  label={"Datum početka"}
+                  type="datetime-local"
+                  id="dateStart"
+                  value={dateStart}
+                  onChange={dateStartChangedHandler}
+                  onBlur={dateStartBlurHandler}
+                  isNotValid={dateStartInputHasError}
+                  className={classesEvent["input-form"]}
+                  isRequeired={true}
+                  firstLabelColor={"#333333"}
+                ></Input>
+                {dateStartInputHasError && (
+                  <label className={classes2["error-text"]}>
+                    Datum početka manifestacije nije validan!
+                  </label>
+                )}
+              </div>
 
-                        <p className={"main-text"}>Dodaj manifestaciju!</p>
-                        <Input
-                            label={"Naslov"}
-                            type="text"
-                            id="titleEvent"
-                            value={title}
-                            onChange={titleChangedHandler}
-                            onBlur={titleBlurHandler}
-                            isNotValid={titleInputHasError}
-                            className={classes["input-form"]}
-                            isRequeired={true}
-                            firstLabelColor={'#333333'}
-                        ></Input>
-                        {titleInputHasError && (
-                            <label className={classes2["error-text"]}>
-                                Nevalidno ime!
-                            </label>
-                        )}
-                        <div className={classesEvent["desc-div"]}>
-                            
-                            <TextArea
-                                label={"Opis"}
-                                id="description"
-                                value={description}
-                                onChange={descriptionChangedHandler}
-                                onBlur={descriptionBlurHandler}
-                                isNotValid={descriptionInputHasError}
-                                className={classes["input-form"]}
-                                isRequeired={true}
-                                firstLabelColor={'#333333'}
-                            />
-                            {descriptionInputHasError && (
-                                <label className={classes2["error-text"]}>
-                                    Nevalidan opis manifestacije!
-                                </label>
-                            )}
-                        </div>
-
-                        <div className={classesEvent["two-in-row"]}>
-
-                            <div className={classesEvent["column-in-row"]}>
-
-                                <Input
-                                    label={"Datum početka"}
-                                    type="datetime-local"
-                                    id="dateStart"
-                                    value={dateStart}
-                                    onChange={dateStartChangedHandler}
-                                    onBlur={dateStartBlurHandler}
-                                    isNotValid={dateStartInputHasError}
-                                    className={classesEvent["input-form"]}
-                                    isRequeired={true}
-                                    firstLabelColor={'#333333'}
-                                ></Input>
-                                {dateStartInputHasError && (
-                                    <label className={classes2["error-text"]}>
-                                        Nevalidan datum početka manifestacije!
-                                    </label>
-                                )}
-                            </div>
-
-                            <div className={classesEvent["column-in-row"]}>
-
-                                <Input
-                                    label={"Datum završetka"}
-                                    type="datetime-local"
-                                    id="endingDate"
-                                    value={endingDate}
-                                    onChange={endingDateChangedHandler}
-                                    onBlur={endingDateBlurHandler}
-                                    isNotValid={endingDateInputHasError}
-                                    className={classesEvent['input-form']}
-                                    isRequeired={true}
-                                    firstLabelColor={'#333333'}
-                                ></Input>
-                                {endingDateInputHasError && (
-                                    <label className={classes2["error-text"]}>
-                                        Nevalidan datum završetka manifestacije!
-                                    </label>
-                                )}
-                            </div>
-
-                        </div>
+              <div className={classesEvent["column-in-row"]}>
+                <Input
+                  label={"Datum završetka"}
+                  type="datetime-local"
+                  id="endingDate"
+                  value={endingDate}
+                  onChange={endingDateChangedHandler}
+                  onBlur={endingDateBlurHandler}
+                  isNotValid={endingDateInputHasError}
+                  className={classesEvent["input-form"]}
+                  isRequeired={true}
+                  firstLabelColor={"#333333"}
+                ></Input>
+                {endingDateInputHasError && (
+                  <label className={classes2["error-text"]}>
+                    Datum završetka manifestacije nije validan!
+                  </label>
+                )}
+              </div>
+            </div>
 
                         <div className={classesEvent["adding-inputs"]}>
                             {guestsInputFields.map((input, index) => (
@@ -415,71 +411,71 @@ const AddEventForm = () => {
                             </div>
                         </div>
 
-                        <div className={classesEvent["adding-inputs"]}>
-                            {competitorsFields.map((input, index) => (
-                                <Input
-                                    key={index}
-                                    label={`Takmičar ${index + 1}`}
-                                    type="text"
-                                    value={input}
-                                    onChange={(event) => handleCompetitorInputChange(index, event.target.value)}
-                                    className={classes["input-form"]}
-                                    firstLabelColor={'#333333'}
-                                />
-                            ))}
-                            <div className={`${classesEvent["button-add"]}`}>
-                                <button
-                                    type={"button"}
-                                    onClick={handleAddCompetitorInput}
-                                    className={`${classesEvent["plus-button"]} ${classesEvent["button-with-image"]}`}
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </div>
-                        <Input
-                            label="Kapacitet"
-                            type="number"
-                            id="capacity"
-                            value={capacity}
-                            onChange={capacityChangedHandler}
-                            onBlur={capacityBlurHandler}
-                            isNotValid={capacityInputHasError}
-                            className={classes["input-form"]}
-                            isRequeired={true}
-                            firstLabelColor={'#333333'}
-                        ></Input>
-                        {capacityInputHasError && (
-                            <label className={classes2["error-text"]}>
-                                Invalid capacity!
-                            </label>
-                        )}
-                        <div className={classesEvent["two-in-row"]}>
-
-                            <div className={classesEvent["column-in-row"]}>
-
-                                <Input
-                                    label="Cena ulaznice"
-                                    type="number"
-                                    id="ticketPrice"
-                                    value={ticketPrice}
-                                    onChange={ticketPriceChangedHandler}
-                                    firstLabelColor={'#333333'}
-                                    // className={classes["input-form"]}
-                                ></Input>
-                            </div>
-                            <div className={classesEvent["column-in-row"]}>
-                                <Input
-                                    label="URL Karte"
-                                    type="text"
-                                    id="ticketUrl"
-                                    value={ticketUrl}
-                                    onChange={ticketUrlChangedHandler}
-                                    firstLabelColor={'#333333'}
-                                    // className={classes["input-form"]}
-                                ></Input>
-                            </div>
-                        </div>
+            <div className={classesEvent["adding-inputs"]}>
+              {competitorsFields.map((input, index) => (
+                <Input
+                  key={index}
+                  label={`Takmičar ${index + 1}`}
+                  type="text"
+                  value={input}
+                  onChange={(event) =>
+                    handleCompetitorInputChange(index, event.target.value)
+                  }
+                  className={classes["input-form"]}
+                  firstLabelColor={"#333333"}
+                />
+              ))}
+              <div className={`${classesEvent["button-add"]}`}>
+                <button
+                  type={"button"}
+                  onClick={handleAddCompetitorInput}
+                  className={`${classesEvent["plus-button"]} ${classesEvent["button-with-image"]}`}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <Input
+              label="Kapacitet"
+              type="number"
+              id="capacity"
+              value={capacity}
+              onChange={capacityChangedHandler}
+              onBlur={capacityBlurHandler}
+              isNotValid={capacityInputHasError}
+              className={classes["input-form"]}
+              isRequeired={true}
+              firstLabelColor={"#333333"}
+            ></Input>
+            {capacityInputHasError && (
+              <label className={classes2["error-text"]}>
+                Kapacitet manifestacije nije validan!
+              </label>
+            )}
+            <div className={classesEvent["two-in-row"]}>
+              <div className={classesEvent["column-in-row"]}>
+                <Input
+                  label="Cena ulaznice"
+                  type="number"
+                  id="ticketPrice"
+                  value={ticketPrice}
+                  onChange={ticketPriceChangedHandler}
+                  firstLabelColor={"#333333"}
+                  // className={classes["input-form"]}
+                ></Input>
+              </div>
+              <div className={classesEvent["column-in-row"]}>
+                <Input
+                  label="URL Karte"
+                  type="text"
+                  id="ticketUrl"
+                  value={ticketUrl}
+                  onChange={ticketUrlChangedHandler}
+                  firstLabelColor={"#333333"}
+                  // className={classes["input-form"]}
+                ></Input>
+              </div>
+            </div>
 
                         <div className={classesEvent["adding-inputs"]}>
                             {sponsorInputFields.map((input, index) => (
@@ -505,50 +501,52 @@ const AddEventForm = () => {
                             </div>
                         </div>
 
-                        <div className={classesEvent["two-in-row"]}>
-                            <select
-                                value={selectedLocation}
-                                onChange={(event) => setSelectedLocation(event.target.value)}
-                                className={classesEvent["selections"]}>
-                                <option value="">Izaberi lokaciju</option>
-                                {allLocations.map((location) => (
-                                    <option key={location.id} value={location.id}>
-                                        {location.name}
-                                    </option>
-                                ))}
-                            </select>
-                            <select
-                                value={selectedCategory}
-                                onChange={(event) => setSelectedCategory(event.target.value)}
-                                className={classesEvent["selections"]}>
-                                <option value="">Izaberi kategoriju</option>
-                                {allCategories.map((category) => (
-                                    <option key={category.id} value={category.id}>
-                                        {category.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className={classesEvent["adr-and-map"]}>
-                            <div className={classesEvent["input-address"]}>
-                                <Input
-                                    label="Adresa manifestacije"
-                                    type="text"
-                                    id="address"
-                                    value={address}
-                                    onChange={addressChangedHandler}
-                                    onBlur={addressBlurHandler}
-                                    isNotValid={addressInputHasError}
-                                    className={`${classes["input-form"]}`}
-                                    isRequeired={true}
-                                    firstLabelColor={'#333333'}
-                                ></Input>
-                                {addressInputHasError && (
-                                    <label className={classes2["error-text"]}>
-                                        Invalid address!
-                                    </label>
-                                )}
-                            </div>
+            <div className={classesEvent["two-in-row"]}>
+              <select
+                value={selectedLocation}
+                onChange={(event) => setSelectedLocation(event.target.value)}
+                className={classesEvent["selections"]}
+              >
+                <option value="">Izaberi lokaciju</option>
+                {allLocations.map((location) => (
+                  <option key={location.id} value={location.id}>
+                    {location.name}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={selectedCategory}
+                onChange={(event) => setSelectedCategory(event.target.value)}
+                className={classesEvent["selections"]}
+              >
+                <option value="">Izaberi kategoriju</option>
+                {allCategories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={classesEvent["adr-and-map"]}>
+              <div className={classesEvent["input-address"]}>
+                <Input
+                  label="Adresa manifestacije"
+                  type="text"
+                  id="address"
+                  value={address}
+                  onChange={addressChangedHandler}
+                  onBlur={addressBlurHandler}
+                  isNotValid={addressInputHasError}
+                  className={`${classes["input-form"]}`}
+                  isRequeired={true}
+                  firstLabelColor={"#333333"}
+                ></Input>
+                {addressInputHasError && (
+                  <label className={classes2["error-text"]}>
+                    Uneta adresa nije validna!
+                  </label>
+                )}
+              </div>
 
                             <div className={classesEvent["map-form"]}>
                                 <p>Označite manifestaciju na mapi!</p>

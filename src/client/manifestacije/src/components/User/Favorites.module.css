@@ -42,6 +42,9 @@
    .noData{
        margin-top: 20px;
    }
+    .allEvents{
+        align-items: unset;
+    }
 }
 .eventWrapper{
     margin-bottom: 25px;

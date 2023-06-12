@@ -66,7 +66,7 @@ const LoginInput = () => {
       </div>
       <div className={classes["right-login-container"]}>
         <div className={classes["login-handler"]}>
-          <h1>Login</h1>
+          <h1>Prijavi se</h1>
           <p className={classes["dont-have-account"]}>
             Nemate nalog?{" "}
             <Link to="/register" className={classes["login-links"]}>
@@ -84,7 +84,7 @@ const LoginInput = () => {
           ></Input>
           {emailInputError && (
             <label className={classes["error-text"]}>
-              Nevalidna email adresa!
+              Uneta e-mail adresa nije validna!
             </label>
           )}
           <Input
@@ -98,7 +98,7 @@ const LoginInput = () => {
           ></Input>
           {nameInputHasError && (
             <label className={classes["error-text"]}>
-              Uneta lozinka je nevalidna!
+              Uneta lozinka nije validna!
             </label>
           )}
           <div>
@@ -121,7 +121,7 @@ const LoginInput = () => {
               className={classes["login-button"]}
               disabled={!formIsValid}
             >
-              Login
+              Prijavi se
             </Button>
           </div>
         </div>

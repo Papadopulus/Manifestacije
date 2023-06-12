@@ -41,11 +41,11 @@ function Navbar() {
   const homeIcon = isMobile ? (
     <>
       <i className="fas fa-home"></i>
-      <p className={"navbar-par"}>Home</p>
+      <p className={"navbar-par"}>Početna</p>
     </>
   ) : (
     <>
-      <i className="fa-regular fa-calendar-plus"></i>
+      {/*<i className="fa-regular fa-calendar-plus"></i>*/}
       <p className={"navbar-text-logo"}>manifestacije</p>
     </>
   );
@@ -53,16 +53,16 @@ function Navbar() {
   const aboutIcon = isMobile ? (
     <>
       <i className="fas fa-scroll"></i>
-      <p className={"navbar-par"}>About</p>
+      <p className={"navbar-par"}>O nama</p>
     </>
   ) : (
-    "About"
+    "O nama"
   );
 
   const profileIcon = isMobile ? (
     <>
       <i className="fas fa-user-circle"></i>
-      <p className={"navbar-par"}>Profile</p>
+      <p className={"navbar-par"}>Profil</p>
     </>
   ) : (
     "Profil"
@@ -71,10 +71,10 @@ function Navbar() {
   const logoutIcon = isMobile ? (
     <>
       <i className="fa-solid fa-right-from-bracket"></i>
-      <p className={"navbar-par"}>Logout</p>
+      <p className={"navbar-par"}>Odjavi se</p>
     </>
   ) : (
-    "Logout"
+    "Odjavi se"
   );
 
   return (
@@ -86,7 +86,7 @@ function Navbar() {
         <div className="menu-icon" onClick={handleClick}>
           <>
             <i className={click ? "fas fa-times" : "fas fa-bars"} />
-            <p className={"navbar-par"}>More</p>
+            <p className={"navbar-par"}>Još</p>
           </>
         </div>
         <ul className={click ? "nav-menu active" : "nav-menu"}>
@@ -95,7 +95,7 @@ function Navbar() {
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
           >
-            {isMobile && (
+            {isMobile && user && user.Roles === "Organization" && (
               <Link
                 to="/organisation/event"
                 className="nav-links"
@@ -114,7 +114,7 @@ function Navbar() {
                 className="nav-links-mobile"
                 onClick={closeMobileMenu}
               >
-                Login
+                Prijavi se
               </Link>
             </li>
           )}
@@ -125,7 +125,7 @@ function Navbar() {
                 className="nav-links-mobile-register"
                 onClick={closeMobileMenu}
               >
-                Sign Up
+                Napravi nalog
               </Link>
             </li>
           )}
@@ -158,12 +158,12 @@ function Navbar() {
         </Link>
         {!user && !isMobile && (
           <Button className={"nav-login-button"} to={"/login"}>
-            Login
+            Prijavi se
           </Button>
         )}
         {!user && !isMobile && (
           <Button className={"nav-register-button"} to={"/register"}>
-            Sign in
+            Napravi nalog
           </Button>
         )}
         {isMobile
@@ -180,7 +180,7 @@ function Navbar() {
             )
           : user && (
               <Button onClick={logout} to={"/login"} className={"nav-button"}>
-                Logout
+                Odjavi se
               </Button>
             )}
       </nav>
