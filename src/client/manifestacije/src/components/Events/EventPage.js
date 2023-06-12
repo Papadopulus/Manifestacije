@@ -83,6 +83,9 @@ function EventPage() {
     return <span {...other}>{customIcons[value].icon}</span>;
   }
   const loadFavourites = async () => {
+    if (user) {
+      await checkTokenAndRefresh();
+    }
     let header = {
       Authorization: `Bearer ${
         JSON.parse(localStorage.getItem("tokens")).token
@@ -278,7 +281,6 @@ function EventPage() {
     }
   };
   //console.log(event.startingDate);
-  console.log(images);
   return (
     <>
       {notLoggedIn && <NotLoggedIn cancel={setNotLoggedIn}></NotLoggedIn>}
@@ -449,7 +451,12 @@ function EventPage() {
               </div>
             </div>
           </div>
-          <Gallery galleryImages={images}></Gallery>
+          <div className={classes.gallery}>
+            <h1 className={classes.descriptionTitle}>Galerija</h1>
+            <div className={classes.galleryWrapper}>
+              <Gallery imgUrls={event.imageUrls}></Gallery>
+            </div>
+          </div>
           <div className={classes.partners}>
             <h1 className={classes.descriptionTitle}>Parnteri</h1>
             <div className={classes.partnersWrapper}>
