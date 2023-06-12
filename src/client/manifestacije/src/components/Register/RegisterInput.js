@@ -153,7 +153,7 @@ const RegisterInput = () => {
     confirmPasswordIsValid
   ) {
     if (isOrganisator) {
-      if (enteredNameOrgIsValid) {
+      if (enteredNameOrgIsValid && images.length!==0) {
         registrationNotValid = false;
       } else registrationNotValid = true;
     } else {
@@ -170,10 +170,11 @@ const RegisterInput = () => {
       !enteredSurnameIsValid ||
       !enteredEmailIsValid ||
       !enteredPasswordIsValid ||
-      !confirmPasswordIsValid
+      !confirmPasswordIsValid 
     ) {
       if (isOrganisator) {
-        if (!enteredNameOrgIsValid) {
+        
+        if (!enteredNameOrgIsValid || images.length===0 ) {
           return;
         }
       }
@@ -185,7 +186,7 @@ const RegisterInput = () => {
       formData.append("imageRequest", image);
     });
     const imgResponse = await axios.post(
-      "https://localhost:7085/Image/onlyfiles",
+      `${process.env.REACT_APP_IMAGE_URL}/Image/onlyfiles`,
       formData,
       {
         headers: {

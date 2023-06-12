@@ -15,7 +15,7 @@ const ViewPartnerBox = ({ message, onCancel,wholeData }) => {
                 <p> Phone: { wholeData.phoneNumber}</p>
                 <p> Added on: {formattedDate}</p>
                 <div className={classes["buttons"]}>
-                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>Cancel</button>
+                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>Zatvori</button>
                 </div>
             </div>
         </>

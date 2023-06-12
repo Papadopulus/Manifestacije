@@ -85,14 +85,14 @@ const UsersList = () => {
         <>
             {deleteUser && (
                 <UserDeleteBox
-                    message={`Are you sure you want to delete ${deleteUser.firstName} ${deleteUser.lastName} ${deleteUser.id}?`}
+                    message={`Da li ste sigurni da zelite da obrisete korisnika ${deleteUser.firstName} ${deleteUser.lastName}?`}
                     onConfirm={handleDeleteUser}
                     onCancel={handleCancelDeleteUser}
                 />
             )}
             {editUser && (
                 <EditUserBox
-                    message={`Confirm edits for the User ${editUser.firstName} ${editUser.lastName} ?`}
+                    message={`Da li ste sigurni da zelite da izmenite korisnika ${editUser.firstName} ${editUser.lastName} ?`}
                     onConfirm={handleEditUser}
                     onCancel={handleCancelEditUser}
                     name={editUser.firstName}
@@ -101,7 +101,7 @@ const UsersList = () => {
             )}
             {viewUser && (
                 <ViewUserBox
-                    message={`User information`}
+                    message={`Informacije o korisniku`}
                     // onConfirm={handleViewUser}
                     onCancel={handleCancelViewUser}
                     wholeUser={viewUser}

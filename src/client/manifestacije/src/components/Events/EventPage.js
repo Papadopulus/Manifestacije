@@ -27,6 +27,9 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LanguageIcon from "@mui/icons-material/Language";
+import TextArea from "../UI/TextArea/TextArea";
+import classes2 from "../Register/RegisterInput.module.css";
+import useInput from "../../hooks/use-input";
 
 function EventPage() {
   const { id } = useParams();
@@ -55,6 +58,7 @@ function EventPage() {
   IconContainer.propTypes = {
     value: PropTypes.number.isRequired,
   };
+  
 
   const customIcons = {
     1: {
@@ -93,7 +97,7 @@ function EventPage() {
     };
     try {
       const hasFavouritesResponse = await axios.get(
-        `https://localhost:7237/users/${user.Id}/favourites`,
+        `${process.env.REACT_APP_BASE_URL}/users/${user.Id}/favourites`,
         { headers: header }
       );
       setHasFavourites(hasFavouritesResponse.data);
@@ -105,7 +109,7 @@ function EventPage() {
   const loadOrganizator = async () => {
     try {
       const orgResponse = await axios.get(
-        `https://localhost:7237/organizations/${event.organization.id}`
+        `${process.env.REACT_APP_BASE_URL}/organizations/${event.organization.id}`
       );
       setOrganizator(orgResponse.data);
       loadOrgLogo(orgResponse.data.logoUrl);
@@ -149,7 +153,7 @@ function EventPage() {
   const loadImage = async (imageUrl) => {
     try {
       const imageResponse = await axios.get(
-        `https://localhost:7085/Image/${imageUrl}`,
+        `${process.env.REACT_APP_IMAGE_URL}/Image/${imageUrl}`,
         { responseType: "blob" }
       );
       const reader = new FileReader();
@@ -164,7 +168,7 @@ function EventPage() {
   const loadOrgLogo = async (imageUrl) => {
     try {
       const imageResponse = await axios.get(
-        `https://localhost:7085/Image/${imageUrl}`,
+        `${process.env.REACT_APP_IMAGE_URL}/Image/${imageUrl}`,
         { responseType: "blob" }
       );
       const reader = new FileReader();
@@ -267,12 +271,12 @@ function EventPage() {
       try {
         if (isFavorite) {
           await axios.delete(
-            `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
+            `${process.env.REACT_APP_BASE_URL}/users/${user.Id}/events/${event.id}/favourites`,
             { headers: header }
           );
         } else {
           await axios.post(
-            `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
+            `${process.env.REACT_APP_BASE_URL}/users/${user.Id}/events/${event.id}/favourites`,
             null,
             { headers: header }
           );
@@ -458,7 +462,7 @@ function EventPage() {
           <div className={classes.gallery}>
             <h1 className={classes.descriptionTitle}>Galerija</h1>
             <div className={classes.galleryWrapper}>
-              <Gallery imgUrls={event.imageUrls}></Gallery>
+              {event && <Gallery imgUrls={event.imageUrls}></Gallery>}
             </div>
           </div>
           <div className={classes.partners}>
@@ -554,7 +558,6 @@ function EventPage() {
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
-
               <Button
                 onClick={handleSubmit}
                 className={classes["ticketButton"]}

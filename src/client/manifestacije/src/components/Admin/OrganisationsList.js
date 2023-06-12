@@ -73,14 +73,14 @@ const CategoriesList = () => {
         <>
             {organisationDelete && (
                 <UserDeleteBox
-                    message={"Are you sure you want to delete this Organisation?"}
+                    message={"Da li ste sigurni da zelite da obrisete ovu organizaciju?"}
                     onConfirm={handleDeleteOrganisation}
                     onCancel={cancelHandleDelete}
                 />
             )}
             {organisationEdit && (
                 <EditOrgBox
-                    message={"Are your sure u want to edit this Organisation?"}
+                    message={"Da li ste sigurni da zelite da promenite organizaciju?"}
                     // onConfirm={handleEditOrganisation}
                     onCancel={cancelHandleEdit}
                     desc={organisationEdit.description}
@@ -99,7 +99,7 @@ const CategoriesList = () => {
             )}
             {organisationView && (
                 <ViewBoxOrg
-                    message={"Organisation information"}
+                    message={"Informacije o organizaciji"}
                     onCancel={cancelHandleView}
                     wholeData={organisationView}
                 />
@@ -108,7 +108,7 @@ const CategoriesList = () => {
                 <table className={"onlyNameTable"}>
                     <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Ime</th>
                     </tr>
                     </thead>
                     <tbody>

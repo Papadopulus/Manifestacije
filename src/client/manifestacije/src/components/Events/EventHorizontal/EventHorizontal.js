@@ -15,7 +15,7 @@ const EventHorizontal = ({ event, user, setEvents, edit }) => {
   const loadImage = async () => {
     try {
       const imageResponse = await axios.get(
-        `https://localhost:7085/Image/${event.imageUrls[0]}`,
+        `${process.env.REACT_APP_IMAGE_URL}/Image/${event.imageUrls[0]}`,
         { responseType: "blob" }
       );
       const reader = new FileReader();
@@ -36,7 +36,7 @@ const EventHorizontal = ({ event, user, setEvents, edit }) => {
     };
     try {
       await axios.delete(
-        `https://localhost:7237/users/${user.Id}/events/${event.id}/favourites`,
+        `${process.env.REACT_APP_BASE_URL}/users/${user.Id}/events/${event.id}/favourites`,
         { headers: header }
       );
       if (setEvents) {
@@ -89,7 +89,7 @@ const EventHorizontal = ({ event, user, setEvents, edit }) => {
           <FavoriteOutlinedIcon sx={{ fontSize: 40 }} />
         )}
         {showFavoritesInfo && !edit && (
-          <div className={classes.favoritesInfo}>Remove from favorites!</div>
+          <div className={classes.favoritesInfo}>Ukloni iz omiljenih</div>
         )}
       </div>
 

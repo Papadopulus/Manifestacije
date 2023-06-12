@@ -15,7 +15,7 @@ const EditOrgBox = (props) => {
     const loadImage = async () => {
         try {
             const imageResponse = await axios.get(
-                `https://localhost:7085/Image/${props.logo}`,
+                `${process.env.REACT_APP_IMAGE_URL}/Image/${props.logo}`,
                 { responseType: "blob" }
             );
             const reader = new FileReader();
@@ -112,7 +112,7 @@ const EditOrgBox = (props) => {
             formData.append("imageRequest", image);
         });
         const imgResponse = await axios.post(
-            "https://localhost:7085/Image/onlyfiles",
+            `${process.env.REACT_APP_IMAGE_URL}/Image/onlyfiles`,
             formData,
             {
                 headers: {
@@ -150,7 +150,7 @@ const EditOrgBox = (props) => {
             <div className={classes["custom-dialog-box"]}>
                 <p>{props.message}</p>
                 <TextArea
-                    label={"Description"}
+                    label={"Opis"}
                     id="descOrg"
                     value={desc}
                     onChange={descOrgChangeHandler}
@@ -165,7 +165,7 @@ const EditOrgBox = (props) => {
                 {/*></Input>*/}
 
                 <div className={classes["upload-div"]}>
-                    <p className={classes["upload-logo"]}>Upload your logo here</p>
+                    <p className={classes["upload-logo"]}>Unesite sliku logoa ovde</p>
 
                     <div className={`${classes["choose-file"]}`}>
                         <label className={classes["choose-file-label"]}>
@@ -192,7 +192,7 @@ const EditOrgBox = (props) => {
                 </div>
 
                 <Input
-                    label={"Website URL"}
+                    label={"Website link"}
                     type="text"
                     id="websiteUrlOrg"
                     value={websiteUrl}
@@ -240,8 +240,8 @@ const EditOrgBox = (props) => {
                     onChange={linkedinOrgChangeHandler}
                 ></Input>
                 <div className={classes["buttons"]}>
-                    <button className={`${classes.btn} ${classes["button-confirm"]}`} onClick={handleEditOrganisation}>Yes</button>
-                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={props.onCancel}>No</button>
+                    <button className={`${classes.btn} ${classes["button-confirm"]}`} onClick={handleEditOrganisation}>Prihvati</button>
+                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={props.onCancel}>Odbaci</button>
                 </div>
             </div>
         </>

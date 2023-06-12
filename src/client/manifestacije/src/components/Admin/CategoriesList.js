@@ -98,14 +98,14 @@ const CategoriesList = () => {
         <>
             {categoryDelete && (
                 <UserDeleteBox
-                    message={"Are you sure you want to delete this category?"}
+                    message={"Da li ste sigurni da zelite da obrisete kategoriju?"}
                     onConfirm={handleDeleteCategory}
                     onCancel={cancelHandleDelete}
                 />
             )}
             {categoryEdit && (
                 <EditNameBox
-                    message={"Are your sure u want to edit this category?"}
+                    message={"Da li ste sigurni da zelite da izmenite kategoriju?"}
                     onConfirm={handleEditCategory}
                     onCancel={cancelHandleEdit}
                     name={categoryEdit.name}
@@ -113,28 +113,37 @@ const CategoriesList = () => {
             )}
             {categoryView && (
                 <ViewBox
-                    message={"Category information"}
+                    message={"Informacije o kategoriji"}
                     onCancel={cancelHandleView}
                     wholeData={categoryView}
                 />
             )}
             {categoryAdd && (
                 <EditNameBox
-                    message={"Are your sure u want to add this category?"}
+                    message={"Da li ste sigurni da zelite da dodate kategoriju?"}
                     onCancel={cancelHandleAdd}
                     onConfirm={handleAddCategory}
+                    fromAdd={true}
                 />   
             )}
             {/*<div>*/}
-            <div>
-                <IconButton onClick={() => confirmAdd(1)}>
-                    <AddCircleOutlineIcon sx={{ fontSize: 31 }}></AddCircleOutlineIcon>
-                </IconButton>
+            {/*<div>*/}
+            {/*    <IconButton onClick={() => confirmAdd(1)}>*/}
+            {/*        <AddCircleOutlineIcon sx={{ fontSize: 31 }}></AddCircleOutlineIcon>*/}
+            {/*    </IconButton>*/}
+            {/*</div>*/}
+            <div className={"addItemDiv"}>
+                {/*<IconButton onClick={() => confirmAdd(1)}>*/}
+                {/*    <AddCircleOutlineIcon sx={{ fontSize: 31 }}></AddCircleOutlineIcon>*/}
+                {/*</IconButton>*/}
+                <button className={"addAnItem"} onClick={() => confirmAdd(1)}>
+                    Dodaj kategoriju
+                </button>
             </div>
                 <table className={"onlyNameTable"}>
                     <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Ime</th>
                     </tr>
                     </thead>
                     <tbody>

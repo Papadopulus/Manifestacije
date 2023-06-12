@@ -42,7 +42,7 @@ const PasswordReset = () => {
         token: decodedToken,
         password: enteredPassword,
       };
-      await axios.post(`https://localhost:7237/reset-password`, payload);
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/reset-password`, payload);
     } catch (error) {
       console.error("Error performing reset password:", error);
     }

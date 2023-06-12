@@ -65,13 +65,7 @@ const EditPartnerBox = ({message, onConfirm, onCancel, partName, phoneNumber, Tr
         isTransport: isTransport,
         isAccommodation: isAccommodation
     }
-    if (fromAdd) {
-        payload = {
-            ...payload,
-            email: email,
-            url: url
-        };
-    }
+    
     // console.log(payload);
     return (
         <>
@@ -89,7 +83,7 @@ const EditPartnerBox = ({message, onConfirm, onCancel, partName, phoneNumber, Tr
                 ></Input>
                 {NameError && (
                     <label className={classes["error-text"]}>
-                        must enter a name!
+                        Unesite ime!
                     </label>
                 )}
                 <Input
@@ -103,7 +97,7 @@ const EditPartnerBox = ({message, onConfirm, onCancel, partName, phoneNumber, Tr
                 ></Input>
                 {surnameError && (
                     <label className={classes["error-text"]}>
-                        must enter a surname!
+                        Unesite prezime!
                     </label>
                 )}
                 {fromAdd &&
@@ -119,7 +113,7 @@ const EditPartnerBox = ({message, onConfirm, onCancel, partName, phoneNumber, Tr
                             />
                             {emailError && (
                                 <label className={classes["error-text"]}>
-                                    Please enter a valid email address.
+                                    Unesite validnu e-mail adresu!
                                 </label>
                             )}
                             <Input
@@ -133,7 +127,7 @@ const EditPartnerBox = ({message, onConfirm, onCancel, partName, phoneNumber, Tr
                             />
                             {urlError && (
                                 <label className={classes["error-text"]}>
-                                    Please enter a valid URL.
+                                    Unesite validnu URL adresu!
                                 </label>
                             )}
                         </div>
@@ -141,7 +135,7 @@ const EditPartnerBox = ({message, onConfirm, onCancel, partName, phoneNumber, Tr
                 }
                 <div className={classes["check-div"]}>
                     <div className={classes.checkBoxDiv}>
-                        <label>Set as Accomodation partner</label>
+                        <label>Postavite partnera za smestaj</label>
                         <input
                             className={classes["accomodation-check"]}
                             type={"checkbox"}
@@ -150,7 +144,7 @@ const EditPartnerBox = ({message, onConfirm, onCancel, partName, phoneNumber, Tr
                         />
                     </div>
                     <div className={classes.checkBoxDiv}>
-                        <label>Set as Transport partner</label>
+                        <label>Postavi partnera za transport</label>
                         <input
                             className={classes["transport-check"]}
                             type={"checkbox"}
@@ -177,10 +171,17 @@ const EditPartnerBox = ({message, onConfirm, onCancel, partName, phoneNumber, Tr
                                     }
                                     return;
                                 }
+                                if (fromAdd) {
+                                    payload = {
+                                        ...payload,
+                                        email: email,
+                                        url: url
+                                    };
+                                }
                                 onConfirm(payload)
-                            }} disabled={!formIsValid}>Yes
+                            }} disabled={!formIsValid}>{fromAdd ? "Dodaj" : "Izmeni"}
                     </button>
-                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>No</button>
+                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>Odbaci</button>
                 </div>
             </div>
         </>

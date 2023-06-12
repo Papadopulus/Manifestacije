@@ -38,7 +38,7 @@ const Gallery = (props) => {
       const images = await Promise.all(
         imageUrls.map(async (imageUrl) => {
           const imageResponse = await axios.get(
-            `https://localhost:7085/Image/${imageUrl}`,
+            `${process.env.REACT_APP_IMAGE_URL}/Image/${imageUrl}`,
             { responseType: "blob" }
           );
           const reader = new FileReader();

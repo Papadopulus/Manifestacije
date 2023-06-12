@@ -42,7 +42,7 @@ const EditUserBox = ({ message, onConfirm ,onCancel,name ,surname}) => {
             <div className={classes["custom-dialog-box"]}>
                 <p>{message}</p>
                 <Input
-                    label={"Change name"}
+                    label={"Promeni ime"}
                     type="text"
                     id="nameChange"
                     value={nameChange}
@@ -52,11 +52,11 @@ const EditUserBox = ({ message, onConfirm ,onCancel,name ,surname}) => {
                 ></Input>
                 {NameError && (
                     <label className={classes["error-text"]}>
-                        must enter a name!
+                        Unesite ime!
                     </label>
                 )}
                 <Input
-                    label={"Change surname"}
+                    label={"Promeni prezime"}
                     type="text"
                     id="surnameChange"
                     value={surnameChange}
@@ -66,7 +66,7 @@ const EditUserBox = ({ message, onConfirm ,onCancel,name ,surname}) => {
                 ></Input>
                 {surnameError && (
                     <label className={classes["error-text"]}>
-                        must enter a surname!
+                        Unesite prezime!
                     </label>
                 )}
                 <div className={classes["buttons"]}>
@@ -78,10 +78,10 @@ const EditUserBox = ({ message, onConfirm ,onCancel,name ,surname}) => {
                                 }
                         onConfirm(payload)
                     }} disabled={!formIsValid}>
-                        Yes
+                        Prihvati
                     </button>
                     
-                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>No</button>
+                    <button className={`${classes.btn} ${classes["button-discard"]}`} onClick={onCancel}>Odbaci</button>
                 </div>
             </div>
         </>
