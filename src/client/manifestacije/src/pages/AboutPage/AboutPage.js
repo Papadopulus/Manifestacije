@@ -14,8 +14,8 @@ const AboutPage = () => {
       <div className={classes.container}>
         <div className={classes.leftSecond}>
           manifestacije portal omogućavaju lako pronalaženje i učestvovanje u
-          različitim kulturnim aktivnostima i na taj način bolje upoznaju bogatu
-          kulturu Srbije. Uz našu aplikaciju, korisnici će uvek biti u toku sa
+          različitim kulturnim aktivnostima i na taj način bolje upoznavanje bogate
+          kulture Srbije. Uz našu aplikaciju, korisnici će uvek biti u toku sa
           najnovijim kulturnim događajima u Srbiji.
         </div>
         <div className={classes.rightSecond}></div>
