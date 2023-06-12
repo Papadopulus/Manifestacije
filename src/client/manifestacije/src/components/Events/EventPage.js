@@ -200,7 +200,9 @@ function EventPage() {
   useEffect(() => {
     if (shouldFav.current) {
       shouldFav.current = false;
-      loadFavourites();
+      if (user) {
+        loadFavourites();
+      }
     }
     return () => {
       shouldFav.current = false;
