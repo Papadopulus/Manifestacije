@@ -71,7 +71,7 @@ const PasswordReset = () => {
           ></Input>
           {passwordError && (
             <label className={classes["error-text"]}>
-              Lozinka nije validna!
+              Uneta lozinka nije validna!
             </label>
           )}
 

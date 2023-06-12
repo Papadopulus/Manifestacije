@@ -63,7 +63,9 @@ const ChangePassword = (props) => {
         className={classes["input-form"]}
       ></Input>
       {passwordError && (
-        <label className={classes["error-text"]}>Lozinka nije validna!</label>
+        <label className={classes["error-text"]}>
+          Uneta lozinka nije validna!
+        </label>
       )}
       <Input
         label={"Potvrdite lozinku"}

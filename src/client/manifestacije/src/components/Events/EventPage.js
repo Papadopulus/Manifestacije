@@ -216,22 +216,24 @@ function EventPage() {
 
   useEffect(() => {
     // Provera da li je trenutni događaj u favoritima korisnika
-    if (user) {
-      let checker = false;
-      /*console.log(event.title + event.id);*/
-      hasFavourites.map((favourite) => {
-        if (favourite.id === event.id) {
+    if (eventLoaded) {
+      if (user) {
+        let checker = false;
+        /*console.log(event.title + event.id);*/
+        hasFavourites.map((favourite) => {
+          if (favourite.id === event.id) {
+            setIsFavorite(true);
+            checker = true;
+          } else {
+            setIsFavorite(false);
+          }
+        });
+        if (checker === true) {
           setIsFavorite(true);
-          checker = true;
-        } else {
-          setIsFavorite(false);
         }
-      });
-      if (checker === true) {
-        setIsFavorite(true);
       }
     }
-  }, [user, id, hasFavourites]);
+  }, [user, id, hasFavourites, eventLoaded]);
 
   if (!event) {
     return (

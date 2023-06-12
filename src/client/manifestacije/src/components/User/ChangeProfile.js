@@ -13,7 +13,7 @@ const ChangeProfile = (props) => {
     valueChangedHandler: nameChangedHandler,
     inputBlurHandler: nameBlurHandler,
     resetFunction: resetNameFunction,
-  } = useInput((value) => value.trim() !== "",props.name);
+  } = useInput((value) => value.trim() !== "", props.name);
 
   const {
     value: enteredSurname,
@@ -22,7 +22,7 @@ const ChangeProfile = (props) => {
     valueChangedHandler: surnameChangedHandler,
     inputBlurHandler: surnameBlurHandler,
     resetFunction: resetSurnameFunction,
-  } = useInput((value) => value.trim() !== "",props.surname);
+  } = useInput((value) => value.trim() !== "", props.surname);
 
   let formIsValid = false;
   if (enteredNameIsValid && enteredSurnameIsValid) {
@@ -59,17 +59,19 @@ const ChangeProfile = (props) => {
       <form onSubmit={formSubmissionHandler}>
         <p className={classes["main-text"]}>Izmeni profil</p>
         <Input
-            label={"Novo ime"}
-            type="text"
-            id="name"
-            value={enteredName}
-            onChange={nameChangedHandler}
-            onBlur={nameBlurHandler}
-            isNotValid={nameInputHasError}
-            className={classes["input-form"]}
+          label={"Novo ime"}
+          type="text"
+          id="name"
+          value={enteredName}
+          onChange={nameChangedHandler}
+          onBlur={nameBlurHandler}
+          isNotValid={nameInputHasError}
+          className={classes["input-form"]}
         ></Input>
         {nameInputHasError && (
-          <label className={classes["error-text"]}>Invalid name!</label>
+          <label className={classes["error-text"]}>
+            Uneto ime nije validno!
+          </label>
         )}
         <Input
           label={"Novo prezime"}
@@ -82,14 +84,16 @@ const ChangeProfile = (props) => {
           className={classes["input-form"]}
         ></Input>
         {surnameInputHasError && (
-          <label className={classes["error-text"]}>Invalid surname!</label>
+          <label className={classes["error-text"]}>
+            Uneto prezime nije validno!
+          </label>
         )}
         <Button
           type={"submit"}
           className={classes["login-button"]}
           disabled={!formIsValid}
         >
-          Update
+          Izmeni
         </Button>
       </form>
     </>

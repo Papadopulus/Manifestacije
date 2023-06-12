@@ -193,7 +193,6 @@ const RegisterInput = () => {
         },
       }
     );
-    
 
     let payload = {
       firstName: enteredName,
@@ -241,12 +240,12 @@ const RegisterInput = () => {
 
       <div className={classes["right-register-container"]}>
         <div className={classes["register-handler"]}>
-          <h1 className={classes["main-sign"]}>Sign up</h1>
+          <h1 className={classes["main-sign"]}>Napravi nalog</h1>
 
           <p className={classes["already-have-account"]}>
             Već imate nalog?{" "}
             <Link to="/login" className={classes["register-links"]}>
-              Login
+              Prijavi se
             </Link>
           </p>
 
@@ -261,7 +260,7 @@ const RegisterInput = () => {
             isRequeired={true}
           ></Input>
           {nameError && (
-            <label className={classes["error-text"]}>Name required!</label>
+            <label className={classes["error-text"]}>Ime je obavezno!</label>
           )}
 
           <Input
@@ -275,7 +274,9 @@ const RegisterInput = () => {
             isRequeired={true}
           ></Input>
           {surnameError && (
-            <label className={classes["error-text"]}>Surname required!</label>
+            <label className={classes["error-text"]}>
+              Prezime je obavezno!
+            </label>
           )}
 
           <Input
@@ -290,7 +291,7 @@ const RegisterInput = () => {
           ></Input>
           {emailError && (
             <label className={classes["error-text"]}>
-              Invalid email address!
+              Uneta e-mail adresa nije validna!
             </label>
           )}
 
@@ -306,7 +307,7 @@ const RegisterInput = () => {
           ></Input>
           {passwordError && (
             <label className={classes["error-text"]}>
-              Please enter a valid password!
+              Uneta lozinka nije validna!
             </label>
           )}
 
