@@ -66,9 +66,9 @@ const LoginInput = () => {
         <div className={classes["login-handler"]}>
           <h1>Login</h1>
           <p className={classes["dont-have-account"]}>
-            Don't have an account?{" "}
+            Nemate nalog?{" "}
             <Link to="/register" className={classes["login-links"]}>
-              Create an account
+              Napravi nalog
             </Link>
           </p>
           <Input
@@ -82,11 +82,11 @@ const LoginInput = () => {
           ></Input>
           {emailInputError && (
             <label className={classes["error-text"]}>
-              Invalid email address!
+              Nevalidna email adresa!
             </label>
           )}
           <Input
-            label={"Password"}
+            label={"Lozinka"}
             type="password"
             id="password"
             value={enteredName}
@@ -96,7 +96,7 @@ const LoginInput = () => {
           ></Input>
           {nameInputHasError && (
             <label className={classes["error-text"]}>
-              Password must be at least 8 characters!
+              Uneta lozinka je nevalidna!
             </label>
           )}
           <div>
@@ -109,7 +109,7 @@ const LoginInput = () => {
           <div>
             <label>
               <Link to="/resetRequest" className={classes["login-links"]}>
-                Forgot your password?
+                Zaboravili ste lozinku?
               </Link>
             </label>
           </div>

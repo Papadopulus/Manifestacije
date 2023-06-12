@@ -31,14 +31,16 @@ const Countdown = ({ targetDate }) => {
   });
 
   return (
-    <div className="countdown">
-      {Object.keys(timeLeft).map((interval, index) => (
-        <div key={index}>
-          {timeLeft[interval]} {interval}
-        </div>
-      ))}
-    </div>
+      <div className="countdown">
+        {Object.keys(timeLeft).map((interval) => (
+            <div key={interval}>
+              <span>{timeLeft[interval]}</span>
+              <span className="label">{interval}</span>
+            </div>
+        ))}
+      </div>
   );
+
 };
 
 export default Countdown;
