@@ -11,6 +11,7 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Button from "../UI/Button/Button";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import DialogBoxHandle from "./DialogBoxHandle";
 
 const useStyles = makeStyles({
   uploadIcon: {
@@ -25,7 +26,17 @@ function EditMyEvent() {
   const [competitorsFields, setCompetitorsFields] = useState([""]);
   const [marker, setMarker] = useState(null);
   const [images, setImages] = useState([]);
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState({ imageUrls: [] });
+  
+  const[ceoNizZaSlanje,setCeoNizZaSlanje] = useState([]);
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageURL, setSelectedImageURL] = useState(null);
+
+  const [messageForBox,setMessageForBox] = useState(null);
+  const [showDialog,setShowDialog] = useState(null);
+  
+
 
   const shouldLog = useRef(true);
   const getEvent = async () => {
@@ -71,7 +82,52 @@ function EditMyEvent() {
       lat: responseEvent.data.latitude,
       lng: responseEvent.data.longitude,
     });
+    setCeoNizZaSlanje(responseEvent.data.imageUrls);
+    loadImages(responseEvent.data.imageUrls);
+    
   };
+  // console.log("ovo su slike koje su stigle za ovaj event")
+  // console.log(events.imageUrls);
+  // console.log("ovo su slike koje se mapiraju ");
+  // console.log(images);
+  const loadImages = async (imageUrls) => {
+    try {
+        const images = await Promise.all(imageUrls.map(async (imageUrl) => {
+          const imageResponse = await axios.get(
+              `https://localhost:7085/Image/${imageUrl}`,
+              {responseType: "blob"}
+          );
+          const reader = new FileReader();
+          reader.readAsDataURL(imageResponse.data);
+          return new Promise((resolve, reject) => {
+            reader.onloadend = function () {
+              resolve(reader.result);
+            };
+            reader.onerror = reject;
+          });
+        }));
+      setImages(images);
+    } catch (error) {
+      console.error("Error retrieving the images:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedImage) {
+      const imageUrl = URL.createObjectURL(selectedImage);
+      setSelectedImageURL(imageUrl);
+      // console.log(imageUrl);
+    }
+  }, [selectedImage]);
+
+  useEffect(() => {
+    return () => {
+      if (selectedImageURL) {
+        URL.revokeObjectURL(selectedImageURL);
+      }
+    };
+  }, [selectedImageURL]);
+  // console.log(marker);
   useEffect(() => {
     if (shouldLog.current) {
       shouldLog.current = false;
@@ -203,12 +259,24 @@ function EditMyEvent() {
   const resetSponsorList = () => {
     setSponsorInputFields([""]);
   };
+  const cancelDialogHandle = () => {
+    setShowDialog(null);
+  }
 
   const handleInputChange = (index, value) => {
     const updatedInputFields = [...sponsorInputFields];
     updatedInputFields[index] = value;
     setSponsorInputFields(updatedInputFields);
   };
+  // console.log(images);
+  const handleImageRemove = (urlToRemove, indexToRemove) => {
+    setCeoNizZaSlanje(ceoNizZaSlanje.filter(url => url !== urlToRemove));
+    setImages(prevImages => prevImages.filter((_, index) => index !== indexToRemove));
+  };
+  useEffect(() => {
+    console.log(ceoNizZaSlanje);
+    console.log(images);
+  }, [ceoNizZaSlanje, images]);
   const formSubmissionHandler = async (event) => {
     event.preventDefault();
     await checkTokenAndRefresh();
@@ -240,8 +308,14 @@ function EditMyEvent() {
     let convertedDateEnd = dateTimeMilliSecondsEnd.toISOString();
 
     const formData = new FormData();
-    images.forEach((image) => {
-      formData.append("imageRequest", image);
+    images.forEach((image, index) => {
+      if (typeof image === "string") {
+        // Old image, already on the server
+        formData.append("imageRequest", events.imageUrls[index]);
+      } else {
+        // New image, needs to be uploaded
+        formData.append("imageRequest", image);
+      }
     });
     const imgResponse = await axios.post(
       "https://localhost:7085/Image/onlyfiles",
@@ -252,12 +326,21 @@ function EditMyEvent() {
         },
       }
     );
+   
+    // console.log("nakon post za only files da se gurnu na srv");
+    // await setCeoNizZaSlanje(prevState => [...prevState,...imgResponse.data]);
+    console.log("this is what will be sent ");
+    console.log([...ceoNizZaSlanje,...imgResponse.data]);
+    setCeoNizZaSlanje(prevState => [...prevState,...imgResponse.data]);
+    
+    
+    // console.log(imgResponse.data.push(ceoNizZaSlanje));
     let payload = {
       title: title,
       description: description,
       startingDate: convertedDateStart,
       endingDate: convertedDateEnd,
-      imageUrls: imgResponse.data,
+      imageUrls: [...ceoNizZaSlanje,...imgResponse.data],
       guests: guestsInputFields,
       competitors: competitorsFields,
       capacity: capacity,
@@ -268,18 +351,31 @@ function EditMyEvent() {
       latitude: marker.lat,
       longitude: marker.lng,
     };
+    console.log(payload);
 
     let header = {
       Authorization: `Bearer ${
         JSON.parse(localStorage.getItem("tokens")).token
       }`,
     };
-    const response = await axios.put(
-      `${process.env.REACT_APP_BASE_URL}/events/${events.id}`,
-      payload,
-      { headers: header }
-    );
-    console.log(response);
+    try {
+      const response = await axios.put(
+          `${process.env.REACT_APP_BASE_URL}/events/${events.id}`,
+          payload,
+          { headers: header }
+      );
+      if (response.status === 200) { 
+        setMessageForBox("Uspesno ste izmenili manifestaciju!");
+      }
+      console.log(response);
+    }
+    catch (e){
+      setMessageForBox("Podaci koje ste uneli nisu validni!")
+    }
+    finally {
+      setShowDialog(true);
+    }
+    
 
     /*resetTitleFunction();
     resetDateStartFunction();
@@ -301,12 +397,17 @@ function EditMyEvent() {
   return (
     <>
       <div className={classesEvent["div-container"]}>
+        {showDialog && (
+            <DialogBoxHandle onCancel={cancelDialogHandle}>
+              <p>{messageForBox}</p>
+            </DialogBoxHandle>
+        )}
         <form
           className={classesEvent["forma-event"]}
           onSubmit={formSubmissionHandler}
         >
           <div className={classesEvent["right-side-form"]}>
-            <p className={"main-text"}>Dodaj manifestaciju!</p>
+            <p className={"main-text"}>Izmeni manifestaciju!</p>
             <Input
               label={"Naslov"}
               type="text"
@@ -524,7 +625,7 @@ function EditMyEvent() {
 
               <div className={classesEvent["map-form"]}>
                 <p>Označite manifestaciju na mapi!</p>
-                <Map setMarker={setMarker} />
+                {marker && <Map marker={marker} setMarker={setMarker}/>}
               </div>
             </div>
             <p className={classesEvent["upload-pictures"]}>Dodaj fotografiju</p>
@@ -537,29 +638,42 @@ function EditMyEvent() {
                     type={"file"}
                     multiple
                     onChange={async (event) => {
-                      // const files = Array.from(event.target.files);
-                      // setImages(files);
-                      const files = Array.from(event.target.files); // Convert the FileList to an array
-
-                      // Validate if files are selected
+                      const files = Array.from(event.target.files);
                       if (files.length > 0) {
-                        setImages(files);
+                        setImages(oldImages => [...oldImages, ...files]);
                       }
                     }}
+
                   />
                 </label>
               </div>
               <div className={classesEvent["image-preview-container"]}>
                 {images.map((image, index) => (
-                  <div className={classesEvent["image-div"]} key={index}>
-                    {image instanceof Blob || image instanceof File ? (
-                      <img
-                        className={classesEvent["img"]}
-                        src={URL.createObjectURL(image)}
-                        alt={`Image ${index + 1}`}
-                      />
+                  <div className={classesEvent["image-div"]} 
+                       key={index}
+                       // onClick={() => handleImageRemove(typeof image === "string" ? image : URL.createObjectURL(image), index)}
+                  >
+                    {/*{image instanceof Blob || image instanceof File ? (*/}
+                    {/*  <img*/}
+                    {/*    className={classesEvent["img"]}*/}
+                    {/*    src={URL.createObjectURL(image)}*/}
+                    {/*    alt={`Image ${index + 1}`}*/}
+                    {/*  />*/}
+                    {/*) : (*/}
+                    {/*  <p>Slika je nevalidna!</p>*/}
+                    {/*)}*/}
+                    {typeof image === "string" ? (
+                        <img
+                            className={classesEvent["img"]}
+                            src={image}
+                            alt={`Image ${index + 1}`}
+                        />
                     ) : (
-                      <p>Slika je nevalidna!</p>
+                        <img
+                            className={classesEvent["img"]}
+                            src={URL.createObjectURL(image)}
+                            alt={`Image ${index + 1}`}
+                        />
                     )}
                   </div>
                 ))}
