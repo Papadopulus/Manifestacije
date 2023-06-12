@@ -20,7 +20,7 @@ const { Panel } = Collapse;
 const Home = () => {
   const [events, SetEvents] = useState([]);
   const [selectedPriceOrder, SetSelectedPriceOrder] = useState("popular");
-  const [columnName, SetColumnName] = useState("Title");
+  const [columnName, SetColumnName] = useState("Views");
   const [directionSort, SetDirectionSort] = useState("desc");
   const [currentPrice, setCurrentPrice] = useState([0, 9999]);
 
@@ -47,7 +47,6 @@ const Home = () => {
 
   const [pageNumber, setPageNumber] = useState(1);
   const [itemsPerPage, SetItemsPerPage] = useState(9);
-  
 
   const handleSelect = (pickedDate) => {
     shouldFetch.current = true;
@@ -207,8 +206,6 @@ const Home = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  
-  
 
   const sorting = (e) => {
     if (e === "popularLowest") {
@@ -237,7 +234,7 @@ const Home = () => {
   };
   return (
     <div className={classes["home-container"]}>
-      <BackToTopButton/>
+      <BackToTopButton />
       <div className={classes["left-container-home"]}>
         <div className={classes["wrapper"]}>
           <i className={"fa fa-search"} aria-hidden="true"></i>
@@ -271,7 +268,7 @@ const Home = () => {
                   resetFilters={resetFilters}
                 ></CheckBox>
                 <CheckBox
-                  name={"Loakcije"}
+                  name={"Lokacije"}
                   list={locations}
                   handleFilters={(filters) => {
                     SetHasMore(true);
@@ -466,8 +463,8 @@ const Home = () => {
                 sorting(e.target.value);
               }}
             >
+              <option value={"popularHighest"}>Popularnost opadajuća</option>
               <option value={"popularLowest"}>Popularnost rastuća</option>
-              <option value={"popularHighest"}>Popularnost opadajuć</option>
               <option value={"dateLowest"}>Datum najbliži</option>
               <option value={"dateHighest"}>Datum najdalji</option>
               <option value="priceLowest">Cena rastuća</option>
@@ -476,8 +473,8 @@ const Home = () => {
           </div>
         </div>
         {events.length > 0 && (
-          <InfiniteScroll 
-              style={styleS}
+          <InfiniteScroll
+            style={styleS}
             next={() => handleFilters(null, null, pageNumber)}
             hasMore={hasMore}
             dataLength={events.length}
